@@ -19,23 +19,25 @@ import java.time.LocalDateTime;
 public abstract class GenericEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @CreatedBy
-    @Column(nullable = false, length = 50, updatable = false)
+    @Column(name = "created_by", nullable = false, length = 50, updatable = false)
     private String createdBy;
 
     @NotNull
     @CreatedDate
-    @Column(nullable = false)
+    @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate = LocalDateTime.now();
 
     @LastModifiedBy
+    @Column(name = "last_modified_by")
     private String lastModifiedBy;
 
     @LastModifiedDate
+    @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     public Long getId() {
