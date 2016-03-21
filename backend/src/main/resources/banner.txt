@@ -1,0 +1,17 @@
+${AnsiColor.BRIGHT_RED}  TTTTTTTTTTTTTTTTTTTTTTT   RRRRRRRRRRRRRRRRR            ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}  T:::::::::::::::::::::T   R::::::::::::::::R           ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}  T:::::::::::::::::::::T   R::::::RRRRRR:::::R          ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}  T:::::TT:::::::TT:::::T   RR:::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}  TTTTTT  T:::::T  TTTTTT     R::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}          T:::::T             R::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}          T:::::T             R::::RRRRRR:::::R          ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}          T:::::T             R::::R     R:::::R         ${AnsiColor.BRIGHT_BLUE}
+${AnsiColor.BRIGHT_RED}          T:::::T             R::::RRRRRR:::::R          ${AnsiColor.BRIGHT_BLUE}          ${project.name}          version : ${project.version}
+${AnsiColor.BRIGHT_RED}          T:::::T             R::::R     R:::::R         ${AnsiColor.BRIGHT_BLUE}
+${AnsiColor.BRIGHT_RED}          T:::::T             R:::::::::::::RR           ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}          T:::::T             R::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}          T:::::T             R::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}        TT:::::::TT         RR:::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}        T:::::::::T         R::::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}        T:::::::::T         R::::::R     R:::::R         ${AnsiColor.BLACK}███████████████████████████████████████████
+${AnsiColor.BRIGHT_RED}        TTTTTTTTTTT         RRRRRRRR     RRRRRRR         ${AnsiColor.BLACK}███████████████████████████████████████████

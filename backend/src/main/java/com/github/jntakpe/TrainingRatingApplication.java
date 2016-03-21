@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Training rating main class
+ * Classe mère de l'application
  *
  * @author jntakpe
  */
