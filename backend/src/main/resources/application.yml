@@ -2,7 +2,6 @@ spring:
   profiles:
     active: dev
   datasource:
-    data-source-class-name: org.h2.jdbcx.JdbcDataSource
     url: jdbc:h2:file:./target/h2db/db/tr;DB_CLOSE_DELAY=-1
     username: tr
   jpa:
@@ -13,5 +12,8 @@ spring:
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: true
       hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 security:
   ignored: /api/**

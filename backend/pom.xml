@@ -17,6 +17,7 @@
         <spring-boot.version>1.4.0.M1</spring-boot.version>
         <hibernate.version>5.1.0.Final</hibernate.version>
         <commons-lang3.version>3.4</commons-lang3.version>
+        <jackson.version>2.6.1</jackson.version>
     </properties>
 
     <parent>
@@ -68,6 +69,11 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-java8</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

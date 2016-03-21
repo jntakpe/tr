@@ -6,9 +6,9 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>utf-8</charset>
-            <Pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta}
-                %clr(---){faint}%clr([%15.15t]){faint}%clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex
-            </Pattern>
+            <!--@formatter:off-->
+            <Pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta}%clr(---){faint}%clr([%15.15t]){faint}%clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex</Pattern>
+            <!--@formatter:on-->
         </encoder>
     </appender>
 
