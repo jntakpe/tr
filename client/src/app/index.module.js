@@ -1,7 +1,11 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('tr', ['ngAnimate', 'ngMessages', 'restangular', 'ui.router', 'ngMaterial', 'toastr']);
+    angular
+        .module('tr', [
+            'tr.core',
+            'tr.layout',
+            'tr.home'
+        ]);
 
 })();

@@ -1,14 +1,12 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('tr')
-    .run(runBlock);
+    angular
+        .module('tr')
+        .run(runBlock);
 
-  /** @ngInject */
-  function runBlock($log) {
-
-    $log.debug('runBlock end');
-  }
+    function runBlock($log) {
+        $log.debug('runBlock end');
+    }
 
 })();

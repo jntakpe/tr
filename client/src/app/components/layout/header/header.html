@@ -1,0 +1,18 @@
+<div class="md-toolbar-tools header-toolbar-tools">
+    <md-button class="md-icon-button md-primary" aria-label="Toggle Menu" ng-click="header.openMenu()" hide-gt-sm>
+        <md-icon class="material-icons">menu</md-icon>
+    </md-button>
+    <div class="fill-height" layout="row" flex>
+        <h2 class="md-toolbar-item md-breadcrumb md-headline" flex>
+            <span ng-repeat="parent in header.breadcrumb.parents">
+                <span hide-sm hide-md>{{parent.title}}</span>
+                <span class="header-separator-icon" hide-sm hide-md>
+                    <span class="md-visually-hidden">-</span>
+                    <md-icon class="material-icons" hide-sm hide-md>chevron_right</md-icon>
+              </span>
+            </span>
+            <span class="md-breadcrumb-page">{{header.breadcrumb.title}}</span>
+        </h2>
+
+    </div>
+</div>

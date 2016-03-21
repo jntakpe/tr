@@ -1,10 +1,9 @@
-/* global malarkey:false, moment:false */
+/* global moment:false */
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('tr')
-    .constant('malarkey', malarkey)
-    .constant('moment', moment);
+    angular
+        .module('tr')
+        .constant('moment', moment);
 
 })();
