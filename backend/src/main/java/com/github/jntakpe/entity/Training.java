@@ -18,6 +18,13 @@ public class Training extends GenericEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    public Training() {
+    }
+
+    public Training(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

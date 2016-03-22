@@ -32,4 +32,15 @@ public class TrainingService {
         LOGGER.debug("Récupération de toutes les formations");
         return trainingRepository.findAll();
     }
+
+    @Transactional
+    public Training save(Training training) {
+        LOGGER.info("{} de la formation {}", training.isNew() ? "Création" : "Modification", training);
+        return trainingRepository.save(lowerCaseName(training));
+    }
+
+    private Training lowerCaseName(Training training) {
+        training.setName(training.getName().toLowerCase());
+        return training;
+    }
 }

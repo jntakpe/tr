@@ -11,6 +11,6 @@ import java.util.Optional;
  */
 public interface TrainingRepository extends GenericRepository<Training> {
 
-    Optional<Training> findByName(String name);
+    Optional<Training> findByNameIgnoreCase(String name);
 
 }
