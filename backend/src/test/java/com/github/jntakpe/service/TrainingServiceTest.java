@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class TrainingServiceTest extends AbstractTestsService {
 
-    private static final String TABLE_NAME = "training";
-
     public static final String EXISTING_NAME = "Hibernate";
+
+    private static final String TABLE_NAME = "training";
 
     @Autowired
     private TrainingService trainingService;
@@ -35,7 +35,7 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test
     public void save_shouldCreate() {
-        Training reactJS = trainingService.save(new Training("ReactJS"));
+        Training reactJS = trainingService.save(new Training("ReactJS", 3));
         assertThat(reactJS).isNotNull();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }
@@ -47,7 +47,7 @@ public class TrainingServiceTest extends AbstractTestsService {
         training.setName(updatedTrainingName);
         trainingRepository.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE name='" + updatedTrainingName + "'";
-        Training result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> new Training(rs.getString("name")));
+        Training result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> new Training(rs.getString("name"), 3));
         assertThat(result).isNotNull();
     }
 
@@ -60,12 +60,12 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test(expected = DataIntegrityViolationException.class)
     public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
-        trainingService.save(new Training(EXISTING_NAME.toUpperCase()));
+        trainingService.save(new Training(EXISTING_NAME.toUpperCase(), 3));
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void save_shouldFailToCreateCuzSameNameMatchCase() {
-       trainingService.save(new Training(EXISTING_NAME));
+        trainingService.save(new Training(EXISTING_NAME, 3));
     }
 
     @Override

@@ -18,11 +18,14 @@ public class Training extends GenericEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    private Integer duration;
+
     public Training() {
     }
 
-    public Training(String name) {
+    public Training(String name, Integer duration) {
         this.name = name;
+        this.duration = duration;
     }
 
     public String getName() {
@@ -33,10 +36,22 @@ public class Training extends GenericEntity {
         this.name = name;
     }
 
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Training training = (Training) o;
 
@@ -52,6 +67,7 @@ public class Training extends GenericEntity {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("name", name)
+                .append("duration", duration)
                 .toString();
     }
 
