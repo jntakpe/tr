@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * @author jntakpe
  */
 @Entity
-public class Authority extends GenericEntity {
+public class Authority extends AuditingEntity {
 
     @NotNull
     @Column(unique = true, nullable = false)

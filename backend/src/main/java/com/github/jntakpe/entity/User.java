@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * @author jntakpe
  */
 @Entity
-public class User extends GenericEntity {
+public class User extends AuditingEntity {
 
     @NotNull
     @Column(unique = true, nullable = false)

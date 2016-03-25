@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author jntakpe
  */
 @Entity
-public class Session extends GenericEntity {
+public class Session extends AuditingEntity {
 
     @NotNull
     @Column(nullable = false)

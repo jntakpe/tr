@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
  * @author jntakpe
  */
 @Entity
-public class Rating extends GenericEntity {
+public class Rating extends AuditingEntity {
 
     private Short subject;
 
