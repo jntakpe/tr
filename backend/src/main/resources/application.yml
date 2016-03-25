@@ -1,11 +1,5 @@
 spring:
-  profiles:
-    active: dev
-  datasource:
-    url: jdbc:h2:file:./target/h2db/db/tr;DB_CLOSE_DELAY=-1
-    username: tr
   jpa:
-    database-platform: H2
     show-sql: true
     properties:
       hibernate.cache.use_second_level_cache: true
