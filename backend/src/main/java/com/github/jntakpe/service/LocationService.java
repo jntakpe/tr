@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Services associés à l'entité {@link Location}
@@ -31,5 +32,11 @@ public class LocationService {
     public List<Location> findAll() {
         LOGGER.debug("Recherche de l'ensemble des sites de formation");
         return locationRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Location> findByName(String name) {
+        LOGGER.debug("Recherche du site de formation {}", name);
+        return locationRepository.findByNameIgnoreCase(name);
     }
 }

@@ -1,3 +1,5 @@
+--@formatter:off
+
 -- Table Collaborateur
 
 INSERT INTO collaborateur (login, created_by, created_date) VALUES ('jntakpe', 'jntakpe', CURRENT_TIMESTAMP);
@@ -19,24 +21,8 @@ INSERT INTO location (name, created_by, created_date) VALUES ('Lille Madeleine',
 
 -- Table Session
 
-INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id
-                                                                                                                   FROM location
-                                                                                                                   WHERE name = 'Paris triangle'), (SELECT id
-                                                                                                                                                    FROM training
-                                                                                                                                                    WHERE name = 'hibernate'), (SELECT id
-                                                                                                                                                                                FROM collaborateur
-                                                                                                                                                                                WHERE login = 'gpeel'), 'gpeel', CURRENT_TIMESTAMP);
-INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id
-                                                                                                                   FROM location
-                                                                                                                   WHERE name = 'Paris triangle'), (SELECT id
-                                                                                                                                                    FROM training
-                                                                                                                                                    WHERE name = 'spring'), (SELECT id
-                                                                                                                                                                             FROM collaborateur
-                                                                                                                                                                             WHERE login = 'gpeel'), 'gpeel', CURRENT_TIMESTAMP);
-INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id
-                                                                                                                   FROM location
-                                                                                                                   WHERE name = 'Toulouse colo1'), (SELECT id
-                                                                                                                                                    FROM training
-                                                                                                                                                    WHERE name = 'spring'), (SELECT id
-                                                                                                                                                                             FROM collaborateur
-                                                                                                                                                                             WHERE login = 'jntakpe'), 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'Paris triangle'), (SELECT id FROM training WHERE name='hibernate'), (SELECT id FROM collaborateur WHERE login='gpeel'), 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'Paris triangle'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM collaborateur WHERE login='gpeel'), 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'Toulouse colo1'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM collaborateur WHERE login='jntakpe'), 'jntakpe', CURRENT_TIMESTAMP);
+
+--@formatter:on

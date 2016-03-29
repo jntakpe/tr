@@ -16,6 +16,8 @@ public class LocationServiceTests extends AbstractTestsService {
 
     public static final String TABLE_NAME = "location";
 
+    public static final String EXISTING_NAME = "Paris triangle";
+
     @Autowired
     private LocationService locationService;
 
@@ -25,6 +27,21 @@ public class LocationServiceTests extends AbstractTestsService {
     @Test
     public void findAll_shouldFind() {
         assertThat(locationService.findAll()).isNotEmpty().hasSize(nbEntries);
+    }
+
+    @Test
+    public void findByName_shouldNotFind() {
+        assertThat(locationService.findByName("unknown")).isEmpty();
+    }
+
+    @Test
+    public void findByName_shouldFindIgnoringCase() {
+        assertThat(locationService.findByName(EXISTING_NAME.toUpperCase())).isPresent();
+    }
+
+    @Test
+    public void findByName_shouldFindMatchingCase() {
+        assertThat(locationService.findByName(EXISTING_NAME)).isPresent();
     }
 
     @Override
