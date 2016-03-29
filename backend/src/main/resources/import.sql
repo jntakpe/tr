@@ -7,4 +7,4 @@ INSERT INTO training (name, duration, created_by, created_date) VALUES ('javascr
 
 -- Table Session
 
-INSERT INTO session (location, start, training_id, created_by, created_date) VALUES ('paris triangle', CURRENT_TIMESTAMP, )
+INSERT INTO session (location, start, training_id, created_by, created_date) VALUES ('paris triangle', CURRENT_TIMESTAMP, (SELECT id FROM training WHERE name='hibernate'), 'gpeel', CURRENT_TIMESTAMP);
