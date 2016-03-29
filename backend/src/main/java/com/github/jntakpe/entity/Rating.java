@@ -32,7 +32,7 @@ public class Rating extends AuditingEntity {
     private String suggests;
 
     @ManyToOne
-    private User user;
+    private Collaborateur collaborateur;
 
     public Short getSubject() {
         return subject;
@@ -106,12 +106,12 @@ public class Rating extends AuditingEntity {
         this.suggests = suggests;
     }
 
-    public User getUser() {
-        return user;
+    public Collaborateur getCollaborateur() {
+        return collaborateur;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCollaborateur(Collaborateur collaborateur) {
+        this.collaborateur = collaborateur;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class Rating extends AuditingEntity {
                 .append("animation", animation)
                 .append("documentation", documentation)
                 .append("exercices", exercices)
-                .append("user", user)
+                .append("collaborateur", collaborateur)
                 .toString();
     }
 }

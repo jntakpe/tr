@@ -7,12 +7,12 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 /**
- * Entité représentant un utilisateur de l'application
+ * Entité représentant un collaborateur de Sopra Steria
  *
  * @author jntakpe
  */
 @Entity
-public class User extends AuditingEntity {
+public class Collaborateur extends AuditingEntity {
 
     @NotNull
     @Column(unique = true, nullable = false)
@@ -23,9 +23,9 @@ public class User extends AuditingEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        Collaborateur collaborateur = (Collaborateur) o;
 
-        return login.equals(user.login);
+        return login.equals(collaborateur.login);
     }
 
     @Override
