@@ -2,9 +2,7 @@ package com.github.jntakpe.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -15,6 +13,9 @@ import java.util.Objects;
  * @author jntakpe
  */
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(
+        columnNames = {"start", "location_id", "training_id", "trainer_id"}
+)})
 public class Session extends AuditingEntity {
 
     @NotNull
