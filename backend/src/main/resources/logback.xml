@@ -24,6 +24,7 @@
     <logger name="org.apache" level="WARN"/>
     <logger name="org.aspectj" level="WARN"/>
     <logger name="org.jboss" level="WARN"/>
+    <logger name="com.jayway" level="WARN"/>
     <logger name="org.hibernate" level="WARN"/>
     <logger name="org.hibernate.validator" level="WARN"/>
     <logger name="org.hibernate.type" level="INFO"/>

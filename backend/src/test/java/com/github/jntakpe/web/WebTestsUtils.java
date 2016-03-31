@@ -19,8 +19,17 @@ public interface WebTestsUtils {
     }
 
     static ResultActions expectArrayNotEmpty(ResultActions resultActions) throws Exception {
-        return resultActions
-                .andExpect(jsonPath("$.[*]").isArray())
+        return isArray(resultActions)
                 .andExpect(jsonPath("$.[*]").isNotEmpty());
+    }
+
+    static ResultActions isArray(ResultActions resultActions) throws Exception {
+        return resultActions
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    static ResultActions expectArrayEmpty(ResultActions resultActions) throws Exception {
+        return isArray(resultActions)
+                .andExpect(jsonPath("$.[*]").isEmpty());
     }
 }
