@@ -23,7 +23,7 @@ public class Location extends AuditingEntity {
     }
 
     public Location(String name) {
-        this.name = name.toLowerCase();
+        setName(name);
     }
 
     public String getName() {
@@ -31,7 +31,9 @@ public class Location extends AuditingEntity {
     }
 
     public void setName(String name) {
-        this.name = name.toLowerCase();
+        if (Objects.nonNull(name)) {
+            this.name = name.toLowerCase();
+        }
     }
 
     @Override

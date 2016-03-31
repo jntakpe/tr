@@ -56,7 +56,9 @@ public class LocationServiceTests extends AbstractTestsService {
 
     @Test
     public void save_shouldUpdate() {
-        Location location = locationService.findAll().stream().findAny().orElseThrow(() -> new IllegalStateException("No location"));
+        Location location = locationService.findAll().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No location"));
         String updatedLocationName = "updatedLocation";
         location.setName(updatedLocationName);
         locationRepository.flush();

@@ -42,7 +42,9 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test
     public void save_shouldUpdate() {
-        Training training = trainingRepository.findAll().stream().findAny().orElseThrow(() -> new IllegalStateException("No training"));
+        Training training = trainingRepository.findAll().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No training"));
         String updatedTrainingName = "updatedTraining";
         training.setName(updatedTrainingName);
         trainingRepository.flush();

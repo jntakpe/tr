@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * Bean représentant une formation
@@ -25,7 +26,7 @@ public class Training extends AuditingEntity {
     }
 
     public Training(String name, Integer duration) {
-        this.name = name.toLowerCase();
+        setName(name);
         this.duration = duration;
     }
 
@@ -34,7 +35,9 @@ public class Training extends AuditingEntity {
     }
 
     public void setName(String name) {
-        this.name = name.toLowerCase();
+        if (Objects.nonNull(name)) {
+            this.name = name.toLowerCase();
+        }
     }
 
     public Integer getDuration() {
