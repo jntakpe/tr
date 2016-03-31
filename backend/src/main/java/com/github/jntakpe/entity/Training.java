@@ -18,13 +18,14 @@ public class Training extends AuditingEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @NotNull
     private Integer duration;
 
     public Training() {
     }
 
     public Training(String name, Integer duration) {
-        this.name = name;
+        this.name = name.toLowerCase();
         this.duration = duration;
     }
 
@@ -33,7 +34,7 @@ public class Training extends AuditingEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
     }
 
     public Integer getDuration() {

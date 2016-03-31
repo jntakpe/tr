@@ -15,9 +15,9 @@ INSERT INTO training (name, duration, created_by, created_date) VALUES ('javascr
 
 -- Table Location
 
-INSERT INTO location (name, created_by, created_date) VALUES ('Paris triangle', 'gpeel', CURRENT_TIMESTAMP);
-INSERT INTO location (name, created_by, created_date) VALUES ('Toulouse colo1', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO location (name, created_by, created_date) VALUES ('Lille Madeleine', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, created_by, created_date) VALUES ('paris triangle', 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO location (name, created_by, created_date) VALUES ('toulouse colo1', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, created_by, created_date) VALUES ('lille madeleine', 'jntakpe', CURRENT_TIMESTAMP);
 
 -- Table Session
 

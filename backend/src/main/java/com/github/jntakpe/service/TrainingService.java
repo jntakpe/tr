@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Services associés à la gestion d'une formation
@@ -35,12 +36,8 @@ public class TrainingService {
 
     @Transactional
     public Training save(Training training) {
+        Objects.requireNonNull(training);
         LOGGER.info("{} de la formation {}", training.isNew() ? "Création" : "Modification", training);
-        return trainingRepository.save(lowerCaseName(training));
-    }
-
-    private Training lowerCaseName(Training training) {
-        training.setName(training.getName().toLowerCase());
-        return training;
+        return trainingRepository.save(training);
     }
 }

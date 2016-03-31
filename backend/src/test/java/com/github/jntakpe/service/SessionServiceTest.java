@@ -1,6 +1,7 @@
 package com.github.jntakpe.service;
 
 import com.github.jntakpe.repository.SessionRepository;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -18,6 +19,10 @@ public class SessionServiceTest extends AbstractTestsService {
     @Autowired
     private SessionRepository sessionRepository;
 
+    @Test
+    public void empty() {
+
+    }
 
     @Override
     public String getTableName() {

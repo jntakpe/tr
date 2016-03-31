@@ -42,11 +42,11 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test
     public void save_shouldUpdate() {
-        Training training = trainingService.findAll().stream().findAny().orElseThrow(() -> new IllegalStateException("No training"));
+        Training training = trainingRepository.findAll().stream().findAny().orElseThrow(() -> new IllegalStateException("No training"));
         String updatedTrainingName = "updatedTraining";
         training.setName(updatedTrainingName);
         trainingRepository.flush();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE name='" + updatedTrainingName + "'";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedTrainingName + "')";
         Training result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> new Training(rs.getString("name"), 3));
         assertThat(result).isNotNull();
     }
@@ -54,6 +54,7 @@ public class TrainingServiceTest extends AbstractTestsService {
     @Test(expected = DataIntegrityViolationException.class)
     public void save_shouldFailToUpdateCuzSameNameMatchCase() {
         List<Training> trainings = trainingService.findAll();
+        assertThat(trainings.size()).isGreaterThanOrEqualTo(2);
         trainings.get(0).setName(trainings.get(1).getName());
         trainingRepository.flush();
     }

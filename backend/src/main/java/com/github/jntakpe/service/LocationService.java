@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,4 +40,12 @@ public class LocationService {
         LOGGER.debug("Recherche du site de formation {}", name);
         return locationRepository.findByNameIgnoreCase(name);
     }
+
+    @Transactional
+    public Location save(Location location) {
+        Objects.requireNonNull(location);
+        LOGGER.info("{} du site de formation {}", location.isNew() ? "Création" : "Modification", location);
+        return locationRepository.save(location);
+    }
+
 }
