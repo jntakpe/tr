@@ -10,6 +10,6 @@ spring:
       ddl-auto: create
   jackson:
     serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
+      write_dates_as_timestamps: false
 security:
   ignored: /api/**

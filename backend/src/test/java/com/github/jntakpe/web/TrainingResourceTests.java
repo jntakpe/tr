@@ -9,11 +9,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,14 +31,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author jntakpe
  */
-@IntegrationTest
-@WebAppConfiguration
+@WebIntegrationTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TrainingRatingApplication.class)
 public class TrainingResourceTests {
 
     @Autowired
     private TrainingService trainingService;
+
+    @Autowired
+    private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     @Mock
     private TrainingService mockTrainingService;
@@ -50,8 +52,12 @@ public class TrainingResourceTests {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.realMvc = MockMvcBuilders.standaloneSetup(new TrainingResource(trainingService)).build();
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new TrainingResource(mockTrainingService)).build();
+        this.realMvc = MockMvcBuilders.standaloneSetup(new TrainingResource(trainingService))
+                .setMessageConverters(mappingJackson2HttpMessageConverter)
+                .build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new TrainingResource(mockTrainingService))
+                .setMessageConverters(mappingJackson2HttpMessageConverter)
+                .build();
     }
 
     @Test
@@ -59,6 +65,7 @@ public class TrainingResourceTests {
         ResultActions requestResult = realMvc.perform(get(UriConstants.TRAINING).accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(requestResult);
         expectArrayNotEmpty(requestResult);
+        requestResult.andDo(print());
         requestResult.andExpect(jsonPath("$.[*].name").isNotEmpty());
     }
 
@@ -66,7 +73,6 @@ public class TrainingResourceTests {
     public void findAll_shouldNotFind() throws Exception {
         when(mockTrainingService.findAll()).thenReturn(Collections.emptyList());
         ResultActions requestResult = mockMvc.perform(get(UriConstants.TRAINING).accept(MediaType.APPLICATION_JSON));
-        requestResult.andDo(print());
         expectIsOkAndJsonContent(requestResult);
         expectArrayEmpty(requestResult);
     }
