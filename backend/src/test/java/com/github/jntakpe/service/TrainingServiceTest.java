@@ -1,11 +1,13 @@
 package com.github.jntakpe.service;
 
+import com.github.jntakpe.entity.Session;
 import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.repository.TrainingRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,6 +71,25 @@ public class TrainingServiceTest extends AbstractTestsService {
     @Test(expected = DataIntegrityViolationException.class)
     public void save_shouldFailToCreateCuzSameNameMatchCase() {
         trainingService.save(new Training(EXISTING_NAME, 3));
+    }
+
+    @Test
+    public void delete_shouldRemoveOne() {
+        Training training = trainingService.findAll().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No training to delete"));
+        trainingService.delete(training.getId());
+        trainingRepository.flush();
+        String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + training.getName() + "')";
+        assertThat(jdbcTemplate.queryForList(query, Long.class)).isEmpty();
+        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
+        String linkedQuery = "SELECT id FROM " + SessionServiceTest.TABLE_NAME + " WHERE training_id = " + training.getId();
+        assertThat(jdbcTemplate.queryForList(linkedQuery, Session.class)).isEmpty();
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void delete_shouldFailCuzIdDoesntExist() {
+        trainingService.delete(999L);
     }
 
     @Override

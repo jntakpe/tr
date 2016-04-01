@@ -2,10 +2,14 @@ package com.github.jntakpe.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Bean représentant une formation
@@ -21,6 +25,9 @@ public class Training extends AuditingEntity {
 
     @NotNull
     private Integer duration;
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.REMOVE)
+    private Set<Session> sessions = new HashSet<>();
 
     public Training() {
     }
@@ -46,6 +53,14 @@ public class Training extends AuditingEntity {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public Set<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
     }
 
     @Override
