@@ -2,6 +2,7 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.TrainingRatingApplication;
 import com.github.jntakpe.config.UriConstants;
+import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.service.TrainingService;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +23,10 @@ import java.util.Collections;
 
 import static com.github.jntakpe.web.WebTestsUtils.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Tests associés à la ressource REST {@link TrainingResource}
@@ -40,7 +42,7 @@ public class TrainingResourceTests {
     private TrainingService trainingService;
 
     @Autowired
-    private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
+    private MappingJackson2HttpMessageConverter jacksonConverter;
 
     @Mock
     private TrainingService mockTrainingService;
@@ -53,10 +55,10 @@ public class TrainingResourceTests {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.realMvc = MockMvcBuilders.standaloneSetup(new TrainingResource(trainingService))
-                .setMessageConverters(mappingJackson2HttpMessageConverter)
+                .setMessageConverters(jacksonConverter)
                 .build();
         this.mockMvc = MockMvcBuilders.standaloneSetup(new TrainingResource(mockTrainingService))
-                .setMessageConverters(mappingJackson2HttpMessageConverter)
+                .setMessageConverters(jacksonConverter)
                 .build();
     }
 
@@ -76,4 +78,49 @@ public class TrainingResourceTests {
         expectIsOkAndJsonContent(requestResult);
         expectArrayEmpty(requestResult);
     }
+
+    @Test
+    public void create_shouldCreate() throws Exception {
+        String locationName = "some location";
+        Training training = new Training(locationName, 3);
+        ResultActions requestResult = realMvc.perform(post(UriConstants.TRAINING)
+                .content(jacksonConverter.getObjectMapper().writeValueAsBytes(training))
+                .contentType(MediaType.APPLICATION_JSON));
+        expectIsCreatedAndJsonContent(requestResult);
+        expectObjectExists(requestResult);
+        requestResult.andExpect(jsonPath("$.name").value(locationName));
+    }
+
+    @Test
+    public void create_shouldFailCuzMissingValue() throws Exception {
+        Training training = new Training("fail", null);
+        ResultActions requestResult = realMvc.perform(post(UriConstants.TRAINING)
+                .content(jacksonConverter.getObjectMapper().writeValueAsBytes(training))
+                .contentType(MediaType.APPLICATION_JSON));
+        requestResult.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void update_shouldUpdate() throws Exception {
+        Training training = trainingService.findAll().stream().findAny().orElseThrow(() -> new IllegalStateException("No training"));
+        String updatedName = "web updated training";
+        training.setName(updatedName);
+        ResultActions requestResult = realMvc.perform(put(UriConstants.TRAINING + "/{id}", training.getId())
+                .content(jacksonConverter.getObjectMapper().writeValueAsBytes(training))
+                .contentType(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(requestResult);
+        expectObjectExists(requestResult);
+        requestResult.andExpect(jsonPath("$.name").value(updatedName));
+    }
+
+    @Test
+    public void update_shouldFailCuzMissingValue() throws Exception {
+        Training training = trainingService.findAll().stream().findAny().orElseThrow(() -> new IllegalStateException("No training"));
+        training.setDuration(null);
+        ResultActions requestResult = realMvc.perform(put(UriConstants.TRAINING + "/{id}", training.getId())
+                .content(jacksonConverter.getObjectMapper().writeValueAsBytes(training))
+                .contentType(MediaType.APPLICATION_JSON));
+        requestResult.andExpect(status().isBadRequest());
+    }
+
 }

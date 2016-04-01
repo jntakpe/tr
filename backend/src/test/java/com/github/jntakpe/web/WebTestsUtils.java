@@ -18,6 +18,12 @@ public interface WebTestsUtils {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
+    static ResultActions expectIsCreatedAndJsonContent(ResultActions resultActions) throws Exception {
+        return resultActions
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
     static ResultActions expectArrayNotEmpty(ResultActions resultActions) throws Exception {
         return isArray(resultActions)
                 .andExpect(jsonPath("$.[*]").isNotEmpty());
@@ -31,5 +37,10 @@ public interface WebTestsUtils {
     static ResultActions expectArrayEmpty(ResultActions resultActions) throws Exception {
         return isArray(resultActions)
                 .andExpect(jsonPath("$.[*]").isEmpty());
+    }
+
+    static ResultActions expectObjectExists(ResultActions resultActions) throws Exception {
+        return resultActions
+                .andExpect(jsonPath("$").exists());
     }
 }
