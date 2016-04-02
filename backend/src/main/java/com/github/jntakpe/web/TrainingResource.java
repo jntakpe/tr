@@ -41,4 +41,10 @@ public class TrainingResource {
     public Training update(@PathVariable Long id, @RequestBody @Valid Training training) {
         return trainingService.save(training);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id) {
+        trainingService.delete(id);
+    }
 }

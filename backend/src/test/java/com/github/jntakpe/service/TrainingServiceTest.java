@@ -5,9 +5,9 @@ import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.repository.TrainingRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,11 +42,19 @@ public class TrainingServiceTest extends AbstractTestsService {
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }
 
+    @Test(expected = ValidationException.class)
+    public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
+        trainingService.save(new Training(EXISTING_NAME.toUpperCase(), 3));
+    }
+
+    @Test(expected = ValidationException.class)
+    public void save_shouldFailToCreateCuzSameNameMatchCase() {
+        trainingService.save(new Training(EXISTING_NAME, 3));
+    }
+
     @Test
     public void save_shouldUpdate() {
-        Training training = trainingRepository.findAll().stream()
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No training"));
+        Training training = findAnyTraining();
         String updatedTrainingName = "updatedTraining";
         training.setName(updatedTrainingName);
         trainingRepository.flush();
@@ -55,22 +63,13 @@ public class TrainingServiceTest extends AbstractTestsService {
         assertThat(result).isNotNull();
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = ValidationException.class)
     public void save_shouldFailToUpdateCuzSameNameMatchCase() {
         List<Training> trainings = trainingService.findAll();
         assertThat(trainings.size()).isGreaterThanOrEqualTo(2);
-        trainings.get(0).setName(trainings.get(1).getName());
-        trainingRepository.flush();
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
-        trainingService.save(new Training(EXISTING_NAME.toUpperCase(), 3));
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void save_shouldFailToCreateCuzSameNameMatchCase() {
-        trainingService.save(new Training(EXISTING_NAME, 3));
+        Training training = new Training(trainings.get(1).getName(), trainings.get(1).getDuration());
+        training.setId(trainings.get(0).getId());
+        trainingService.save(training);
     }
 
     @Test
@@ -95,5 +94,11 @@ public class TrainingServiceTest extends AbstractTestsService {
     @Override
     public String getTableName() {
         return TABLE_NAME;
+    }
+
+    private Training findAnyTraining() {
+        return trainingRepository.findAll().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No training"));
     }
 }

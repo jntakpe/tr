@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Services associés à la gestion d'une formation
@@ -38,18 +40,33 @@ public class TrainingService {
     @Transactional
     public Training save(Training training) {
         Objects.requireNonNull(training);
+        checkNameAvailable(training);
         LOGGER.info("{} de la formation {}", training.isNew() ? "Création" : "Modification", training);
         return trainingRepository.save(training);
     }
 
     @Transactional
     public void delete(Long id) {
-        Training training = trainingRepository.findOne(id);
-        if (Objects.isNull(training)) {
-            LOGGER.warn("Aucune formation possédant l'id {}", id);
-            throw new EntityNotFoundException();
-        }
+        Training training = findById(id);
         LOGGER.info("Suppression de la formation {}", training);
         trainingRepository.delete(training);
     }
+
+    private Training findById(Long id) {
+        Objects.requireNonNull(id);
+        Training training = trainingRepository.findOne(id);
+        if (Objects.isNull(training)) {
+            LOGGER.warn("Aucune formation possédant l'id {}", id);
+            throw new EntityNotFoundException("Aucune formation possédant l'id " + id);
+        }
+        return training;
+    }
+
+    private void checkNameAvailable(Training training) {
+        Optional<Training> opt = trainingRepository.findByNameIgnoreCase(training.getName());
+        if (opt.isPresent() && !opt.get().getId().equals(training.getId())) {
+            throw new ValidationException("Le nom " + training.getName() + " de la formation est déjà pris");
+        }
+    }
+
 }

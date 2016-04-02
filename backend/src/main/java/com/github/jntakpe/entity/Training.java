@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class Training extends AuditingEntity {
     private String name;
 
     @NotNull
+    @Min(1)
     private Integer duration;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.REMOVE)
