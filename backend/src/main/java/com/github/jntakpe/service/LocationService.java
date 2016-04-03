@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,8 +46,32 @@ public class LocationService {
     @Transactional
     public Location save(Location location) {
         Objects.requireNonNull(location);
+        checkNameAvailable(location);
         LOGGER.info("{} du site de formation {}", location.isNew() ? "Création" : "Modification", location);
         return locationRepository.save(location);
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Location location = findById(id);
+        LOGGER.info("Suppression du lieu {}", location);
+        locationRepository.delete(location);
+    }
+
+    private Location findById(Long id) {
+        Objects.requireNonNull(id);
+        Location location = locationRepository.findOne(id);
+        if (Objects.isNull(location)) {
+            LOGGER.warn("Aucun lieu possédant l'id {}", id);
+            throw new EntityNotFoundException("Aucune lieu possédant l'id " + id);
+        }
+        return location;
+    }
+
+    private void checkNameAvailable(Location location) {
+        Optional<Location> opt = locationRepository.findByNameIgnoreCase(location.getName());
+        if (opt.isPresent() && !opt.get().getId().equals(location.getId())) {
+            throw new ValidationException("Le nom de lieu : " + location.getName() + " est déjà pris");
+        }
+    }
 }

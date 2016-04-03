@@ -4,8 +4,8 @@ import com.github.jntakpe.entity.Location;
 import com.github.jntakpe.repository.LocationRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,6 +54,16 @@ public class LocationServiceTests extends AbstractTestsService {
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }
 
+    @Test(expected = ValidationException.class)
+    public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
+        locationService.save(new Location(EXISTING_NAME.toUpperCase()));
+    }
+
+    @Test(expected = ValidationException.class)
+    public void save_shouldFailToCreateCuzSameNameMatchCase() {
+        locationService.save(new Location(EXISTING_NAME));
+    }
+
     @Test
     public void save_shouldUpdate() {
         Location location = locationService.findAll().stream()
@@ -67,22 +77,13 @@ public class LocationServiceTests extends AbstractTestsService {
         assertThat(result).isNotNull();
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
-    public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
-        locationService.save(new Location(EXISTING_NAME.toUpperCase()));
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void save_shouldFailToCreateCuzSameNameMatchCase() {
-        locationService.save(new Location(EXISTING_NAME));
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = ValidationException.class)
     public void save_shouldFailToUpdateCuzSameNameMatchCase() {
         List<Location> locations = locationRepository.findAll();
         assertThat(locations.size()).isGreaterThanOrEqualTo(2);
-        locations.get(0).setName(locations.get(1).getName());
-        locationRepository.flush();
+        Location location = new Location(locations.get(1).getName());
+        location.setId(locations.get(0).getId());
+        locationService.save(location);
     }
 
     @Override
