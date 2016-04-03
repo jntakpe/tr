@@ -16,7 +16,7 @@ import java.util.List;
  * @author jntakpe
  */
 @RestController
-@RequestMapping(UriConstants.TRAINING)
+@RequestMapping(UriConstants.TRAININGS)
 public class TrainingResource {
 
     private TrainingService trainingService;

@@ -9,7 +9,9 @@ public final class UriConstants {
 
     public static final String API = "/api";
 
-    public static final String TRAINING = API + "/trainings";
+    public static final String TRAININGS = API + "/trainings";
+
+    public static final String LOCATIONS = API + "/locations";
 
     private UriConstants() {
     }
