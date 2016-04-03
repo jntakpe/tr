@@ -1,10 +1,12 @@
 package com.github.jntakpe.service;
 
 import com.github.jntakpe.entity.Location;
+import com.github.jntakpe.entity.Session;
 import com.github.jntakpe.repository.LocationRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import java.util.List;
 
@@ -66,9 +68,7 @@ public class LocationServiceTests extends AbstractTestsService {
 
     @Test
     public void save_shouldUpdate() {
-        Location location = locationService.findAll().stream()
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No location"));
+        Location location = findAnyLocation();
         String updatedLocationName = "updatedLocation";
         location.setName(updatedLocationName);
         locationRepository.flush();
@@ -86,8 +86,31 @@ public class LocationServiceTests extends AbstractTestsService {
         locationService.save(location);
     }
 
+    @Test
+    public void delete_shouldRemoveOne() {
+        Location location = findAnyLocation();
+        locationService.delete(location.getId());
+        locationRepository.flush();
+        String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + location.getName() + "')";
+        assertThat(jdbcTemplate.queryForList(query, Long.class)).isEmpty();
+        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
+        String linkedQuery = "SELECT id FROM " + SessionServiceTest.TABLE_NAME + " WHERE location_id = " + location.getId();
+        assertThat(jdbcTemplate.queryForList(linkedQuery, Session.class)).isEmpty();
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void delete_shouldFailCuzIdDoesntExist() {
+        locationService.delete(999L);
+    }
+
     @Override
     public String getTableName() {
         return TABLE_NAME;
+    }
+
+    private Location findAnyLocation() {
+        return locationRepository.findAll().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No location"));
     }
 }
