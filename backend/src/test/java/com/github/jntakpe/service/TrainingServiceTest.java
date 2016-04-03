@@ -74,9 +74,7 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test
     public void delete_shouldRemoveOne() {
-        Training training = trainingService.findAll().stream()
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No training to delete"));
+        Training training = findAnyTraining();
         trainingService.delete(training.getId());
         trainingRepository.flush();
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + training.getName() + "')";
