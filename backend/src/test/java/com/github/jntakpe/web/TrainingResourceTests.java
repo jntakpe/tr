@@ -64,50 +64,49 @@ public class TrainingResourceTests {
 
     @Test
     public void findAll_shouldFind() throws Exception {
-        ResultActions requestResult = realMvc.perform(get(UriConstants.TRAININGS).accept(MediaType.APPLICATION_JSON));
-        expectIsOkAndJsonContent(requestResult);
-        expectArrayNotEmpty(requestResult);
-        requestResult.andDo(print());
-        requestResult.andExpect(jsonPath("$.[*].name").isNotEmpty());
+        ResultActions resultActions = realMvc.perform(get(UriConstants.TRAININGS).accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayNotEmpty(resultActions);
+        resultActions.andExpect(jsonPath("$.[*].name").isNotEmpty());
     }
 
     @Test
     public void findAll_shouldNotFind() throws Exception {
         when(mockTrainingService.findAll()).thenReturn(Collections.emptyList());
-        ResultActions requestResult = mockMvc.perform(get(UriConstants.TRAININGS).accept(MediaType.APPLICATION_JSON));
-        expectIsOkAndJsonContent(requestResult);
-        expectArrayEmpty(requestResult);
+        ResultActions resultActions = mockMvc.perform(get(UriConstants.TRAININGS).accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayEmpty(resultActions);
     }
 
     @Test
     public void create_shouldCreate() throws Exception {
         String locationName = "some location";
         Training training = new Training(locationName, 3);
-        ResultActions requestResult = realMvc.perform(post(UriConstants.TRAININGS)
+        ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
-        expectIsCreatedAndJsonContent(requestResult);
-        expectObjectExists(requestResult);
-        requestResult.andExpect(jsonPath("$.name").value(locationName));
+        expectIsCreatedAndJsonContent(resultActions);
+        expectObjectExists(resultActions);
+        resultActions.andExpect(jsonPath("$.name").value(locationName));
     }
 
     @Test
     public void create_shouldFailCuzMissingValue() throws Exception {
         Training training = new Training("fail", null);
-        ResultActions requestResult = realMvc.perform(post(UriConstants.TRAININGS)
+        ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
-        requestResult.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isBadRequest());
     }
 
     @Test
     public void create_shouldFailCuzNameAlreadyTaken() throws Exception {
         Training training = new Training(findAnyTraining().getName(), 1);
-        ResultActions requestResult = realMvc.perform(post(UriConstants.TRAININGS)
+        ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
-        requestResult.andExpect(status().isBadRequest());
-        requestResult.andDo(print());
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andDo(print());
     }
 
     @Test
@@ -115,37 +114,37 @@ public class TrainingResourceTests {
         Training training = findAnyTraining();
         String updatedName = "web updated training";
         training.setName(updatedName);
-        ResultActions requestResult = realMvc.perform(put(UriConstants.TRAININGS + "/{id}", training.getId())
+        ResultActions resultActions = realMvc.perform(put(UriConstants.TRAININGS + "/{id}", training.getId())
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
-        expectIsOkAndJsonContent(requestResult);
-        expectObjectExists(requestResult);
-        requestResult.andExpect(jsonPath("$.name").value(updatedName));
+        expectIsOkAndJsonContent(resultActions);
+        expectObjectExists(resultActions);
+        resultActions.andExpect(jsonPath("$.name").value(updatedName));
     }
 
     @Test
     public void update_shouldFailCuzMissingValue() throws Exception {
         Training training = findAnyTraining();
         training.setDuration(null);
-        ResultActions requestResult = realMvc.perform(put(UriConstants.TRAININGS + "/{id}", training.getId())
+        ResultActions resultActions = realMvc.perform(put(UriConstants.TRAININGS + "/{id}", training.getId())
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
-        requestResult.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isBadRequest());
     }
 
     @Test
     public void delete_shouldDelete() throws Exception {
         Training training = findAnyTraining();
-        ResultActions requestResult = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", training.getId())
+        ResultActions resultActions = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", training.getId())
                 .contentType(MediaType.APPLICATION_JSON));
-        requestResult.andExpect(status().isNoContent());
+        resultActions.andExpect(status().isNoContent());
     }
 
     @Test
     public void delete_shouldFailCuzIdDoesntExist() throws Exception {
-        ResultActions requestResult = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", 999L)
+        ResultActions resultActions = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", 999L)
                 .contentType(MediaType.APPLICATION_JSON));
-        requestResult.andExpect(status().isNotFound());
+        resultActions.andExpect(status().isNotFound());
     }
 
     private Training findAnyTraining() {
