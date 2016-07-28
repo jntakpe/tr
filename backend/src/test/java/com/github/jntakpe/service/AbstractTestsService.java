@@ -1,10 +1,9 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.TrainingRatingApplication;
 import org.assertj.db.type.Table;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -16,7 +15,7 @@ import javax.sql.DataSource;
  *
  * @author jntakpe
  */
-@SpringApplicationConfiguration(TrainingRatingApplication.class)
+@SpringBootTest
 public abstract class AbstractTestsService extends AbstractTransactionalJUnit4SpringContextTests {
 
     protected int nbEntries;
