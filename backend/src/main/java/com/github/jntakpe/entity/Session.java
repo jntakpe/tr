@@ -3,6 +3,7 @@ package com.github.jntakpe.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -21,12 +22,15 @@ public class Session extends AuditingEntity {
     @Column(nullable = false)
     private LocalDate start;
 
+    @Valid
     @ManyToOne(optional = false)
     private Location location;
 
+    @Valid
     @ManyToOne(optional = false)
     private Training training;
 
+    @Valid
     @ManyToOne(optional = false)
     private Employee trainer;
 

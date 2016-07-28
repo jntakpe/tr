@@ -1,9 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tr-test
-  jpa:
-    hibernate:
-      ddl-auto: create
+    url: jdbc:h2:mem:trtestdb;DB_CLOSE_DELAY=-1
   jackson:
     serialization:
       write_dates_as_timestamps: false

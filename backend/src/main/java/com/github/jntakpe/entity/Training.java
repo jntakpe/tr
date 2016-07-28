@@ -24,8 +24,8 @@ public class Training extends AuditingEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @NotNull
     @Min(1)
+    @NotNull
     private Integer duration;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.REMOVE)
@@ -44,9 +44,7 @@ public class Training extends AuditingEntity {
     }
 
     public void setName(String name) {
-        if (Objects.nonNull(name)) {
-            this.name = name.toLowerCase();
-        }
+        this.name = Objects.nonNull(name) ? name.toLowerCase() : null;
     }
 
     public Integer getDuration() {

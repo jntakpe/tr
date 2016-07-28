@@ -38,9 +38,7 @@ public class Location extends AuditingEntity {
     }
 
     public void setName(String name) {
-        if (Objects.nonNull(name)) {
-            this.name = name.toLowerCase();
-        }
+        this.name = Objects.nonNull(name) ? name.toLowerCase() : null;
     }
 
     public Set<Session> getSessions() {

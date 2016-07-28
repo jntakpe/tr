@@ -2,9 +2,9 @@
 
 -- Table Employee
 
-INSERT INTO employee (login, created_by, created_date) VALUES ('jntakpe', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO employee (login, created_by, created_date) VALUES ('gpeel', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO employee (login, created_by, created_date) VALUES ('sbourret', 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO employee (login, email, created_by, created_date) VALUES ('jntakpe', 'jntakpe@mail.com', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO employee (login, email, created_by, created_date) VALUES ('gpeel', 'gpeel@mail.com','jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO employee (login, email, created_by, created_date) VALUES ('sbourret', 'sbourret@mail.com','gpeel', CURRENT_TIMESTAMP);
 
 -- Table Training
 

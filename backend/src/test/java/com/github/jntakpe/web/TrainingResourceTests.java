@@ -84,6 +84,7 @@ public class TrainingResourceTests {
                 .contentType(MediaType.APPLICATION_JSON));
         expectIsCreatedAndJsonContent(resultActions);
         expectObjectExists(resultActions);
+        resultActions.andExpect(jsonPath("$.id").isNumber());
         resultActions.andExpect(jsonPath("$.name").value(locationName));
     }
 

@@ -24,7 +24,8 @@ public class Employee extends AuditingEntity {
     private String lastName;
 
     @Email
-    @Column(unique = true)
+    @NotNull
+    @Column(unique = true, nullable = false)
     private String email;
 
     public Employee() {

@@ -13,6 +13,8 @@ public final class UriConstants {
 
     public static final String LOCATIONS = API + "/locations";
 
+    public static final String SESSIONS = API + "/sessions";
+
     private UriConstants() {
     }
 

@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
+
 /**
  * Services associés à l'entité {@link Session}
  *
@@ -25,8 +28,15 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
+    @Transactional(readOnly = true)
+    public List<Session> findAll() {
+        LOGGER.debug("Recherche de toutes les sessions");
+        return sessionRepository.findAll();
+    }
+
     @Transactional
     public Session save(Session session) {
+        Objects.requireNonNull(session);
         LOGGER.info("{} de la session {}", session.isNew() ? "Création" : "Modification", session);
         return sessionRepository.save(session);
     }
