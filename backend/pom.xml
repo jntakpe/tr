@@ -22,6 +22,8 @@
         <assertj-core.version>3.4.0</assertj-core.version>
         <awaitility.version>1.7.0</awaitility.version>
         <json-path.version>2.2.0</json-path.version>
+        <postgresql.version>9.4.1209.jre7</postgresql.version>
+        <springfox-swagger2.version>2.5.0</springfox-swagger2.version>
     </properties>
 
     <parent>
@@ -92,7 +94,18 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.4-1203-jdbc42</version>
+            <version>${postgresql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-swagger2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -13,3 +13,16 @@ spring:
       write_dates_as_timestamps: false
 security:
   ignored: /api/**
+  basic:
+    enabled: false
+api:
+  title: Training Rating API documentation
+  description: Documentation de l'API REST exposée par l'application 'Training Rating'
+  version: ${project.version}
+  termsOfServiceUrl: https://github.com/jntakpe/tr
+  license: MIT license
+  licenseUrl: https://tldrlegal.com/license/mit-license
+  contact:
+    name : Jocelyn NTAKPE
+    url: http://github.com/jntakpe
+    mail: j.ntakpe@gmail.com
