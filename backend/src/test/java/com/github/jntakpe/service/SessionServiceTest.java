@@ -1,10 +1,10 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.entity.Collaborateur;
+import com.github.jntakpe.entity.Employee;
 import com.github.jntakpe.entity.Location;
 import com.github.jntakpe.entity.Session;
 import com.github.jntakpe.entity.Training;
-import com.github.jntakpe.repository.CollaborateurRepository;
+import com.github.jntakpe.repository.EmployeeRepository;
 import com.github.jntakpe.repository.LocationRepository;
 import com.github.jntakpe.repository.SessionRepository;
 import com.github.jntakpe.repository.TrainingRepository;
@@ -40,7 +40,7 @@ public class SessionServiceTest extends AbstractTestsService {
     private TrainingRepository trainingRepository;
 
     @Autowired
-    private CollaborateurRepository collaborateurRepository;
+    private EmployeeRepository employeeRepository;
 
     @Test
     public void save_shouldCreate() {
@@ -48,9 +48,31 @@ public class SessionServiceTest extends AbstractTestsService {
                 .orElseThrow(() -> new IllegalStateException("No training"));
         Location location = locationRepository.findByNameIgnoreCase(LocationServiceTests.EXISTING_NAME)
                 .orElseThrow(() -> new IllegalStateException("No location"));
-        Collaborateur collaborateur = collaborateurRepository.findByLoginIgnoreCase(CollaborateurServiceTests.EXISTING_LOGIN)
+        Employee employee = employeeRepository.findByLoginIgnoreCase(CollaborateurServiceTests.EXISTING_LOGIN)
                 .orElseThrow(() -> new IllegalStateException("No collab"));
-        Session session = sessionService.save(new Session(SESSION_DATE, location, training, collaborateur));
+        Session session = sessionService.save(new Session(SESSION_DATE, location, training, employee));
+        assertThat(session).isNotNull();
+        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
+    }
+
+    @Test
+    public void save_shouldCreateWithDetachedRelations() {
+        Training training = trainingRepository.findByNameIgnoreCase(TrainingServiceTest.EXISTING_NAME)
+                .orElseThrow(() -> new IllegalStateException("No training"));
+        Location location = locationRepository.findByNameIgnoreCase(LocationServiceTests.EXISTING_NAME)
+                .orElseThrow(() -> new IllegalStateException("No location"));
+        Employee employee = employeeRepository.findByLoginIgnoreCase(CollaborateurServiceTests.EXISTING_LOGIN)
+                .orElseThrow(() -> new IllegalStateException("No collab"));
+        Training detachedTraining = new Training();
+        detachedTraining.setId(training.getId());
+        detachedTraining.setName(training.getName());
+        Location detachedLocation = new Location();
+        detachedLocation.setId(location.getId());
+        detachedLocation.setName(location.getName());
+        Employee detachedEmployee = new Employee();
+        detachedEmployee.setId(employee.getId());
+        detachedEmployee.setLogin(employee.getLogin());
+        Session session = sessionService.save(new Session(SESSION_DATE, detachedLocation, detachedTraining, detachedEmployee));
         assertThat(session).isNotNull();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }

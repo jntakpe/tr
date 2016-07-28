@@ -1,9 +1,9 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.entity.Collaborateur;
+import com.github.jntakpe.entity.Employee;
 
 /**
- * Tests associés à l'entité {@link Collaborateur}
+ * Tests associés à l'entité {@link Employee}
  *
  * @author jntakpe
  */

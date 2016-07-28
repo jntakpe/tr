@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Services associés à l'entité {@link com.github.jntakpe.entity.Session
+ * Services associés à l'entité {@link Session}
  *
  * @author jntakpe
  */
@@ -30,4 +30,5 @@ public class SessionService {
         LOGGER.info("{} de la session {}", session.isNew() ? "Création" : "Modification", session);
         return sessionRepository.save(session);
     }
+
 }

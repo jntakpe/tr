@@ -5,7 +5,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * Bean représentant une session de formation
@@ -29,12 +28,12 @@ public class Session extends AuditingEntity {
     private Training training;
 
     @ManyToOne(optional = false)
-    private Collaborateur trainer;
+    private Employee trainer;
 
     public Session() {
     }
 
-    public Session(LocalDate start, Location location, Training training, Collaborateur trainer) {
+    public Session(LocalDate start, Location location, Training training, Employee trainer) {
         this.start = start;
         this.location = location;
         this.training = training;
@@ -65,32 +64,12 @@ public class Session extends AuditingEntity {
         this.training = training;
     }
 
-    public Collaborateur getTrainer() {
+    public Employee getTrainer() {
         return trainer;
     }
 
-    public void setTrainer(Collaborateur trainer) {
+    public void setTrainer(Employee trainer) {
         this.trainer = trainer;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Session)) {
-            return false;
-        }
-        Session session = (Session) o;
-        return Objects.equals(start, session.start) &&
-                Objects.equals(location, session.location) &&
-                Objects.equals(training, session.training) &&
-                Objects.equals(trainer, session.trainer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(start, location, training, trainer);
     }
 
     @Override
@@ -102,4 +81,5 @@ public class Session extends AuditingEntity {
                 .append("trainer", trainer)
                 .toString();
     }
+
 }
