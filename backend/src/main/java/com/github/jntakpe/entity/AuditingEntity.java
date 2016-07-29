@@ -67,4 +67,5 @@ public abstract class AuditingEntity extends IdentifiableEntity {
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
 }

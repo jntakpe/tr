@@ -37,19 +37,28 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test
     public void save_shouldCreate() {
-        Training reactJS = trainingService.save(new Training("ReactJS", 3));
+        Training training = new Training();
+        training.setName("ReactJS");
+        training.setDuration(3);
+        Training reactJS = trainingService.save(training);
         assertThat(reactJS).isNotNull();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }
 
     @Test(expected = ValidationException.class)
     public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
-        trainingService.save(new Training(EXISTING_NAME.toUpperCase(), 3));
+        Training training = new Training();
+        training.setName(EXISTING_NAME.toUpperCase());
+        training.setDuration(3);
+        trainingService.save(training);
     }
 
     @Test(expected = ValidationException.class)
     public void save_shouldFailToCreateCuzSameNameMatchCase() {
-        trainingService.save(new Training(EXISTING_NAME, 3));
+        Training training = new Training();
+        training.setName(EXISTING_NAME);
+        training.setDuration(3);
+        trainingService.save(training);
     }
 
     @Test
@@ -59,7 +68,12 @@ public class TrainingServiceTest extends AbstractTestsService {
         training.setName(updatedTrainingName);
         trainingTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedTrainingName + "')";
-        Training result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> new Training(rs.getString("name"), 3));
+        Training result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+            Training mapper = new Training();
+            mapper.setName(rs.getString("name"));
+            mapper.setDuration(3);
+            return mapper;
+        });
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualToIgnoringCase(updatedTrainingName);
     }
@@ -68,8 +82,10 @@ public class TrainingServiceTest extends AbstractTestsService {
     public void save_shouldFailToUpdateCuzSameNameMatchCase() {
         List<Training> trainings = trainingService.findAll();
         assertThat(trainings.size()).isGreaterThanOrEqualTo(2);
-        Training training = new Training(trainings.get(1).getName(), trainings.get(1).getDuration());
+        Training training = new Training();
         training.setId(trainings.get(0).getId());
+        training.setName(trainings.get(1).getName());
+        training.setDuration(trainings.get(1).getDuration());
         trainingService.save(training);
     }
 

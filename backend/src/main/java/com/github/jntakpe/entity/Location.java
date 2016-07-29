@@ -26,13 +26,6 @@ public class Location extends AuditingEntity {
     @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
     private Set<Session> sessions = new HashSet<>();
 
-    public Location() {
-    }
-
-    public Location(String name) {
-        setName(name);
-    }
-
     public String getName() {
         return name;
     }

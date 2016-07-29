@@ -31,14 +31,6 @@ public class Training extends AuditingEntity {
     @OneToMany(mappedBy = "training", cascade = CascadeType.REMOVE)
     private Set<Session> sessions = new HashSet<>();
 
-    public Training() {
-    }
-
-    public Training(String name, Integer duration) {
-        setName(name);
-        this.duration = duration;
-    }
-
     public String getName() {
         return name;
     }

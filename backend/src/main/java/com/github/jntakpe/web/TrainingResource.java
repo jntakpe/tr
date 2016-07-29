@@ -39,6 +39,7 @@ public class TrainingResource {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Training update(@PathVariable Long id, @RequestBody @Valid Training training) {
+        training.setId(id);
         return trainingService.save(training);
     }
 

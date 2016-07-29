@@ -13,9 +13,7 @@ import java.time.LocalDate;
  * @author jntakpe
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(
-        columnNames = {"start", "location_id", "training_id", "trainer_id"}
-)})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"start", "location_id", "training_id", "trainer_id"})})
 public class Session extends AuditingEntity {
 
     @NotNull
@@ -33,16 +31,6 @@ public class Session extends AuditingEntity {
     @Valid
     @ManyToOne(optional = false)
     private Employee trainer;
-
-    public Session() {
-    }
-
-    public Session(LocalDate start, Location location, Training training, Employee trainer) {
-        this.start = start;
-        this.location = location;
-        this.training = training;
-        this.trainer = trainer;
-    }
 
     public LocalDate getStart() {
         return start;
@@ -74,6 +62,43 @@ public class Session extends AuditingEntity {
 
     public void setTrainer(Employee trainer) {
         this.trainer = trainer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        Session session = (Session) o;
+
+        if (!start.equals(session.start)) {
+            return false;
+        }
+        if (!location.equals(session.location)) {
+            return false;
+        }
+        if (!training.equals(session.training)) {
+            return false;
+        }
+        return trainer.equals(session.trainer);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + start.hashCode();
+        result = 31 * result + location.hashCode();
+        result = 31 * result + training.hashCode();
+        result = 31 * result + trainer.hashCode();
+        return result;
     }
 
     @Override

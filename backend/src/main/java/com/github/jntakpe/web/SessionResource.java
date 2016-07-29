@@ -39,6 +39,7 @@ public class SessionResource {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Session update(@PathVariable Long id, @RequestBody @Valid Session session) {
+        session.setId(id);
         return sessionService.save(session);
     }
 

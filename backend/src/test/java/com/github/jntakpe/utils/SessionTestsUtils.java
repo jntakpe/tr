@@ -62,14 +62,23 @@ public class SessionTestsUtils {
         detachedEmployee.setId(employee.getId());
         detachedEmployee.setLogin(employee.getLogin());
         detachedEmployee.setEmail(employee.getEmail());
-        return new Session(startDate, detachedLocation, detachedTraining, detachedEmployee);
+        return getSession(startDate, location, training, employee);
     }
 
     public Session getSessionWithAttachedRelations(LocalDate startDate) {
         Training training = trainingTestsUtils.findDefaultTraining();
         Location location = locationTestsUtils.findDefaultLocation();
         Employee employee = employeeTestUtils.findDefaultEmployee();
-        return new Session(startDate, location, training, employee);
+        return getSession(startDate, location, training, employee);
+    }
+
+    private Session getSession(LocalDate startDate, Location location, Training training, Employee employee) {
+        Session session = new Session();
+        session.setStart(startDate);
+        session.setLocation(location);
+        session.setTraining(training);
+        session.setTrainer(employee);
+        return session;
     }
 
 }

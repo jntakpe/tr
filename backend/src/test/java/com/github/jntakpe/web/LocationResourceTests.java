@@ -1,6 +1,5 @@
 package com.github.jntakpe.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.service.LocationService;
 import org.junit.Before;
@@ -34,13 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LocationResourceTests {
 
     @Autowired
-    private LocationService locationService;
-
-    @Autowired
     private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Mock
     private LocationService mockLocationService;

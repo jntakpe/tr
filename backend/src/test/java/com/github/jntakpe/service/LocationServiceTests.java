@@ -51,19 +51,25 @@ public class LocationServiceTests extends AbstractTestsService {
 
     @Test
     public void save_shouldCreate() {
-        Location ramassiers = locationService.save(new Location("Toulouse ramassiers"));
+        Location location = new Location();
+        location.setName("Toulouse ramassiers");
+        Location ramassiers = locationService.save(location);
         assertThat(ramassiers).isNotNull();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }
 
     @Test(expected = ValidationException.class)
     public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
-        locationService.save(new Location(EXISTING_NAME.toUpperCase()));
+        Location location = new Location();
+        location.setName(EXISTING_NAME.toUpperCase());
+        locationService.save(location);
     }
 
     @Test(expected = ValidationException.class)
     public void save_shouldFailToCreateCuzSameNameMatchCase() {
-        locationService.save(new Location(EXISTING_NAME));
+        Location location = new Location();
+        location.setName(EXISTING_NAME);
+        locationService.save(location);
     }
 
     @Test
@@ -73,7 +79,11 @@ public class LocationServiceTests extends AbstractTestsService {
         location.setName(updatedLocationName);
         locationTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedLocationName + "')";
-        Location result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> new Location(rs.getString("name")));
+        Location result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+            Location mapper = new Location();
+            mapper.setName(rs.getString("name"));
+            return mapper;
+        });
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualToIgnoringCase(updatedLocationName);
     }
@@ -82,8 +92,9 @@ public class LocationServiceTests extends AbstractTestsService {
     public void save_shouldFailToUpdateCuzSameNameMatchCase() {
         List<Location> locations = locationTestsUtils.findAll();
         assertThat(locations.size()).isGreaterThanOrEqualTo(2);
-        Location location = new Location(locations.get(1).getName());
+        Location location = new Location();
         location.setId(locations.get(0).getId());
+        location.setName(locations.get(1).getName());
         locationService.save(location);
     }
 

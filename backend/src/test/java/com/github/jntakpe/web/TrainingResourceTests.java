@@ -38,9 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TrainingResourceTests {
 
     @Autowired
-    private TrainingService trainingService;
-
-    @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
@@ -82,7 +79,9 @@ public class TrainingResourceTests {
     @Test
     public void create_shouldCreate() throws Exception {
         String locationName = "some location";
-        Training training = new Training(locationName, 3);
+        Training training = new Training();
+        training.setName(locationName);
+        training.setDuration(3);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -94,7 +93,9 @@ public class TrainingResourceTests {
 
     @Test
     public void create_shouldFailCuzMissingValue() throws Exception {
-        Training training = new Training("fail", null);
+        Training training = new Training();
+        training.setName("fail");
+        training.setDuration(null);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -103,7 +104,9 @@ public class TrainingResourceTests {
 
     @Test
     public void create_shouldFailCuzNameAlreadyTaken() throws Exception {
-        Training training = new Training(trainingTestsUtils.findAnyTraining().getName(), 1);
+        Training training = new Training();
+        training.setName(trainingTestsUtils.findAnyTraining().getName());
+        training.setDuration(1);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));

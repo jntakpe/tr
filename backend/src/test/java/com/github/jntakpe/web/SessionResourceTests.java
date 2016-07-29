@@ -39,9 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SessionResourceTests {
 
     @Autowired
-    private SessionService sessionService;
-
-    @Autowired
     private SessionTestsUtils sessionTestsUtils;
 
     @Autowired

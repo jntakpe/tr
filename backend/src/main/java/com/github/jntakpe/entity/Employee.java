@@ -28,13 +28,6 @@ public class Employee extends AuditingEntity {
     @Column(unique = true, nullable = false)
     private String email;
 
-    public Employee() {
-    }
-
-    public Employee(String login) {
-        setLogin(login);
-    }
-
     public String getLogin() {
         return login;
     }
@@ -43,6 +36,7 @@ public class Employee extends AuditingEntity {
         if (Objects.nonNull(login)) {
             this.login = login.toLowerCase();
         }
+        this.login = login;
     }
 
     public String getFirstName() {
@@ -66,6 +60,9 @@ public class Employee extends AuditingEntity {
     }
 
     public void setEmail(String email) {
+        if (Objects.nonNull(email)) {
+            this.email = email.toLowerCase();
+        }
         this.email = email;
     }
 

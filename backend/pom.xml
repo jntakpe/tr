@@ -24,6 +24,7 @@
         <json-path.version>2.2.0</json-path.version>
         <postgresql.version>9.4.1209.jre7</postgresql.version>
         <springfox-swagger2.version>2.5.0</springfox-swagger2.version>
+        <sonar-maven-plugin.version>3.0.2</sonar-maven-plugin.version>
     </properties>
 
     <parent>
@@ -143,6 +144,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
         </plugins>
         <resources>
