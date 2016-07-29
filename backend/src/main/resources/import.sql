@@ -12,12 +12,17 @@ INSERT INTO training (name, duration, created_by, created_date) VALUES ('hiberna
 INSERT INTO training (name, duration, created_by, created_date) VALUES ('spring', 3, 'jntakpe', CURRENT_TIMESTAMP);
 INSERT INTO training (name, duration, created_by, created_date) VALUES ('angularJS', 3, 'jntakpe', CURRENT_TIMESTAMP);
 INSERT INTO training (name, duration, created_by, created_date) VALUES ('javascript', 3, 'sbourret', CURRENT_TIMESTAMP);
+INSERT INTO training (name, duration, created_by, created_date) VALUES ('js + angular', 4, 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO training (name, duration, created_by, created_date) VALUES ('angular 2', 3, 'jntakpe', CURRENT_TIMESTAMP);
 
 -- Table Location
 
 INSERT INTO location (name, created_by, created_date) VALUES ('paris triangle', 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO location (name, created_by, created_date) VALUES ('paris matei', 'jntakpe', CURRENT_TIMESTAMP);
 INSERT INTO location (name, created_by, created_date) VALUES ('toulouse colo1', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, created_by, created_date) VALUES ('toulouse colo2', 'jntakpe', CURRENT_TIMESTAMP);
 INSERT INTO location (name, created_by, created_date) VALUES ('lille madeleine', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, created_by, created_date) VALUES ('lille urban', 'jntakpe', CURRENT_TIMESTAMP);
 
 -- Table Session
 
