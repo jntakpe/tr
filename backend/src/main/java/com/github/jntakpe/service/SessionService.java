@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,23 @@ public class SessionService {
         Objects.requireNonNull(session);
         LOGGER.info("{} de la session {}", session.isNew() ? "Création" : "Modification", session);
         return sessionRepository.save(session);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Session session = findById(id);
+        LOGGER.info("Suppression de la session de formation {}", session);
+        sessionRepository.delete(session);
+    }
+
+    private Session findById(Long id) {
+        Objects.requireNonNull(id);
+        Session session = sessionRepository.findOne(id);
+        if (Objects.isNull(session)) {
+            LOGGER.warn("Aucune session de formation possédant l'id {}", id);
+            throw new EntityNotFoundException("Aucune session de formation possédant l'id " + id);
+        }
+        return session;
     }
 
 }

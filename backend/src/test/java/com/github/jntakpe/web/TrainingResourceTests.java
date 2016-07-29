@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.service.TrainingService;
+import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +45,9 @@ public class TrainingResourceTests {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private TrainingTestsUtils trainingTestsUtils;
 
     @Mock
     private TrainingService mockTrainingService;
@@ -99,7 +103,7 @@ public class TrainingResourceTests {
 
     @Test
     public void create_shouldFailCuzNameAlreadyTaken() throws Exception {
-        Training training = new Training(findAnyTraining().getName(), 1);
+        Training training = new Training(trainingTestsUtils.findAnyTraining().getName(), 1);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -109,7 +113,7 @@ public class TrainingResourceTests {
 
     @Test
     public void update_shouldUpdate() throws Exception {
-        Training training = findAnyTraining();
+        Training training = trainingTestsUtils.findAnyTraining();
         String updatedName = "web updated training";
         training.setName(updatedName);
         ResultActions resultActions = realMvc.perform(put(UriConstants.TRAININGS + "/{id}", training.getId())
@@ -122,7 +126,7 @@ public class TrainingResourceTests {
 
     @Test
     public void update_shouldFailCuzMissingValue() throws Exception {
-        Training training = findAnyTraining();
+        Training training = trainingTestsUtils.findAnyTraining();
         training.setDuration(null);
         ResultActions resultActions = realMvc.perform(put(UriConstants.TRAININGS + "/{id}", training.getId())
                 .content(objectMapper.writeValueAsBytes(training))
@@ -132,7 +136,7 @@ public class TrainingResourceTests {
 
     @Test
     public void delete_shouldDelete() throws Exception {
-        Training training = findAnyTraining();
+        Training training = trainingTestsUtils.findAnyTraining();
         ResultActions resultActions = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", training.getId())
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isNoContent());
@@ -143,10 +147,6 @@ public class TrainingResourceTests {
         ResultActions resultActions = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", 999L)
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isNotFound());
-    }
-
-    private Training findAnyTraining() {
-        return trainingService.findAll().stream().findAny().orElseThrow(() -> new IllegalStateException("No training"));
     }
 
 }

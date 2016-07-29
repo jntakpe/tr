@@ -2,7 +2,7 @@ package com.github.jntakpe.service;
 
 import com.github.jntakpe.entity.Session;
 import com.github.jntakpe.entity.Training;
-import com.github.jntakpe.repository.TrainingRepository;
+import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,7 +28,7 @@ public class TrainingServiceTest extends AbstractTestsService {
     private TrainingService trainingService;
 
     @Autowired
-    private TrainingRepository trainingRepository;
+    private TrainingTestsUtils trainingTestsUtils;
 
     @Test
     public void findAll_shouldFind() {
@@ -54,13 +54,14 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test
     public void save_shouldUpdate() {
-        Training training = findAnyTraining();
+        Training training = trainingTestsUtils.findAnyTraining();
         String updatedTrainingName = "updatedTraining";
         training.setName(updatedTrainingName);
-        trainingRepository.flush();
+        trainingTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedTrainingName + "')";
         Training result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> new Training(rs.getString("name"), 3));
         assertThat(result).isNotNull();
+        assertThat(result.getName()).isEqualToIgnoringCase(updatedTrainingName);
     }
 
     @Test(expected = ValidationException.class)
@@ -74,9 +75,9 @@ public class TrainingServiceTest extends AbstractTestsService {
 
     @Test
     public void delete_shouldRemoveOne() {
-        Training training = findAnyTraining();
+        Training training = trainingTestsUtils.findAnyTraining();
         trainingService.delete(training.getId());
-        trainingRepository.flush();
+        trainingTestsUtils.flush();
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + training.getName() + "')";
         assertThat(jdbcTemplate.queryForList(query, Long.class)).isEmpty();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
@@ -92,11 +93,5 @@ public class TrainingServiceTest extends AbstractTestsService {
     @Override
     public String getTableName() {
         return TABLE_NAME;
-    }
-
-    private Training findAnyTraining() {
-        return trainingRepository.findAll().stream()
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No training"));
     }
 }

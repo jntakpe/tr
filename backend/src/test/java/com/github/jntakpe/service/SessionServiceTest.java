@@ -1,11 +1,13 @@
 package com.github.jntakpe.service;
 
 import com.github.jntakpe.entity.Session;
-import com.github.jntakpe.repository.SessionRepository;
+import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.utils.SessionTestsUtils;
+import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -27,7 +29,7 @@ public class SessionServiceTest extends AbstractTestsService {
     private SessionTestsUtils sessionTestsUtils;
 
     @Autowired
-    private SessionRepository sessionRepository;
+    private TrainingTestsUtils trainingTestsUtils;
 
     @Test
     public void findAll_shouldFind() {
@@ -52,15 +54,43 @@ public class SessionServiceTest extends AbstractTestsService {
 
     @Test
     public void save_shouldUpdate() {
-        Session session = sessionRepository.findAll().stream()
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No session"));
+        Session session = sessionTestsUtils.findAnySession();
         LocalDate updatedStart = LocalDate.of(2016, 2, 2);
         session.setStart(updatedStart);
-        sessionRepository.flush();
+        sessionTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE start='" + updatedStart.toString() + "'";
         Date startDate = jdbcTemplate.queryForObject(query, (rs, rowNum) -> rs.getDate("start"));
         assertThat(startDate).isNotNull();
+        assertThat(startDate.toLocalDate()).isEqualTo(updatedStart);
+    }
+
+    @Test
+    public void save_shouldUpdateTraining() {
+        Session session = sessionTestsUtils.findAnySession();
+        Training updatedTraining = trainingTestsUtils.findAnyTrainingButThis(session.getTraining());
+        session.setStart(LocalDate.of(2012, 1, 2));
+        session.setTraining(updatedTraining);
+        sessionTestsUtils.flush();
+        String query = "SELECT training_id FROM " + TABLE_NAME + " WHERE id='" + session.getId() + "'";
+        Long trainingId = jdbcTemplate.queryForObject(query, Long.class);
+        assertThat(trainingId).isNotNull();
+        assertThat(trainingId).isEqualTo(updatedTraining.getId());
+
+    }
+
+    @Test
+    public void delete_shouldRemoveOne() {
+        Session session = sessionTestsUtils.findAnySession();
+        sessionService.delete(session.getId());
+        sessionTestsUtils.flush();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id='" + session.getId() + "'";
+        assertThat(jdbcTemplate.queryForList(query, Long.class)).isEmpty();
+        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void delete_shouldFailCuzIdDoesntExist() {
+        sessionService.delete(999L);
     }
 
     @Override

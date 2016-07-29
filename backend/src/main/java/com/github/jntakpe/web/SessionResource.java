@@ -42,4 +42,10 @@ public class SessionResource {
         return sessionService.save(session);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id) {
+        sessionService.delete(id);
+    }
+
 }

@@ -24,8 +24,7 @@ import java.util.Collections;
 
 import static com.github.jntakpe.web.WebTestsUtils.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -92,6 +91,29 @@ public class SessionResourceTests {
         expectObjectExists(resultActions);
         resultActions.andExpect(jsonPath("$.id").isNumber());
         resultActions.andExpect(jsonPath("$.start").value(startDate.toString()));
+    }
+
+    @Test
+    public void update_shouldUpdate() throws Exception {
+        Session session = sessionTestsUtils.findAnySession();
+        LocalDate updatedDate = LocalDate.of(2016, 10, 10);
+        session.setStart(updatedDate);
+        ResultActions resultActions = realMvc.perform(put(UriConstants.SESSIONS + "/{id}", session.getId())
+                .content(objectMapper.writeValueAsBytes(session))
+                .contentType(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectObjectExists(resultActions);
+        resultActions.andExpect(jsonPath("$.start").value(updatedDate.toString()));
+    }
+
+    @Test
+    public void update_shouldFailCuzMissingValue() throws Exception {
+        Session session = sessionTestsUtils.findAnySession();
+        session.setStart(null);
+        ResultActions resultActions = realMvc.perform(put(UriConstants.SESSIONS + "/{id}", session.getId())
+                .content(objectMapper.writeValueAsBytes(session))
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isBadRequest());
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.github.jntakpe.service;
 
 import com.github.jntakpe.entity.Location;
 import com.github.jntakpe.entity.Session;
-import com.github.jntakpe.repository.LocationRepository;
+import com.github.jntakpe.utils.LocationTestsUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +27,7 @@ public class LocationServiceTests extends AbstractTestsService {
     private LocationService locationService;
 
     @Autowired
-    private LocationRepository locationRepository;
+    private LocationTestsUtils locationTestsUtils;
 
     @Test
     public void findAll_shouldFind() {
@@ -68,18 +68,19 @@ public class LocationServiceTests extends AbstractTestsService {
 
     @Test
     public void save_shouldUpdate() {
-        Location location = findAnyLocation();
+        Location location = locationTestsUtils.findAnyLocation();
         String updatedLocationName = "updatedLocation";
         location.setName(updatedLocationName);
-        locationRepository.flush();
+        locationTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedLocationName + "')";
         Location result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> new Location(rs.getString("name")));
         assertThat(result).isNotNull();
+        assertThat(result.getName()).isEqualToIgnoringCase(updatedLocationName);
     }
 
     @Test(expected = ValidationException.class)
     public void save_shouldFailToUpdateCuzSameNameMatchCase() {
-        List<Location> locations = locationRepository.findAll();
+        List<Location> locations = locationTestsUtils.findAll();
         assertThat(locations.size()).isGreaterThanOrEqualTo(2);
         Location location = new Location(locations.get(1).getName());
         location.setId(locations.get(0).getId());
@@ -88,9 +89,9 @@ public class LocationServiceTests extends AbstractTestsService {
 
     @Test
     public void delete_shouldRemoveOne() {
-        Location location = findAnyLocation();
+        Location location = locationTestsUtils.findAnyLocation();
         locationService.delete(location.getId());
-        locationRepository.flush();
+        locationTestsUtils.flush();
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + location.getName() + "')";
         assertThat(jdbcTemplate.queryForList(query, Long.class)).isEmpty();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
@@ -108,9 +109,4 @@ public class LocationServiceTests extends AbstractTestsService {
         return TABLE_NAME;
     }
 
-    private Location findAnyLocation() {
-        return locationRepository.findAll().stream()
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No location"));
-    }
 }
