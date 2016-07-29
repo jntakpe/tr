@@ -78,9 +78,9 @@ public class TrainingResourceTests {
 
     @Test
     public void create_shouldCreate() throws Exception {
-        String locationName = "some location";
+        String name = "some training";
         Training training = new Training();
-        training.setName(locationName);
+        training.setName(name);
         training.setDuration(3);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
@@ -88,7 +88,7 @@ public class TrainingResourceTests {
         expectIsCreatedAndJsonContent(resultActions);
         expectObjectExists(resultActions);
         resultActions.andExpect(jsonPath("$.id").isNumber());
-        resultActions.andExpect(jsonPath("$.name").value(locationName));
+        resultActions.andExpect(jsonPath("$.name").value(name));
     }
 
     @Test

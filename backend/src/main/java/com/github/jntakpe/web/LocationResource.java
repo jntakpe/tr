@@ -4,10 +4,10 @@ import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.entity.Location;
 import com.github.jntakpe.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -30,4 +30,23 @@ public class LocationResource {
     public List<Location> findAll() {
         return locationService.findAll();
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(method = RequestMethod.POST)
+    public Location create(@RequestBody Location location) {
+        return locationService.save(location);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Location update(@PathVariable Long id, @RequestBody @Valid Location location) {
+        location.setId(id);
+        return locationService.save(location);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id) {
+        locationService.delete(id);
+    }
+
 }

@@ -39,6 +39,7 @@ public class LocationService {
 
     @Transactional(readOnly = true)
     public Optional<Location> findByName(String name) {
+        //TODO vérifier que cette méthode n'est pas inutile
         LOGGER.debug("Recherche du site de formation {}", name);
         return locationRepository.findByNameIgnoreCase(name);
     }

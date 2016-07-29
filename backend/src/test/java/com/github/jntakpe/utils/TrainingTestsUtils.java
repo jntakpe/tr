@@ -20,7 +20,9 @@ public class TrainingTestsUtils {
     }
 
     public Training findAnyTraining() {
+        Training defaultTraining = findDefaultTraining();
         return trainingRepository.findAll().stream()
+                .filter(t -> !t.equals(defaultTraining))
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("No training"));
     }

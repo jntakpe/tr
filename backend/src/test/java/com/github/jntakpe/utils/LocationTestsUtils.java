@@ -24,7 +24,9 @@ public class LocationTestsUtils {
     }
 
     public Location findAnyLocation() {
+        Location defaultLocation = findDefaultLocation();
         return locationRepository.findAll().stream()
+                .filter(l -> !l.equals(defaultLocation))
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("No location"));
     }

@@ -1,7 +1,10 @@
 package com.github.jntakpe.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jntakpe.config.UriConstants;
+import com.github.jntakpe.entity.Location;
 import com.github.jntakpe.service.LocationService;
+import com.github.jntakpe.utils.LocationTestsUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +23,10 @@ import java.util.Collections;
 
 import static com.github.jntakpe.web.WebTestsUtils.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Tests associés à la ressource REST {@link LocationResource}
@@ -33,7 +38,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LocationResourceTests {
 
     @Autowired
+    private LocationTestsUtils locationTestsUtils;
+
+    @Autowired
     private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Mock
     private LocationService mockLocationService;
@@ -63,5 +74,77 @@ public class LocationResourceTests {
         ResultActions resultActions = mockMvc.perform(get(UriConstants.LOCATIONS).accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayEmpty(resultActions);
+    }
+
+    @Test
+    public void create_shouldCreate() throws Exception {
+        String name = "some location";
+        Location location = new Location();
+        location.setName(name);
+        ResultActions resultActions = realMvc.perform(post(UriConstants.LOCATIONS)
+                .content(objectMapper.writeValueAsBytes(location))
+                .contentType(MediaType.APPLICATION_JSON));
+        expectIsCreatedAndJsonContent(resultActions);
+        expectObjectExists(resultActions);
+        resultActions.andExpect(jsonPath("$.id").isNumber());
+        resultActions.andExpect(jsonPath("$.name").value(name));
+    }
+
+    @Test
+    public void create_shouldFailCuzMissingValue() throws Exception {
+        Location location = new Location();
+        ResultActions resultActions = realMvc.perform(post(UriConstants.LOCATIONS)
+                .content(objectMapper.writeValueAsBytes(location))
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void create_shouldFailCuzNameAlreadyTaken() throws Exception {
+        Location location = new Location();
+        location.setName(locationTestsUtils.findAnyLocation().getName());
+        ResultActions resultActions = realMvc.perform(post(UriConstants.LOCATIONS)
+                .content(objectMapper.writeValueAsBytes(location))
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andDo(print());
+    }
+
+    @Test
+    public void update_shouldUpdate() throws Exception {
+        Location location = locationTestsUtils.findAnyLocation();
+        String updatedName = "updated location";
+        location.setName(updatedName);
+        ResultActions resultActions = realMvc.perform(put(UriConstants.LOCATIONS + "/{id}", location.getId())
+                .content(objectMapper.writeValueAsBytes(location))
+                .contentType(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectObjectExists(resultActions);
+        resultActions.andExpect(jsonPath("$.name").value(updatedName));
+    }
+
+    @Test
+    public void update_shouldFailCuzMissingValue() throws Exception {
+        Location location = locationTestsUtils.findAnyLocation();
+        location.setName(null);
+        ResultActions resultActions = realMvc.perform(put(UriConstants.LOCATIONS + "/{id}", location.getId())
+                .content(objectMapper.writeValueAsBytes(location))
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void delete_shouldDelete() throws Exception {
+        Location location = locationTestsUtils.findAnyLocation();
+        ResultActions resultActions = realMvc.perform(delete(UriConstants.LOCATIONS + "/{id}", location.getId())
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void delete_shouldFailCuzIdDoesntExist() throws Exception {
+        ResultActions resultActions = realMvc.perform(delete(UriConstants.LOCATIONS + "/{id}", 999L)
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNotFound());
     }
 }
