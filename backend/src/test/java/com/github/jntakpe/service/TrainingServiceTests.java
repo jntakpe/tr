@@ -15,11 +15,11 @@ import static org.assertj.core.api.Assertions.fail;
 
 
 /**
- * Tests associés à l'entité {@link com.github.jntakpe.entity.Training}
+ * Tests associés à l'entité {@link Training}
  *
  * @author jntakpe
  */
-public class TrainingServiceTest extends AbstractTestsService {
+public class TrainingServiceTests extends AbstractTestsService {
 
     public static final String EXISTING_NAME = "Hibernate";
 
@@ -101,7 +101,7 @@ public class TrainingServiceTest extends AbstractTestsService {
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + training.getName() + "')";
         assertThat(jdbcTemplate.queryForList(query, Long.class)).isEmpty();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
-        String linkedQuery = "SELECT id FROM " + SessionServiceTest.TABLE_NAME + " WHERE training_id = " + training.getId();
+        String linkedQuery = "SELECT id FROM " + SessionServiceTests.TABLE_NAME + " WHERE training_id = " + training.getId();
         assertThat(jdbcTemplate.queryForList(linkedQuery, Session.class)).isEmpty();
     }
 

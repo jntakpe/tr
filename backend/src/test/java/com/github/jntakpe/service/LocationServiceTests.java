@@ -106,7 +106,7 @@ public class LocationServiceTests extends AbstractTestsService {
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + location.getName() + "')";
         assertThat(jdbcTemplate.queryForList(query, Long.class)).isEmpty();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
-        String linkedQuery = "SELECT id FROM " + SessionServiceTest.TABLE_NAME + " WHERE location_id = " + location.getId();
+        String linkedQuery = "SELECT id FROM " + SessionServiceTests.TABLE_NAME + " WHERE location_id = " + location.getId();
         assertThat(jdbcTemplate.queryForList(linkedQuery, Session.class)).isEmpty();
     }
 

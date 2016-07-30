@@ -2,7 +2,7 @@ package com.github.jntakpe.utils;
 
 import com.github.jntakpe.entity.Employee;
 import com.github.jntakpe.repository.EmployeeRepository;
-import com.github.jntakpe.service.CollaborateurServiceTests;
+import com.github.jntakpe.service.EmployeeServiceTests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class EmployeeTestUtils {
 
     @Transactional(readOnly = true)
     public Employee findDefaultEmployee() {
-        return employeeRepository.findByLoginIgnoreCase(CollaborateurServiceTests.EXISTING_LOGIN)
+        return employeeRepository.findByLoginIgnoreCase(EmployeeServiceTests.EXISTING_LOGIN)
                 .orElseThrow(() -> new IllegalStateException("No collab"));
     }
 

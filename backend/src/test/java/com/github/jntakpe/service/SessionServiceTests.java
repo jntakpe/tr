@@ -14,11 +14,11 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests associés à la classe {@link SessionService}
+ * Tests associés à l'entité {@link Session}
  *
  * @author jntakpe
  */
-public class SessionServiceTest extends AbstractTestsService {
+public class SessionServiceTests extends AbstractTestsService {
 
     public static final String TABLE_NAME = "session";
 

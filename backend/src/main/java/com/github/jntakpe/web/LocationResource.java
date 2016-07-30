@@ -53,4 +53,5 @@ public class LocationResource {
     public List<String> constraints(@PathVariable Long id) {
         return locationService.findConstraints(id);
     }
+
 }

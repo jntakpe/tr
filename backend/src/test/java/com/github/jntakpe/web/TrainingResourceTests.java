@@ -21,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Collections;
 
-import static com.github.jntakpe.web.WebTestsUtils.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class TrainingResourceTests {
+public class TrainingResourceTests implements WebTestsUtils {
 
     @Autowired
     private WebApplicationContext webApplicationContext;

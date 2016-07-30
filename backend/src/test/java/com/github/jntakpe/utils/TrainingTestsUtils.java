@@ -2,7 +2,7 @@ package com.github.jntakpe.utils;
 
 import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.repository.TrainingRepository;
-import com.github.jntakpe.service.TrainingServiceTest;
+import com.github.jntakpe.service.TrainingServiceTests;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +31,7 @@ public class TrainingTestsUtils {
 
     @Transactional(readOnly = true)
     public Training findDefaultTraining() {
-        return trainingRepository.findByNameIgnoreCase(TrainingServiceTest.EXISTING_NAME)
+        return trainingRepository.findByNameIgnoreCase(TrainingServiceTests.EXISTING_NAME)
                 .orElseThrow(() -> new IllegalStateException("No training"));
     }
 
