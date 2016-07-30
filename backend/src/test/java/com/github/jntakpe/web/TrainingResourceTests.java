@@ -139,7 +139,7 @@ public class TrainingResourceTests {
 
     @Test
     public void delete_shouldDelete() throws Exception {
-        Training training = trainingTestsUtils.findAnyTraining();
+        Training training = trainingTestsUtils.findUnusedTraining();
         ResultActions resultActions = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", training.getId())
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isNoContent());

@@ -11,6 +11,7 @@ import javax.validation.ValidationException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 
 /**
@@ -51,6 +52,7 @@ public class TrainingServiceTest extends AbstractTestsService {
         training.setName(EXISTING_NAME.toUpperCase());
         training.setDuration(3);
         trainingService.save(training);
+        fail("should have failed at this point");
     }
 
     @Test(expected = ValidationException.class)
@@ -59,6 +61,7 @@ public class TrainingServiceTest extends AbstractTestsService {
         training.setName(EXISTING_NAME);
         training.setDuration(3);
         trainingService.save(training);
+        fail("should have failed at this point");
     }
 
     @Test
@@ -87,11 +90,12 @@ public class TrainingServiceTest extends AbstractTestsService {
         training.setName(trainings.get(1).getName());
         training.setDuration(trainings.get(1).getDuration());
         trainingService.save(training);
+        fail("should have failed at this point");
     }
 
     @Test
     public void delete_shouldRemoveOne() {
-        Training training = trainingTestsUtils.findAnyTraining();
+        Training training = trainingTestsUtils.findUnusedTraining();
         trainingService.delete(training.getId());
         trainingTestsUtils.flush();
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + training.getName() + "')";
@@ -104,6 +108,7 @@ public class TrainingServiceTest extends AbstractTestsService {
     @Test(expected = EntityNotFoundException.class)
     public void delete_shouldFailCuzIdDoesntExist() {
         trainingService.delete(999L);
+        fail("should have failed at this point");
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.github.jntakpe.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -28,7 +27,7 @@ public class Training extends AuditingEntity {
     @NotNull
     private Integer duration;
 
-    @OneToMany(mappedBy = "training", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "training")
     private Set<Session> sessions = new HashSet<>();
 
     public String getName() {

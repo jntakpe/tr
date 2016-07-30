@@ -43,6 +43,14 @@ public class TrainingTestsUtils {
                 .orElseThrow(() -> new IllegalStateException("No training except default one"));
     }
 
+    @Transactional(readOnly = true)
+    public Training findUnusedTraining() {
+        return trainingRepository.findAll().stream()
+                .filter(t -> t.getSessions().isEmpty())
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No unused training"));
+    }
+
     public void flush() {
         trainingRepository.flush();
     }
