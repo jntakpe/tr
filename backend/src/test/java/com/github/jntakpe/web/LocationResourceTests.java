@@ -138,7 +138,7 @@ public class LocationResourceTests {
 
     @Test
     public void delete_shouldDelete() throws Exception {
-        Location location = locationTestsUtils.findAnyLocation();
+        Location location = locationTestsUtils.findUnusedLocation();
         ResultActions resultActions = realMvc.perform(delete(UriConstants.LOCATIONS + "/{id}", location.getId())
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isNoContent());

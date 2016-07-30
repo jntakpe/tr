@@ -3,14 +3,17 @@ package com.github.jntakpe.service;
 import com.github.jntakpe.entity.Location;
 import com.github.jntakpe.entity.Session;
 import com.github.jntakpe.utils.LocationTestsUtils;
+import com.github.jntakpe.utils.SessionTestsUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * Tests associés à l'entité {@link Location}
@@ -30,6 +33,9 @@ public class LocationServiceTests extends AbstractTestsService {
 
     @Autowired
     private LocationTestsUtils locationTestsUtils;
+
+    @Autowired
+    private SessionTestsUtils sessionTestsUtils;
 
     @Test
     public void findAll_shouldFind() {
@@ -52,6 +58,7 @@ public class LocationServiceTests extends AbstractTestsService {
         location.setName(EXISTING_NAME.toUpperCase());
         location.setCity(EXISTING_CITY.toUpperCase());
         locationService.save(location);
+        fail("should have failed at this point");
     }
 
     @Test(expected = ValidationException.class)
@@ -60,6 +67,7 @@ public class LocationServiceTests extends AbstractTestsService {
         location.setName(EXISTING_NAME);
         location.setCity(EXISTING_CITY);
         locationService.save(location);
+        fail("should have failed at this point");
     }
 
     @Test
@@ -87,11 +95,12 @@ public class LocationServiceTests extends AbstractTestsService {
         location.setName(locations.get(1).getName());
         location.setCity(locations.get(1).getCity());
         locationService.save(location);
+        fail("should have failed at this point");
     }
 
     @Test
     public void delete_shouldRemoveOne() {
-        Location location = locationTestsUtils.findAnyLocation();
+        Location location = locationTestsUtils.findUnusedLocation();
         locationService.delete(location.getId());
         locationTestsUtils.flush();
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE name=LOWER('" + location.getName() + "')";
@@ -101,9 +110,18 @@ public class LocationServiceTests extends AbstractTestsService {
         assertThat(jdbcTemplate.queryForList(linkedQuery, Session.class)).isEmpty();
     }
 
+    @Test(expected = DataIntegrityViolationException.class)
+    public void delete_shouldFailCuzLocationUsedByRelation() {
+        Location location = sessionTestsUtils.findAnySession().getLocation();
+        locationService.delete(location.getId());
+        locationTestsUtils.flush();
+        fail("should have failed at this point");
+    }
+
     @Test(expected = EntityNotFoundException.class)
     public void delete_shouldFailCuzIdDoesntExist() {
         locationService.delete(999L);
+        fail("should have failed at this point");
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Location extends AuditingEntity {
     @Column(nullable = false)
     private String city;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "location")
     private Set<Session> sessions = new HashSet<>();
 
     public String getName() {

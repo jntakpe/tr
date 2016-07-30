@@ -5,6 +5,7 @@ import com.github.jntakpe.repository.LocationRepository;
 import com.github.jntakpe.service.LocationServiceTests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class LocationTestsUtils {
         this.locationRepository = locationRepository;
     }
 
+    @Transactional(readOnly = true)
     public Location findAnyLocation() {
         Location defaultLocation = findDefaultLocation();
         return locationRepository.findAll().stream()
@@ -31,16 +33,27 @@ public class LocationTestsUtils {
                 .orElseThrow(() -> new IllegalStateException("No location"));
     }
 
+    @Transactional(readOnly = true)
     public Location findDefaultLocation() {
         return locationRepository.findByNameAndCityAllIgnoreCase(LocationServiceTests.EXISTING_NAME, LocationServiceTests.EXISTING_CITY)
                 .orElseThrow(() -> new IllegalStateException("No location"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Location> findAll() {
+        return locationRepository.findAll();
+    }
+
+    @Transactional
+    public Location findUnusedLocation() {
+        return locationRepository.findAll().stream()
+                .filter(l -> l.getSessions().isEmpty())
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No unused location"));
     }
 
     public void flush() {
         locationRepository.flush();
     }
 
-    public List<Location> findAll() {
-        return locationRepository.findAll();
-    }
 }

@@ -7,6 +7,7 @@ import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -37,16 +38,14 @@ public class SessionTestsUtils {
         this.sessionRepository = sessionRepository;
     }
 
+    @Transactional(readOnly = true)
     public Session findAnySession() {
         return sessionRepository.findAll().stream()
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("No session"));
     }
 
-    public void flush() {
-        sessionRepository.flush();
-    }
-
+    @Transactional(readOnly = true)
     public Session getSessionWithDetachedRelations(LocalDate startDate) {
         Training training = trainingTestsUtils.findDefaultTraining();
         Location location = locationTestsUtils.findDefaultLocation();
@@ -65,11 +64,16 @@ public class SessionTestsUtils {
         return getSession(startDate, location, training, employee);
     }
 
+    @Transactional(readOnly = true)
     public Session getSessionWithAttachedRelations(LocalDate startDate) {
         Training training = trainingTestsUtils.findDefaultTraining();
         Location location = locationTestsUtils.findDefaultLocation();
         Employee employee = employeeTestUtils.findDefaultEmployee();
         return getSession(startDate, location, training, employee);
+    }
+
+    public void flush() {
+        sessionRepository.flush();
     }
 
     private Session getSession(LocalDate startDate, Location location, Training training, Employee employee) {

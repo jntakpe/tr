@@ -4,6 +4,7 @@ import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.repository.TrainingRepository;
 import com.github.jntakpe.service.TrainingServiceTest;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Méthodes utilitaires pour les tests de l'entité {@link Training}
@@ -19,6 +20,7 @@ public class TrainingTestsUtils {
         this.trainingRepository = trainingRepository;
     }
 
+    @Transactional(readOnly = true)
     public Training findAnyTraining() {
         Training defaultTraining = findDefaultTraining();
         return trainingRepository.findAll().stream()
@@ -27,11 +29,13 @@ public class TrainingTestsUtils {
                 .orElseThrow(() -> new IllegalStateException("No training"));
     }
 
+    @Transactional(readOnly = true)
     public Training findDefaultTraining() {
         return trainingRepository.findByNameIgnoreCase(TrainingServiceTest.EXISTING_NAME)
                 .orElseThrow(() -> new IllegalStateException("No training"));
     }
 
+    @Transactional(readOnly = true)
     public Training findAnyTrainingButThis(Training training) {
         return trainingRepository.findAll().stream()
                 .filter(t -> !t.getId().equals(training.getId()))
