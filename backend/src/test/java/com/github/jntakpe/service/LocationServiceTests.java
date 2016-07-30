@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.fail;
  *
  * @author jntakpe
  */
-public class LocationServiceTests extends AbstractTestsService {
+public class LocationServiceTests extends AbstractServiceTests {
 
     public static final String TABLE_NAME = "location";
 

@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author jntakpe
  */
-public class SessionServiceTests extends AbstractTestsService {
+public class SessionServiceTests extends AbstractServiceTests {
 
     public static final String TABLE_NAME = "session";
 

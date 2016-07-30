@@ -31,7 +31,10 @@ public class Rating extends AuditingEntity {
 
     private String suggests;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    private Session session;
+
+    @ManyToOne(optional = false)
     private Employee employee;
 
     public Short getSubject() {
@@ -106,12 +109,45 @@ public class Rating extends AuditingEntity {
         this.suggests = suggests;
     }
 
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Rating rating = (Rating) o;
+
+        if (!session.equals(rating.session)) {
+            return false;
+        }
+        return employee.equals(rating.employee);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = session.hashCode();
+        result = 31 * result + employee.hashCode();
+        return result;
     }
 
     @Override
