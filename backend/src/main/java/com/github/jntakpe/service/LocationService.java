@@ -37,17 +37,10 @@ public class LocationService {
         return locationRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public Optional<Location> findByName(String name) {
-        //TODO vérifier que cette méthode n'est pas inutile
-        LOGGER.debug("Recherche du site de formation {}", name);
-        return locationRepository.findByNameIgnoreCase(name);
-    }
-
     @Transactional
     public Location save(Location location) {
         Objects.requireNonNull(location);
-        checkNameAvailable(location);
+        checkNameAndCityAvailable(location);
         LOGGER.info("{} du site de formation {}", location.isNew() ? "Création" : "Modification", location);
         return locationRepository.save(location);
     }
@@ -69,10 +62,11 @@ public class LocationService {
         return location;
     }
 
-    private void checkNameAvailable(Location location) {
-        Optional<Location> opt = locationRepository.findByNameIgnoreCase(location.getName());
+    private void checkNameAndCityAvailable(Location location) {
+        Optional<Location> opt = locationRepository.findByNameAndCityAllIgnoreCase(location.getName(), location.getCity());
         if (opt.isPresent() && !opt.get().getId().equals(location.getId())) {
-            throw new ValidationException("Le nom de lieu : " + location.getName() + " est déjà pris");
+            String msg = String.format("Le nom de site %s dans la ville %s est déjà pris", location.getName(), location.getCity());
+            throw new ValidationException(msg);
         }
     }
 }

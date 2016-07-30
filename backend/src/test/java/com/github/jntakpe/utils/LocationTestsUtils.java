@@ -32,7 +32,7 @@ public class LocationTestsUtils {
     }
 
     public Location findDefaultLocation() {
-        return locationRepository.findByNameIgnoreCase(LocationServiceTests.EXISTING_NAME)
+        return locationRepository.findByNameAndCityAllIgnoreCase(LocationServiceTests.EXISTING_NAME, LocationServiceTests.EXISTING_CITY)
                 .orElseThrow(() -> new IllegalStateException("No location"));
     }
 

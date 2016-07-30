@@ -79,8 +79,10 @@ public class LocationResourceTests {
     @Test
     public void create_shouldCreate() throws Exception {
         String name = "some location";
+        String city = "some city";
         Location location = new Location();
         location.setName(name);
+        location.setCity(city);
         ResultActions resultActions = realMvc.perform(post(UriConstants.LOCATIONS)
                 .content(objectMapper.writeValueAsBytes(location))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -88,6 +90,7 @@ public class LocationResourceTests {
         expectObjectExists(resultActions);
         resultActions.andExpect(jsonPath("$.id").isNumber());
         resultActions.andExpect(jsonPath("$.name").value(name));
+        resultActions.andExpect(jsonPath("$.city").value(city));
     }
 
     @Test

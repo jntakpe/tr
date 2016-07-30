@@ -11,6 +11,6 @@ import java.util.Optional;
  */
 public interface LocationRepository extends GenericRepository<Location> {
 
-    Optional<Location> findByNameIgnoreCase(String name);
+    Optional<Location> findByNameAndCityAllIgnoreCase(String name, String city);
 
 }

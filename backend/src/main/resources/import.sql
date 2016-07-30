@@ -17,17 +17,17 @@ INSERT INTO training (name, duration, created_by, created_date) VALUES ('angular
 
 -- Table Location
 
-INSERT INTO location (name, created_by, created_date) VALUES ('paris triangle', 'gpeel', CURRENT_TIMESTAMP);
-INSERT INTO location (name, created_by, created_date) VALUES ('paris matei', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO location (name, created_by, created_date) VALUES ('toulouse colo1', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO location (name, created_by, created_date) VALUES ('toulouse colo2', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO location (name, created_by, created_date) VALUES ('lille madeleine', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO location (name, created_by, created_date) VALUES ('lille urban', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, city, created_by, created_date) VALUES ('triangle', 'Paris', 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO location (name, city, created_by, created_date) VALUES ('matei', 'Paris','jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, city, created_by, created_date) VALUES ('colo1', 'Toulouse','jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, city, created_by, created_date) VALUES ('colo2', 'Toulouse','jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, city, created_by, created_date) VALUES ('madeleine', 'Lille','jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO location (name, city, created_by, created_date) VALUES ('urban', 'Lille','jntakpe', CURRENT_TIMESTAMP);
 
 -- Table Session
 
-INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'paris triangle'), (SELECT id FROM training WHERE name='hibernate'), (SELECT id FROM employee WHERE login='gpeel'), 'gpeel', CURRENT_TIMESTAMP);
-INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'paris triangle'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM employee WHERE login='gpeel'), 'gpeel', CURRENT_TIMESTAMP);
-INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'toulouse colo1'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM employee WHERE login='jntakpe'), 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'triangle' AND city='Paris'), (SELECT id FROM training WHERE name='hibernate'), (SELECT id FROM employee WHERE login='gpeel'), 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'triangle' AND city='Paris'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM employee WHERE login='gpeel'), 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'colo1' AND city='Toulouse'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM employee WHERE login='jntakpe'), 'jntakpe', CURRENT_TIMESTAMP);
 
 --@formatter:on

@@ -21,7 +21,9 @@ public class LocationServiceTests extends AbstractTestsService {
 
     public static final String TABLE_NAME = "location";
 
-    public static final String EXISTING_NAME = "paris triangle";
+    public static final String EXISTING_NAME = "triangle";
+
+    public static final String EXISTING_CITY = "Paris";
 
     @Autowired
     private LocationService locationService;
@@ -35,40 +37,28 @@ public class LocationServiceTests extends AbstractTestsService {
     }
 
     @Test
-    public void findByName_shouldNotFind() {
-        assertThat(locationService.findByName("unknown")).isEmpty();
-    }
-
-    @Test
-    public void findByName_shouldFindIgnoringCase() {
-        assertThat(locationService.findByName(EXISTING_NAME.toUpperCase())).isPresent();
-    }
-
-    @Test
-    public void findByName_shouldFindMatchingCase() {
-        assertThat(locationService.findByName(EXISTING_NAME)).isPresent();
-    }
-
-    @Test
     public void save_shouldCreate() {
         Location location = new Location();
-        location.setName("Toulouse ramassiers");
+        location.setName("Ramassiers");
+        location.setCity("Toulouse");
         Location ramassiers = locationService.save(location);
         assertThat(ramassiers).isNotNull();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }
 
     @Test(expected = ValidationException.class)
-    public void save_shouldFailToCreateCuzSameNameIgnoreCase() {
+    public void save_shouldFailToCreateCuzSameNameAndCityIgnoreCase() {
         Location location = new Location();
         location.setName(EXISTING_NAME.toUpperCase());
+        location.setCity(EXISTING_CITY.toUpperCase());
         locationService.save(location);
     }
 
     @Test(expected = ValidationException.class)
-    public void save_shouldFailToCreateCuzSameNameMatchCase() {
+    public void save_shouldFailToCreateCuzSameNameAndCityMatchCase() {
         Location location = new Location();
         location.setName(EXISTING_NAME);
+        location.setCity(EXISTING_CITY);
         locationService.save(location);
     }
 
@@ -95,6 +85,7 @@ public class LocationServiceTests extends AbstractTestsService {
         Location location = new Location();
         location.setId(locations.get(0).getId());
         location.setName(locations.get(1).getName());
+        location.setCity(locations.get(1).getCity());
         locationService.save(location);
     }
 

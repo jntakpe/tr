@@ -2,10 +2,7 @@ package com.github.jntakpe.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,11 +14,16 @@ import java.util.Set;
  * @author jntakpe
  */
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "city"})})
 public class Location extends AuditingEntity {
 
     @NotNull
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
+
+    @NotNull
+    @Column(nullable = false)
+    private String city;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
     private Set<Session> sessions = new HashSet<>();
@@ -32,6 +34,14 @@ public class Location extends AuditingEntity {
 
     public void setName(String name) {
         this.name = Objects.nonNull(name) ? name.toLowerCase() : null;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public Set<Session> getSessions() {
