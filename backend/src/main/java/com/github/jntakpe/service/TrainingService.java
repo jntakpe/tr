@@ -1,5 +1,6 @@
 package com.github.jntakpe.service;
 
+import com.github.jntakpe.entity.Session;
 import com.github.jntakpe.entity.Training;
 import com.github.jntakpe.repository.TrainingRepository;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Services associés à la gestion d'une formation
@@ -50,6 +52,18 @@ public class TrainingService {
         Training training = findById(id);
         LOGGER.info("Suppression de la formation {}", training);
         trainingRepository.delete(training);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> findConstraints(Long id) {
+        Training training = findById(id);
+        return findConstraintStrings(training);
+    }
+
+    private List<String> findConstraintStrings(Training training) {
+        return training.getSessions().stream()
+                .map(Session::toString)
+                .collect(Collectors.toList());
     }
 
     private Training findById(Long id) {

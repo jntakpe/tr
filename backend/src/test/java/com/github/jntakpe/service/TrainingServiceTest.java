@@ -111,6 +111,16 @@ public class TrainingServiceTest extends AbstractTestsService {
         fail("should have failed at this point");
     }
 
+    @Test
+    public void findConstraints_shouldBeEmpty() {
+        assertThat(trainingService.findConstraints(trainingTestsUtils.findUnusedTraining().getId())).isEmpty();
+    }
+
+    @Test
+    public void findConstaints_shouldNotBeEmpty() {
+        assertThat(trainingService.findConstraints(trainingTestsUtils.findUsedTraining().getId())).isNotEmpty();
+    }
+
     @Override
     public String getTableName() {
         return TABLE_NAME;

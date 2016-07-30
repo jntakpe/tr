@@ -48,4 +48,10 @@ public class TrainingResource {
     public void delete(@PathVariable Long id) {
         trainingService.delete(id);
     }
+
+    @RequestMapping(value = "/{id}/constraints", method = RequestMethod.GET)
+    public List<String> constraints(@PathVariable Long id) {
+        return trainingService.findConstraints(id);
+    }
+
 }
