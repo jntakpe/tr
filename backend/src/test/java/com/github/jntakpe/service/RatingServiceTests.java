@@ -2,10 +2,14 @@ package com.github.jntakpe.service;
 
 import com.github.jntakpe.entity.Rating;
 import com.github.jntakpe.utils.RatingTestsUtils;
+import com.github.jntakpe.utils.SessionTestsUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.ValidationException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * Tests associés à l'entité {@link Rating}
@@ -22,12 +26,36 @@ public class RatingServiceTests extends AbstractServiceTests {
     @Autowired
     private RatingTestsUtils ratingTestsUtils;
 
+    @Autowired
+    private SessionTestsUtils sessionTestsUtils;
+
     @Test
     public void findBySessionId_shouldFind() {
         Long sessionId = ratingTestsUtils.findExistingSessingId();
         String request = "SELECT COUNT(0) FROM " + TABLE_NAME + " WHERE session_id='" + sessionId + "'";
         Integer expectedSize = jdbcTemplate.queryForObject(request, Integer.class);
         assertThat(ratingService.findBySessionId(sessionId)).isNotEmpty().hasSize(expectedSize);
+    }
+
+    @Test
+    public void save_shouldCreate() {
+        Rating rating = ratingTestsUtils.newRating();
+        Long sessionId = sessionTestsUtils.findUnusedSession().getId();
+        Rating saved = ratingService.save(rating, sessionId);
+        assertThat(saved).isNotNull();
+        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void save_shouldFailCuzSameSessionAndEmployee() {
+        Rating rating = ratingTestsUtils.newRating();
+        Long employeeId = 1L;
+        Long sessionId = ratingTestsUtils.findRatingsWithEmployeeId(employeeId).stream()
+                .findAny()
+                .map(r -> r.getSession().getId())
+                .orElseThrow(() -> new IllegalStateException("no session corresponding with employee id " + employeeId));
+        ratingService.save(rating, sessionId);
+        fail("should have failed at this point");
     }
 
     @Override

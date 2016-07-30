@@ -13,17 +13,17 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Rating extends AuditingEntity {
 
-    private Short subject;
+    private Integer subject;
 
-    private Short theory;
+    private Integer theory;
 
-    private Short pratice;
+    private Integer pratice;
 
-    private Short animation;
+    private Integer animation;
 
-    private Short documentation;
+    private Integer documentation;
 
-    private Short exercices;
+    private Integer exercices;
 
     private String cons;
 
@@ -31,57 +31,59 @@ public class Rating extends AuditingEntity {
 
     private String suggests;
 
+    private boolean anonymous;
+
     @ManyToOne(optional = false)
     private Session session;
 
     @ManyToOne(optional = false)
     private Employee employee;
 
-    public Short getSubject() {
+    public Integer getSubject() {
         return subject;
     }
 
-    public void setSubject(Short subject) {
+    public void setSubject(Integer subject) {
         this.subject = subject;
     }
 
-    public Short getTheory() {
+    public Integer getTheory() {
         return theory;
     }
 
-    public void setTheory(Short theory) {
+    public void setTheory(Integer theory) {
         this.theory = theory;
     }
 
-    public Short getPratice() {
+    public Integer getPratice() {
         return pratice;
     }
 
-    public void setPratice(Short pratice) {
+    public void setPratice(Integer pratice) {
         this.pratice = pratice;
     }
 
-    public Short getAnimation() {
+    public Integer getAnimation() {
         return animation;
     }
 
-    public void setAnimation(Short animation) {
+    public void setAnimation(Integer animation) {
         this.animation = animation;
     }
 
-    public Short getDocumentation() {
+    public Integer getDocumentation() {
         return documentation;
     }
 
-    public void setDocumentation(Short documentation) {
+    public void setDocumentation(Integer documentation) {
         this.documentation = documentation;
     }
 
-    public Short getExercices() {
+    public Integer getExercices() {
         return exercices;
     }
 
-    public void setExercices(Short exercices) {
+    public void setExercices(Integer exercices) {
         this.exercices = exercices;
     }
 
@@ -107,6 +109,14 @@ public class Rating extends AuditingEntity {
 
     public void setSuggests(String suggests) {
         this.suggests = suggests;
+    }
+
+    public boolean isAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
     }
 
     public Session getSession() {
@@ -159,7 +169,8 @@ public class Rating extends AuditingEntity {
                 .append("animation", animation)
                 .append("documentation", documentation)
                 .append("exercices", exercices)
-                .append("employee", employee)
+                .append("employeeId", employee.getId())
+                .append("sessionId", session.getId())
                 .toString();
     }
 }
