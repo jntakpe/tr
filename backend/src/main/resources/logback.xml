@@ -26,6 +26,7 @@
     <logger name="org.jboss" level="WARN"/>
     <logger name="com.jayway" level="WARN"/>
     <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.hibernate.SQL" level="WARN"/>
     <logger name="org.hibernate.validator" level="WARN"/>
     <logger name="org.hibernate.type" level="INFO"/>
     <logger name="net.sf.ehcache" level="WARN"/>

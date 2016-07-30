@@ -80,7 +80,7 @@ public class SessionServiceTests extends AbstractServiceTests {
 
     @Test
     public void delete_shouldRemoveOne() {
-        Session session = sessionTestsUtils.findAnySession();
+        Session session = sessionTestsUtils.findUnusedSession();
         sessionService.delete(session.getId());
         sessionTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE id='" + session.getId() + "'";

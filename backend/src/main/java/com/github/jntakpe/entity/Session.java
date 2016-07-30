@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Bean représentant une session de formation
@@ -31,6 +33,9 @@ public class Session extends AuditingEntity {
     @Valid
     @ManyToOne(optional = false)
     private Employee trainer;
+
+    @OneToMany(mappedBy = "session")
+    private Set<Rating> ratings = new HashSet<>();
 
     public LocalDate getStart() {
         return start;
@@ -62,6 +67,14 @@ public class Session extends AuditingEntity {
 
     public void setTrainer(Employee trainer) {
         this.trainer = trainer;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
     }
 
     @Override

@@ -46,6 +46,14 @@ public class SessionTestsUtils {
     }
 
     @Transactional(readOnly = true)
+    public Session findUnusedSession() {
+        return sessionRepository.findAll().stream()
+                .filter(s -> s.getRatings().isEmpty())
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("no unused session"));
+    }
+
+    @Transactional(readOnly = true)
     public Session getSessionWithDetachedRelations(LocalDate startDate) {
         Training training = trainingTestsUtils.findDefaultTraining();
         Location location = locationTestsUtils.findDefaultLocation();

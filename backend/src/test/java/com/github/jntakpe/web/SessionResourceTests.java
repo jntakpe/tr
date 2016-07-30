@@ -111,7 +111,7 @@ public class SessionResourceTests extends AbstractResourceTests {
 
     @Test
     public void delete_shouldDelete() throws Exception {
-        Session session = sessionTestsUtils.findAnySession();
+        Session session = sessionTestsUtils.findUnusedSession();
         ResultActions resultActions = realMvc.perform(delete(UriConstants.SESSIONS + "/{id}", session.getId())
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isNoContent());
