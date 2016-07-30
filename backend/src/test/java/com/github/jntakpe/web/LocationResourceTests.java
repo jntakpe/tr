@@ -150,4 +150,22 @@ public class LocationResourceTests {
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isNotFound());
     }
+
+    @Test
+    public void constraints_shouldBeEmpty() throws Exception {
+        Location location = locationTestsUtils.findUnusedLocation();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS + "/{id}/constraints", location.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayEmpty(resultActions);
+    }
+
+    @Test
+    public void constraints_shouldNotBeEmpty() throws Exception {
+        Location location = locationTestsUtils.findUsedLocation();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS + "/{id}/constraints", location.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayNotEmpty(resultActions);
+    }
 }

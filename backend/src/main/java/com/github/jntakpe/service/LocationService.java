@@ -1,6 +1,7 @@
 package com.github.jntakpe.service;
 
 import com.github.jntakpe.entity.Location;
+import com.github.jntakpe.entity.Session;
 import com.github.jntakpe.repository.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Services associés à l'entité {@link Location}
@@ -50,6 +52,18 @@ public class LocationService {
         Location location = findById(id);
         LOGGER.info("Suppression du lieu {}", location);
         locationRepository.delete(location);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> findConstraints(Long id) {
+        Location location = findById(id);
+        return findConstraintStrings(location);
+    }
+
+    private List<String> findConstraintStrings(Location location) {
+        return location.getSessions().stream()
+                .map(Session::toString)
+                .collect(Collectors.toList());
     }
 
     private Location findById(Long id) {

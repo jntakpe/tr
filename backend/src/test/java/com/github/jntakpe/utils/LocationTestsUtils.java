@@ -44,7 +44,15 @@ public class LocationTestsUtils {
         return locationRepository.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
+    public Location findUsedLocation() {
+        return locationRepository.findAll().stream()
+                .filter(l -> !l.getSessions().isEmpty())
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No used location"));
+    }
+
+    @Transactional(readOnly = true)
     public Location findUnusedLocation() {
         return locationRepository.findAll().stream()
                 .filter(l -> l.getSessions().isEmpty())

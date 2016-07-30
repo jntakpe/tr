@@ -49,4 +49,8 @@ public class LocationResource {
         locationService.delete(id);
     }
 
+    @RequestMapping(value = "/{id}/constraints", method = RequestMethod.GET)
+    public List<String> constraints(@PathVariable Long id) {
+        return locationService.findConstraints(id);
+    }
 }

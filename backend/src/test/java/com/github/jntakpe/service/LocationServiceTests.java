@@ -124,6 +124,16 @@ public class LocationServiceTests extends AbstractTestsService {
         fail("should have failed at this point");
     }
 
+    @Test
+    public void findConstraints_shouldBeEmpty() {
+        assertThat(locationService.findConstraints(locationTestsUtils.findUnusedLocation().getId())).isEmpty();
+    }
+
+    @Test
+    public void findConstaints_shouldNotBeEmpty() {
+        assertThat(locationService.findConstraints(locationTestsUtils.findUsedLocation().getId())).isNotEmpty();
+    }
+
     @Override
     public String getTableName() {
         return TABLE_NAME;
