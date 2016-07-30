@@ -31,7 +31,7 @@ public class RatingServiceTests extends AbstractServiceTests {
 
     @Test
     public void findBySessionId_shouldFind() {
-        Long sessionId = ratingTestsUtils.findExistingSessingId();
+        Long sessionId = ratingTestsUtils.findExistingSessionId();
         String request = "SELECT COUNT(0) FROM " + TABLE_NAME + " WHERE session_id='" + sessionId + "'";
         Integer expectedSize = jdbcTemplate.queryForObject(request, Integer.class);
         assertThat(ratingService.findBySessionId(sessionId)).isNotEmpty().hasSize(expectedSize);
@@ -56,6 +56,24 @@ public class RatingServiceTests extends AbstractServiceTests {
                 .orElseThrow(() -> new IllegalStateException("no session corresponding with employee id " + employeeId));
         ratingService.save(rating, sessionId);
         fail("should have failed at this point");
+    }
+
+    @Test
+    public void save_shouldUpdate() {
+        Rating rating = ratingTestsUtils.findAnyRating();
+        ratingTestsUtils.detach(rating);
+        Integer updatedAnim = 2;
+        rating.setAnimation(updatedAnim);
+        ratingService.save(rating, rating.getSession().getId());
+        ratingTestsUtils.flush();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
+        Rating result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+            Rating mapper = new Rating();
+            mapper.setAnimation(rs.getInt("animation"));
+            return mapper;
+        });
+        assertThat(result).isNotNull();
+        assertThat(result.getAnimation()).isEqualTo(updatedAnim);
     }
 
     @Override

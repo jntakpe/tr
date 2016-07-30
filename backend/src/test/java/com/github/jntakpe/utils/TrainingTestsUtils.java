@@ -6,6 +6,9 @@ import com.github.jntakpe.service.TrainingServiceTests;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 /**
  * Méthodes utilitaires pour les tests de l'entité {@link Training}
  *
@@ -15,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class TrainingTestsUtils {
 
     private final TrainingRepository trainingRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public TrainingTestsUtils(TrainingRepository trainingRepository) {
         this.trainingRepository = trainingRepository;
@@ -63,4 +69,7 @@ public class TrainingTestsUtils {
         trainingRepository.flush();
     }
 
+    public void detach(Training training) {
+        entityManager.detach(training);
+    }
 }

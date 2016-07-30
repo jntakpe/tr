@@ -32,7 +32,7 @@ public class RatingResourceTests extends AbstractResourceTests {
 
     @Test
     public void findBySessionId_shouldFind() throws Exception {
-        Long sessionId = ratingTestsUtils.findExistingSessingId();
+        Long sessionId = ratingTestsUtils.findExistingSessionId();
         ResultActions resultActions = realMvc.perform(get(UriConstants.RATINGS, sessionId).accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);

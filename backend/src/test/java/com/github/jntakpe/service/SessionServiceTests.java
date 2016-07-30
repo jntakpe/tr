@@ -68,8 +68,10 @@ public class SessionServiceTests extends AbstractServiceTests {
     public void save_shouldUpdateTraining() {
         Session session = sessionTestsUtils.findAnySession();
         Training updatedTraining = trainingTestsUtils.findAnyTrainingButThis(session.getTraining());
+        sessionTestsUtils.detach(session);
         session.setStart(LocalDate.of(2012, 1, 2));
         session.setTraining(updatedTraining);
+        sessionService.save(session);
         sessionTestsUtils.flush();
         String query = "SELECT training_id FROM " + TABLE_NAME + " WHERE id='" + session.getId() + "'";
         Long trainingId = jdbcTemplate.queryForObject(query, Long.class);

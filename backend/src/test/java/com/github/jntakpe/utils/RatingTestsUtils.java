@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,9 @@ public class RatingTestsUtils {
 
     private final EmployeeTestUtils employeeTestUtils;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
     public RatingTestsUtils(RatingRepository ratingRepository, EmployeeTestUtils employeeTestUtils) {
         this.ratingRepository = ratingRepository;
@@ -28,7 +33,14 @@ public class RatingTestsUtils {
     }
 
     @Transactional(readOnly = true)
-    public Long findExistingSessingId() {
+    public Rating findAnyRating() {
+        return ratingRepository.findAll().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("no rating"));
+    }
+
+    @Transactional(readOnly = true)
+    public Long findExistingSessionId() {
         return ratingRepository.findAll().stream()
                 .findAny()
                 .map(r -> r.getSession().getId())
@@ -40,6 +52,14 @@ public class RatingTestsUtils {
         return ratingRepository.findAll().stream()
                 .filter(r -> r.getEmployee().getId().equals(employeeId))
                 .collect(Collectors.toList());
+    }
+
+    public void detach(Rating rating) {
+        entityManager.detach(rating);
+    }
+
+    public void flush() {
+        ratingRepository.flush();
     }
 
     public Rating newRating() {
@@ -54,4 +74,5 @@ public class RatingTestsUtils {
         rating.setCons("None");
         return rating;
     }
+
 }

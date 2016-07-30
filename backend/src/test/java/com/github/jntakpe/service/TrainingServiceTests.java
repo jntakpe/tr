@@ -68,7 +68,9 @@ public class TrainingServiceTests extends AbstractServiceTests {
     public void save_shouldUpdate() {
         Training training = trainingTestsUtils.findAnyTraining();
         String updatedTrainingName = "updatedTraining";
+        trainingTestsUtils.detach(training);
         training.setName(updatedTrainingName);
+        trainingService.save(training);
         trainingTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedTrainingName + "')";
         Training result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {

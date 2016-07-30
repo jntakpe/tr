@@ -73,8 +73,10 @@ public class LocationServiceTests extends AbstractServiceTests {
     @Test
     public void save_shouldUpdate() {
         Location location = locationTestsUtils.findAnyLocation();
+        locationTestsUtils.detach(location);
         String updatedLocationName = "updatedLocation";
         location.setName(updatedLocationName);
+        locationService.save(location);
         locationTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedLocationName + "')";
         Location result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {

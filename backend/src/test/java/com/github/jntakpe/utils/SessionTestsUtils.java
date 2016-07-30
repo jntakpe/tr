@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 
 /**
@@ -26,6 +28,9 @@ public class SessionTestsUtils {
     private final EmployeeTestUtils employeeTestUtils;
 
     private final SessionRepository sessionRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public SessionTestsUtils(LocationTestsUtils locationTestsUtils,
@@ -82,6 +87,10 @@ public class SessionTestsUtils {
 
     public void flush() {
         sessionRepository.flush();
+    }
+
+    public void detach(Session session) {
+        entityManager.detach(session);
     }
 
     private Session getSession(LocalDate startDate, Location location, Training training, Employee employee) {

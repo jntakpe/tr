@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -18,6 +20,9 @@ import java.util.List;
 public class LocationTestsUtils {
 
     private final LocationRepository locationRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public LocationTestsUtils(LocationRepository locationRepository) {
@@ -64,4 +69,7 @@ public class LocationTestsUtils {
         locationRepository.flush();
     }
 
+    public void detach(Location location) {
+        entityManager.detach(location);
+    }
 }
