@@ -11,10 +11,6 @@ spring:
   jackson:
     serialization:
       write_dates_as_timestamps: false
-security:
-  ignored: /api/**
-  basic:
-    enabled: false
 api:
   title: Training Rating API documentation
   description: Documentation de l'API REST exposée par l'application 'Training Rating'
@@ -26,3 +22,11 @@ api:
     name : Jocelyn NTAKPE
     url: http://github.com/jntakpe
     mail: j.ntakpe@gmail.com
+oauth2:
+  clientId: trainingrating
+  secret: supertrainingratingsecret
+  accessTokenValiditySeconds: 180
+  refreshTokenValidityMinutes: 60
+  keystoreKey: trainingratingkey
+  keystorePass: storepass
+  keystoreKeyPass: storekeypass
