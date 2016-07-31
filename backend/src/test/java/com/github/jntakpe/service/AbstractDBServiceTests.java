@@ -16,7 +16,7 @@ import javax.sql.DataSource;
  * @author jntakpe
  */
 @SpringBootTest
-public abstract class AbstractServiceTests extends AbstractTransactionalJUnit4SpringContextTests {
+public abstract class AbstractDBServiceTests extends AbstractTransactionalJUnit4SpringContextTests {
 
     protected int nbEntries;
 

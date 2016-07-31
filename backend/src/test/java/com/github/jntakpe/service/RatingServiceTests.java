@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.fail;
  *
  * @author jntakpe
  */
-public class RatingServiceTests extends AbstractServiceTests {
+public class RatingServiceTests extends AbstractDBServiceTests {
 
     public static final String TABLE_NAME = "rating";
 

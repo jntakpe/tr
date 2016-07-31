@@ -27,6 +27,7 @@ oauth2:
   secret: supertrainingratingsecret
   accessTokenValiditySeconds: 180
   refreshTokenValidityMinutes: 60
+  ldapCheckIntervalInHours: 48
   keystoreKey: trainingratingkey
   keystorePass: storepass
   keystoreKeyPass: storekeypass

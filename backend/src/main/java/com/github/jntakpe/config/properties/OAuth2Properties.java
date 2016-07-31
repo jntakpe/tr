@@ -20,6 +20,8 @@ public class OAuth2Properties {
 
     private Integer refreshTokenValidityMinutes = 60;
 
+    private Integer ldapCheckIntervalInHours = 48;
+
     private String keystoreKey;
 
     private String keystorePass;
@@ -56,6 +58,14 @@ public class OAuth2Properties {
 
     public void setRefreshTokenValidityMinutes(Integer refreshTokenValidityMinutes) {
         this.refreshTokenValidityMinutes = refreshTokenValidityMinutes;
+    }
+
+    public Integer getLdapCheckIntervalInHours() {
+        return ldapCheckIntervalInHours;
+    }
+
+    public void setLdapCheckIntervalInHours(Integer ldapCheckIntervalInHours) {
+        this.ldapCheckIntervalInHours = ldapCheckIntervalInHours;
     }
 
     public String getKeystoreKey() {

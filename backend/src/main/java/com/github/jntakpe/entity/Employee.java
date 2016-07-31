@@ -1,10 +1,12 @@
 package com.github.jntakpe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -33,6 +35,12 @@ public class Employee extends AuditingEntity {
     private String phone;
 
     private String location;
+
+    @JsonIgnore
+    private String password;
+
+    @JsonIgnore
+    private LocalDateTime lastLdapCheck;
 
     public String getLogin() {
         return login;
@@ -94,6 +102,22 @@ public class Employee extends AuditingEntity {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDateTime getLastLdapCheck() {
+        return lastLdapCheck;
+    }
+
+    public void setLastLdapCheck(LocalDateTime lastLdapCheck) {
+        this.lastLdapCheck = lastLdapCheck;
     }
 
     @Override

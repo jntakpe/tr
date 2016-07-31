@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.fail;
  *
  * @author jntakpe
  */
-public class TrainingServiceTests extends AbstractServiceTests {
+public class TrainingServiceTests extends AbstractDBServiceTests {
 
     public static final String EXISTING_NAME = "Hibernate";
 
