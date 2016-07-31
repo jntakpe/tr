@@ -2,9 +2,9 @@
 
 -- Table Employee
 
-INSERT INTO employee (login, email, created_by, created_date) VALUES ('jntakpe', 'jntakpe@mail.com', 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO employee (login, email, created_by, created_date) VALUES ('gpeel', 'gpeel@mail.com','jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO employee (login, email, created_by, created_date) VALUES ('sbourret', 'sbourret@mail.com','gpeel', CURRENT_TIMESTAMP);
+INSERT INTO employee (login, email, first_name, last_name, department, phone, location, created_by, created_date) VALUES ('jntakpe', 'jocelyn.ntakpe@soprasteria.com', 'Jocelyn', 'N''takpe', '512 SF CRÉDIT AGRICOLE LBP BDF', '5 1394', 'TOULOUSE COLO 1 - B1&B2', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO employee (login, email, first_name, last_name, department, phone, location, created_by, created_date) VALUES ('gpeel', 'gauthier.peel@soprasteria.com', 'Gauthier', 'Peel', '042 DRH FORMATION ET DÉVELOPPEMENT', '4 7629', 'AIX PICHAURY', 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO employee (login, email, first_name, last_name, department, phone, location, created_by, created_date) VALUES ('sbourret', 'sebastien.bourret@soprasteria.com', 'Sébastien', 'Bourret', '112 LYON INDUSTRIE', '4 5572', 'LYON LIMONEST', 'jntakpe', CURRENT_TIMESTAMP);
 
 -- Table Training
 

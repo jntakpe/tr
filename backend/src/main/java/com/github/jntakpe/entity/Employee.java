@@ -19,14 +19,20 @@ public class Employee extends AuditingEntity {
     @Column(unique = true, nullable = false)
     private String login;
 
-    private String firstName;
-
-    private String lastName;
-
     @Email
     @NotNull
     @Column(unique = true, nullable = false)
     private String email;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String department;
+
+    private String phone;
+
+    private String location;
 
     public String getLogin() {
         return login;
@@ -37,6 +43,17 @@ public class Employee extends AuditingEntity {
             this.login = login.toLowerCase();
         }
         this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if (Objects.nonNull(email)) {
+            this.email = email.toLowerCase();
+        }
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -55,15 +72,28 @@ public class Employee extends AuditingEntity {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setEmail(String email) {
-        if (Objects.nonNull(email)) {
-            this.email = email.toLowerCase();
-        }
-        this.email = email;
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     @Override
