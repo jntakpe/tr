@@ -11,7 +11,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,6 @@ import java.time.LocalDateTime;
 public class DatabaseUserDetailsService implements UserDetailsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseUserDetailsService.class);
-
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private final EmployeeService employeeService;
 
@@ -47,7 +44,8 @@ public class DatabaseUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Impossible de trouver l'utilisateur %s en DB", username)));
     }
 
-    public void checkPassword(UserDetails user, String rawPassword) throws BadCredentialsException {
+    public void checkPassword(UserDetails user, String rawPassword, PasswordEncoder passwordEncoder)
+            throws BadCredentialsException {
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new BadCredentialsException(String.format("Le mot de passe de l'utilisateur %s est incorrect", user.getUsername()));
         }

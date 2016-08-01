@@ -20,8 +20,10 @@ ldap:
     admin: Sopra TMA Cacp PM
     user: Sopra TMA Cacp Activite
   attributes:
+    login: sAMAccountName
     fisrtName: givenname
     lastName: sn
     mail: mail
     location: l
     department: department
+    phone: telephoneNumber

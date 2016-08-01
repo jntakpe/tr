@@ -1,16 +1,20 @@
 package com.github.jntakpe.config.security;
 
+import com.github.jntakpe.config.ProfileConstants;
+import com.github.jntakpe.entity.Employee;
+import com.github.jntakpe.mapper.LdapEmployeeMapper;
+import com.github.jntakpe.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.ldap.authentication.LdapAuthenticator;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,48 +23,48 @@ import org.springframework.stereotype.Component;
  * @author jntakpe
  */
 @Component
-public class CompositeAuthentificationProvider implements AuthenticationProvider {
+@Profile(ProfileConstants.PROD)
+public class CompositeAuthentificationProvider extends DatabaseAuthentificationProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositeAuthentificationProvider.class);
 
-    private final DatabaseUserDetailsService databaseUserDetailsService;
+    private final LdapAuthenticator ldapAuthenticator;
 
-    @Autowired
-    public CompositeAuthentificationProvider(DatabaseUserDetailsService databaseUserDetailsService) {
-        this.databaseUserDetailsService = databaseUserDetailsService;
+    private final LdapEmployeeMapper ldapEmployeeMapper;
+
+    private final EmployeeService employeeService;
+
+    public CompositeAuthentificationProvider(DatabaseUserDetailsService databaseUserDetailsService,
+                                             LdapAuthenticator ldapAuthenticator,
+                                             LdapEmployeeMapper ldapEmployeeMapper,
+                                             EmployeeService employeeService) {
+        super(databaseUserDetailsService);
+        this.ldapAuthenticator = ldapAuthenticator;
+        this.ldapEmployeeMapper = ldapEmployeeMapper;
+        this.employeeService = employeeService;
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String password = (String) authentication.getCredentials();
-        UserDetails userDetails = retrieveUser(authentication.getName(), password);
-        return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-    }
-
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return true;
-    }
-
-    private UserDetails retrieveUser(String username, String password) {
+    protected UserDetails retrieveUser(Authentication authentication) {
         try {
-            return retrieveUserFromDB(username, password);
+            return super.retrieveUser(authentication);
         } catch (UsernameNotFoundException | AccountExpiredException | BadCredentialsException e) {
-            LOGGER.info("Impossible de connecter l'utilisateur depuis la DB", e);
-            //TODO ici appeler le LDAP
-            throw e;
+            LOGGER.info("Impossible de connecter l'utilisateur {} depuis la DB", authentication.getName());
+            try {
+                return retrieveUserFromLdap(authentication);
+            } catch (BadCredentialsException bce) {
+                LOGGER.warn("Impossible de connecteur l'utilisateur {} depuis le LDAP", authentication.getName());
+                throw bce;
+            }
         }
     }
 
-    private UserDetails retrieveUserFromDB(String username, String password) {
-        UserDetails user = databaseUserDetailsService.loadUserByUsername(username);
-        databaseUserDetailsService.checkPassword(user, password);
-        LOGGER.info("Utilisateur {} connecté depuis la DB", username);
-        return user;
-    }
-
-    private UserDetails retrieveUserFromLdap(String username, String password) {
-        return null;
+    private UserDetails retrieveUserFromLdap(Authentication authentication) {
+        DirContextOperations ctx = ldapAuthenticator.authenticate(authentication);
+        Employee ldapEmployee = ldapEmployeeMapper.map(ctx);
+        ldapEmployee.setPassword(passwordEncoder.encode((CharSequence) authentication.getCredentials()));
+        Employee employee = employeeService.saveFromLdap(ldapEmployee);
+        return new SpringSecurityUser(employee);
     }
 
 }

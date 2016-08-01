@@ -187,6 +187,9 @@ public class LdapProperties {
     public static class Attributes {
 
         @NotNull
+        private String login;
+
+        @NotNull
         private String fisrtName;
 
         @NotNull
@@ -200,6 +203,17 @@ public class LdapProperties {
 
         @NotNull
         private String department;
+
+        @NotNull
+        private String phone;
+
+        public String getLogin() {
+            return login;
+        }
+
+        public void setLogin(String login) {
+            this.login = login;
+        }
 
         public String getFisrtName() {
             return fisrtName;
@@ -239,6 +253,14 @@ public class LdapProperties {
 
         public void setDepartment(String department) {
             this.department = department;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
     }
 
