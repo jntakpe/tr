@@ -59,4 +59,8 @@ public class CompositeAuthentificationProvider implements AuthenticationProvider
         return user;
     }
 
+    private UserDetails retrieveUserFromLdap(String username, String password) {
+        return null;
+    }
+
 }
