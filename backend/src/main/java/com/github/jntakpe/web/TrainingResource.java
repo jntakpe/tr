@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * Publication de la ressource {@link com.github.jntakpe.entity.Training}
+ * Publication de la ressource {@link Training}
  *
  * @author jntakpe
  */

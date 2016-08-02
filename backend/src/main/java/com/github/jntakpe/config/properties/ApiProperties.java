@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * Proprités de l'API exposée par SwaggerÈ
+ * Proprités de l'API exposée par Swagger
  *
  * @author jntakpe
  */

@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  * Configuration du serveur de ressources OAuth2
  *
  * @author jntakpe
+ * @see ResourceServerConfigurerAdapter
  */
 @Configuration
 @EnableResourceServer

@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
  * Permet de récupérer l'utilisateur a connecter depuis une base de données
  *
  * @author jntakpe
+ * @see UserDetailsService
  */
 @Service
 public class DatabaseUserDetailsService implements UserDetailsService {

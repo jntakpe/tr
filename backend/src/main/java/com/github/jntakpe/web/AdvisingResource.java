@@ -11,7 +11,7 @@ import javax.persistence.PersistenceException;
 import javax.validation.ValidationException;
 
 /**
- * Ressource gérant les aspects transverses
+ * Ressource gérant les aspects transverses des contrôleurs / ressources
  *
  * @author jntakpe
  */

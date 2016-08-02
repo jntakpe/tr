@@ -12,9 +12,10 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 /**
- * Entité abstraite contenant les champs communs aux différentes entités
+ * Entité abstraite contenant les champs d'audits
  *
  * @author jntakpe
+ * @see IdentifiableEntity
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

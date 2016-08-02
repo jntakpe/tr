@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
  * Bean représentant une évaluation
  *
  * @author jntakpe
+ * @see AuditingEntity
  */
 @Entity
 public class Rating extends AuditingEntity {

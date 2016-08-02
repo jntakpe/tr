@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
  * Entité représentant un rôle applicatif
  *
  * @author jntakpe
+ * @see AuditingEntity
  */
 @Entity
 public class Authority extends AuditingEntity {

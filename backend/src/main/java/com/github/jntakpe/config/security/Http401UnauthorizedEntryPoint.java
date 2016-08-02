@@ -15,6 +15,7 @@ import java.io.IOException;
  * Gestion des tentatives d'accès non autorisées pour Spring Security
  *
  * @author jntakpe
+ * @see AuthenticationEntryPoint
  */
 @Component
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {

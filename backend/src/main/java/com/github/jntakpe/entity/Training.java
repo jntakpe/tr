@@ -15,6 +15,7 @@ import java.util.Set;
  * Bean représentant une formation
  *
  * @author jntakpe
+ * @see AuditingEntity
  */
 @Entity
 public class Training extends AuditingEntity {

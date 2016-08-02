@@ -9,6 +9,7 @@ import java.util.Objects;
  * Récupération du nom d'utilisateur courant
  *
  * @author jntakpe
+ * @see AuditorAware
  */
 @Component
 public class SpringSecurityAuditorAware implements AuditorAware<String> {

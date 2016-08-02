@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
  * {@link AuthenticationProvider} permettant d'authentifier un utilisateur depuis la base de données
  *
  * @author jntakpe
+ * @see AuthenticationProvider
  */
 @Component
 public class DatabaseAuthentificationProvider implements AuthenticationProvider {

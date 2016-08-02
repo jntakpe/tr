@@ -13,6 +13,7 @@ import java.util.Set;
  * Bean représentant une session de formation
  *
  * @author jntakpe
+ * @see AuditingEntity
  */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"start", "location_id", "training_id", "trainer_id"})})

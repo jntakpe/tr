@@ -12,6 +12,7 @@ import java.util.Set;
  * Entité représentant un lieu de formation
  *
  * @author jntakpe
+ * @see AuditingEntity
  */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "city"})})

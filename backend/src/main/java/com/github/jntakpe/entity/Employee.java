@@ -13,6 +13,7 @@ import java.util.Objects;
  * Entité représentant un employé de Sopra Steria
  *
  * @author jntakpe
+ * @see AuditingEntity
  */
 @Entity
 public class Employee extends AuditingEntity {

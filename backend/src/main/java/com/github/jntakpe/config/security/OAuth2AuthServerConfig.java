@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * Configuration du serveur d'authorisation OAuth2
  *
  * @author jntakpe
+ * @see AuthorizationServerConfigurerAdapter
  */
 @Configuration
 @EnableAuthorizationServer

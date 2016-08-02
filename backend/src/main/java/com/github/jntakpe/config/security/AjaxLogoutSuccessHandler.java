@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Gestion des déconnexion
+ * Gestion des déconnexions
  *
  * @author jntakpe
+ * @see AbstractAuthenticationTargetUrlRequestHandler
+ * @see LogoutSuccessHandler
  */
 @Component
 public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlRequestHandler implements LogoutSuccessHandler {

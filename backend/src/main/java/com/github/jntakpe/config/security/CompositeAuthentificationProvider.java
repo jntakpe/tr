@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
  * {@link AuthenticationProvider} permettant d'authentifier un utilisateur depuis le LDAP en récupérant les droits en DB
  *
  * @author jntakpe
+ * @see DatabaseAuthentificationProvider
  */
 @Component
 @Profile(ProfileConstants.PROD)

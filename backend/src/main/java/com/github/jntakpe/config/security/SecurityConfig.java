@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
  * Configuration de Spring Security
  *
  * @author jntakpe
+ * @see WebSecurityConfigurerAdapter
  */
 @Configuration
 @EnableWebSecurity
