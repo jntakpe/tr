@@ -8,7 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -22,12 +21,15 @@ import org.springframework.stereotype.Component;
 public class DatabaseAuthentificationProvider implements AuthenticationProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositeAuthentificationProvider.class);
+
     private final DatabaseUserDetailsService databaseUserDetailsService;
-    protected PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DatabaseAuthentificationProvider(DatabaseUserDetailsService databaseUserDetailsService) {
+    public DatabaseAuthentificationProvider(DatabaseUserDetailsService databaseUserDetailsService, PasswordEncoder passwordEncoder) {
         this.databaseUserDetailsService = databaseUserDetailsService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override

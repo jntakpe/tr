@@ -1,11 +1,11 @@
 package com.github.jntakpe.config.security;
 
 import com.github.jntakpe.config.ProfileConstants;
-import com.github.jntakpe.mapper.LdapEmployeeMapper;
 import com.github.jntakpe.model.Employee;
-import com.github.jntakpe.service.EmployeeService;
+import com.github.jntakpe.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -14,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.ldap.authentication.LdapAuthenticator;
 import org.springframework.stereotype.Component;
 
@@ -31,18 +32,16 @@ public class CompositeAuthentificationProvider extends DatabaseAuthentificationP
 
     private final LdapAuthenticator ldapAuthenticator;
 
-    private final LdapEmployeeMapper ldapEmployeeMapper;
+    private final PersonService personService;
 
-    private final EmployeeService employeeService;
-
+    @Autowired
     public CompositeAuthentificationProvider(DatabaseUserDetailsService databaseUserDetailsService,
+                                             PasswordEncoder passwordEncoder,
                                              LdapAuthenticator ldapAuthenticator,
-                                             LdapEmployeeMapper ldapEmployeeMapper,
-                                             EmployeeService employeeService) {
-        super(databaseUserDetailsService);
+                                             PersonService personService) {
+        super(databaseUserDetailsService, passwordEncoder);
         this.ldapAuthenticator = ldapAuthenticator;
-        this.ldapEmployeeMapper = ldapEmployeeMapper;
-        this.employeeService = employeeService;
+        this.personService = personService;
     }
 
     @Override
@@ -62,9 +61,7 @@ public class CompositeAuthentificationProvider extends DatabaseAuthentificationP
 
     private UserDetails retrieveUserFromLdap(Authentication authentication) {
         DirContextOperations ctx = ldapAuthenticator.authenticate(authentication);
-        Employee ldapEmployee = ldapEmployeeMapper.map(ctx);
-        ldapEmployee.setPassword(passwordEncoder.encode((CharSequence) authentication.getCredentials()));
-        Employee employee = employeeService.saveFromLdap(ldapEmployee);
+        Employee employee = personService.save(ctx, (String) authentication.getCredentials());
         return new SpringSecurityUser(employee);
     }
 

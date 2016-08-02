@@ -1,56 +1,54 @@
 package com.github.jntakpe.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.Email;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.ldap.odm.annotations.Attribute;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import javax.naming.Name;
+import javax.persistence.Id;
 import java.util.Objects;
 
 /**
- * Entité représentant un employé de Sopra Steria
+ * Entité représentant une personne récupérée depuis le LDAP
  *
  * @author jntakpe
- * @see AuditingEntity
  */
-@Entity
-public class Employee extends AuditingEntity {
+public class Person {
 
-    @NotNull
-    @Column(unique = true, nullable = false)
+    @Id
+    private Name name;
+
+    @Attribute(name = "sAMAccountName")
     private String login;
 
-    @Email
-    @NotNull
-    @Column(unique = true, nullable = false)
     private String email;
 
+    @Attribute(name = "givenname")
     private String firstName;
 
+    @Attribute(name = "sn")
     private String lastName;
 
     private String department;
 
+    @Attribute(name = "telephoneNumber")
     private String phone;
 
+    @Attribute(name = "l")
     private String location;
 
-    @JsonIgnore
-    private String password;
+    public Name getName() {
+        return name;
+    }
 
-    @JsonIgnore
-    private LocalDateTime lastLdapCheck = LocalDateTime.now();
+    public void setName(Name name) {
+        this.name = name;
+    }
 
     public String getLogin() {
         return login;
     }
 
     public void setLogin(String login) {
-        if (Objects.nonNull(login)) {
-            this.login = login.toLowerCase();
-        }
         this.login = login;
     }
 
@@ -59,9 +57,6 @@ public class Employee extends AuditingEntity {
     }
 
     public void setEmail(String email) {
-        if (Objects.nonNull(email)) {
-            this.email = email.toLowerCase();
-        }
         this.email = email;
     }
 
@@ -105,40 +100,29 @@ public class Employee extends AuditingEntity {
         this.location = location;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDateTime getLastLdapCheck() {
-        return lastLdapCheck;
-    }
-
-    public void setLastLdapCheck(LocalDateTime lastLdapCheck) {
-        this.lastLdapCheck = lastLdapCheck;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Person)) {
             return false;
         }
-
-        Employee employee = (Employee) o;
-
-        return login.equals(employee.login);
+        Person person = (Person) o;
+        return Objects.equals(login, person.login);
     }
 
     @Override
     public int hashCode() {
-        return login.hashCode();
+        return Objects.hash(login);
     }
 
-
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("login", login)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .toString();
+    }
 }

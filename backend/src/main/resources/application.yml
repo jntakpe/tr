@@ -21,7 +21,7 @@ api:
   contact:
     name : Jocelyn NTAKPE
     url: http://github.com/jntakpe
-    mail: j.ntakpe@gmail.com
+    email: j.ntakpe@gmail.com
 oauth2:
   clientId: trainingrating
   secret: supertrainingratingsecret

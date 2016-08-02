@@ -40,7 +40,6 @@ public class EmployeeService {
         employee.setLastLdapCheck(LocalDateTime.now());
         findByLogin(employee.getLogin()).ifPresent(e -> employee.setId(e.getId()));
         return employeeRepository.save(employee);
-
     }
 
 }

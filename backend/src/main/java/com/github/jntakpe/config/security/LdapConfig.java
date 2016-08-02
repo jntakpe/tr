@@ -2,7 +2,6 @@ package com.github.jntakpe.config.security;
 
 import com.github.jntakpe.config.ProfileConstants;
 import com.github.jntakpe.config.properties.LdapProperties;
-import com.github.jntakpe.mapper.LdapEmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +21,9 @@ public class LdapConfig {
 
     private final LdapProperties ldapProperties;
 
-    private final LdapEmployeeMapper ldapEmployeeMapper;
-
     @Autowired
-    public LdapConfig(LdapProperties ldapProperties, LdapEmployeeMapper ldapEmployeeMapper) {
+    public LdapConfig(LdapProperties ldapProperties) {
         this.ldapProperties = ldapProperties;
-        this.ldapEmployeeMapper = ldapEmployeeMapper;
     }
 
     @Bean

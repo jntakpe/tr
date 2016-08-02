@@ -28,29 +28,7 @@ public class LdapProperties {
     private Users users;
 
     @Valid
-    private Groups groups;
-
-    @Valid
-    private Roles roles;
-
-    @Valid
     private Attributes attributes;
-
-    public Attributes getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Attributes attributes) {
-        this.attributes = attributes;
-    }
-
-    public Roles getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Roles roles) {
-        this.roles = roles;
-    }
 
     public String getUrl() {
         return url;
@@ -76,12 +54,12 @@ public class LdapProperties {
         this.users = users;
     }
 
-    public Groups getGroups() {
-        return groups;
+    public Attributes getAttributes() {
+        return attributes;
     }
 
-    public void setGroups(Groups groups) {
-        this.groups = groups;
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
     }
 
     public static class Browsing {
@@ -134,56 +112,6 @@ public class LdapProperties {
         }
     }
 
-    public static class Groups {
-
-        @NotNull
-        private String base;
-
-        @NotNull
-        private String search;
-
-        public String getBase() {
-            return base;
-        }
-
-        public void setBase(String base) {
-            this.base = base;
-        }
-
-        public String getSearch() {
-            return search;
-        }
-
-        public void setSearch(String search) {
-            this.search = search;
-        }
-    }
-
-    public static class Roles {
-
-        @NotNull
-        private String admin;
-
-        @NotNull
-        private String user;
-
-        public String getAdmin() {
-            return admin;
-        }
-
-        public void setAdmin(String admin) {
-            this.admin = admin;
-        }
-
-        public String getUser() {
-            return user;
-        }
-
-        public void setUser(String user) {
-            this.user = user;
-        }
-    }
-
     public static class Attributes {
 
         @NotNull
@@ -196,7 +124,7 @@ public class LdapProperties {
         private String lastName;
 
         @NotNull
-        private String mail;
+        private String email;
 
         @NotNull
         private String location;
@@ -231,12 +159,12 @@ public class LdapProperties {
             this.lastName = lastName;
         }
 
-        public String getMail() {
-            return mail;
+        public String getEmail() {
+            return email;
         }
 
-        public void setMail(String mail) {
-            this.mail = mail;
+        public void setEmail(String email) {
+            this.email = email;
         }
 
         public String getLocation() {
