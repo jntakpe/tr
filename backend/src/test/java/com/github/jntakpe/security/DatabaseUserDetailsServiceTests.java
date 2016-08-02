@@ -10,7 +10,7 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +31,9 @@ public class DatabaseUserDetailsServiceTests {
 
     @Autowired
     private DatabaseUserDetailsService databaseUserDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void loadUserByUsername_shouldLoadUser() {
@@ -54,13 +57,13 @@ public class DatabaseUserDetailsServiceTests {
     @Test
     public void checkPassword_shouldMatch() {
         UserDetails user = databaseUserDetailsService.loadUserByUsername(EmployeeServiceTests.EXISTING_LOGIN);
-        databaseUserDetailsService.checkPassword(user, DEFAULT_PASSWORD, new BCryptPasswordEncoder());
+        databaseUserDetailsService.checkPassword(user, DEFAULT_PASSWORD, passwordEncoder);
     }
 
     @Test(expected = BadCredentialsException.class)
     public void checkPassword_shouldFailCuzBadCredentials() {
         UserDetails user = databaseUserDetailsService.loadUserByUsername(EmployeeServiceTests.EXISTING_LOGIN);
-        databaseUserDetailsService.checkPassword(user, "wrongpass", new BCryptPasswordEncoder());
+        databaseUserDetailsService.checkPassword(user, "wrongpass", passwordEncoder);
     }
 
 }

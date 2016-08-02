@@ -1,10 +1,6 @@
 spring:
   profiles:
     active: prod
-  datasource:
-    url: jdbc:postgresql://localhost:5432/tr
-    username: postgres
-    password: sopra*
 ldap:
   url: ldap://ptx.ldap-ad.dmsi.corp.sopra:3268/DC=emea,DC=msad,DC=sopra
   browsing:

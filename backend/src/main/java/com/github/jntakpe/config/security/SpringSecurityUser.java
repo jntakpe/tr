@@ -18,8 +18,6 @@ public class SpringSecurityUser extends User {
 
     private Long id;
 
-    private String password;
-
     private String email;
 
     private String firstName;
@@ -54,15 +52,6 @@ public class SpringSecurityUser extends User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
