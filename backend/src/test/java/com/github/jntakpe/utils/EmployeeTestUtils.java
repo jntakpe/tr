@@ -1,6 +1,6 @@
 package com.github.jntakpe.utils;
 
-import com.github.jntakpe.entity.Employee;
+import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.repository.EmployeeRepository;
 import com.github.jntakpe.service.EmployeeServiceTests;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.github.jntakpe.entity;
+package com.github.jntakpe.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

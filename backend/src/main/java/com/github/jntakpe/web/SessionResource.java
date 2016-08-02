@@ -1,7 +1,7 @@
 package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
-import com.github.jntakpe.entity.Session;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.github.jntakpe.repository;
 
-import com.github.jntakpe.entity.Employee;
+import com.github.jntakpe.model.Employee;
 
 import java.util.Optional;
 

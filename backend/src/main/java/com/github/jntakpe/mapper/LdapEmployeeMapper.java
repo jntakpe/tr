@@ -2,7 +2,7 @@ package com.github.jntakpe.mapper;
 
 import com.github.jntakpe.config.ProfileConstants;
 import com.github.jntakpe.config.properties.LdapProperties;
-import com.github.jntakpe.entity.Employee;
+import com.github.jntakpe.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.ldap.core.DirContextOperations;

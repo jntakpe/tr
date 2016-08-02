@@ -1,6 +1,6 @@
 package com.github.jntakpe.utils;
 
-import com.github.jntakpe.entity.Training;
+import com.github.jntakpe.model.Training;
 import com.github.jntakpe.repository.TrainingRepository;
 import com.github.jntakpe.service.TrainingServiceTests;
 import org.springframework.stereotype.Component;

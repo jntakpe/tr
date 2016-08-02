@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests associés à l'entité {@link com.github.jntakpe.entity.Employee}
+ * Tests associés à l'entité {@link com.github.jntakpe.model.Employee}
  *
  * @author jntakpe
  */

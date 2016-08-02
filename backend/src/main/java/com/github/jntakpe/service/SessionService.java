@@ -1,6 +1,6 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.entity.Session;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.repository.SessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

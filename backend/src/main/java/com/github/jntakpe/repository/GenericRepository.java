@@ -1,6 +1,6 @@
 package com.github.jntakpe.repository;
 
-import com.github.jntakpe.entity.AuditingEntity;
+import com.github.jntakpe.model.AuditingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

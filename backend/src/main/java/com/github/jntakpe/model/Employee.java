@@ -1,4 +1,4 @@
-package com.github.jntakpe.entity;
+package com.github.jntakpe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;

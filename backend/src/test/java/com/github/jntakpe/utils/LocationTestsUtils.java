@@ -1,6 +1,6 @@
 package com.github.jntakpe.utils;
 
-import com.github.jntakpe.entity.Location;
+import com.github.jntakpe.model.Location;
 import com.github.jntakpe.repository.LocationRepository;
 import com.github.jntakpe.service.LocationServiceTests;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package com.github.jntakpe.service;
 
 import com.github.jntakpe.config.security.SecurityUtils;
-import com.github.jntakpe.entity.Employee;
-import com.github.jntakpe.entity.Rating;
-import com.github.jntakpe.entity.Session;
+import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.Rating;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.repository.RatingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

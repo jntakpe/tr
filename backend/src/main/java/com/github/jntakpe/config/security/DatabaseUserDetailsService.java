@@ -1,7 +1,7 @@
 package com.github.jntakpe.config.security;
 
 import com.github.jntakpe.config.properties.OAuth2Properties;
-import com.github.jntakpe.entity.Employee;
+import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

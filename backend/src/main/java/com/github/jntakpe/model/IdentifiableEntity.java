@@ -1,4 +1,4 @@
-package com.github.jntakpe.entity;
+package com.github.jntakpe.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

@@ -1,34 +1,32 @@
-package com.github.jntakpe.entity;
+package com.github.jntakpe.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * Bean représentant une formation
+ * Entité représentant un lieu de formation
  *
  * @author jntakpe
  * @see AuditingEntity
  */
 @Entity
-public class Training extends AuditingEntity {
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "city"})})
+public class Location extends AuditingEntity {
 
     @NotNull
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
-    @Min(1)
     @NotNull
-    private Integer duration;
+    @Column(nullable = false)
+    private String city;
 
-    @OneToMany(mappedBy = "training")
+    @OneToMany(mappedBy = "location")
     private Set<Session> sessions = new HashSet<>();
 
     public String getName() {
@@ -39,12 +37,12 @@ public class Training extends AuditingEntity {
         this.name = Objects.nonNull(name) ? name.toLowerCase() : null;
     }
 
-    public Integer getDuration() {
-        return duration;
+    public String getCity() {
+        return city;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public Set<Session> getSessions() {
@@ -60,26 +58,22 @@ public class Training extends AuditingEntity {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Location)) {
             return false;
         }
-
-        Training training = (Training) o;
-
-        return name.equals(training.name);
+        Location location = (Location) o;
+        return Objects.equals(name, location.name);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("name", name)
-                .append("duration", duration)
                 .toString();
     }
-
 }

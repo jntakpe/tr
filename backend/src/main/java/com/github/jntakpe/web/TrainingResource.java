@@ -1,7 +1,7 @@
 package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
-import com.github.jntakpe.entity.Training;
+import com.github.jntakpe.model.Training;
 import com.github.jntakpe.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

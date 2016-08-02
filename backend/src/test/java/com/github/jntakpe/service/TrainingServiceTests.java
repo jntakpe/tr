@@ -1,7 +1,7 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.entity.Session;
-import com.github.jntakpe.entity.Training;
+import com.github.jntakpe.model.Session;
+import com.github.jntakpe.model.Training;
 import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

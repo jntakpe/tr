@@ -1,6 +1,6 @@
 package com.github.jntakpe.repository;
 
-import com.github.jntakpe.entity.Training;
+import com.github.jntakpe.model.Training;
 
 import java.util.Optional;
 

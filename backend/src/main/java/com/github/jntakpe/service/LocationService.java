@@ -1,7 +1,7 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.entity.Location;
-import com.github.jntakpe.entity.Session;
+import com.github.jntakpe.model.Location;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.repository.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

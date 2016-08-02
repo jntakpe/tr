@@ -1,6 +1,6 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.entity.Rating;
+import com.github.jntakpe.model.Rating;
 import com.github.jntakpe.utils.RatingTestsUtils;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import org.junit.Test;

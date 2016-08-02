@@ -1,8 +1,8 @@
 package com.github.jntakpe.repository;
 
-import com.github.jntakpe.entity.Employee;
-import com.github.jntakpe.entity.Rating;
-import com.github.jntakpe.entity.Session;
+import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.Rating;
+import com.github.jntakpe.model.Session;
 
 import java.util.List;
 import java.util.Optional;

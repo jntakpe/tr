@@ -1,9 +1,9 @@
 package com.github.jntakpe.utils;
 
-import com.github.jntakpe.entity.Employee;
-import com.github.jntakpe.entity.Location;
-import com.github.jntakpe.entity.Session;
-import com.github.jntakpe.entity.Training;
+import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.Location;
+import com.github.jntakpe.model.Session;
+import com.github.jntakpe.model.Training;
 import com.github.jntakpe.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

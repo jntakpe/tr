@@ -1,7 +1,7 @@
 package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
-import com.github.jntakpe.entity.Location;
+import com.github.jntakpe.model.Location;
 import com.github.jntakpe.service.LocationService;
 import com.github.jntakpe.utils.LocationTestsUtils;
 import org.junit.Test;

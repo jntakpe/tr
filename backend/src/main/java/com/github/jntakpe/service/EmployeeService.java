@@ -1,6 +1,6 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.entity.Employee;
+import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

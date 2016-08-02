@@ -1,7 +1,7 @@
 package com.github.jntakpe.config.security;
 
-import com.github.jntakpe.entity.Authority;
-import com.github.jntakpe.entity.Employee;
+import com.github.jntakpe.model.Authority;
+import com.github.jntakpe.model.Employee;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

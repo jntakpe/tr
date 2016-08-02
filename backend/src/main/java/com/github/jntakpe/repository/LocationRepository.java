@@ -1,6 +1,6 @@
 package com.github.jntakpe.repository;
 
-import com.github.jntakpe.entity.Location;
+import com.github.jntakpe.model.Location;
 
 import java.util.Optional;
 
