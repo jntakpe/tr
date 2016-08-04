@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author jntakpe
  */
 @ActiveProfiles(ProfileConstants.PROD)
-public class PersonServiceTests extends AbstractDBServiceTests {
+public class PersonServiceIT extends AbstractDBServiceTests {
 
     private static final String TABLE_NAME = "employee";
 
@@ -66,6 +66,7 @@ public class PersonServiceTests extends AbstractDBServiceTests {
         assertThat(employee.getFirstName()).isNotEqualToIgnoringCase(joss);
         assertThat(employee.getFirstName()).isEqualToIgnoringCase("Jocelyn");
     }
+
 
     @Override
     public String getTableName() {
