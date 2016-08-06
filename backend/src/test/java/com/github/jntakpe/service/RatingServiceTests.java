@@ -4,7 +4,11 @@ import com.github.jntakpe.model.Rating;
 import com.github.jntakpe.utils.RatingTestsUtils;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ValidationException;
 
@@ -16,6 +20,8 @@ import static org.assertj.core.api.Assertions.fail;
  *
  * @author jntakpe
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class RatingServiceTests extends AbstractDBServiceTests {
 
     public static final String TABLE_NAME = "rating";
@@ -38,33 +44,36 @@ public class RatingServiceTests extends AbstractDBServiceTests {
     }
 
     @Test
-    public void save_shouldCreate() {
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rate_shouldCreate() {
         Rating rating = ratingTestsUtils.newRating();
         Long sessionId = sessionTestsUtils.findUnusedSession().getId();
-        Rating saved = ratingService.save(rating, sessionId);
+        Rating saved = ratingService.rate(sessionId, rating);
         assertThat(saved).isNotNull();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
     }
 
     @Test(expected = ValidationException.class)
-    public void save_shouldFailCuzSameSessionAndEmployee() {
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rate_shouldFailCuzSameSessionAndEmployee() {
         Rating rating = ratingTestsUtils.newRating();
         Long employeeId = 1L;
         Long sessionId = ratingTestsUtils.findRatingsWithEmployeeId(employeeId).stream()
                 .findAny()
                 .map(r -> r.getSession().getId())
                 .orElseThrow(() -> new IllegalStateException("no session corresponding with employee id " + employeeId));
-        ratingService.save(rating, sessionId);
+        ratingService.rate(sessionId, rating);
         fail("should have failed at this point");
     }
 
     @Test
-    public void save_shouldUpdate() {
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rate_shouldUpdate() {
         Rating rating = ratingTestsUtils.findAnyRating();
         ratingTestsUtils.detach(rating);
         Integer updatedAnim = 2;
         rating.setAnimation(updatedAnim);
-        ratingService.save(rating, rating.getSession().getId());
+        ratingService.rate(rating.getSession().getId(), rating);
         ratingTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
         Rating result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {

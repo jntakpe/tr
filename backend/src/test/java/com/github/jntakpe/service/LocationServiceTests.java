@@ -5,8 +5,11 @@ import com.github.jntakpe.model.Session;
 import com.github.jntakpe.utils.LocationTestsUtils;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
@@ -20,6 +23,8 @@ import static org.assertj.core.api.Assertions.fail;
  *
  * @author jntakpe
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class LocationServiceTests extends AbstractDBServiceTests {
 
     public static final String TABLE_NAME = "location";

@@ -5,7 +5,10 @@ import com.github.jntakpe.model.Training;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
@@ -18,6 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author jntakpe
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class SessionServiceTests extends AbstractDBServiceTests {
 
     public static final String TABLE_NAME = "session";
@@ -57,6 +62,7 @@ public class SessionServiceTests extends AbstractDBServiceTests {
         Session session = sessionTestsUtils.findAnySession();
         LocalDate updatedStart = LocalDate.of(2017, 11, 11);
         session.setStart(updatedStart);
+        sessionService.save(session);
         sessionTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE start='" + updatedStart.toString() + "'";
         Date startDate = jdbcTemplate.queryForObject(query, (rs, rowNum) -> rs.getDate("start"));

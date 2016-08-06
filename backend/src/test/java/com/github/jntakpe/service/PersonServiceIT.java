@@ -4,12 +4,15 @@ import com.github.jntakpe.config.ProfileConstants;
 import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.utils.EmployeeTestUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.ldap.authentication.LdapAuthenticator;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author jntakpe
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 @ActiveProfiles(ProfileConstants.PROD)
 public class PersonServiceIT extends AbstractDBServiceTests {
 

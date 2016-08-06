@@ -6,7 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 /**
- * Bean représentant une évaluation
+ * Bean représentant une évaluation d'une session de formation. Il est possible qu'une évaluation soit vide par exemple dans le cas d'une
+ * inscription à une session de formation non réalisée.
  *
  * @author jntakpe
  * @see AuditingEntity

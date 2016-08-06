@@ -33,7 +33,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     @Test
     public void findBySessionId_shouldFind() throws Exception {
         Long sessionId = ratingTestsUtils.findExistingSessionId();
-        ResultActions resultActions = realMvc.perform(get(UriConstants.RATINGS, sessionId).accept(MediaType.APPLICATION_JSON));
+        ResultActions resultActions = realMvc.perform(get(UriConstants.RATINGS_BY_SESSION, sessionId).accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);
         resultActions.andExpect(jsonPath("$.[*].subject").isNotEmpty());
@@ -41,7 +41,7 @@ public class RatingResourceTests extends AbstractResourceTests {
 
     @Test
     public void findBySessionId_shouldNotFind() throws Exception {
-        ResultActions resultActions = realMvc.perform(get(UriConstants.RATINGS, 999L).accept(MediaType.APPLICATION_JSON));
+        ResultActions resultActions = realMvc.perform(get(UriConstants.RATINGS_BY_SESSION, 999L).accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayEmpty(resultActions);
     }

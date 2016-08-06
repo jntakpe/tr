@@ -4,7 +4,10 @@ import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
 import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
@@ -19,6 +22,8 @@ import static org.assertj.core.api.Assertions.fail;
  *
  * @author jntakpe
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class TrainingServiceTests extends AbstractDBServiceTests {
 
     public static final String EXISTING_NAME = "Hibernate";

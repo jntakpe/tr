@@ -1,14 +1,13 @@
 package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
+import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.model.Rating;
 import com.github.jntakpe.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -17,7 +16,6 @@ import java.util.List;
  * @author jntakpe
  */
 @RestController
-@RequestMapping(UriConstants.RATINGS)
 public class RatingResource {
 
     private final RatingService ratingService;
@@ -27,9 +25,14 @@ public class RatingResource {
         this.ratingService = ratingService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Rating> findBySessionId(@PathVariable Long sessionId) {
+    @RequestMapping(value = UriConstants.RATINGS_BY_SESSION, method = RequestMethod.GET)
+    public List<Rating> findBySession(@PathVariable Long sessionId) {
         return ratingService.findBySessionId(sessionId);
+    }
+
+    @RequestMapping(value = UriConstants.RATINGS_BY_SESSION, method = RequestMethod.POST)
+    public Rating registerToSession(@PathVariable Long sessionId, @RequestBody @Valid Employee employee) {
+        return ratingService.register(sessionId, employee);
     }
 
 }

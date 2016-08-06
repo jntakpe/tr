@@ -30,6 +30,7 @@ INSERT INTO session (start, location_id, training_id, trainer_id, created_by, cr
 INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'triangle' AND city='Paris'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM employee WHERE login='gpeel'), 'gpeel', CURRENT_TIMESTAMP);
 INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'colo1' AND city='Toulouse'), (SELECT id FROM training WHERE name='spring'), (SELECT id FROM employee WHERE login='jntakpe'), 'jntakpe', CURRENT_TIMESTAMP);
 INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'colo1' AND city='Toulouse'), (SELECT id FROM training WHERE name='angularJS'), (SELECT id FROM employee WHERE login='jntakpe'), 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO session (start, location_id, training_id, trainer_id, created_by, created_date) VALUES (CURRENT_DATE, (SELECT id FROM location WHERE name = 'colo1' AND city='Toulouse'), (SELECT id FROM training WHERE name='js + angular'), (SELECT id FROM employee WHERE login='gpeel'), 'jntakpe', CURRENT_TIMESTAMP);
 
 -- Table Rating
 

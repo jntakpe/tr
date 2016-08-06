@@ -15,7 +15,9 @@ public final class UriConstants {
 
     public static final String SESSIONS = API + "/sessions";
 
-    public static final String RATINGS = SESSIONS + "/{sessionId}/ratings";
+    public static final String RATINGS = "/ratings";
+
+    public static final String RATINGS_BY_SESSION = SESSIONS + "/{sessionId}" + RATINGS;
 
     private UriConstants() {
     }

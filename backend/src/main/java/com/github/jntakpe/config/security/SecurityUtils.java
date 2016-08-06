@@ -2,7 +2,8 @@ package com.github.jntakpe.config.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Optional;
 
 /**
  * Méthodes utilitaires de gestion de la sécurité
@@ -16,17 +17,16 @@ public final class SecurityUtils {
     private SecurityUtils() {
     }
 
-    public static Long getCurrentUserId() {
-        return 1L;
+    public static Optional<SpringSecurityUser> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof SpringSecurityUser) {
+            SpringSecurityUser securityUser = (SpringSecurityUser) authentication.getPrincipal();
+            return Optional.of(securityUser);
+        }
+        return Optional.empty();
     }
 
-    public static String getCurrentUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = null;
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-            userName = springSecurityUser.getUsername();
-        }
-        return userName;
+    public static SpringSecurityUser getCurrentUserOrThrow() {
+        return getCurrentUser().orElseThrow(() -> new IllegalStateException("Impossible de récupérer l'utilisateur courant"));
     }
 }

@@ -3,9 +3,8 @@ package com.github.jntakpe.service;
 import org.assertj.db.type.Table;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -15,8 +14,7 @@ import javax.sql.DataSource;
  *
  * @author jntakpe
  */
-@SpringBootTest
-public abstract class AbstractDBServiceTests extends AbstractTransactionalJUnit4SpringContextTests {
+public abstract class AbstractDBServiceTests {
 
     protected int nbEntries;
 
@@ -41,6 +39,6 @@ public abstract class AbstractDBServiceTests extends AbstractTransactionalJUnit4
     public abstract String getTableName();
 
     protected int countRowsInCurrentTable() {
-        return countRowsInTable(getTableName());
+        return JdbcTestUtils.countRowsInTable(jdbcTemplate, getTableName());
     }
 }
