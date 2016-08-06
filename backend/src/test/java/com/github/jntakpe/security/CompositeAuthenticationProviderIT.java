@@ -28,6 +28,8 @@ import static org.assertj.core.api.Assertions.fail;
 @ActiveProfiles(ProfileConstants.PROD)
 public class CompositeAuthenticationProviderIT {
 
+    public static final String EXISTING_MAL = "jocelyn.ntakpe@soprasteria.com";
+
     @Autowired
     private CompositeAuthentificationProvider compositeAuthentificationProvider;
 
@@ -38,7 +40,7 @@ public class CompositeAuthenticationProviderIT {
         assertThat(auth).isNotNull();
         assertThat(auth.getPrincipal()).isNotNull().isOfAnyClassIn(SpringSecurityUser.class);
         SpringSecurityUser principal = (SpringSecurityUser) auth.getPrincipal();
-        assertThat(principal.getEmail()).isEqualToIgnoringCase("jocelyn.ntakpe@soprasteria.com");
+        assertThat(principal.getEmail()).isEqualToIgnoringCase(EXISTING_MAL);
     }
 
     @Test

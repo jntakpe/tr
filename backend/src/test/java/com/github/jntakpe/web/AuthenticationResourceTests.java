@@ -1,5 +1,8 @@
 package com.github.jntakpe.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.config.properties.OAuth2Properties;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -15,10 +19,13 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.Filter;
 import java.util.Base64;
+import java.util.Map;
 import java.util.StringJoiner;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,23 +41,27 @@ public class AuthenticationResourceTests implements RessourceExpectation {
 
     public static final String AUTHORIZATION_HEADER_KEY = "Authorization";
 
+    public static final String ACCESS_TOKEN_KEY = "access_token";
+
+    public static final String REFRESH_TOKEN_KEY = "refresh_token";
+
     protected MockMvc realMvc;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private Filter springSecurityFilterChain;
+    private OAuth2Properties oAuth2Properties;
 
     @Autowired
-    private OAuth2Properties oAuth2Properties;
+    private ObjectMapper objectMapper;
 
     private String authorizationHeader;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.realMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).addFilters(springSecurityFilterChain).build();
+        this.realMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).apply(springSecurity()).build();
         String clientSecret = new StringJoiner(":").add(oAuth2Properties.getClientId()).add(oAuth2Properties.getSecret()).toString();
         this.authorizationHeader = "Basic " + Base64.getEncoder().encodeToString(clientSecret.getBytes());
     }
@@ -59,8 +70,8 @@ public class AuthenticationResourceTests implements RessourceExpectation {
     public void token_shouldReturnAcccessToken() throws Exception {
         ResultActions resultActions = realMvc.perform(buildTokenRequest("jntakpe", "test").accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
-        resultActions.andExpect(jsonPath("$.access_token").exists());
-        resultActions.andExpect(jsonPath("$.refresh_token").exists());
+        resultActions.andExpect(jsonPath("$." + ACCESS_TOKEN_KEY).exists());
+        resultActions.andExpect(jsonPath("$." + REFRESH_TOKEN_KEY).exists());
         resultActions.andExpect(jsonPath("$.expires_in").exists());
         resultActions.andExpect(jsonPath("$.token_type").exists());
     }
@@ -72,9 +83,58 @@ public class AuthenticationResourceTests implements RessourceExpectation {
     }
 
     @Test
-    public void test_should400CuzWrongUsername() throws Exception {
+    public void token_should400CuzWrongUsername() throws Exception {
         ResultActions resultActions = realMvc.perform(buildTokenRequest("test", "test").accept(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void unauthorizedCall_should401() throws Exception {
+        ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS).accept(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void authorizedCall_should200() throws Exception {
+        String accessToken = getTokenMap().get(ACCESS_TOKEN_KEY);
+        assertThat(accessToken).isNotNull();
+        String bearerToken = fromAccessTokenToBearer(accessToken);
+        ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS)
+                .header(AUTHORIZATION_HEADER_KEY, bearerToken)
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+    }
+
+    @Test
+    public void refreshAccessToken_shouldGetNewAccessToken() throws Exception {
+        Map<String, String> tokenMap = getTokenMap();
+        String refreshToken = tokenMap.get(REFRESH_TOKEN_KEY);
+        String oldAccessToken = tokenMap.get(ACCESS_TOKEN_KEY);
+        ResultActions resultActions = realMvc.perform(post("/oauth/token")
+                .header(AUTHORIZATION_HEADER_KEY, authorizationHeader)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("grant_type", "refresh_token")
+                .param(REFRESH_TOKEN_KEY, refreshToken));
+        expectIsOkAndJsonContent(resultActions);
+        resultActions.andExpect(jsonPath("$." + ACCESS_TOKEN_KEY).exists());
+        Map<String, String> refreshedTokenMap = tokenMapFromResultActions(resultActions);
+        assertThat(refreshedTokenMap.get(ACCESS_TOKEN_KEY)).isNotEqualTo(oldAccessToken);
+    }
+
+    private String fromAccessTokenToBearer(String accessToken) {
+        return "Bearer " + accessToken;
+    }
+
+    private Map<String, String> getTokenMap() throws Exception {
+        ResultActions resultActions = realMvc.perform(buildTokenRequest("jntakpe", "test").accept(MediaType.APPLICATION_JSON));
+        return tokenMapFromResultActions(resultActions);
+    }
+
+    private Map<String, String> tokenMapFromResultActions(ResultActions resultActions) throws java.io.IOException {
+        MockHttpServletResponse response = resultActions.andReturn().getResponse();
+        TypeReference<Map<String, String>> mapTypeRef = new TypeReference<Map<String, String>>() {
+        };
+        return objectMapper.readValue(response.getContentAsByteArray(), mapTypeRef);
     }
 
     private MockHttpServletRequestBuilder buildTokenRequest(String username, String password) {
