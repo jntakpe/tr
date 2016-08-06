@@ -31,15 +31,19 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
 
     private final OAuth2Properties oAuth2Properties;
 
+    private final DatabaseUserDetailsService databaseUserDetailsService;
+
     @Autowired
     public OAuth2AuthServerConfig(@Qualifier("authenticationManagerBean") AuthenticationManager authenticationManager,
                                   TokenStore tokenStore,
                                   AccessTokenConverter accessTokenConverter,
-                                  OAuth2Properties oAuth2Properties) {
+                                  OAuth2Properties oAuth2Properties,
+                                  DatabaseUserDetailsService databaseUserDetailsService) {
         this.authenticationManager = authenticationManager;
         this.tokenStore = tokenStore;
         this.accessTokenConverter = accessTokenConverter;
         this.oAuth2Properties = oAuth2Properties;
+        this.databaseUserDetailsService = databaseUserDetailsService;
     }
 
     @Override
@@ -66,7 +70,8 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
         endpoints
                 .tokenStore(tokenStore)
                 .accessTokenConverter(accessTokenConverter)
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .userDetailsService(databaseUserDetailsService);
     }
 
 }
