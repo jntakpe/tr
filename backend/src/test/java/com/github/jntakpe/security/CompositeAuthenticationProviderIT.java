@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -44,6 +44,7 @@ public class CompositeAuthenticationProviderIT {
     }
 
     @Test
+    @DirtiesContext
     public void authenticate_shouldAuthenticateUserFromLdap() {
         Authentication authentication = new UsernamePasswordAuthenticationToken(EmployeeServiceTests.EXISTING_LOGIN, "Maistg31*");
         Authentication auth = compositeAuthentificationProvider.authenticate(authentication);
@@ -60,7 +61,7 @@ public class CompositeAuthenticationProviderIT {
         fail("should have failed at this point");
     }
 
-    @Test(expected = AccountExpiredException.class)
+    @Test(expected = BadCredentialsException.class)
     public void authenticate_shouldNotAuthenticateUserCuzExpired() {
         Authentication authentication = new UsernamePasswordAuthenticationToken(DatabaseUserDetailsServiceTests.EXPIRED_USER, "test");
         compositeAuthentificationProvider.authenticate(authentication);
