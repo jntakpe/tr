@@ -55,7 +55,7 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test
     public void save_shouldUpdate() {
         Session session = sessionTestsUtils.findAnySession();
-        LocalDate updatedStart = LocalDate.of(2016, 2, 2);
+        LocalDate updatedStart = LocalDate.of(2017, 11, 11);
         session.setStart(updatedStart);
         sessionTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE start='" + updatedStart.toString() + "'";

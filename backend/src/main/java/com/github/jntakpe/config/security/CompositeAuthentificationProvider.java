@@ -13,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.ldap.authentication.LdapAuthenticator;
 import org.springframework.stereotype.Component;
@@ -48,7 +47,7 @@ public class CompositeAuthentificationProvider extends DatabaseAuthentificationP
     protected UserDetails retrieveUser(Authentication authentication) {
         try {
             return super.retrieveUser(authentication);
-        } catch (UsernameNotFoundException | AccountExpiredException | BadCredentialsException e) {
+        } catch (AccountExpiredException | BadCredentialsException e) {
             LOGGER.info("Impossible de connecter l'utilisateur {} depuis la DB", authentication.getName());
             try {
                 return retrieveUserFromLdap(authentication);

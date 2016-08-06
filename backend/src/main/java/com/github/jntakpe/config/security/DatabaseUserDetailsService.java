@@ -42,11 +42,10 @@ public class DatabaseUserDetailsService implements UserDetailsService {
         LOGGER.info("Tentative d'authentification de l'utilisateur {} depuis la DB", username);
         return employeeService.findByLogin(username)
                 .map(this::toUserIfNonExpired)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("Impossible de trouver l'utilisateur %s en DB", username)));
+                .orElseThrow(() -> new BadCredentialsException(String.format("Impossible de trouver l'utilisateur %s en DB", username)));
     }
 
-    public void checkPassword(UserDetails user, String rawPassword, PasswordEncoder passwordEncoder)
-            throws BadCredentialsException {
+    public void checkPassword(UserDetails user, String rawPassword, PasswordEncoder passwordEncoder) throws BadCredentialsException {
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new BadCredentialsException(String.format("Le mot de passe de l'utilisateur %s est incorrect", user.getUsername()));
         }

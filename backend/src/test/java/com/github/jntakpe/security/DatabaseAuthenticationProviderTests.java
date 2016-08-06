@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,7 +38,7 @@ public class DatabaseAuthenticationProviderTests {
         assertThat(principal.getEmail()).isEqualToIgnoringCase("jocelyn.ntakpe@soprasteria.com");
     }
 
-    @Test(expected = UsernameNotFoundException.class)
+    @Test(expected = BadCredentialsException.class)
     public void authenticate_shouldNotAuthenticateUserCuzUnknownUser() {
         Authentication authentication = new UsernamePasswordAuthenticationToken("unknownUser", "test");
         databaseAuthentificationProvider.authenticate(authentication);

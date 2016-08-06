@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -42,7 +41,7 @@ public class DatabaseUserDetailsServiceTests {
         assertThat(user.getUsername()).isNotNull().isEqualToIgnoringCase(EmployeeServiceTests.EXISTING_LOGIN);
     }
 
-    @Test(expected = UsernameNotFoundException.class)
+    @Test(expected = BadCredentialsException.class)
     public void loadUserByUsername_shouldFailCuzNotFound() {
         assertThat(databaseUserDetailsService.loadUserByUsername(EmployeeServiceTests.SOME_UNKNOWN_LOGIN));
         fail("should have failed at this point");
