@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.config.properties.OAuth2Properties;
+import com.github.jntakpe.model.Location;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,14 +90,26 @@ public class AuthenticationResourceTests implements RessourceExpectation {
     }
 
     @Test
-    public void unauthorizedCall_should401() throws Exception {
+    public void unauthorizedCall_should401CuzNotConnected() throws Exception {
         ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS).accept(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isUnauthorized());
     }
 
     @Test
+    public void unauthorizedCall_should403CuzInsuficientRights() throws Exception {
+        String accessToken = getTokenMap("jguerrin", "test").get(ACCESS_TOKEN_KEY);
+        assertThat(accessToken).isNotNull();
+        String bearerToken = fromAccessTokenToBearer(accessToken);
+        ResultActions resultActions = realMvc.perform(post(UriConstants.LOCATIONS)
+                .header(AUTHORIZATION_HEADER_KEY, bearerToken)
+                .content(objectMapper.writeValueAsBytes(new Location()))
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
     public void authorizedCall_should200() throws Exception {
-        String accessToken = getTokenMap().get(ACCESS_TOKEN_KEY);
+        String accessToken = getTokenMap("jntakpe", "test").get(ACCESS_TOKEN_KEY);
         assertThat(accessToken).isNotNull();
         String bearerToken = fromAccessTokenToBearer(accessToken);
         ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS)
@@ -107,7 +120,7 @@ public class AuthenticationResourceTests implements RessourceExpectation {
 
     @Test
     public void refreshAccessToken_shouldGetNewAccessToken() throws Exception {
-        Map<String, String> tokenMap = getTokenMap();
+        Map<String, String> tokenMap = getTokenMap("jntakpe", "test");
         String refreshToken = tokenMap.get(REFRESH_TOKEN_KEY);
         String oldAccessToken = tokenMap.get(ACCESS_TOKEN_KEY);
         ResultActions resultActions = realMvc.perform(post("/oauth/token")
@@ -125,8 +138,8 @@ public class AuthenticationResourceTests implements RessourceExpectation {
         return "Bearer " + accessToken;
     }
 
-    private Map<String, String> getTokenMap() throws Exception {
-        ResultActions resultActions = realMvc.perform(buildTokenRequest("jntakpe", "test").accept(MediaType.APPLICATION_JSON));
+    private Map<String, String> getTokenMap(String username, String password) throws Exception {
+        ResultActions resultActions = realMvc.perform(buildTokenRequest(username, password).accept(MediaType.APPLICATION_JSON));
         return tokenMapFromResultActions(resultActions);
     }
 

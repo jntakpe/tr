@@ -2,12 +2,14 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Session;
+import com.github.jntakpe.service.EmployeeServiceTests;
 import com.github.jntakpe.service.SessionService;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
@@ -54,6 +56,7 @@ public class SessionResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldCreate() throws Exception {
         LocalDate startDate = LocalDate.of(2016, 2, 2);
         Session session = sessionTestsUtils.getSessionWithDetachedRelations(startDate);
@@ -87,6 +90,7 @@ public class SessionResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void update_shouldUpdate() throws Exception {
         Session session = sessionTestsUtils.findAnySession();
         LocalDate updatedDate = LocalDate.of(2016, 10, 10);
@@ -110,6 +114,7 @@ public class SessionResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void delete_shouldDelete() throws Exception {
         Session session = sessionTestsUtils.findUnusedSession();
         ResultActions resultActions = realMvc.perform(delete(UriConstants.SESSIONS + "/{id}", session.getId())
@@ -118,6 +123,7 @@ public class SessionResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void delete_shouldFailCuzIdDoesntExist() throws Exception {
         ResultActions resultActions = realMvc.perform(delete(UriConstants.SESSIONS + "/{id}", 999L)
                 .contentType(MediaType.APPLICATION_JSON));

@@ -53,6 +53,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void registerToSession_shouldRegister() throws Exception {
         Employee employee = ratingTestsUtils.findAnyDetachedEmployee();
         Session session = ratingTestsUtils.findUnusedDetachedSession();
@@ -76,6 +77,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void registerToSession_shouldFailCuzSessionDoesntExist() throws Exception {
         Employee employee = ratingTestsUtils.findAnyDetachedEmployee();
         ResultActions resultActions = realMvc.perform(post(UriConstants.RATINGS_BY_SESSION, 999L)
@@ -110,6 +112,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void unregisterFromSession_shouldUnregister() throws Exception {
         Rating rating = ratingTestsUtils.findAnyRating();
         ResultActions resultActions = realMvc.perform(
@@ -119,6 +122,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void unregisterFromSession_shouldFailCuzSessionDoesntExist() throws Exception {
         Rating rating = ratingTestsUtils.findAnyRating();
         ResultActions resultActions = realMvc.perform(
@@ -128,6 +132,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void unregisterFromSession_shouldFailCuzRatingDoesntExit() throws Exception {
         Rating rating = ratingTestsUtils.findAnyRating();
         ResultActions resultActions = realMvc.perform(

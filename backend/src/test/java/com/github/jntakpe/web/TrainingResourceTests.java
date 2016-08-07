@@ -2,12 +2,14 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Training;
+import com.github.jntakpe.service.EmployeeServiceTests;
 import com.github.jntakpe.service.TrainingService;
 import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Collections;
@@ -53,6 +55,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldCreate() throws Exception {
         String name = "some training";
         Training training = new Training();
@@ -79,6 +82,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldFailCuzNameAlreadyTaken() throws Exception {
         Training training = new Training();
         training.setName(trainingTestsUtils.findAnyTraining().getName());
@@ -91,6 +95,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void update_shouldUpdate() throws Exception {
         Training training = trainingTestsUtils.findAnyTraining();
         String updatedName = "web updated training";
@@ -114,6 +119,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void delete_shouldDelete() throws Exception {
         Training training = trainingTestsUtils.findUnusedTraining();
         ResultActions resultActions = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", training.getId())
@@ -122,6 +128,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void delete_shouldFailCuzIdDoesntExist() throws Exception {
         ResultActions resultActions = realMvc.perform(delete(UriConstants.TRAININGS + "/{id}", 999L)
                 .contentType(MediaType.APPLICATION_JSON));

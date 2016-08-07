@@ -2,12 +2,14 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Location;
+import com.github.jntakpe.service.EmployeeServiceTests;
 import com.github.jntakpe.service.LocationService;
 import com.github.jntakpe.utils.LocationTestsUtils;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Collections;
@@ -53,6 +55,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldCreate() throws Exception {
         String name = "some location";
         String city = "some city";
@@ -70,6 +73,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldFailCuzMissingValue() throws Exception {
         Location location = new Location();
         ResultActions resultActions = realMvc.perform(post(UriConstants.LOCATIONS)
@@ -79,6 +83,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldFailCuzNameAlreadyTaken() throws Exception {
         Location location = new Location();
         location.setName(locationTestsUtils.findAnyLocation().getName());
@@ -90,6 +95,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void update_shouldUpdate() throws Exception {
         Location location = locationTestsUtils.findAnyLocation();
         String updatedName = "updated location";
@@ -113,6 +119,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void delete_shouldDelete() throws Exception {
         Location location = locationTestsUtils.findUnusedLocation();
         ResultActions resultActions = realMvc.perform(delete(UriConstants.LOCATIONS + "/{id}", location.getId())
@@ -121,6 +128,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void delete_shouldFailCuzIdDoesntExist() throws Exception {
         ResultActions resultActions = realMvc.perform(delete(UriConstants.LOCATIONS + "/{id}", 999L)
                 .contentType(MediaType.APPLICATION_JSON));
@@ -128,6 +136,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void constraints_shouldBeEmpty() throws Exception {
         Location location = locationTestsUtils.findUnusedLocation();
         ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS + "/{id}/constraints", location.getId())
@@ -137,6 +146,7 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void constraints_shouldNotBeEmpty() throws Exception {
         Location location = locationTestsUtils.findUsedLocation();
         ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS + "/{id}/constraints", location.getId())
