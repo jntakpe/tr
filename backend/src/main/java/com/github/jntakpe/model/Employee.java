@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -24,6 +25,10 @@ public class Employee extends AuditingEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
     public Set<Rating> ratings = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany
+    public Set<Authority> authorities = new HashSet<>();
 
     @NotNull
     @Column(unique = true, nullable = false)
@@ -56,6 +61,14 @@ public class Employee extends AuditingEntity {
 
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     public String getLogin() {
