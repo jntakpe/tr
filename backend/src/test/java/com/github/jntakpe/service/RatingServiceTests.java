@@ -77,7 +77,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
         ratingTestsUtils.detach(rating);
         Integer updatedAnim = 2;
         rating.setAnimation(updatedAnim);
-        ratingService.rate(rating);
+        ratingService.rate(sessionId, rating);
         ratingTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
         Rating result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
@@ -94,10 +94,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void rate_shouldFailUserNotRegistered() {
         Rating rating = ratingTestsUtils.newRating();
-        Session session = new Session();
-        session.setId(sessionTestsUtils.findUnusedSession().getId());
-        rating.setSession(session);
-        ratingService.rate(rating);
+        ratingService.rate(sessionTestsUtils.findUnusedSession().getId(), rating);
         fail("should have failed at this point");
     }
 
@@ -110,10 +107,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
                 .findAny()
                 .map(r -> r.getSession().getId())
                 .orElseThrow(() -> new IllegalStateException("no session corresponding with employee id " + employeeId));
-        Session session = new Session();
-        session.setId(sessionId);
-        rating.setSession(session);
-        ratingService.rate(rating);
+        ratingService.rate(sessionId, rating);
         fail("should have failed at this point");
     }
 
@@ -122,7 +116,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
     public void rate_shouldFailCuzAttemptingToRateOtherUserSession() {
         Rating rating = ratingTestsUtils.findAnyRatingForUser(EmployeeServiceTests.EXISTING_LOGIN);
         ratingTestsUtils.detach(rating);
-        ratingService.rate(rating);
+        ratingService.rate(rating.getSession().getId(), rating);
         fail("should have failed at this point");
     }
 

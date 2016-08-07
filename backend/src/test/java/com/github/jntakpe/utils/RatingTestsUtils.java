@@ -4,6 +4,7 @@ import com.github.jntakpe.config.security.SecurityUtils;
 import com.github.jntakpe.config.security.SpringSecurityUser;
 import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.model.Rating;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,13 +27,16 @@ public class RatingTestsUtils {
 
     private final EmployeeTestUtils employeeTestUtils;
 
+    private final SessionTestsUtils sessionTestsUtils;
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Autowired
-    public RatingTestsUtils(RatingRepository ratingRepository, EmployeeTestUtils employeeTestUtils) {
+    public RatingTestsUtils(RatingRepository ratingRepository, EmployeeTestUtils employeeTestUtils, SessionTestsUtils sessionTestsUtils) {
         this.ratingRepository = ratingRepository;
         this.employeeTestUtils = employeeTestUtils;
+        this.sessionTestsUtils = sessionTestsUtils;
     }
 
     @Transactional(readOnly = true)
@@ -73,6 +77,20 @@ public class RatingTestsUtils {
         return ratingRepository.findAll().stream()
                 .filter(r -> r.getEmployee().getId().equals(employeeId))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Employee findAnyDetachedEmployee() {
+        Employee defaultEmployee = employeeTestUtils.findDefaultEmployee();
+        employeeTestUtils.detach(defaultEmployee);
+        return defaultEmployee;
+    }
+
+    @Transactional(readOnly = true)
+    public Session findUnusedDetachedSession() {
+        Session unusedSession = sessionTestsUtils.findUnusedSession();
+        sessionTestsUtils.detach(unusedSession);
+        return unusedSession;
     }
 
     public void detach(Rating rating) {

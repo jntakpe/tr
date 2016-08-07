@@ -2,19 +2,19 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.Rating;
 import com.github.jntakpe.model.Session;
+import com.github.jntakpe.service.EmployeeServiceTests;
 import com.github.jntakpe.service.RatingService;
-import com.github.jntakpe.utils.EmployeeTestUtils;
 import com.github.jntakpe.utils.RatingTestsUtils;
-import com.github.jntakpe.utils.SessionTestsUtils;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,12 +27,6 @@ public class RatingResourceTests extends AbstractResourceTests {
 
     @Autowired
     private RatingTestsUtils ratingTestsUtils;
-
-    @Autowired
-    private EmployeeTestUtils employeeTestUtils;
-
-    @Autowired
-    private SessionTestsUtils sessionTestsUtils;
 
     @Mock
     private RatingService mockRatingService;
@@ -60,9 +54,8 @@ public class RatingResourceTests extends AbstractResourceTests {
 
     @Test
     public void registerToSession_shouldRegister() throws Exception {
-        Employee employee = employeeTestUtils.findDefaultEmployee();
-        employeeTestUtils.detach(employee);
-        Session session = sessionTestsUtils.findUnusedSession();
+        Employee employee = ratingTestsUtils.findAnyDetachedEmployee();
+        Session session = ratingTestsUtils.findUnusedDetachedSession();
         ResultActions resultActions = realMvc.perform(post(UriConstants.RATINGS_BY_SESSION, session.getId())
                 .content(objectMapper.writeValueAsBytes(employee))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -73,14 +66,27 @@ public class RatingResourceTests extends AbstractResourceTests {
 
     @Test
     public void registerToSession_shouldFailCuzNoLogin() throws Exception {
-        Employee employee = employeeTestUtils.findDefaultEmployee();
-        employeeTestUtils.detach(employee);
+        Employee employee = ratingTestsUtils.findAnyDetachedEmployee();
         employee.setLogin(null);
-        Session session = sessionTestsUtils.findUnusedSession();
+        Session session = ratingTestsUtils.findUnusedDetachedSession();
         ResultActions resultActions = realMvc.perform(post(UriConstants.RATINGS_BY_SESSION, session.getId())
                 .content(objectMapper.writeValueAsBytes(employee))
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isBadRequest());
     }
 
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rateSession_shouldRate() throws Exception {
+        Rating rating = ratingTestsUtils.findAnyRatingForConnectedUser();
+        ratingTestsUtils.detach(rating);
+        String pros = "Super comment";
+        rating.setPros(pros);
+        ResultActions resultActions = realMvc.perform(
+                put(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", rating.getSession().getId(), rating.getId())
+                        .content(objectMapper.writeValueAsBytes(rating))
+                        .contentType(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        resultActions.andExpect(jsonPath("$.pros").isString()).andExpect(jsonPath("$.pros").value(pros));
+    }
 }

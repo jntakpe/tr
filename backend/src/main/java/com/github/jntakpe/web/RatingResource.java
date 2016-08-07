@@ -37,4 +37,10 @@ public class RatingResource {
         return ratingService.register(sessionId, employee);
     }
 
+    @RequestMapping(value = UriConstants.RATINGS_BY_SESSION + "/{ratingId}", method = RequestMethod.PUT)
+    public Rating rateSession(@PathVariable Long sessionId, @PathVariable Long ratingId, @RequestBody @Valid Rating rating) {
+        rating.setId(ratingId);
+        return ratingService.rate(sessionId, rating);
+    }
+
 }

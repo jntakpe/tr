@@ -54,7 +54,7 @@ public class RatingService {
     }
 
     @Transactional
-    public Rating rate(Rating rating) {
+    public Rating rate(Long sessionId, Rating rating) {
         Objects.requireNonNull(rating);
         checkRatingHasId(rating);
         checkEmployeeIsAuthenticatedUser(rating);
@@ -64,9 +64,11 @@ public class RatingService {
     }
 
     private void addSessionFromId(Long sessionId, Rating rating) {
-        Session session = new Session();
-        session.setId(sessionId);
-        rating.setSession(session);
+        if (rating.getSession() == null || rating.getSession().getId() == null) {
+            Session session = new Session();
+            session.setId(sessionId);
+            rating.setSession(session);
+        }
     }
 
     private void checkEmployeeIsAuthenticatedUser(Rating rating) {

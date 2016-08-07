@@ -21,6 +21,7 @@ import java.util.Set;
 @Entity
 public class Employee extends AuditingEntity {
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     public Set<Rating> ratings = new HashSet<>();
 
@@ -48,6 +49,14 @@ public class Employee extends AuditingEntity {
 
     @JsonIgnore
     private LocalDateTime lastLdapCheck = LocalDateTime.now();
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
 
     public String getLogin() {
         return login;
@@ -125,14 +134,6 @@ public class Employee extends AuditingEntity {
 
     public void setLastLdapCheck(LocalDateTime lastLdapCheck) {
         this.lastLdapCheck = lastLdapCheck;
-    }
-
-    public Set<Rating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(Set<Rating> ratings) {
-        this.ratings = ratings;
     }
 
     @Override
