@@ -3,6 +3,7 @@ package com.github.jntakpe.config.security;
 import com.github.jntakpe.config.ProfileConstants;
 import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.service.PersonService;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class CompositeAuthentificationProvider extends DatabaseAuthentificationP
     private UserDetails retrieveUserFromLdap(Authentication authentication) {
         DirContextOperations ctx = ldapAuthenticator.authenticate(authentication);
         Employee employee = personService.save(ctx, (String) authentication.getCredentials());
+        Hibernate.initialize(employee.getAuthorities());
         return new SpringSecurityUser(employee);
     }
 

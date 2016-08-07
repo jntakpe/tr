@@ -3,6 +3,7 @@ package com.github.jntakpe.config.security;
 import com.github.jntakpe.config.properties.OAuth2Properties;
 import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.service.EmployeeService;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -37,6 +39,7 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
         LOGGER.info("Tentative d'authentification de l'utilisateur {} depuis la DB", username);
         return employeeService.findByLogin(username)
@@ -55,6 +58,7 @@ public class DatabaseUserDetailsService implements UserDetailsService {
             throw new AccountExpiredException(String.format("L'utilisateur %s doit se connecter au LDAP pour vérification de son compte",
                     employee.getLogin()));
         }
+        Hibernate.initialize(employee.getAuthorities());
         return new SpringSecurityUser(employee);
     }
 

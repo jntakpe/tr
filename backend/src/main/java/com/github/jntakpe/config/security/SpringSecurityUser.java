@@ -1,14 +1,9 @@
 package com.github.jntakpe.config.security;
 
-import com.github.jntakpe.model.Authority;
 import com.github.jntakpe.model.Employee;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * {@link User} utilisé par Spring Security pour garder les informations sur l'utilisateur connecté
@@ -16,6 +11,8 @@ import java.util.Set;
  * @author jntakpe
  */
 public class SpringSecurityUser extends User {
+
+    public static final String ROLE_PREFIX = "ROLE_";
 
     private Long id;
 
@@ -32,7 +29,7 @@ public class SpringSecurityUser extends User {
     private String location;
 
     public SpringSecurityUser(Employee employee) {
-        super(employee.getLogin(), employee.getPassword(), authoritiesToSimpleGrant(null));
+        super(employee.getLogin(), employee.getPassword(), SecurityUtils.authoritiesToSimpleGrant(employee.getAuthorities()));
         this.id = employee.getId();
         this.email = employee.getEmail();
         this.firstName = employee.getFirstName();
@@ -40,11 +37,6 @@ public class SpringSecurityUser extends User {
         this.department = employee.getDepartment();
         this.phone = employee.getPhone();
         this.location = employee.getLocation();
-    }
-
-    public static List<SimpleGrantedAuthority> authoritiesToSimpleGrant(Set<Authority> authorities) {
-        //TODO to implement
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     public Long getId() {
