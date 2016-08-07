@@ -20,7 +20,7 @@ import java.io.IOException;
 @Component
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(Http401UnauthorizedEntryPoint.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Http401UnauthorizedEntryPoint.class);
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex)

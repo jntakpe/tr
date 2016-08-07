@@ -52,7 +52,7 @@ public class CompositeAuthentificationProvider extends DatabaseAuthentificationP
             try {
                 return retrieveUserFromLdap(authentication);
             } catch (BadCredentialsException bce) {
-                LOGGER.warn("Impossible de connecteur l'utilisateur {} depuis le LDAP", authentication.getName());
+                LOGGER.warn(String.format("Impossible de connecteur l'utilisateur %s depuis le LDAP", authentication.getName()), e);
                 throw bce;
             }
         }

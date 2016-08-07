@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -36,7 +35,7 @@ public class DatabaseAuthentificationProvider implements AuthenticationProvider 
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
         UserDetails userDetails = retrieveUser(authentication);
         return authenticationFromUserDetails(userDetails, (String) authentication.getCredentials());
     }

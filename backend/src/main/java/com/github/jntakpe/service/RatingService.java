@@ -56,6 +56,7 @@ public class RatingService {
     @Transactional
     public Rating rate(Long sessionId, Rating rating) {
         Objects.requireNonNull(rating);
+        addSessionFromId(sessionId, rating);
         checkRatingHasId(rating);
         checkEmployeeIsAuthenticatedUser(rating);
         checkSessionAndEmployeeAvailable(rating);

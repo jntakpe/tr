@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,20 +37,20 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, AccountExpiredException {
+    public UserDetails loadUserByUsername(String username) {
         LOGGER.info("Tentative d'authentification de l'utilisateur {} depuis la DB", username);
         return employeeService.findByLogin(username)
                 .map(this::toUserIfNonExpired)
                 .orElseThrow(() -> new BadCredentialsException(String.format("Impossible de trouver l'utilisateur %s en DB", username)));
     }
 
-    public void checkPassword(UserDetails user, String rawPassword, PasswordEncoder passwordEncoder) throws BadCredentialsException {
+    public void checkPassword(UserDetails user, String rawPassword, PasswordEncoder passwordEncoder) {
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new BadCredentialsException(String.format("Le mot de passe de l'utilisateur %s est incorrect", user.getUsername()));
         }
     }
 
-    private SpringSecurityUser toUserIfNonExpired(Employee employee) throws AccountExpiredException {
+    private SpringSecurityUser toUserIfNonExpired(Employee employee) {
         if (LocalDateTime.now().isAfter(employee.getLastLdapCheck().plusHours(oAuth2Properties.getLdapCheckIntervalInHours()))) {
             throw new AccountExpiredException(String.format("L'utilisateur %s doit se connecter au LDAP pour vérification de son compte",
                     employee.getLogin()));

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -100,6 +101,26 @@ public class SpringSecurityUser extends User {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        SpringSecurityUser user = (SpringSecurityUser) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id);
     }
 
 }
