@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 /**
@@ -18,6 +20,9 @@ import java.util.Optional;
 public class EmployeeTestUtils {
 
     private final EmployeeRepository employeeRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public EmployeeTestUtils(EmployeeRepository employeeRepository) {
@@ -39,4 +44,9 @@ public class EmployeeTestUtils {
     public Optional<Employee> findByLogin(String login) {
         return employeeRepository.findByLoginIgnoreCase(login);
     }
+
+    public void detach(Employee employee) {
+        entityManager.detach(employee);
+    }
+
 }

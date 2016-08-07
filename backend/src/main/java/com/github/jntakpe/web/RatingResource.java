@@ -5,6 +5,7 @@ import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.model.Rating;
 import com.github.jntakpe.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ public class RatingResource {
         return ratingService.findBySessionId(sessionId);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = UriConstants.RATINGS_BY_SESSION, method = RequestMethod.POST)
     public Rating registerToSession(@PathVariable Long sessionId, @RequestBody @Valid Employee employee) {
         return ratingService.register(sessionId, employee);
