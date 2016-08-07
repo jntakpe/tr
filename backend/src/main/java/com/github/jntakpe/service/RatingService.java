@@ -57,6 +57,7 @@ public class RatingService {
         Rating rating = new Rating();
         addSessionFromId(sessionId, rating);
         addEmployeeFromLogin(employee.getLogin(), rating);
+        checkSessionAndEmployeeAvailable(rating);
         LOGGER.info("Inscription de l'utilisateur {} à la session id {}", employee, sessionId);
         return ratingRepository.save(rating);
     }

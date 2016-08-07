@@ -19,6 +19,8 @@ public class EmployeeServiceTests extends AbstractDBServiceTests {
 
     public static final String EXISTING_LOGIN = "jntakpe";
 
+    public static final String UNUSED_LOGIN = "jguerrin";
+
     public static final String SOME_UNKNOWN_LOGIN = "Someunknownlogin";
 
     private static final String TABLE_NAME = "employee";
