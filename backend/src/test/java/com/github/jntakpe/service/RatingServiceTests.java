@@ -120,6 +120,16 @@ public class RatingServiceTests extends AbstractDBServiceTests {
         fail("should have failed at this point");
     }
 
+    @Test
+    public void unregister_shouldUnregisterUserFromSession() {
+        Rating rating = ratingTestsUtils.findAnyRating();
+        ratingService.unregister(rating.getSession().getId(), rating.getId());
+        ratingTestsUtils.flush();
+        String query = "SELECT id FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
+        assertThat(jdbcTemplate.queryForList(query)).isEmpty();
+        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
+    }
+
     @Override
     public String getTableName() {
         return TABLE_NAME;

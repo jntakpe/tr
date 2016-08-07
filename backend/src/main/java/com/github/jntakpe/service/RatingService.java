@@ -64,6 +64,13 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
 
+    @Transactional
+    public void unregister(Long sessionId, Long ratingId) {
+        Rating rating = ratingRepository.findOne(ratingId);
+        LOGGER.info("Désincription de l'employee {} de la session id {}", rating.getEmployee(), rating.getSession());
+        ratingRepository.delete(rating);
+    }
+
     private void addSessionFromId(Long sessionId, Rating rating) {
         if (rating.getSession() == null || rating.getSession().getId() == null) {
             Session session = new Session();

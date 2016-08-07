@@ -89,4 +89,13 @@ public class RatingResourceTests extends AbstractResourceTests {
         expectIsOkAndJsonContent(resultActions);
         resultActions.andExpect(jsonPath("$.pros").isString()).andExpect(jsonPath("$.pros").value(pros));
     }
+
+    @Test
+    public void unregisterFromSession_shouldUnregister() throws Exception {
+        Rating rating = ratingTestsUtils.findAnyRating();
+        ResultActions resultActions = realMvc.perform(
+                delete(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", rating.getSession().getId(), rating.getId())
+                        .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNoContent());
+    }
 }
