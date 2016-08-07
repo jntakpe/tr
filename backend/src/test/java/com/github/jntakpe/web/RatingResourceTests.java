@@ -76,6 +76,15 @@ public class RatingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    public void registerToSession_shouldFailCuzSessionDoesntExist() throws Exception {
+        Employee employee = ratingTestsUtils.findAnyDetachedEmployee();
+        ResultActions resultActions = realMvc.perform(post(UriConstants.RATINGS_BY_SESSION, 999L)
+                .content(objectMapper.writeValueAsBytes(employee))
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void rateSession_shouldRate() throws Exception {
         Rating rating = ratingTestsUtils.findAnyRatingForConnectedUser();
@@ -91,11 +100,39 @@ public class RatingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rateSession_shouldFailCuzSessionDoesntExist() throws Exception {
+        Rating rating = ratingTestsUtils.findAnyRatingForConnectedUser();
+        ResultActions resultActions = realMvc.perform(put(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", 999L, rating.getId())
+                .content(objectMapper.writeValueAsBytes(rating))
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
     public void unregisterFromSession_shouldUnregister() throws Exception {
         Rating rating = ratingTestsUtils.findAnyRating();
         ResultActions resultActions = realMvc.perform(
                 delete(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", rating.getSession().getId(), rating.getId())
                         .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void unregisterFromSession_shouldFailCuzSessionDoesntExist() throws Exception {
+        Rating rating = ratingTestsUtils.findAnyRating();
+        ResultActions resultActions = realMvc.perform(
+                delete(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", 999L, rating.getId())
+                        .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void unregisterFromSession_shouldFailCuzRatingDoesntExit() throws Exception {
+        Rating rating = ratingTestsUtils.findAnyRating();
+        ResultActions resultActions = realMvc.perform(
+                delete(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", rating.getSession().getId(), 999L)
+                        .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNotFound());
     }
 }

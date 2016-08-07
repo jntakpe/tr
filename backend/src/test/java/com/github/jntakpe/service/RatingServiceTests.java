@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,6 +69,15 @@ public class RatingServiceTests extends AbstractDBServiceTests {
         fail("should have failed at this point");
     }
 
+    @Test(expected = EntityNotFoundException.class)
+    public void register_shouldFailCuzSessionDoesntExist() {
+        Rating rating = ratingTestsUtils.findAnyRating();
+        Employee employee = new Employee();
+        employee.setLogin(rating.getEmployee().getLogin());
+        ratingService.register(999L, employee);
+        fail("should have failed at this point");
+    }
+
     @Test
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void rate_shouldUpdate() {
@@ -95,6 +105,13 @@ public class RatingServiceTests extends AbstractDBServiceTests {
     public void rate_shouldFailUserNotRegistered() {
         Rating rating = ratingTestsUtils.newRating();
         ratingService.rate(sessionTestsUtils.findUnusedSession().getId(), rating);
+        fail("should have failed at this point");
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rate_shouldFailCuzSessionDoesntExist() {
+        ratingService.rate(999L, ratingTestsUtils.findAnyRating());
         fail("should have failed at this point");
     }
 
@@ -128,6 +145,19 @@ public class RatingServiceTests extends AbstractDBServiceTests {
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
         assertThat(jdbcTemplate.queryForList(query)).isEmpty();
         assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries - 1);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void unregister_shouldFailCuzSessionDoesntExist() {
+        ratingService.unregister(999L, ratingTestsUtils.findAnyRating().getId());
+        fail("should have failed at this point");
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void unregister_shouldFailCuzRatingDoesntExist() {
+        Rating rating = ratingTestsUtils.findAnyRating();
+        ratingService.unregister(rating.getSession().getId(), 999L);
+        fail("should have failed at this point");
     }
 
     @Override

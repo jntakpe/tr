@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * Tests associés à l'entité {@link Session}
@@ -99,6 +100,18 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test(expected = EntityNotFoundException.class)
     public void delete_shouldFailCuzIdDoesntExist() {
         sessionService.delete(999L);
+    }
+
+    @Test
+    public void findById_shouldFindOne() {
+        Session session = sessionService.findById(sessionTestsUtils.findAnySession().getId());
+        assertThat(session).isNotNull();
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void findById_shouldNotFind() {
+        sessionService.findById(999L);
+        fail("should have failed at this point");
     }
 
     @Override

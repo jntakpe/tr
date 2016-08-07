@@ -49,12 +49,13 @@ public class SessionService {
         sessionRepository.delete(session);
     }
 
-    private Session findById(Long id) {
+    @Transactional(readOnly = true)
+    public Session findById(Long id) {
         Objects.requireNonNull(id);
         Session session = sessionRepository.findOne(id);
         if (Objects.isNull(session)) {
             LOGGER.warn("Aucune session de formation possédant l'id {}", id);
-            throw new EntityNotFoundException("Aucune session de formation possédant l'id " + id);
+            throw new EntityNotFoundException(String.format("Aucune session de formation possédant l'id %s", id));
         }
         return session;
     }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +31,13 @@ public class RatingService {
 
     private final EmployeeService employeeService;
 
+    private final SessionService sessionService;
+
     @Autowired
-    public RatingService(RatingRepository ratingRepository, EmployeeService employeeService) {
+    public RatingService(RatingRepository ratingRepository, EmployeeService employeeService, SessionService sessionService) {
         this.ratingRepository = ratingRepository;
         this.employeeService = employeeService;
+        this.sessionService = sessionService;
     }
 
     @Transactional(readOnly = true)
@@ -46,7 +50,7 @@ public class RatingService {
     //TODO Only for admins
     public Rating register(Long sessionId, Employee employee) {
         Rating rating = new Rating();
-        addSessionFromId(sessionId, rating);
+        addSessionFromIdIfExist(sessionId, rating);
         addEmployeeFromLogin(employee.getLogin(), rating);
         checkSessionAndEmployeeAvailable(rating);
         LOGGER.info("Inscription de l'utilisateur {} à la session id {}", employee, sessionId);
@@ -56,7 +60,7 @@ public class RatingService {
     @Transactional
     public Rating rate(Long sessionId, Rating rating) {
         Objects.requireNonNull(rating);
-        addSessionFromId(sessionId, rating);
+        addSessionFromIdIfExist(sessionId, rating);
         checkRatingHasId(rating);
         checkEmployeeIsAuthenticatedUser(rating);
         checkSessionAndEmployeeAvailable(rating);
@@ -66,28 +70,32 @@ public class RatingService {
 
     @Transactional
     public void unregister(Long sessionId, Long ratingId) {
-        Rating rating = ratingRepository.findOne(ratingId);
+        Rating rating = findById(ratingId);
+        addSessionFromIdIfExist(sessionId, rating);
         LOGGER.info("Désincription de l'employee {} de la session id {}", rating.getEmployee(), rating.getSession());
         ratingRepository.delete(rating);
     }
 
-    private void addSessionFromId(Long sessionId, Rating rating) {
-        if (rating.getSession() == null || rating.getSession().getId() == null) {
-            Session session = new Session();
-            session.setId(sessionId);
-            rating.setSession(session);
-        }
+    private Rating findById(Long id) {
+        Optional<Rating> opt = Optional.ofNullable(ratingRepository.findOne(id));
+        return opt.orElseThrow(() -> new EntityNotFoundException(String.format("Impossible de trouver une note ayant l'id %s", id)));
+    }
+
+    private void addSessionFromIdIfExist(Long sessionId, Rating rating) {
+        Session session = sessionService.findById(sessionId);
+        rating.setSession(session);
     }
 
     private void checkEmployeeIsAuthenticatedUser(Rating rating) {
-        if (!SecurityUtils.getCurrentUserOrThrow().getId().equals(rating.getEmployee().getId())) {
+        Rating attachedRating = findById(rating.getId());
+        if (!SecurityUtils.getCurrentUserOrThrow().getId().equals(attachedRating.getEmployee().getId())) {
             throw new ValidationException("Vous ne pouvez pas noter la session d'un autre participant");
         }
     }
 
     private void addEmployeeFromLogin(String login, Rating rating) {
         Employee employee = employeeService.findByLogin(login)
-                .orElseThrow(() -> new IllegalStateException(String.format("Impossible de trouver l'utilisateur %s", login)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Impossible de trouver l'utilisateur %s", login)));
         rating.setEmployee(employee);
     }
 
