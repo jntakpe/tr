@@ -1,5 +1,8 @@
 package com.github.jntakpe.utils;
 
+import com.github.jntakpe.config.security.SecurityUtils;
+import com.github.jntakpe.config.security.SpringSecurityUser;
+import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.model.Rating;
 import com.github.jntakpe.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,24 @@ public class RatingTestsUtils {
         return ratingRepository.findAll().stream()
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("no rating"));
+    }
+
+    @Transactional(readOnly = true)
+    public Rating findAnyRatingForConnectedUser() {
+        SpringSecurityUser user = SecurityUtils.getCurrentUserOrThrow();
+        Long employeeId = user.getId();
+        return employeeTestUtils.findById(employeeId).getRatings().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("no rating for user  " + user.getUsername()));
+    }
+
+    @Transactional(readOnly = true)
+    public Rating findAnyRatingForUser(String login) {
+        Employee employee = employeeTestUtils.findByLogin(login)
+                .orElseThrow(() -> new IllegalStateException("No employee for login " + login));
+        return employee.getRatings().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("no rating for user  " + employee.getLogin()));
     }
 
     @Transactional(readOnly = true)

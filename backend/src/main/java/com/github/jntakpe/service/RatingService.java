@@ -43,16 +43,7 @@ public class RatingService {
     }
 
     @Transactional
-    public Rating rate(Long sessionId, Rating rating) {
-        Objects.requireNonNull(rating);
-        addSessionFromId(sessionId, rating);
-        addEmployeeFromAuthenticatedUser(rating);
-        checkSessionAndEmployeeAvailable(rating);
-        LOGGER.info("{} d'une note pour la session id {}", rating.isNew() ? "Création" : "Modification", rating.getSession().getId());
-        return ratingRepository.save(rating);
-    }
-
-    @Transactional
+    //TODO Only for admins
     public Rating register(Long sessionId, Employee employee) {
         Rating rating = new Rating();
         addSessionFromId(sessionId, rating);
@@ -62,22 +53,38 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
 
+    @Transactional
+    public Rating rate(Rating rating) {
+        Objects.requireNonNull(rating);
+        checkRatingHasId(rating);
+        checkEmployeeIsAuthenticatedUser(rating);
+        checkSessionAndEmployeeAvailable(rating);
+        LOGGER.info("{} d'une note pour la session id {}", rating.isNew() ? "Création" : "Modification", rating.getSession().getId());
+        return ratingRepository.save(rating);
+    }
+
     private void addSessionFromId(Long sessionId, Rating rating) {
         Session session = new Session();
         session.setId(sessionId);
         rating.setSession(session);
     }
 
-    private void addEmployeeFromAuthenticatedUser(Rating rating) {
-        Employee employee = new Employee();
-        employee.setId(SecurityUtils.getCurrentUserOrThrow().getId());
-        rating.setEmployee(employee);
+    private void checkEmployeeIsAuthenticatedUser(Rating rating) {
+        if (!SecurityUtils.getCurrentUserOrThrow().getId().equals(rating.getEmployee().getId())) {
+            throw new ValidationException("Vous ne pouvez pas noter la session d'un autre participant");
+        }
     }
 
     private void addEmployeeFromLogin(String login, Rating rating) {
         Employee employee = employeeService.findByLogin(login)
                 .orElseThrow(() -> new IllegalStateException(String.format("Impossible de trouver l'utilisateur %s", login)));
         rating.setEmployee(employee);
+    }
+
+    private void checkRatingHasId(Rating rating) {
+        if (rating.getId() == null) {
+            throw new ValidationException("Vous ne pouvez pas noter une session à laquelle vous n'êtes pas inscrit(e)");
+        }
     }
 
     private void checkSessionAndEmployeeAvailable(Rating rating) {

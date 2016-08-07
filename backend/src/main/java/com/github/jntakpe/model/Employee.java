@@ -5,9 +5,12 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Entité représentant un employé de Sopra Steria
@@ -17,6 +20,9 @@ import java.util.Objects;
  */
 @Entity
 public class Employee extends AuditingEntity {
+
+    @OneToMany(mappedBy = "employee")
+    public Set<Rating> ratings = new HashSet<>();
 
     @NotNull
     @Column(unique = true, nullable = false)
@@ -119,6 +125,14 @@ public class Employee extends AuditingEntity {
 
     public void setLastLdapCheck(LocalDateTime lastLdapCheck) {
         this.lastLdapCheck = lastLdapCheck;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
     }
 
     @Override

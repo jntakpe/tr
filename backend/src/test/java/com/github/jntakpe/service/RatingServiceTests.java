@@ -46,53 +46,6 @@ public class RatingServiceTests extends AbstractDBServiceTests {
     }
 
     @Test
-    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
-    public void rate_shouldCreate() {
-        Rating rating = ratingTestsUtils.newRating();
-        Long sessionId = sessionTestsUtils.findAnySession().getId();
-        Integer initialSessionRatings = countRatingWithSessionId(sessionId);
-        Rating saved = ratingService.rate(sessionId, rating);
-        assertThat(saved).isNotNull();
-        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
-        assertThat(countRatingWithSessionId(sessionId)).isEqualTo(initialSessionRatings + 1);
-    }
-
-    @Test(expected = ValidationException.class)
-    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
-    public void rate_shouldFailCuzSameSessionAndEmployee() {
-        Rating rating = ratingTestsUtils.newRating();
-        Long employeeId = SecurityUtils.getCurrentUserOrThrow().getId();
-        Long sessionId = ratingTestsUtils.findRatingsWithEmployeeId(employeeId).stream()
-                .findAny()
-                .map(r -> r.getSession().getId())
-                .orElseThrow(() -> new IllegalStateException("no session corresponding with employee id " + employeeId));
-        ratingService.rate(sessionId, rating);
-        fail("should have failed at this point");
-    }
-
-    @Test
-    @WithUserDetails(EmployeeServiceTests.UNUSED_LOGIN)
-    public void rate_shouldUpdate() {
-        Rating rating = ratingTestsUtils.findAnyRating();
-        Long sessionId = rating.getSession().getId();
-        Integer initialSessionRatings = countRatingWithSessionId(sessionId);
-        ratingTestsUtils.detach(rating);
-        Integer updatedAnim = 2;
-        rating.setAnimation(updatedAnim);
-        ratingService.rate(sessionId, rating);
-        ratingTestsUtils.flush();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
-        Rating result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
-            Rating mapper = new Rating();
-            mapper.setAnimation(rs.getInt("animation"));
-            return mapper;
-        });
-        assertThat(result).isNotNull();
-        assertThat(result.getAnimation()).isEqualTo(updatedAnim);
-        assertThat(countRatingWithSessionId(sessionId)).isEqualTo(initialSessionRatings);
-    }
-
-    @Test
     public void register_shouldCreateNewRating() {
         Session session = sessionTestsUtils.findUnusedSession();
         Long sessionId = session.getId();
@@ -112,6 +65,64 @@ public class RatingServiceTests extends AbstractDBServiceTests {
         Employee employee = new Employee();
         employee.setLogin(login);
         ratingService.register(sessionId, employee);
+        fail("should have failed at this point");
+    }
+
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rate_shouldUpdate() {
+        Rating rating = ratingTestsUtils.findAnyRatingForConnectedUser();
+        Long sessionId = rating.getSession().getId();
+        Integer initialSessionRatings = countRatingWithSessionId(sessionId);
+        ratingTestsUtils.detach(rating);
+        Integer updatedAnim = 2;
+        rating.setAnimation(updatedAnim);
+        ratingService.rate(rating);
+        ratingTestsUtils.flush();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
+        Rating result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+            Rating mapper = new Rating();
+            mapper.setAnimation(rs.getInt("animation"));
+            return mapper;
+        });
+        assertThat(result).isNotNull();
+        assertThat(result.getAnimation()).isEqualTo(updatedAnim);
+        assertThat(countRatingWithSessionId(sessionId)).isEqualTo(initialSessionRatings);
+    }
+
+    @Test(expected = ValidationException.class)
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rate_shouldFailUserNotRegistered() {
+        Rating rating = ratingTestsUtils.newRating();
+        Session session = new Session();
+        session.setId(sessionTestsUtils.findUnusedSession().getId());
+        rating.setSession(session);
+        ratingService.rate(rating);
+        fail("should have failed at this point");
+    }
+
+    @Test(expected = ValidationException.class)
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void rate_shouldFailCuzSameSessionAndEmployee() {
+        Rating rating = ratingTestsUtils.newRating();
+        Long employeeId = SecurityUtils.getCurrentUserOrThrow().getId();
+        Long sessionId = ratingTestsUtils.findRatingsWithEmployeeId(employeeId).stream()
+                .findAny()
+                .map(r -> r.getSession().getId())
+                .orElseThrow(() -> new IllegalStateException("no session corresponding with employee id " + employeeId));
+        Session session = new Session();
+        session.setId(sessionId);
+        rating.setSession(session);
+        ratingService.rate(rating);
+        fail("should have failed at this point");
+    }
+
+    @Test(expected = ValidationException.class)
+    @WithUserDetails(EmployeeServiceTests.UNUSED_LOGIN)
+    public void rate_shouldFailCuzAttemptingToRateOtherUserSession() {
+        Rating rating = ratingTestsUtils.findAnyRatingForUser(EmployeeServiceTests.EXISTING_LOGIN);
+        ratingTestsUtils.detach(rating);
+        ratingService.rate(rating);
         fail("should have failed at this point");
     }
 
