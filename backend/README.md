@@ -33,6 +33,8 @@ L'accès au LDAP nécessite d'être connecté au réseau Sopra Steria physiqueme
 
 Les commandes suivantes doivent être saisies à la racine du projet backend
 
+### Commandes
+
 Via Maven : 
 
 `mvn spring-boot:run --spring.profiles.active=[dev|mem|prod]`
