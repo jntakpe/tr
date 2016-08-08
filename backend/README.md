@@ -49,3 +49,13 @@ Via la CLI standard :
 Lorsque l'application est démarrée la documentation de l'API REST est disponible à l'adresse :
 
 `http://localhost:8080/swagger-ui.html`
+
+## Technologies
+
+* Java 8
+* Spring Boot
+* Spring Data JPA
+* Spring MVC
+* Spring security OAuth2
+* Hibernate
+* Swagger
