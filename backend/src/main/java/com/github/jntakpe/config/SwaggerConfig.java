@@ -4,6 +4,7 @@ import com.github.jntakpe.config.properties.ApiProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -25,13 +26,17 @@ import static springfox.documentation.builders.PathSelectors.regex;
  */
 @Configuration
 @EnableSwagger2
+@Profile("!" + ProfileConstants.PROD)
 public class SwaggerConfig {
 
     public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
 
-    @Autowired
-    private ApiProperties apiProperties;
+    private final ApiProperties apiProperties;
 
+    @Autowired
+    public SwaggerConfig(ApiProperties apiProperties) {
+        this.apiProperties = apiProperties;
+    }
 
     @Bean
     public Docket swaggerDocket() {
@@ -45,7 +50,6 @@ public class SwaggerConfig {
                 .select()
                 .paths(regex(DEFAULT_INCLUDE_PATTERN))
                 .build();
-
     }
 
     private ApiInfo getApiInfo() {
