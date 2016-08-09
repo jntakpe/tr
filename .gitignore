@@ -3,8 +3,8 @@
 ######################
 # Node
 ######################
-/node/
-/node_modules/
+node/
+node_modules/
 
 ######################
 # SASS
@@ -14,7 +14,7 @@
 ######################
 # Bower
 ######################
-/bower_components/
+bower_components/
 
 ######################
 # Eclipse
@@ -22,9 +22,9 @@
 *.pydevproject
 .project
 .metadata
-/bin/
-/tmp/
-/tmp/**/*
+bin/
+tmp/
+tmp/**/*
 *.tmp
 *.bak
 *.swp
@@ -33,7 +33,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
-/src/main/resources/rebel.xml
+src/main/resources/rebel.xml
 
 # External tool builders
 .externalToolBuilders/
@@ -101,8 +101,8 @@ Desktop.ini
 ######################
 # Directories
 ######################
-/build/
-/deploy/
+build/
+deploy/
 
 ######################
 # Logs
