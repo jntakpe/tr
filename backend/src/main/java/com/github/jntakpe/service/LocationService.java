@@ -69,7 +69,7 @@ public class LocationService {
     private Location findById(Long id) {
         Objects.requireNonNull(id);
         Location location = locationRepository.findOne(id);
-        if (Objects.isNull(location)) {
+        if (location == null) {
             LOGGER.warn("Aucun lieu possédant l'id {}", id);
             throw new EntityNotFoundException("Aucune lieu possédant l'id " + id);
         }

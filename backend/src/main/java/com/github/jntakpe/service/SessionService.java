@@ -53,7 +53,7 @@ public class SessionService {
     public Session findById(Long id) {
         Objects.requireNonNull(id);
         Session session = sessionRepository.findOne(id);
-        if (Objects.isNull(session)) {
+        if (session == null) {
             LOGGER.warn("Aucune session de formation possédant l'id {}", id);
             throw new EntityNotFoundException(String.format("Aucune session de formation possédant l'id %s", id));
         }

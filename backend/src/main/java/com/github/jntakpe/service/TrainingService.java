@@ -69,7 +69,7 @@ public class TrainingService {
     private Training findById(Long id) {
         Objects.requireNonNull(id);
         Training training = trainingRepository.findOne(id);
-        if (Objects.isNull(training)) {
+        if (training == null) {
             LOGGER.warn("Aucune formation possédant l'id {}", id);
             throw new EntityNotFoundException("Aucune formation possédant l'id " + id);
         }

@@ -47,4 +47,5 @@ public final class SecurityUtils {
                 .map(a -> new SimpleGrantedAuthority(ROLE_PREFIX + a.getName()))
                 .collect(Collectors.toList());
     }
+
 }
