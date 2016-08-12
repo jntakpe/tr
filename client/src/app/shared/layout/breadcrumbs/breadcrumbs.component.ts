@@ -1,7 +1,7 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'breadcrumbs',
+  selector: 'breadcrumbs-component',
   template: require('./breadcrumbs.component.html')
 })
 export class BreadcrumbsComponent implements OnInit {

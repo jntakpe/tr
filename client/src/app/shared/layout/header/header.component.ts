@@ -1,9 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {TopbarComponent} from "./topbar/topbar.component";
-import {NavbarComponent} from "./navbar/navbar.component";
+import {Component, OnInit} from '@angular/core';
+import {TopbarComponent} from './topbar/topbar.component';
+import {NavbarComponent} from './navbar/navbar.component';
 
 @Component({
-  selector: 'headerbar',
+  selector: 'header-component',
   template: require('./header.component.html'),
   directives: [TopbarComponent, NavbarComponent]
 })

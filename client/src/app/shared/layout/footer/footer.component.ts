@@ -1,7 +1,7 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'footerbar',
+  selector: 'footer-component',
   template: require('./footer.component.html'),
   styles: [require('./footer.component.scss')]
 })

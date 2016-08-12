@@ -1,7 +1,7 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'topbar',
+  selector: 'topbar-component',
   template: require('./topbar.component.html')
 })
 export class TopbarComponent implements OnInit {
