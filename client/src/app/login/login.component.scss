@@ -2,10 +2,18 @@ body {
   background-image: url('images/portal.jpg');
 }
 
+h1 {
+  color: #ffffff;
+  width: 350px;
+  font-size: 50px;
+  font-family: Impact, fantasy;
+  margin: 10vh auto;
+}
+
 .reg-block {
   width: 380px;
   padding: 20px;
-  margin: 30vh auto;
+  margin: 20vh auto;
   background: #fff;
   border-top: solid 2px #72c02c;
 
