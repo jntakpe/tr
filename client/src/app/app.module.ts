@@ -5,11 +5,11 @@ import {FormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {appRouting} from './app.routing';
 import {LayoutModule} from './shared/layout/layout.module';
-import {LoginModule} from './login/login.module';
+import {SecurityModule} from './security/security.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, CommonModule, FormsModule, LayoutModule, LoginModule, appRouting],
+  imports: [BrowserModule, CommonModule, FormsModule, LayoutModule, SecurityModule, appRouting],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
