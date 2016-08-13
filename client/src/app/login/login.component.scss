@@ -1,0 +1,56 @@
+body {
+  background-image: url('images/portal.jpg');
+}
+
+.reg-block {
+  width: 380px;
+  padding: 20px;
+  margin: 30vh auto;
+  background: #fff;
+  border-top: solid 2px #72c02c;
+
+  h2, p, p a {
+    color: #777;
+  }
+
+  p a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .input-group-addon {
+    color: #bbb;
+    background: none;
+    min-width: 40px;
+  }
+
+  .form-control:focus {
+    box-shadow: none;
+    border-color: #999;
+  }
+}
+
+.reg-block-header {
+  padding-bottom: 5px;
+  margin-bottom: 30px;
+  border-bottom: solid 1px #eee;
+
+  h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .reg-block {
+    width: 300px;
+    margin: 60px auto;
+  }
+}
