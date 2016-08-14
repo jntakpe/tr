@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import {SecurityService} from '../security.service';
-import {FormGroup, FormBuilder} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'login-component',
@@ -17,13 +17,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: '',
-      password: ''
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
   login() {
-    this.securityService.login(this.loginForm.value.username, this.loginForm.value.password);
+    this.securityService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(user => console.log(user));
   }
 
 }
