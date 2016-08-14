@@ -1,25 +1,27 @@
-<h1 class="login-title">Training Rating</h1>
+<div class="login-block">
+  <h1 class="login-title">Training Rating</h1>
 
-<div class="reg-block">
-  <div class="reg-block-header">
-    <h2>Connexion</h2>
-    <p><i class="fa fa-info-circle"></i> Utilisez vos identifiants Sopra Steria</p>
-  </div>
+  <div class="reg-block">
+    <div class="reg-block-header">
+      <h2>Connexion</h2>
+      <p><i class="fa fa-info-circle"></i> Utilisez vos identifiants Sopra Steria</p>
+    </div>
 
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <div class="input-group margin-bottom-20">
-      <span class="input-group-addon"><i class="fa fa-user"></i></span>
-      <input type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur">
-    </div>
-    <div class="input-group margin-bottom-20">
-      <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-      <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe">
-    </div>
-    <hr>
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <button type="submit" class="btn-u btn-block"><i class="fa fa-sign-in"></i> Se connecter</button>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="input-group margin-bottom-20">
+        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        <input type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur">
       </div>
-    </div>
-  </form>
+      <div class="input-group margin-bottom-20">
+        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+        <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe">
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <button type="submit" class="btn-u btn-block"><i class="fa fa-sign-in"></i> Se connecter</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

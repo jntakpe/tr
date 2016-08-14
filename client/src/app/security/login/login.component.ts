@@ -1,18 +1,18 @@
-import {Component, ViewEncapsulation, OnInit} from '@angular/core';
-import {SecurityService} from '../security.service';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {LoginService} from './login.service';
 
 @Component({
   selector: 'login-component',
   template: require('./login.component.html'),
   styleUrls: ['login.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private securityService: SecurityService, private formBuilder: FormBuilder) {
+  constructor(private loginService: LoginService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.securityService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(user => console.log(user));
+    this.loginService.login(this.loginForm).subscribe(user => this.loginService.redirectHome(), error => console.log(error));
   }
 
 }

@@ -3,9 +3,10 @@ import {LoginComponent} from './login/login.component';
 import {SecurityService} from './security.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
-  imports: [ReactiveFormsModule, HttpModule],
+  imports: [ReactiveFormsModule, HttpModule, RouterModule],
   declarations: [LoginComponent],
   exports: [LoginComponent],
   providers: [SecurityService]

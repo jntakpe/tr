@@ -28,6 +28,7 @@ export class SecurityService {
       .do(user => this.currentUser = user);
   }
 
+
   private accessToken(username: string, password: string): Observable<Response> {
     return this.http.post('/oauth/token', this.buildTokenRequestBody(username, password), this.buildTokenRequestOption());
   }
