@@ -1,4 +1,5 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ViewEncapsulation, OnInit} from '@angular/core';
+import {SecurityService} from '../security.service';
 
 @Component({
   selector: 'login-component',
@@ -6,6 +7,16 @@ import {Component, ViewEncapsulation} from '@angular/core';
   styleUrls: ['login.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
+  constructor(private securityService: SecurityService) {
+  }
+
+  ngOnInit() {
+  }
+
+  login() {
+    this.securityService.login('jntakpe', 'test');
+  }
 
 }

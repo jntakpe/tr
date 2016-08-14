@@ -6,10 +6,11 @@ import {AppComponent} from './app.component';
 import {appRouting} from './app.routing';
 import {LayoutModule} from './shared/layout/layout.module';
 import {SecurityModule} from './security/security.module';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, CommonModule, FormsModule, LayoutModule, SecurityModule, appRouting],
+  imports: [BrowserModule, CommonModule, FormsModule, HttpModule, LayoutModule, SecurityModule, appRouting],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
