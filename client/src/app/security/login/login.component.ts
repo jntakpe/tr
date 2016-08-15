@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.loginService.login(this.loginForm).subscribe(user => this.loginService.redirectHome(), error => console.log(error));
+    this.loginService.login(this.loginForm)
+      .subscribe(user => this.loginService.redirectHome(), error => this.loginService.displayLoginError(error));
   }
 
 }

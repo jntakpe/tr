@@ -7,19 +7,25 @@
       <p><i class="fa fa-info-circle"></i> Utilisez vos identifiants Sopra Steria</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <div class="input-group margin-bottom-20">
-        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-        <input type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur">
-      </div>
-      <div class="input-group margin-bottom-20">
-        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-        <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe">
-      </div>
+    <form class="sky-form" [formGroup]="loginForm" (ngSubmit)="login()">
+      <section>
+        <div class="input-group margin-bottom-20">
+          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          <input type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur">
+        </div>
+      </section>
+      <section>
+        <div class="input-group margin-bottom-20">
+          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+          <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe">
+        </div>
+      </section>
       <hr>
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
-          <button type="submit" class="btn-u btn-block"><i class="fa fa-sign-in"></i> Se connecter</button>
+          <button type="submit" [disabled]="loginForm.invalid" class="btn btn-block btn-u"><i class="fa fa-sign-in"></i>
+            Se connecter
+          </button>
         </div>
       </div>
     </form>
