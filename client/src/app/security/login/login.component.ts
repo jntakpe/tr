@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.loginService.login(this.loginForm)
+    this.loginService.login(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(user => this.loginService.redirectHome(),
         error => this.loginService.handleLoginError(error, this.loginForm, this.usernameInput));
   }

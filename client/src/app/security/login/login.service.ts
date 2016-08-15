@@ -14,25 +14,25 @@ export class LoginService {
   constructor(private securityService: SecurityService, private navigationService: NavigationService, private alertService: AlertService) {
   }
 
-  login(loginForm: FormGroup): Observable<User> {
-    return this.securityService.login(loginForm.value.username, loginForm.value.password);
+  login(username: string, password: string): Observable<User> {
+    return this.securityService.login(username, password);
   }
 
-  redirectHome() {
+  redirectHome(): void {
     this.navigationService.goToHomePage();
   }
 
-  handleLoginError(error: Response, form: FormGroup, inputElement: ElementRef) {
+  handleLoginError(error: Response, form: FormGroup, inputElement: ElementRef): void {
     this.displayLoginError(error);
     form.reset();
     this.focusElement(inputElement);
   }
 
-  focusElement(element: ElementRef) {
+  focusElement(element: ElementRef): void {
     element.nativeElement.focus();
   }
 
-  private displayLoginError(error: Response) {
+  private displayLoginError(error: Response): void {
     if (error.status === 400) {
       this.alertService.error('Veuillez saisir vos identifiants Sopra Steria', 'Identifiants incorrects');
     } else {
