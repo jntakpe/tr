@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import {User} from './user';
 import 'rxjs/add/operator/do';
 
-var jwtDecode = require('jwt-decode');
+const jwtDecode = require('jwt-decode');
 
 @Injectable()
 export class SecurityService {
@@ -28,9 +28,8 @@ export class SecurityService {
       .do(user => this.currentUser = user);
   }
 
-
   private accessToken(username: string, password: string): Observable<Response> {
-    return this.http.post('/oauth/token', this.buildTokenRequestBody(username, password), this.buildTokenRequestOption());
+    return this.http.post('oauth/token', this.buildTokenRequestBody(username, password), this.buildTokenRequestOption());
   }
 
   private buildTokenRequestBody(username: string, password: string): string {

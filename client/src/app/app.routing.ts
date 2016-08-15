@@ -1,8 +1,8 @@
 import {Routes, RouterModule} from '@angular/router';
-import {LoginComponent} from './security/login/login.component';
+import {LayoutComponent} from './shared/layout/layout.component';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent}
+  {path: '', component: LayoutComponent}
 ];
 
 export const appRouting = RouterModule.forRoot(routes);

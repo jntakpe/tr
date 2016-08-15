@@ -1,32 +1,22 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {SecurityService} from '../security.service';
-import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {User} from '../user';
+import {NavigationService} from '../../shared/navigation.service';
 
 @Injectable()
-export class LoginService implements OnInit, OnDestroy {
+export class LoginService {
 
-  private portalBgClass = 'portalbg';
-
-  constructor(private securityService: SecurityService, private router: Router) {
-  }
-
-  ngOnInit() {
-    document.querySelector('body').classList.add(this.portalBgClass)
-  }
-
-  ngOnDestroy() {
-    document.querySelector('body').classList.remove(this.portalBgClass)
+  constructor(private securityService: SecurityService, private navigationService: NavigationService) {
   }
 
   login(loginForm: FormGroup): Observable<User> {
     return this.securityService.login(loginForm.value.username, loginForm.value.password);
   }
 
-  redirectHome(): void {
-    this.router.navigate(['/home']);
+  redirectHome() {
+    this.navigationService.goToHomePage();
   }
 
 }
