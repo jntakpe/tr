@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, ElementRef} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {SecurityService} from '../security.service';
 import {Observable} from 'rxjs';
@@ -22,12 +22,23 @@ export class LoginService {
     this.navigationService.goToHomePage();
   }
 
-  displayLoginError(error: Response) {
+  handleLoginError(error: Response, form: FormGroup, inputElement: ElementRef) {
+    this.displayLoginError(error);
+    form.reset();
+    this.focusElement(inputElement);
+  }
+
+  focusElement(element: ElementRef) {
+    element.nativeElement.focus();
+  }
+
+  private displayLoginError(error: Response) {
     if (error.status === 400) {
       this.alertService.error('Veuillez saisir vos identifiants Sopra Steria', 'Identifiants incorrects');
     } else {
       this.alertService.defaultErrorMsg();
     }
   }
+
 
 }

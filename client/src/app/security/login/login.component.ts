@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {LoginService} from './login.service';
 
@@ -9,6 +9,8 @@ import {LoginService} from './login.service';
   providers: [LoginService]
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
+  @ViewChild('username') usernameInput: ElementRef;
 
   loginForm: FormGroup;
 
@@ -23,6 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.loginService.focusElement(this.usernameInput);
   }
 
   ngOnDestroy() {
@@ -31,7 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.loginService.login(this.loginForm)
-      .subscribe(user => this.loginService.redirectHome(), error => this.loginService.displayLoginError(error));
+      .subscribe(user => this.loginService.redirectHome(),
+        error => this.loginService.handleLoginError(error, this.loginForm, this.usernameInput));
   }
 
 }
