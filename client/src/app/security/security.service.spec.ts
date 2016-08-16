@@ -1,10 +1,9 @@
 import {TestBed, inject} from '@angular/core/testing/test_bed';
 import {SecurityService} from './security.service';
-import {MockBackend, MockConnection} from '@angular/http/testing/mock_backend';
-import {HttpModule, Http, BaseRequestOptions, ResponseOptions, Response} from '@angular/http';
+import {MockBackend} from '@angular/http/testing/mock_backend';
+import {HttpModule, Http, BaseRequestOptions} from '@angular/http';
 import {User} from './user';
-
-const tokenJson = require('./token-response.json');
+import {mockTokenResponse, tokenJson} from '../shared/test/test-utils';
 
 describe('security service', () => {
 
@@ -87,10 +86,5 @@ describe('security service', () => {
       }, (error) => fail('should get token'));
     }));
 
-  function mockTokenResponse(connection: MockConnection) {
-    let valid: boolean = connection.request.getBody().indexOf('username=jntakpe&password=test') !== -1;
-    expect(connection.request.url).toEqual('oauth/token');
-    connection.mockRespond(new Response(valid ? new ResponseOptions({body: tokenJson}) : new ResponseOptions({status: 400})));
-  }
 
 });

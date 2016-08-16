@@ -6,40 +6,11 @@ import {TopbarService} from './topbar.service';
 import {User} from '../../../../security/user';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {provideRoutes, Routes, Router, RouterModule} from '@angular/router';
-import {Component} from '@angular/core';
 import {Location} from '@angular/common';
-import {fakeAsync, tick} from '@angular/core/testing/fake_async';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import {fakeAsync} from '@angular/core/testing/fake_async';
+import {RootComponent, FakeLoginComponent, createRoot, advance, tokenJson} from '../../../test/test-utils';
 
-const tokenJson = require('../../../../security/token-response.json');
 describe('topbar service', () => {
-
-  @Component({
-    selector: 'root-cmp',
-    template: '<router-outlet></router-outlet>'
-  })
-  class RootComponent {
-  }
-
-  @Component({
-    selector: 'fake-login-cmp',
-    template: '<h1>fake cmp</h1>'
-  })
-  class FakeLoginComponent {
-  }
-
-  function advance(fixture: ComponentFixture<any>): void {
-    tick();
-    fixture.detectChanges();
-  }
-
-  function createRoot(router: Router, type: any): ComponentFixture<any> {
-    const f = TestBed.createComponent(type);
-    advance(f);
-    router.initialNavigation();
-    advance(f);
-    return f;
-  }
 
   const routes: Routes = [
     {path: '', component: RootComponent},
