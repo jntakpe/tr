@@ -4,7 +4,7 @@ import {TopbarService} from './topbar.service';
 @Component({
   selector: 'topbar-component',
   template: require('./topbar.component.html'),
-  providers: [TopbarService]
+  providers: [TopbarService],
 })
 export class TopbarComponent implements OnInit {
 
@@ -17,7 +17,11 @@ export class TopbarComponent implements OnInit {
   ngOnInit() {
     let {username, authorities} = this.topbarService.getUserInfos();
     this.username = username;
-    this.authorities = authorities
+    this.authorities = authorities;
+  }
+
+  logout(): void {
+    this.topbarService.logout();
   }
 
 }
