@@ -1,3 +1,4 @@
 body.portalbg {
   background-image: url('../images/portal.jpg');
+  background-size: contain;
 }
