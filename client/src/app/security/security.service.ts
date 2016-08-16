@@ -10,6 +10,8 @@ const jwtDecode = require('jwt-decode');
 @Injectable()
 export class SecurityService {
 
+  private tokenKey = 'tr_oauth2_auth';
+
   private authParams = {
     clientId: 'trainingrating',
     secret: 'supertrainingratingsecret',
@@ -23,9 +25,21 @@ export class SecurityService {
 
   login(username: string, password: string): Observable<User> {
     return this.accessToken(username, password)
-      .do(this.storeToken)
-      .map(this.mapUser)
+      .do(res => this.storeToken(res))
+      .map(res => this.mapUser(res.json().access_token))
       .do(user => this.currentUser = user);
+  }
+
+  getCurrentUser(): User {
+    if (this.currentUser) {
+      return this.currentUser;
+    }
+    const token = this.getToken();
+    if (token && token.access_token) {
+      this.currentUser = this.mapUser(token.access_token);
+      return this.currentUser;
+    }
+    return null;
   }
 
   private accessToken(username: string, password: string): Observable<Response> {
@@ -46,17 +60,20 @@ export class SecurityService {
     return {headers};
   }
 
-  private mapUser(res: Response): User {
-    const data = res.json();
-    const plainToken = jwtDecode(data.access_token);
+  private mapUser(accessToken: String): User {
+    const plainToken = jwtDecode(accessToken);
     return new User(plainToken.user_name, plainToken.authorities);
   }
 
   private storeToken(res: Response): any {
     const data = res.json();
     data.expires_at = moment().add(data.expires_in, 's').toDate();
-    localStorage.setItem('tr_oauth2_auth', data);
+    localStorage.setItem(this.tokenKey, data);
     return data;
+  }
+
+  private getToken(): any {
+    return localStorage.getItem(this.tokenKey);
   }
 
 }
