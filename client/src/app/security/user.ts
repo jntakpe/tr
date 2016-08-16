@@ -1,6 +1,6 @@
 export class User {
 
-  constructor(private login: string, private authorities: string[]) {
+  constructor(public login: string, public authorities: string[]) {
   }
 
 }
