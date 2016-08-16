@@ -7,7 +7,6 @@ import {NavigationService} from '../../shared/navigation.service';
 import {Response} from '@angular/http';
 import {AlertService} from '../../shared/alert.service';
 
-
 @Injectable()
 export class LoginService {
 

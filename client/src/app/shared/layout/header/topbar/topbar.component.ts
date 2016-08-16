@@ -15,7 +15,7 @@ export class TopbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    let {username, authorities} = this.topbarService.getCurrentUserWithFormattedAuthories();
+    let {username, authorities} = this.topbarService.getUserInfos();
     this.username = username;
     this.authorities = authorities
   }
