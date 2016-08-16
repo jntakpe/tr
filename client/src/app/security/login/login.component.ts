@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {LoginService} from './login.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'login-component',
@@ -16,6 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private portalBgClass = 'portalbg';
 
+  private loginSubscription: Subscription;
+
   constructor(private loginService: LoginService, private formBuilder: FormBuilder) {
   }
 
@@ -30,10 +33,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     document.querySelector('body').classList.remove(this.portalBgClass);
+    this.loginSubscription.unsubscribe();
   }
 
   login() {
-    this.loginService.login(this.loginForm.value.username, this.loginForm.value.password)
+    this.loginSubscription = this.loginService.login(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(user => this.loginService.redirectHome(),
         error => this.loginService.handleLoginError(error, this.loginForm, this.usernameInput));
   }

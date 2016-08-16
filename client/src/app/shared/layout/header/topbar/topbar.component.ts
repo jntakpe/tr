@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {SecurityService} from '../../../../security/security.service';
 
 @Component({
   selector: 'topbar-component',
@@ -6,10 +7,13 @@ import {Component, OnInit} from '@angular/core';
 })
 export class TopbarComponent implements OnInit {
 
-  constructor() {
+  username: string;
+
+  constructor(private securityService: SecurityService) {
   }
 
   ngOnInit() {
+    console.log(this.securityService.getCurrentUser());
   }
 
 }

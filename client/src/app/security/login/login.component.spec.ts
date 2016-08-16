@@ -6,9 +6,6 @@ import {SecurityModule} from '../security.module';
 import {FormGroup} from '@angular/forms';
 import {By} from '@angular/platform-browser/src/dom/debug/by';
 import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
-import {LoginService} from './login.service';
-import {Observable} from 'rxjs';
-import {User} from '../user';
 
 describe('Login component', () => {
   beforeEach(() => {
@@ -91,16 +88,5 @@ describe('Login component', () => {
       expect(compiled.querySelector('button:disabled')).toBeTruthy();
     }));
   });
-
-  class MockLoginService extends LoginService {
-
-    login(username: string, password: string): Observable<User> {
-      if (username === 'jntakpe' && password === 'test') {
-        return Observable
-          .of(new User('jntakpe', ['ROLE_ADMIN', 'ROLE_USER']));
-      }
-      return null;
-    }
-  }
 
 });
