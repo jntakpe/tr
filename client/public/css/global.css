@@ -1,4 +1,9 @@
 body.portalbg {
   background-image: url('../images/portal.jpg');
-  background-size: contain;
+}
+
+@media (max-width: 992px) {
+  body.portalbg {
+    background-size: contain;
+  }
 }
