@@ -21,7 +21,6 @@ describe('Login component', () => {
 
     it('it should create login component', async(() => {
       const component = TestBed.createComponent(LoginComponent).componentInstance;
-
       expect(component).toBeTruthy();
     }));
 
@@ -29,7 +28,6 @@ describe('Login component', () => {
       const fixture = TestBed.createComponent(LoginComponent);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
-
       expect(compiled.querySelector('input[name="username"]').value).toBe('');
       expect(compiled.querySelector('input[name="password"]').value).toBe('');
     }));
@@ -38,7 +36,6 @@ describe('Login component', () => {
       const fixture = TestBed.createComponent(LoginComponent);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
-
       expect(compiled.querySelector('button:disabled')).toBeTruthy();
     }));
 
@@ -55,7 +52,6 @@ describe('Login component', () => {
       dispatchEvent(passwordInput.nativeElement, 'input');
       const form: FormGroup = fixture.debugElement.componentInstance.loginForm;
       fixture.detectChanges();
-
       expect(form.value.username).toBe(updatedValue);
       expect(form.value.password).toBe(updatedValue);
       expect(compiled.querySelector('button:not(:disabled)')).toBeTruthy();
@@ -75,11 +71,9 @@ describe('Login component', () => {
       dispatchEvent(passwordInput.nativeElement, 'input');
       const form: FormGroup = fixture.debugElement.componentInstance.loginForm;
       fixture.detectChanges();
-
       expect(form.value.username).toBe(updatedValue);
       expect(form.value.password).toBe(updatedValue);
       expect(compiled.querySelector('button:not(:disabled)')).toBeTruthy();
-
       passwordInput.nativeElement.value = '';
       dispatchEvent(passwordInput.nativeElement, 'input');
       fixture.detectChanges();
