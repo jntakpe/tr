@@ -49,7 +49,7 @@ describe('security service', () => {
     (securityService: SecurityService, mockBackend: MockBackend) => {
       mockBackend.connections.subscribe(c => mockTokenResponse(c));
       securityService.login('jntakpe', 'test').subscribe(() => {
-        const token = JSON.parse(localStorage.getItem('tr_oauth2_auth'));
+        const token = JSON.parse(localStorage.getItem(securityService.tokenKey));
         expect(token.access_token).toBe(tokenJson.access_token);
       }, () => fail('should get token'));
     }));
@@ -75,6 +75,17 @@ describe('security service', () => {
   it('should not get current user', inject([SecurityService], (securityService: SecurityService) => {
     expect(securityService.getCurrentUser()).toBeFalsy();
   }));
+
+  it('should logout current user', inject([SecurityService, MockBackend],
+    (securityService: SecurityService, mockBackend: MockBackend) => {
+      mockBackend.connections.subscribe(c => mockTokenResponse(c));
+      securityService.login('jntakpe', 'test').subscribe(() => {
+        expect(securityService.getCurrentUser()).toBeTruthy();
+        securityService.logout();
+        expect(securityService.getCurrentUser()).toBeFalsy();
+        expect(localStorage.getItem(securityService.tokenKey)).toBeFalsy();
+      }, (error) => fail('should get token'));
+    }));
 
   function mockTokenResponse(connection: MockConnection) {
     let valid: boolean = connection.request.getBody().indexOf('username=jntakpe&password=test') !== -1;

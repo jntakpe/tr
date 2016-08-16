@@ -10,7 +10,7 @@ const jwtDecode = require('jwt-decode');
 @Injectable()
 export class SecurityService {
 
-  private tokenKey = 'tr_oauth2_auth';
+  tokenKey = 'tr_oauth2_auth';
 
   private authParams = {
     clientId: 'trainingrating',
@@ -40,6 +40,11 @@ export class SecurityService {
       return this.currentUser;
     }
     return null;
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    this.currentUser = null;
   }
 
   private accessToken(username: string, password: string): Observable<Response> {
