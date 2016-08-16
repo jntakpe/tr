@@ -46,7 +46,7 @@ describe('topbar service', () => {
 
     it('should get formatted authorities', inject([TopbarService], (topbarService: TopbarService) => {
       localStorage.setItem('tr_oauth2_auth', JSON.stringify(tokenJson));
-      expect(topbarService.getCurrentUserWithFormattedAuthories().authorities).toEqual('Formateur | Administrateur');
+      expect(topbarService.getCurrentUserWithFormattedAuthories().authorities).toEqual('Formateur , Administrateur');
     }));
   });
 

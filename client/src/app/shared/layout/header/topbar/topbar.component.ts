@@ -1,19 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {SecurityService} from '../../../../security/security.service';
+import {TopbarService} from './topbar.service';
 
 @Component({
   selector: 'topbar-component',
-  template: require('./topbar.component.html')
+  template: require('./topbar.component.html'),
+  providers: [TopbarService]
 })
 export class TopbarComponent implements OnInit {
 
   username: string;
+  authorities: string;
 
-  constructor(private securityService: SecurityService) {
+  constructor(private topbarService: TopbarService) {
   }
 
   ngOnInit() {
-    console.log(this.securityService.getCurrentUser());
+    let {username, authorities} = this.topbarService.getCurrentUserWithFormattedAuthories();
+    this.username = username;
+    this.authorities = authorities
   }
 
 }

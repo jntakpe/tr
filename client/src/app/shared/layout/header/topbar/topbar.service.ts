@@ -25,7 +25,7 @@ export class TopbarService {
 
   private formatAuthorities(authorities: string[]) {
     const mappedAuthorities = authorities.filter(auth => auth !== 'ROLE_USER').map(this.labelizeAuthority);
-    return mappedAuthorities.length === 0 ? 'Utilisateur' : mappedAuthorities.join(' | ')
+    return mappedAuthorities.length === 0 ? 'Utilisateur' : mappedAuthorities.join(' , ')
   }
 
   private labelizeAuthority(authority: string): string {
