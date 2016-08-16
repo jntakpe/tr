@@ -68,12 +68,13 @@ export class SecurityService {
   private storeToken(res: Response): any {
     const data = res.json();
     data.expires_at = moment().add(data.expires_in, 's').toDate();
-    localStorage.setItem(this.tokenKey, data);
+    localStorage.setItem(this.tokenKey, JSON.stringify(data));
     return data;
   }
 
   private getToken(): any {
-    return localStorage.getItem(this.tokenKey);
+    const token = localStorage.getItem(this.tokenKey);
+    return token ? JSON.parse(token) : token;
   }
 
 }
