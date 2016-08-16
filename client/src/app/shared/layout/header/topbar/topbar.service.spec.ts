@@ -5,7 +5,7 @@ import {MockBackend} from '@angular/http/testing/mock_backend';
 import {TopbarService} from './topbar.service';
 import {User} from '../../../../security/user';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {provideRoutes, Routes, Router, RouterModule} from '@angular/router';
+import {Routes, Router, RouterModule} from '@angular/router';
 import {Location} from '@angular/common';
 import {fakeAsync} from '@angular/core/testing/fake_async';
 import {RootComponent, FakeLoginComponent, createRoot, advance, tokenJson} from '../../../test/test-utils';
@@ -87,10 +87,10 @@ describe('topbar service', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
+        declarations: [FakeLoginComponent, RootComponent],
+        imports: [RouterTestingModule, RouterModule.forChild(routes)],
         providers: [
           TopbarService,
-          provideRoutes([]),
           {provide: SecurityService, useClass: MockSecurityService}
         ]
       });
@@ -116,10 +116,10 @@ describe('topbar service', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
+        declarations: [FakeLoginComponent, RootComponent],
+        imports: [RouterTestingModule, RouterModule.forChild(routes)],
         providers: [
           TopbarService,
-          provideRoutes([]),
           {provide: SecurityService, useClass: MockSecurityService}
         ]
       });
