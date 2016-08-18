@@ -70,7 +70,7 @@ describe('topbar service', () => {
             topbarService.logout();
             expect(localStorage.getItem(securityService.tokenKey)).toBeFalsy();
             advance(fixture);
-            expect(location.path()).toBe('/login');
+            expect(location.path()).toBe('/login?from=logout');
           })
       ));
   });

@@ -26,7 +26,7 @@ export class TopbarService {
 
   logout(): void {
     this.securityService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {queryParams: {from: 'logout'}});
   }
 
   private formatAuthorities(authorities: string[]) {

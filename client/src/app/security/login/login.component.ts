@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', Validators.required]
     });
     this.loginService.focusElement(this.usernameInput);
+    this.loginService.displayRedirectMessage();
   }
 
   ngOnDestroy() {
