@@ -103,6 +103,7 @@ Desktop.ini
 ######################
 build/
 deploy/
+coverage/
 
 ######################
 # Logs
