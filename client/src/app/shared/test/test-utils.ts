@@ -22,6 +22,13 @@ export class RootComponent {
 }
 
 @Component({
+  selector: 'home-cmp',
+  template: '<h1>home</h1>'
+})
+export class FakeHomeComponent {
+}
+
+@Component({
   selector: 'fake-login-cmp',
   template: '<h1>fake cmp</h1>'
 })

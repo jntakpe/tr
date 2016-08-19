@@ -40,7 +40,7 @@ export class LoginService {
       if (from === 'logout') {
         this.alertService.success('Vous êtes à présent déconnecté', 'Deconnexion');
       }
-    });
+    }).unsubscribe();
   }
 
   private displayLoginError(error: Response): void {

@@ -1,13 +1,10 @@
 import {NgModule} from '@angular/core';
-import {LoginComponent} from './login/login.component';
 import {SecurityService} from './security.service';
-import {SharedModule} from '../shared/shared.module';
 import {securityRouting} from './security.routing';
+import {LoginModule} from './login/login.module';
 
 @NgModule({
-  imports: [SharedModule, securityRouting],
-  declarations: [LoginComponent],
-  exports: [LoginComponent],
+  imports: [LoginModule, securityRouting],
   providers: [SecurityService]
 })
 export class SecurityModule {

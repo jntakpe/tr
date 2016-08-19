@@ -6,8 +6,7 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'login-component',
   template: require('./login.component.html'),
-  styles: [require('./login.component.scss')],
-  providers: [LoginService]
+  styles: [require('./login.component.scss')]
 })
 export class LoginComponent implements OnInit, OnDestroy {
 

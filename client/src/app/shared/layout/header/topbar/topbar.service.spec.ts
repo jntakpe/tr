@@ -62,16 +62,15 @@ describe('topbar service', () => {
       }));
 
     it('should logout current user and redirect',
-      fakeAsync(
-        inject([TopbarService, SecurityService, Router, Location],
-          (topbarService: TopbarService, securityService: SecurityService, router: Router, location: Location) => {
-            const fixture = createRoot(router, RootComponent);
-            localStorage.setItem(securityService.tokenKey, JSON.stringify(tokenJson));
-            topbarService.logout();
-            expect(localStorage.getItem(securityService.tokenKey)).toBeFalsy();
-            advance(fixture);
-            expect(location.path()).toBe('/login?from=logout');
-          })
+      fakeAsync(inject([TopbarService, SecurityService, Router, Location],
+        (topbarService: TopbarService, securityService: SecurityService, router: Router, location: Location) => {
+          const fixture = createRoot(router, RootComponent);
+          localStorage.setItem(securityService.tokenKey, JSON.stringify(tokenJson));
+          topbarService.logout();
+          expect(localStorage.getItem(securityService.tokenKey)).toBeFalsy();
+          advance(fixture);
+          expect(location.path()).toBe('/login?from=logout');
+        })
       ));
   });
 

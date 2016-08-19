@@ -10,4 +10,5 @@ export class NavigationService {
   goToHomePage() {
     this.router.navigate(['/home']);
   }
+
 }
