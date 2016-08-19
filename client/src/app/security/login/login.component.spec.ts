@@ -42,7 +42,7 @@ describe('Login component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [ReactiveFormsModule, RouterTestingModule, HttpModule, RouterModule.forChild([])],
+      imports: [ReactiveFormsModule, HttpModule, RouterTestingModule, RouterModule.forChild([])],
       providers: [
         {provide: LoginService, useValue: new MockLoginService(null, null, null, null)},
         SecurityService,
