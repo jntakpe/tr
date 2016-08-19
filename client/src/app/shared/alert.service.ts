@@ -5,31 +5,33 @@ import * as toastr from 'toastr';
 @Injectable()
 export class AlertService {
 
+  toastr: Toastr;
+
   constructor() {
+    this.toastr = toastr;
+    this.toastr.options = {
+      progressBar: true,
+      closeButton: true
+    };
   }
 
   info(message: string, title?: string) {
-    // noinspection TypeScriptUnresolvedFunction
-    toastr.info(message, title);
+    this.toastr.info(message, title);
   }
 
   success(message: string, title?: string) {
-    // noinspection TypeScriptUnresolvedFunction
-    toastr.success(message, title);
+    this.toastr.success(message, title);
   }
 
   error(message: string, title?: string) {
-    // noinspection TypeScriptUnresolvedFunction
-    toastr.error(message, title);
+    this.toastr.error(message, title);
   }
 
   warning(message: string, title?: string) {
-    // noinspection TypeScriptUnresolvedFunction
-    toastr.warning(message, title);
+    this.toastr.warning(message, title);
   }
 
   defaultErrorMsg() {
-    // noinspection TypeScriptUnresolvedFunction
-    toastr.error('Une erreur inconnue est survenue', 'Erreur non gérée');
+    this.toastr.error('Une erreur inconnue est survenue', 'Erreur non gérée');
   }
 }
