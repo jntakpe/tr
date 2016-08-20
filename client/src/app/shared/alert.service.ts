@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as toastr from 'toastr';
 
-
 @Injectable()
 export class AlertService {
 
