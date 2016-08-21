@@ -1,5 +1,9 @@
-.footer-v2 {
+.footer-v3 {
   position: absolute;
   bottom: 0;
   width: 100%;
+
+  .copyright {
+    padding: 0;
+  }
 }
