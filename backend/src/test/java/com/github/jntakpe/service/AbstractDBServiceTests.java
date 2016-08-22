@@ -1,6 +1,5 @@
 package com.github.jntakpe.service;
 
-import org.assertj.db.type.Table;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,8 +17,6 @@ public abstract class AbstractDBServiceTests {
 
     protected int nbEntries;
 
-    protected Table table;
-
     protected JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -27,7 +24,6 @@ public abstract class AbstractDBServiceTests {
 
     @PostConstruct
     public void setUp() throws Exception {
-        table = new Table(dataSource, getTableName());
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

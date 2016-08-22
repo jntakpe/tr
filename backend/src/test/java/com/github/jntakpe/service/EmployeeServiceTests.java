@@ -28,11 +28,6 @@ public class EmployeeServiceTests extends AbstractDBServiceTests {
     @Autowired
     private EmployeeService employeeService;
 
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
-    }
-
     @Test
     public void findByLogin_shouldFindOne() {
         assertThat(employeeService.findByLogin(EXISTING_LOGIN)).isPresent();
@@ -47,6 +42,11 @@ public class EmployeeServiceTests extends AbstractDBServiceTests {
     @Test
     public void findByLogin_shouldNotFind() {
         assertThat(employeeService.findByLogin(SOME_UNKNOWN_LOGIN)).isNotPresent();
+    }
+
+    @Override
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
 }
