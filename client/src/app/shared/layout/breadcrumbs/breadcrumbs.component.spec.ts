@@ -6,6 +6,7 @@ import {RouterModule, Route, NavigationEnd, Event} from '@angular/router';
 import {BreadcrumbsService} from './breadcrumbs.service';
 import {Observable} from 'rxjs';
 import {BreadcrumbsInfo} from './breadcrumbs';
+import {By} from '@angular/platform-browser/src/dom/debug/by';
 
 describe('breadcrumb component', () => {
 
@@ -52,6 +53,28 @@ describe('breadcrumb component', () => {
     const breadcrumbsInfos = fixture.debugElement.componentInstance.breadcrumbsInfos;
     expect(breadcrumbsInfos[0].path).toBe('previous');
     expect(breadcrumbsInfos[0].title).toBe('Previous title');
+  }));
+
+  it('should display title', async(() => {
+    const fixture = TestBed.createComponent(BreadcrumbsComponent);
+    fixture.detectChanges();
+    const title = fixture.debugElement.query(By.css('h1')).nativeElement.textContent;
+    expect(title).toBe('Test title');
+  }));
+
+  it('should display previous link', async(() => {
+    const fixture = TestBed.createComponent(BreadcrumbsComponent);
+    fixture.detectChanges();
+    const link = fixture.debugElement.query(By.css('ul li a')).nativeElement;
+    expect(link.href).toContain('/previous');
+    expect(link.textContent).toBe('Previous title');
+  }));
+
+  it('should display last title', async(() => {
+    const fixture = TestBed.createComponent(BreadcrumbsComponent);
+    fixture.detectChanges();
+    const li = fixture.debugElement.query(By.css('ul li:last-child')).nativeElement;
+    expect(li.textContent).toBe('Test title');
   }));
 
 });
