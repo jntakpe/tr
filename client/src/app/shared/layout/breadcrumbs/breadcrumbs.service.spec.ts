@@ -38,6 +38,17 @@ describe('breadcrumbs service', () => {
     });
   });
 
+  it('should trigger NavigationEnd event', fakeAsync(inject([BreadcrumbsService, Router],
+    (breadcrumbsService: BreadcrumbsService, router: Router) => {
+      const fixture = createRoot(router, RootComponent);
+      let called = false;
+      breadcrumbsService.navigationEndEvent().subscribe(() => called = true);
+      expect(called).toBeFalsy();
+      router.navigate(['/home']);
+      advance(fixture);
+      expect(called).toBeTruthy();
+    })));
+
   it('should get title on single level route', fakeAsync(inject([BreadcrumbsService, Router],
     (breadcrumbsService: BreadcrumbsService, router: Router) => {
       const fixture = createRoot(router, RootComponent);

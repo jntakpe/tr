@@ -1,11 +1,17 @@
 import {Injectable} from '@angular/core';
-import {Route} from '@angular/router';
+import {Route, Router, Event, NavigationEnd} from '@angular/router';
 import {BreadcrumbsInfo} from './breadcrumbs';
+import {Observable} from 'rxjs';
+import 'rxjs/add/operator/filter';
 
 @Injectable()
 export class BreadcrumbsService {
 
-  constructor() {
+  constructor(private router: Router) {
+  }
+
+  navigationEndEvent(): Observable<Event> {
+    return this.router.events.filter(e => e instanceof NavigationEnd);
   }
 
   componentTitleFromRoutes(routes: Route[]): string {
