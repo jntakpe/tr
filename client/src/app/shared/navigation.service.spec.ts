@@ -5,6 +5,7 @@ import {RouterTestingModule} from '@angular/router/testing/router_testing_module
 import {NavigationService} from './navigation.service';
 import {Location} from '@angular/common';
 import {fakeAsync} from '@angular/core/testing/fake_async';
+
 describe('navigation service', () => {
 
   const routes: Routes = [
