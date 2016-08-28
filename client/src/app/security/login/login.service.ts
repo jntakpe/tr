@@ -6,15 +6,14 @@ import {User} from '../user';
 import {NavigationService} from '../../shared/navigation.service';
 import {Response} from '@angular/http';
 import {AlertService} from '../../shared/alert.service';
-import {ActivatedRoute} from '@angular/router';
+import {Params} from '@angular/router';
 
 @Injectable()
 export class LoginService {
 
   constructor(private securityService: SecurityService,
               private navigationService: NavigationService,
-              private alertService: AlertService,
-              private activatedRoute: ActivatedRoute) {
+              private alertService: AlertService) {
   }
 
   login(username: string, password: string): Observable<User> {
@@ -35,12 +34,10 @@ export class LoginService {
     element.nativeElement.focus();
   }
 
-  displayRedirectMessage(): void {
-    this.activatedRoute.queryParams.map(p => p['from']).subscribe(from => {
-      if (from === 'logout') {
-        this.alertService.success('Vous êtes à présent déconnecté', 'Deconnexion');
-      }
-    }).unsubscribe();
+  displayRedirectMessage(params: Params): void {
+    if (params['from'] === 'logout') {
+      this.alertService.success('Vous êtes à présent déconnecté', 'Deconnexion');
+    }
   }
 
   private displayLoginError(error: Response): void {

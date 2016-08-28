@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {LoginService} from './login.service';
 import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'login-component',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private loginSubscription: Subscription;
 
-  constructor(private loginService: LoginService, private formBuilder: FormBuilder) {
+  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', Validators.required]
     });
     this.loginService.focusElement(this.usernameInput);
-    this.loginService.displayRedirectMessage();
+    this.loginService.displayRedirectMessage(this.activatedRoute.snapshot.queryParams);
   }
 
   ngOnDestroy() {

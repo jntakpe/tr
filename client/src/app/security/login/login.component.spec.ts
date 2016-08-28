@@ -45,7 +45,7 @@ describe('Login component', () => {
       declarations: [LoginComponent],
       imports: [ReactiveFormsModule, HttpModule, RouterTestingModule, RouterModule.forChild([])],
       providers: [
-        {provide: LoginService, useValue: new MockLoginService(null, null, null, null)},
+        {provide: LoginService, useValue: new MockLoginService(null, null, null)},
         SecurityService,
         NavigationService,
         AlertService

@@ -150,7 +150,7 @@ describe('login service', () => {
       router.navigateByUrl('login?from=logout');
       advance(fixture);
       spyOn(alertService, 'success');
-      loginService.displayRedirectMessage();
+      loginService.displayRedirectMessage(router.routerState.snapshot.root.queryParams);
       expect(alertService.success).toHaveBeenCalled();
     })));
 
@@ -160,7 +160,7 @@ describe('login service', () => {
       router.navigateByUrl('login?from=redirect');
       advance(fixture);
       spyOn(alertService, 'success');
-      loginService.displayRedirectMessage();
+      loginService.displayRedirectMessage(router.routerState.snapshot.root.queryParams);
       expect(alertService.success).not.toHaveBeenCalled();
     })));
 
@@ -170,7 +170,7 @@ describe('login service', () => {
       router.navigateByUrl('login');
       advance(fixture);
       spyOn(alertService, 'success');
-      loginService.displayRedirectMessage();
+      loginService.displayRedirectMessage(router.routerState.snapshot.root.queryParams);
       expect(alertService.success).not.toHaveBeenCalled();
     })));
 });

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {tick} from '@angular/core/testing/fake_async';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
 import {TestBed} from '@angular/core/testing/test_bed';
 import {MockConnection} from '@angular/http/testing/mock_backend';
 import {ResponseOptions, Response} from '@angular/http';
@@ -27,10 +27,6 @@ export class RootComponent {
 })
 export class FakeHomeComponent {
 
-  constructor(public activatedRoute: ActivatedRoute) {
-
-  }
-
 }
 
 @Component({
@@ -45,10 +41,6 @@ export class FakeLoginComponent {
   template: '<h1>feat cmp</h1>'
 })
 export class FakeFeatureComponent {
-
-  constructor(public activatedRoute: ActivatedRoute) {
-
-  }
 
 }
 
