@@ -53,12 +53,12 @@ describe('Login component', () => {
     });
   });
 
-  it('it should create login component', async(() => {
+  it('should create login component', async(() => {
     const component = TestBed.createComponent(LoginComponent).componentInstance;
     expect(component).toBeTruthy();
   }));
 
-  it('it should have empty form', async(() => {
+  it('should have empty form', async(() => {
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -66,14 +66,14 @@ describe('Login component', () => {
     expect(compiled.querySelector('input[name="password"]').value).toBe('');
   }));
 
-  it('it should disable form submit if empty fields', async(() => {
+  it('should disable form submit if empty fields', async(() => {
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('button:disabled')).toBeTruthy();
   }));
 
-  it('it should enable form submit if fields not empty', async(() => {
+  it('should enable form submit if fields not empty', async(() => {
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -92,7 +92,7 @@ describe('Login component', () => {
   }));
 
 
-  it('it should disable form submit if password empty after being set', async(() => {
+  it('should disable form submit if password empty after being set', async(() => {
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -116,7 +116,7 @@ describe('Login component', () => {
     expect(compiled.querySelector('button:disabled')).toBeTruthy();
   }));
 
-  it('it should log in user and call redirect home', fakeAsync(inject([LoginService], (loginService: LoginService) => {
+  it('should log in user and call redirect home', fakeAsync(inject([LoginService], (loginService: LoginService) => {
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -133,7 +133,7 @@ describe('Login component', () => {
     expect(loginService.redirectHome).toHaveBeenCalled();
   })));
 
-  it('it should fail log in user and display message', fakeAsync(inject([LoginService], (loginService: LoginService) => {
+  it('should fail log in user and display message', fakeAsync(inject([LoginService], (loginService: LoginService) => {
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -150,7 +150,7 @@ describe('Login component', () => {
     expect(loginService.handleLoginError).toHaveBeenCalled();
   })));
 
-  it('it should init component', async(inject([LoginService], (loginService: LoginService) => {
+  it('should init component', async(inject([LoginService], (loginService: LoginService) => {
     spyOn(loginService, 'displayRedirectMessage');
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
