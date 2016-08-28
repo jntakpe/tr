@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Route, Router} from '@angular/router';
+import {Route} from '@angular/router';
+import {BreadcrumbsInfo} from './breadcrumbs';
 
 @Injectable()
 export class BreadcrumbsService {
 
-  constructor(private router: Router) {
+  constructor() {
   }
 
   componentTitleFromRoutes(routes: Route[]): string {
@@ -12,9 +13,9 @@ export class BreadcrumbsService {
     return titles.length ? titles[0] : new Error('No title configured for this route');
   }
 
-  componentBreadcrumbsFromRoutes(routes: Route[]): string[] {
+  componentBreadcrumbsFromRoutes(routes: Route[]): BreadcrumbsInfo[] {
     const breadcrumbs = this.componentsDatasFromRoutes(routes).map(c => c.data['breadcrumb']);
-    return breadcrumbs.length ? breadcrumbs[0] : new Error('No breadcrumb configured for this route');
+    return breadcrumbs.length ? breadcrumbs[0] : new Error('No breadcrumb infos configured for this route');
   }
 
   private componentsDatasFromRoutes(routes: Route[]): any[] {

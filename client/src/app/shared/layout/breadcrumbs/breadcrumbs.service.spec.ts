@@ -4,25 +4,28 @@ import {TestBed, inject} from '@angular/core/testing/test_bed';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {BreadcrumbsService} from './breadcrumbs.service';
 import {fakeAsync} from '@angular/core/testing/fake_async';
+import {BreadcrumbsInfo} from './breadcrumbs';
 
 describe('breadcrumbs service', () => {
 
+  const homeRoute = {
+    path: 'home',
+    component: FakeHomeComponent,
+    data: {
+      title: 'home',
+      breadcrumb: []
+    }
+  };
+
   const routes: Routes = [
     {path: '', component: RootComponent},
-    {
-      path: 'home',
-      component: FakeHomeComponent,
-      data: {
-        title: 'home',
-        breadcrumb: ['home']
-      }
-    },
+    homeRoute,
     {
       path: 'feat',
       component: FakeFeatureComponent,
       data: {
         title: 'feat',
-        breadcrumb: ['home', 'feat']
+        breadcrumb: [new BreadcrumbsInfo(homeRoute)]
       }
     },
   ];
@@ -59,7 +62,9 @@ describe('breadcrumbs service', () => {
       router.navigate(['/home']);
       advance(fixture);
       const activeRoute = router.routerState.snapshot.root.children;
-      expect(breadcrumbsService.componentBreadcrumbsFromRoutes(activeRoute)).toEqual(['home']);
+      const breadcrumbsInfos = breadcrumbsService.componentBreadcrumbsFromRoutes(activeRoute);
+      expect(breadcrumbsInfos.length).toBe(0);
+      expect(breadcrumbsInfos).toEqual([]);
     })));
 
   it('should get title on multiple level route', fakeAsync(inject([BreadcrumbsService, Router],
@@ -68,7 +73,10 @@ describe('breadcrumbs service', () => {
       router.navigate(['/feat']);
       advance(fixture);
       const activeRoute = router.routerState.snapshot.root.children;
-      expect(breadcrumbsService.componentBreadcrumbsFromRoutes(activeRoute)).toEqual(['home', 'feat']);
+      const breadcrumbsInfos = breadcrumbsService.componentBreadcrumbsFromRoutes(activeRoute);
+      expect(breadcrumbsInfos.length).toBe(1);
+      expect(breadcrumbsInfos[0].path).toBe('home');
+      expect(breadcrumbsInfos[0].title).toBe('home');
     })));
 
 });

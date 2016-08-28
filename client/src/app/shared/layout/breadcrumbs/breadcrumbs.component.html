@@ -1,9 +1,9 @@
 <div class="breadcrumbs">
   <div class="container">
     <h1 class="pull-left">{{title}}</h1>
-    <ul class="pull-right breadcrumb" *ngFor="let routeData of breadcrumb; let last = last">
-      <li *ngIf="!last"><a href="index.html">{{routeData}}</a></li>
-      <li *ngIf="last">{{routeData}}</li>
+    <ul class="pull-right breadcrumb">
+      <li *ngFor="let info of breadcrumbsInfos"><a [routerLink]="[info.path]">{{info.title}}</a></li>
+      <li>{{title}}</li>
     </ul>
   </div>
 </div>

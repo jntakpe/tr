@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {BreadcrumbsService} from './breadcrumbs.service';
 import {Subscription} from 'rxjs';
+import {BreadcrumbsInfo} from './breadcrumbs';
 
 @Component({
   selector: 'breadcrumbs-component',
@@ -11,7 +12,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   private title: string;
 
-  private breadcrumb: string[];
+  private breadcrumbsInfos: BreadcrumbsInfo[];
 
   private routeSubscription: Subscription;
 
@@ -22,7 +23,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.router.events.subscribe(() => {
       const routes = this.activatedRoute.routeConfig.children;
       this.title = this.breadcrumbsService.componentTitleFromRoutes(routes);
-      this.breadcrumb = this.breadcrumbsService.componentBreadcrumbsFromRoutes(routes);
+      this.breadcrumbsInfos = this.breadcrumbsService.componentBreadcrumbsFromRoutes(routes);
     });
   }
 
