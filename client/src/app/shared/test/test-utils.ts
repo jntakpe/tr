@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {tick} from '@angular/core/testing/fake_async';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {TestBed} from '@angular/core/testing/test_bed';
 import {MockConnection} from '@angular/http/testing/mock_backend';
 import {ResponseOptions, Response} from '@angular/http';
@@ -26,6 +26,11 @@ export class RootComponent {
   template: '<h1>home</h1>'
 })
 export class FakeHomeComponent {
+
+  constructor(public activatedRoute: ActivatedRoute) {
+
+  }
+
 }
 
 @Component({
@@ -33,6 +38,18 @@ export class FakeHomeComponent {
   template: '<h1>fake cmp</h1>'
 })
 export class FakeLoginComponent {
+}
+
+@Component({
+  selector: 'fake-feat-cmp',
+  template: '<h1>feat cmp</h1>'
+})
+export class FakeFeatureComponent {
+
+  constructor(public activatedRoute: ActivatedRoute) {
+
+  }
+
 }
 
 export function advance(fixture: ComponentFixture<any>): void {

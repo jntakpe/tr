@@ -8,7 +8,12 @@ const layoutRoutes: Routes = [
     component: LayoutComponent,
     children: [
       {path: '', redirectTo: '/home', pathMatch: 'full'},
-      {path: 'home', component: HomeComponent}
+      {
+        path: 'home', component: HomeComponent, data: {
+        title: 'Accueil',
+        breadcrumb: ['Accueil']
+      }
+      }
     ]
   }
 ];
