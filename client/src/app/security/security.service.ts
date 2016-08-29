@@ -53,7 +53,7 @@ export class SecurityService {
   }
 
   isTokenStillValid(token = this.getToken()): boolean {
-    return token && token.expires_at && token.expires_at > new Date().getTime();
+    return token && token.expires_at && moment(token.expires_at).isAfter(moment());
   }
 
   private accessToken(username: string, password: string): Observable<Response> {

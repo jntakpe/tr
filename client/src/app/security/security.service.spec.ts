@@ -4,6 +4,7 @@ import {MockBackend} from '@angular/http/testing/mock_backend';
 import {HttpModule, Http, BaseRequestOptions} from '@angular/http';
 import {User} from './user';
 import {mockTokenResponse, tokenJson} from '../shared/test/test-utils';
+import * as moment from 'moment';
 
 describe('security service', () => {
 
@@ -106,8 +107,13 @@ describe('security service', () => {
   }));
 
   it('should get valid token', inject([SecurityService], (securityService: SecurityService) => {
-    const valid = securityService.isTokenStillValid({expires_at: new Date().getTime() + 1000000});
+    const valid = securityService.isTokenStillValid({expires_at: moment().add(1, 's')});
     expect(valid).toBeTruthy();
+  }));
+
+  it('should expire token for seconds', inject([SecurityService], (securityService: SecurityService) => {
+    const valid = securityService.isTokenStillValid({expires_at: moment().subtract(1, 's')});
+    expect(valid).toBeFalsy();
   }));
 
 });
