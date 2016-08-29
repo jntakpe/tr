@@ -1,1 +1,15 @@
 <h1>Location component</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Test</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let location of locations | async">
+    <td>{{location.name}}</td>
+  </tr>
+  </tbody>
+</table>
+
