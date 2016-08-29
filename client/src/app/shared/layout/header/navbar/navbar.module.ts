@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {NavbarComponent} from './navbar.component';
-import {SharedModule} from '../../../shared.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
-  imports: [SharedModule],
+  imports: [RouterModule],
   declarations: [NavbarComponent],
   exports: [NavbarComponent]
 })

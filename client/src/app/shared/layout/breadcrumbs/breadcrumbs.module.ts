@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {BreadcrumbsComponent} from './breadcrumbs.component';
 import {BreadcrumbsService} from './breadcrumbs.service';
-import {SharedModule} from '../../shared.module';
+import {RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [BreadcrumbsComponent],
-  imports: [SharedModule],
+  imports: [RouterModule, CommonModule],
   exports: [BreadcrumbsComponent],
   providers: [BreadcrumbsService]
 })
