@@ -5,13 +5,14 @@ import {Router} from '@angular/router';
 import {TestBed} from '@angular/core/testing/test_bed';
 import {MockConnection} from '@angular/http/testing/mock_backend';
 import {ResponseOptions, Response} from '@angular/http';
+import * as _ from 'lodash';
 
 export const tokenJson = require('./token-response.json');
 
 export function mockTokenResponse(connection: MockConnection) {
   let valid: boolean = connection.request.getBody().indexOf('username=jntakpe&password=test') !== -1;
   expect(connection.request.url).toEqual('oauth/token');
-  connection.mockRespond(new Response(valid ? new ResponseOptions({body: tokenJson}) : new ResponseOptions({status: 400})));
+  connection.mockRespond(new Response(valid ? new ResponseOptions({body: _.cloneDeep(tokenJson)}) : new ResponseOptions({status: 400})));
 }
 
 @Component({
