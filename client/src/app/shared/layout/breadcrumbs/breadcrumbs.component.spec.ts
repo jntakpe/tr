@@ -2,11 +2,11 @@ import {TestBed} from '@angular/core/testing/test_bed';
 import {BreadcrumbsComponent} from './breadcrumbs.component';
 import {async} from '@angular/core/testing/async';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {RouterModule, Route, NavigationEnd, Event} from '@angular/router';
+import {RouterModule, NavigationEnd, Event, Route, ActivatedRouteSnapshot} from '@angular/router';
 import {BreadcrumbsService} from './breadcrumbs.service';
 import {Observable} from 'rxjs';
-import {BreadcrumbsInfo} from './breadcrumbs';
 import {By} from '@angular/platform-browser/src/dom/debug/by';
+import {BreadcrumbsInfo} from './breadcrumbs';
 
 describe('breadcrumb component', () => {
 
@@ -16,14 +16,20 @@ describe('breadcrumb component', () => {
       return Observable.of(new NavigationEnd(1, 'test', 'test'));
     }
 
-    componentTitleFromRoutes(routes: Route[]): string {
-      return 'Test title';
-    }
 
-    componentBreadcrumbsFromRoutes(routes: Route[]): BreadcrumbsInfo[] {
-      return [new BreadcrumbsInfo({path: 'previous', data: {title: 'Previous title'}})];
+    findContentRoute(snapshot: ActivatedRouteSnapshot): Route {
+      return {
+        data: {
+          title: 'Test title', breadcrumb: [new BreadcrumbsInfo({
+            path: 'previous',
+            data: {
+              title: 'Previous title',
+              breadcrumb: []
+            }
+          })]
+        }
+      };
     }
-
   }
 
   beforeEach(() => {

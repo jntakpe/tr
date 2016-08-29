@@ -1,10 +1,10 @@
-import {Routes, RouterModule} from '@angular/router';
+import {Routes, RouterModule, Route} from '@angular/router';
 import {HomeComponent} from '../../home/home.component';
 import {LocationComponent} from '../../admin/location/location.component';
 import {BreadcrumbsInfo} from '../../shared/layout/breadcrumbs/breadcrumbs';
 import {LayoutComponent} from '../../shared/layout/layout.component';
 
-const homeRoute = {
+const homeRoute: Route = {
   path: 'home',
   component: HomeComponent,
   data: {
@@ -13,7 +13,7 @@ const homeRoute = {
   }
 };
 
-const locationRoute = {
+const locationRoute: Route = {
   path: 'locations',
   component: LocationComponent,
   data: {

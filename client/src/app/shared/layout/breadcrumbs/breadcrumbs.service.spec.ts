@@ -54,8 +54,8 @@ describe('breadcrumbs service', () => {
       const fixture = createRoot(router, RootComponent);
       router.navigate(['/home']);
       advance(fixture);
-      const activeRoute = router.routerState.snapshot.root.children;
-      expect(breadcrumbsService.componentTitleFromRoutes(activeRoute)).toBe('home');
+      const activeRoute = router.routerState.snapshot.root;
+      expect(breadcrumbsService.findContentRoute(activeRoute).data['title']).toBe('home');
     })));
 
   it('should get title on multiple level route', fakeAsync(inject([BreadcrumbsService, Router],
@@ -63,8 +63,8 @@ describe('breadcrumbs service', () => {
       const fixture = createRoot(router, RootComponent);
       router.navigate(['/feat']);
       advance(fixture);
-      const activeRoute = router.routerState.snapshot.root.children;
-      expect(breadcrumbsService.componentTitleFromRoutes(activeRoute)).toBe('feat');
+      const activeRoute = router.routerState.snapshot.root;
+      expect(breadcrumbsService.findContentRoute(activeRoute).data['title']).toBe('feat');
     })));
 
   it('should get breadcrumb on single level route', fakeAsync(inject([BreadcrumbsService, Router],
@@ -72,9 +72,8 @@ describe('breadcrumbs service', () => {
       const fixture = createRoot(router, RootComponent);
       router.navigate(['/home']);
       advance(fixture);
-      const activeRoute = router.routerState.snapshot.root.children;
-      const breadcrumbsInfos = breadcrumbsService.componentBreadcrumbsFromRoutes(activeRoute);
-      expect(breadcrumbsInfos.length).toBe(0);
+      const activeRoute = router.routerState.snapshot.root;
+      const breadcrumbsInfos = breadcrumbsService.findContentRoute(activeRoute).data['breadcrumb'];
       expect(breadcrumbsInfos).toEqual([]);
     })));
 
@@ -83,9 +82,8 @@ describe('breadcrumbs service', () => {
       const fixture = createRoot(router, RootComponent);
       router.navigate(['/feat']);
       advance(fixture);
-      const activeRoute = router.routerState.snapshot.root.children;
-      const breadcrumbsInfos = breadcrumbsService.componentBreadcrumbsFromRoutes(activeRoute);
-      expect(breadcrumbsInfos.length).toBe(1);
+      const activeRoute = router.routerState.snapshot.root;
+      const breadcrumbsInfos = breadcrumbsService.findContentRoute(activeRoute).data['breadcrumb'];
       expect(breadcrumbsInfos[0].path).toBe('home');
       expect(breadcrumbsInfos[0].title).toBe('home');
     })));
