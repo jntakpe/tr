@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {Observable} from 'rxjs';
 import {Location} from './location';
+import {AuthHttp} from '../../security/auth.http';
 
 @Injectable()
 export class LocationService {
 
-  constructor(private http: Http) {
+  constructor(private authHttp: AuthHttp) {
   }
 
   findAll(): Observable<Location> {
-    return this.http.get('api/locations').do(l => console.log(l));
+    return this.authHttp.get('api/locations').do(l => console.log(l));
   }
 
 }
