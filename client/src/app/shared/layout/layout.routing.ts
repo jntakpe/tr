@@ -1,6 +1,8 @@
 import {Routes, RouterModule} from '@angular/router';
 import {HomeComponent} from '../../home/home.component';
-import {LayoutComponent} from './layout.component';
+import {LocationComponent} from '../../admin/location/location.component';
+import {BreadcrumbsInfo} from '../../shared/layout/breadcrumbs/breadcrumbs';
+import {LayoutComponent} from '../../shared/layout/layout.component';
 
 const homeRoute = {
   path: 'home',
@@ -11,13 +13,23 @@ const homeRoute = {
   }
 };
 
+const locationRoute = {
+  path: 'locations',
+  component: LocationComponent,
+  data: {
+    title: 'Sites de formation',
+    breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+  }
+};
+
 const layoutRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
       {path: '', redirectTo: '/home', pathMatch: 'full'},
-      homeRoute
+      homeRoute,
+      locationRoute
     ]
   }
 ];

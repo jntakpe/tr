@@ -2,15 +2,14 @@
   <div class="container">
     <ul class="nav navbar-nav">
       <li [routerLinkActive]="['active']">
-        <a [routerLink]="['']"><i class="fa fa-home"></i> Accueil</a>
+        <a [routerLink]="['/home']"><i class="fa fa-home"></i> Accueil</a>
       </li>
-      <li class="dropdown">
+      <li class="dropdown" [routerLinkActive]="['active']">
         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-          Demos
+          Administration
         </a>
         <ul class="dropdown-menu pull-right">
-          <li><a href="Themantic-Designs/Architecture/index.html">Architecture</a></li>
-          <li><a href="Themantic-Designs/Travel/index.html">Travel</a></li>
+          <li><a [routerLink]="['/locations']">Sites de formations</a></li>
         </ul>
       </li>
     </ul>
