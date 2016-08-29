@@ -47,6 +47,15 @@ export class SecurityService {
     this.currentUser = null;
   }
 
+  getToken(): any {
+    const token = localStorage.getItem(this.tokenKey);
+    return token ? JSON.parse(token) : token;
+  }
+
+  isTokenStillValid(token = this.getToken()): boolean {
+    return token && token.expires_at && token.expires_at > new Date().getTime();
+  }
+
   private accessToken(username: string, password: string): Observable<Response> {
     return this.http.post('oauth/token', this.buildTokenRequestBody(username, password), this.buildTokenRequestOption());
   }
@@ -75,11 +84,6 @@ export class SecurityService {
     data.expires_at = moment().add(data.expires_in, 's').toDate();
     localStorage.setItem(this.tokenKey, JSON.stringify(data));
     return data;
-  }
-
-  private getToken(): any {
-    const token = localStorage.getItem(this.tokenKey);
-    return token ? JSON.parse(token) : token;
   }
 
 }

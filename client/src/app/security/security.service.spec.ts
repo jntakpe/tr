@@ -7,6 +7,8 @@ import {mockTokenResponse, tokenJson} from '../shared/test/test-utils';
 
 describe('security service', () => {
 
+  const tokenName = 'tr_oauth2_auth';
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
@@ -65,7 +67,7 @@ describe('security service', () => {
     }));
 
   it('should get current user from localstorage', inject([SecurityService], (securityService: SecurityService) => {
-    localStorage.setItem('tr_oauth2_auth', JSON.stringify(tokenJson));
+    localStorage.setItem(tokenName, JSON.stringify(tokenJson));
     const currentUser = securityService.getCurrentUser();
     expect(currentUser).toBeTruthy();
     expect(currentUser.login).toBe('jntakpe');
@@ -86,5 +88,26 @@ describe('security service', () => {
       }, (error) => fail('should get token'));
     }));
 
+  it('should get token from localstorage', inject([SecurityService], (securityService: SecurityService) => {
+    localStorage.setItem(tokenName, JSON.stringify(tokenJson));
+    const token = securityService.getToken();
+    expect(token).toBeTruthy();
+  }));
+
+  it('should get expired token', inject([SecurityService], (securityService: SecurityService) => {
+    const valid = securityService.isTokenStillValid(JSON.stringify(tokenJson));
+    expect(valid).toBeFalsy();
+  }));
+
+  it('should get expired token by default', inject([SecurityService], (securityService: SecurityService) => {
+    localStorage.setItem(tokenName, JSON.stringify(tokenJson));
+    const valid = securityService.isTokenStillValid();
+    expect(valid).toBeFalsy();
+  }));
+
+  it('should get valid token', inject([SecurityService], (securityService: SecurityService) => {
+    const valid = securityService.isTokenStillValid({expires_at: new Date().getTime() + 1000000});
+    expect(valid).toBeTruthy();
+  }));
 
 });
