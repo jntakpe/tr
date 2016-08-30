@@ -1,4 +1,4 @@
-import {ClientPage} from "./app.po";
+import {ClientPage} from './app.po';
 
 describe('client App', function () {
   let page: ClientPage;
