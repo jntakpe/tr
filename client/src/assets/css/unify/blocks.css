@@ -87,40 +87,6 @@
 /*--------------------------------------------------
     [1. Promo Blocks]
 ----------------------------------------------------*/
-/*Promo Background Images*/
-.promo-bg-pattern-v1-dark {
-  background: url(../img/patterns/5.png) repeat;
-}
-
-.promo-bg-pattern-v1-light {
-  background: url(../img/patterns/16.png) repeat;
-}
-
-/*Promo Background Images*/
-.promo-bg-img-v1 {
-  background: url(../img/bg/img1.jpg) no-repeat;
-  background-size: cover;
-}
-
-.promo-bg-img-v2 {
-  background: url(../img/bg/img5.jpg) no-repeat;
-  background-size: cover;
-}
-
-.promo-bg-img-v3 {
-  background: url(../img/bg/img10.jpg) no-repeat;
-  background-size: cover;
-}
-
-.promo-bg-img-v4 {
-  background: url(../img/bg/img11.jpg) no-repeat;
-  background-size: cover;
-}
-
-.promo-bg-img-v5 {
-  background: url(../img/bg/img6.jpg) no-repeat;
-  background-size: cover;
-}
 
 /*Promo Background Fixed*/
 .promo-bg-fixed {
@@ -198,7 +164,6 @@
 }
 
 .video-business-img1 {
-  background: url(../video/youtube-business/video-business-img1.jpg) no-repeat center;
   background-size: cover; /*Scales the background image to be as large as possible*/
 }
 
@@ -304,7 +269,6 @@
 .breadcrumbs-v1 {
   padding: 100px 0;
   position: relative;
-  background: url(../img/breadcrumbs/img1.jpg) center no-repeat;
   background-size: cover; /*Scales the background image to be as large as possible*/
 }
 
@@ -355,7 +319,6 @@
 .breadcrumbs-v2 {
   text-align: center;
   position: relative;
-  background: url(../img/bg/11.jpg) no-repeat center;
 }
 
 .breadcrumbs-v2-in {
@@ -392,24 +355,6 @@
 
 .breadcrumbs-v3.breadcrumbs-lg {
   padding: 200px 0;
-}
-
-.breadcrumbs-v3.img-v1 {
-  background: url(../img/breadcrumbs/img1.jpg) no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-.breadcrumbs-v3.img-v2 {
-  background: url(../img/breadcrumbs/img2.jpg) no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-.breadcrumbs-v3.img-v3 {
-  background: url(../img/breadcrumbs/img3.jpg) no-repeat;
-  background-size: cover;
-  background-position: center center;
 }
 
 .breadcrumbs-v3:after {
@@ -1679,7 +1624,6 @@
 .call-action-v2 {
   padding: 50px 0;
   text-align: center;
-  background: url(../img/patterns/16.png);
 }
 
 .call-action-v2 h2 {
@@ -2037,7 +1981,6 @@
   height: auto;
   padding: 50px 0;
   position: relative;
-  background: url(../img/bg/11.jpg) repeat fixed;
   background-size: cover;
 }
 
@@ -2058,7 +2001,6 @@
   height: auto;
   padding: 50px 0;
   position: relative;
-  background: url(../img/bg/7.jpg) repeat fixed;
 }
 
 .bg-image-v2:before {
@@ -2095,7 +2037,6 @@
   padding: 100px 0;
   position: relative;
   text-align: center;
-  background: url(../img/team/faces.jpg) 50% 0 repeat fixed;
 }
 
 .parallax-quote:after {
@@ -2115,7 +2056,6 @@
   height: 100%;
   content: " ";
   position: absolute;
-  background: url(../img/patterns/gridtile.png) repeat;
 }
 
 /*Parallax Quote Inner*/
@@ -2203,7 +2143,6 @@
     [15. Parallax Team]
 ----------------------------------------------------*/
 .parallax-team {
-  background: url(../img/team/faces.jpg) 50% 0 repeat fixed;
 }
 
 .parallax-team,
@@ -2224,7 +2163,6 @@
 
 /*Parallax Team*/
 .parallax-team {
-  background: url(../img/team/faces.jpg) 50% 0 repeat fixed;
 }
 
 .parallax-team,
@@ -2234,20 +2172,6 @@
 
 .parallax-team-dark:before {
   background: rgba(0, 0, 0, 0.8);
-}
-
-/*--------------------------------------------------
-    [16. Parallax Counter]
-----------------------------------------------------*/
-.parallax-bg {
-  background: url(../img/patterns/5.png) repeat fixed;
-}
-
-/*Parallax Counter
-------------------------------------*/
-.parallax-counter {
-  padding: 30px 0;
-  background: url(../img/patterns/5.png) repeat fixed;
 }
 
 .parallax-counter .counters {
@@ -2269,7 +2193,6 @@
 ------------------------------------*/
 .parallax-counter-v1 {
   padding: 60px 0;
-  background: url(../img/patterns/5.png) repeat fixed;
 }
 
 .parallax-counter-v1 .counters {
@@ -2294,7 +2217,6 @@
 .parallax-counter-v2 {
   position: relative;
   padding: 80px 0 60px;
-  background: url(../img/patterns/16.png) repeat fixed;
 }
 
 .parallax-counter-v2:after {
@@ -2355,7 +2277,6 @@
   overflow: hidden;
   text-align: center;
   position: relative;
-  background: url(../img/bg/25.jpg) 50% 0 fixed;
 }
 
 .parallax-counter-v3:after {
@@ -2438,7 +2359,6 @@
   overflow: hidden;
   text-align: center;
   position: relative;
-  background: url(../img/bg/19.jpg) 50% 0 fixed;
 }
 
 .parallax-counter-v4:after {
@@ -2479,7 +2399,6 @@
 ----------------------------------------------------*/
 .flat-bg-block-v1 {
   padding: 40px 0;
-  background: url(../img/patterns/16.png) repeat;
 }
 
 .flat-bg-block-v1 .checked-list.first-child {
@@ -2906,7 +2825,6 @@
 .quote-v1 {
   padding: 60px 0;
   text-align: center;
-  background: url(../img/patterns/5.png) repeat;
 }
 
 .quote-v1 p {
@@ -3078,24 +2996,6 @@
   position: relative;
 }
 
-.interactive-slider-v1.img-v1 {
-  background: url(../img/bg/18.jpg) no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-.interactive-slider-v1.img-v2 {
-  background: url(../img/bg/19.jpg) no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-.interactive-slider-v1.img-v3 {
-  background: url(../img/bg/18.jpg) no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
 .interactive-slider-v1:after {
   top: 0;
   left: 0;
@@ -3138,7 +3038,6 @@
   padding: 200px 0;
   position: relative;
   text-align: center;
-  background: url(../img/bg/18.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
 }
@@ -3148,31 +3047,26 @@
 }
 
 .interactive-slider-v2.img-v1 {
-  background: url(../img/bg/25.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
 }
 
 .interactive-slider-v2.img-v2 {
-  background: url(../img/bg/14.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
 }
 
 .interactive-slider-v2.img-v3 {
-  background: url(../img/bg/img8.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
 }
 
 .interactive-slider-v2.img-v4 {
-  background: url(../img/bg/img9.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
 }
 
 .interactive-slider-v2.intro-promo-img {
-  background: url(../img/intro/promo.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
 }

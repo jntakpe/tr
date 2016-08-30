@@ -6,13 +6,6 @@
  * Website: http://htmlstream.com
 */
 /*Import Global Compulsory CSS Files*/
-@import url(blocks.css);
-@import url(plugins.css);
-@import url(app.css);
-@import url(one-theme.css);
-@import url(header-default.css);
-@import url('footer-v3.css');
-@import url('sky-forms.css');
 
 /*Import CSS Plugins*/
 body {

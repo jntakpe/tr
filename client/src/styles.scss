@@ -1,0 +1,23 @@
+/* Vendors */
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+@import "../node_modules/toastr/build/toastr.css";
+/* Unify */
+@import "assets/css/unify/unify.css";
+@import "assets/css/unify/blocks.css";
+@import "assets/css/unify/plugins.css";
+@import "assets/css/unify/app.css";
+@import "assets/css/unify/one-theme.css";
+@import "assets/css/unify/header-default.css";
+@import "assets/css/unify/footer-v3.css";
+@import "assets/css/unify/sky-forms.css";
+
+body.portalbg {
+  background-image: url('assets/images/portal.jpg');
+}
+
+@media (max-width: 1600px) {
+  body.portalbg {
+    background-size: contain;
+  }
+}
