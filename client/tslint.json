@@ -92,14 +92,6 @@
       "check-separator",
       "check-type"
     ],
-    "directive-selector-prefix": [
-      true,
-      "app"
-    ],
-    "component-selector-prefix": [
-      true,
-      "app"
-    ],
     "directive-selector-name": [
       true,
       "camelCase"
