@@ -35,8 +35,11 @@ export class LoginService {
   }
 
   displayRedirectMessage(params: Params): void {
-    if (params['from'] === 'logout') {
+    const fromParam = params['from'];
+    if (fromParam === 'logout') {
       this.alertService.success('Vous êtes à présent déconnecté', 'Deconnexion');
+    } else if (fromParam === 'expired') {
+      this.alertService.error('Votre session a expiré. Veuillez vous reconnecter', 'Expiration de session');
     }
   }
 

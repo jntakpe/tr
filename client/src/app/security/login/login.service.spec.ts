@@ -151,7 +151,17 @@ describe('login service', () => {
       advance(fixture);
       spyOn(alertService, 'success');
       loginService.displayRedirectMessage(router.routerState.snapshot.root.queryParams);
-      expect(alertService.success).toHaveBeenCalled();
+      expect(alertService.success).toHaveBeenCalledWith('Vous êtes à présent déconnecté', 'Deconnexion');
+    })));
+
+  it('should display success error message', fakeAsync(inject([LoginService, Router, AlertService],
+    (loginService: LoginService, router: Router, alertService: AlertService) => {
+      const fixture = createRoot(router, RootComponent);
+      router.navigateByUrl('login?from=expired');
+      advance(fixture);
+      spyOn(alertService, 'error');
+      loginService.displayRedirectMessage(router.routerState.snapshot.root.queryParams);
+      expect(alertService.error).toHaveBeenCalledWith('Votre session a expiré. Veuillez vous reconnecter', 'Expiration de session');
     })));
 
   it('should not display success logout message', fakeAsync(inject([LoginService, Router, AlertService],
