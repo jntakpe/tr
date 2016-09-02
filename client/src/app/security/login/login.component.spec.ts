@@ -25,7 +25,6 @@ describe('Login component', () => {
       if (username === 'jntakpe' && password === 'test') {
         return Observable.of(new User('jntakpe', ['ROLE_ADMIN']));
       }
-      // noinspection TypeScriptValidateTypes
       return Observable.throw(new Error('Some error'));
     }
 
