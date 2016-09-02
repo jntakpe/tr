@@ -3,13 +3,21 @@ import {TestBed, inject} from '@angular/core/testing/test_bed';
 import {SecurityService} from './security.service';
 import {NavigationService} from '../shared/navigation.service';
 import {MockBackend, MockConnection} from '@angular/http/testing/mock_backend';
-import {RouterModule} from '@angular/router';
+import {RouterModule, Routes, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {AuthHttp} from './auth.http';
+import {RootComponent, FakeLoginComponent, createRoot, advance} from '../shared/test/test-utils';
+import {fakeAsync} from '@angular/core/testing/fake_async';
+import {Location} from '@angular/common';
 
 describe('auth http', () => {
 
   describe('with token', () => {
+
+    const routes: Routes = [
+      {path: '', component: RootComponent},
+      {path: 'login', component: FakeLoginComponent}
+    ];
 
     class MockSecurityService extends SecurityService {
 
@@ -31,13 +39,14 @@ describe('auth http', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpModule, RouterTestingModule, RouterModule.forChild([])],
+        declarations: [RootComponent, FakeLoginComponent],
+        imports: [HttpModule, RouterTestingModule, RouterModule.forChild(routes)],
         providers: [
           AuthHttp,
+          NavigationService,
           MockBackend,
           BaseRequestOptions,
           {provide: SecurityService, useValue: new MockSecurityService(null)},
-          {provide: NavigationService, useValue: new MockNavigationService(null)},
           {
             provide: Http,
             useFactory: (backend, defaultOptions) => {
@@ -59,9 +68,8 @@ describe('auth http', () => {
       connection.mockError(error);
     }
 
-    function expectUnauthorizedAndRedirectToLogin(res: Response, navigationService: NavigationService) {
+    function expectUnauthorizedAndRedirectToLogin(res: Response) {
       expect(res.status).toBe(401);
-      expect(navigationService.goToHomePage).toHaveBeenCalled();
     }
 
     it('should http get with token', inject([AuthHttp, MockBackend], (authHttp: AuthHttp, mockBackend: MockBackend) => {
@@ -84,33 +92,41 @@ describe('auth http', () => {
       authHttp.delete('test');
     }));
 
-    it('should reject get cuz 401 and redirect to login', inject([AuthHttp, MockBackend, NavigationService],
-      (authHttp: AuthHttp, mockBackend: MockBackend, navigationService: NavigationService) => {
-        spyOn(navigationService, 'goToLoginPage');
+    it('should reject get cuz 401 and redirect to login', fakeAsync(inject([AuthHttp, MockBackend, Router, Location],
+      (authHttp: AuthHttp, mockBackend: MockBackend, router: Router, location: Location) => {
+        const fixture = createRoot(router, RootComponent);
         mockBackend.connections.subscribe(unauthorizedResponse);
-        authHttp.get('test').subscribe(res => expectUnauthorizedAndRedirectToLogin(res, navigationService));
-      }));
+        authHttp.get('test').subscribe(expectUnauthorizedAndRedirectToLogin);
+        advance(fixture);
+        expect(location.path()).toBe('/login?from=expired');
+      })));
 
-    it('should reject post cuz 401 and redirect to login', inject([AuthHttp, MockBackend, NavigationService],
-      (authHttp: AuthHttp, mockBackend: MockBackend, navigationService: NavigationService) => {
-        spyOn(navigationService, 'goToLoginPage');
+    it('should reject post cuz 401 and redirect to login', fakeAsync(inject([AuthHttp, MockBackend, Router, Location],
+      (authHttp: AuthHttp, mockBackend: MockBackend, router: Router, location: Location) => {
+        const fixture = createRoot(router, RootComponent);
         mockBackend.connections.subscribe(unauthorizedResponse);
-        authHttp.post('test', 'test').subscribe(res => expectUnauthorizedAndRedirectToLogin(res, navigationService));
-      }));
+        authHttp.post('test', 'test').subscribe(expectUnauthorizedAndRedirectToLogin);
+        advance(fixture);
+        expect(location.path()).toBe('/login?from=expired');
+      })));
 
-    it('should reject put cuz 401 and redirect to login', inject([AuthHttp, MockBackend, NavigationService],
-      (authHttp: AuthHttp, mockBackend: MockBackend, navigationService: NavigationService) => {
-        spyOn(navigationService, 'goToLoginPage');
+    it('should reject put cuz 401 and redirect to login', fakeAsync(inject([AuthHttp, MockBackend, Router, Location],
+      (authHttp: AuthHttp, mockBackend: MockBackend, router: Router, location: Location) => {
+        const fixture = createRoot(router, RootComponent);
         mockBackend.connections.subscribe(unauthorizedResponse);
-        authHttp.put('test', 'test').subscribe(res => expectUnauthorizedAndRedirectToLogin(res, navigationService));
-      }));
+        authHttp.put('test', 'test').subscribe(expectUnauthorizedAndRedirectToLogin);
+        advance(fixture);
+        expect(location.path()).toBe('/login?from=expired');
+      })));
 
-    it('should reject delete cuz 401 and redirect to login', inject([AuthHttp, MockBackend, NavigationService],
-      (authHttp: AuthHttp, mockBackend: MockBackend, navigationService: NavigationService) => {
-        spyOn(navigationService, 'goToLoginPage');
+    it('should reject delete cuz 401 and redirect to login', fakeAsync(inject([AuthHttp, MockBackend, Router, Location],
+      (authHttp: AuthHttp, mockBackend: MockBackend, router: Router, location: Location) => {
+        const fixture = createRoot(router, RootComponent);
         mockBackend.connections.subscribe(unauthorizedResponse);
-        authHttp.delete('test').subscribe(res => expectUnauthorizedAndRedirectToLogin(res, navigationService));
-      }));
+        authHttp.delete('test').subscribe(expectUnauthorizedAndRedirectToLogin);
+        advance(fixture);
+        expect(location.path()).toBe('/login?from=expired');
+      })));
 
   });
 

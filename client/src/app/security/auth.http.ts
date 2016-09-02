@@ -40,7 +40,7 @@ export class AuthHttp {
   private intercept(response: Observable<Response>): Observable<Response> {
     return response.catch(err => {
       if (err.status === 401) {
-        this.navigationService.goToLoginPage();
+        this.navigationService.goToLoginPage('expired');
         return Observable.empty();
       } else {
         return Observable.throw(err);
