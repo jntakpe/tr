@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {SecurityService} from '../../../../security/security.service';
 import {User} from '../../../../security/user';
-import {Router} from '@angular/router';
+import {NavigationService} from '../../../navigation.service';
 
 @Injectable()
 export class TopbarService {
 
-  constructor(private securityService: SecurityService, private router: Router) {
+  constructor(private securityService: SecurityService, private navigationService: NavigationService) {
 
   }
 
@@ -26,7 +26,7 @@ export class TopbarService {
 
   logout(): void {
     this.securityService.logout();
-    this.router.navigate(['/login'], {queryParams: {from: 'logout'}});
+    this.navigationService.goToLoginPage('logout');
   }
 
   private formatAuthorities(authorities: string[]) {

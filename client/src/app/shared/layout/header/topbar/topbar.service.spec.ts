@@ -9,6 +9,7 @@ import {Routes, Router, RouterModule} from '@angular/router';
 import {Location} from '@angular/common';
 import {fakeAsync} from '@angular/core/testing/fake_async';
 import {RootComponent, FakeLoginComponent, createRoot, advance, tokenJson} from '../../../test/test-utils';
+import {NavigationService} from '../../../navigation.service';
 
 describe('topbar service', () => {
 
@@ -26,6 +27,7 @@ describe('topbar service', () => {
         providers: [
           TopbarService,
           SecurityService,
+          NavigationService,
           MockBackend,
           BaseRequestOptions,
           {
@@ -89,6 +91,7 @@ describe('topbar service', () => {
         declarations: [FakeLoginComponent, RootComponent],
         imports: [RouterTestingModule, RouterModule.forChild(routes)],
         providers: [
+          NavigationService,
           TopbarService,
           {provide: SecurityService, useClass: MockSecurityService}
         ]
@@ -119,6 +122,7 @@ describe('topbar service', () => {
         imports: [RouterTestingModule, RouterModule.forChild(routes)],
         providers: [
           TopbarService,
+          NavigationService,
           {provide: SecurityService, useClass: MockSecurityService}
         ]
       });

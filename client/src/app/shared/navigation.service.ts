@@ -11,8 +11,12 @@ export class NavigationService {
     this.router.navigate(['/home']);
   }
 
-  goToLoginPage() {
-    this.router.navigate(['/login']);
+  goToLoginPage(param?: string) {
+    if (param) {
+      this.router.navigate(['/login'], {queryParams: {from: param}});
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
 }
