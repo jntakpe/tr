@@ -1,4 +1,4 @@
-import {Http, RequestOptions, Response, Request, RequestOptionsArgs, Headers} from '@angular/http';
+import {Http, RequestOptions, Response, RequestOptionsArgs, Headers} from '@angular/http';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {SecurityService} from './security.service';
@@ -8,10 +8,6 @@ import {NavigationService} from '../shared/navigation.service';
 export class AuthHttp {
 
   constructor(private http: Http, private navigationService: NavigationService, private securityService: SecurityService) {
-  }
-
-  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    return this.intercept(this.http.request(url, this.addTokenToHeaders(options)));
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
@@ -43,7 +39,7 @@ export class AuthHttp {
 
   private intercept(response: Observable<Response>): Observable<Response> {
     return response.catch(err => {
-      if (err.status === 401 && err.url.indexOf('login') !== -1) {
+      if (err.status === 401) {
         this.navigationService.goToLoginPage();
         return Observable.empty();
       } else {
