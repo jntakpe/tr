@@ -1,14 +1,14 @@
-<h1>Location component</h1>
-
-<table>
+<table class="table table-striped table-hover">
   <thead>
   <tr>
-    <th>Test</th>
+    <th>Nom</th>
+    <th>Ville</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let location of locations | async">
     <td>{{location.name}}</td>
+    <td>{{location.city}}</td>
   </tr>
   </tbody>
 </table>

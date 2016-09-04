@@ -10,7 +10,7 @@ export class LocationService {
   }
 
   findAll(): Observable<Location> {
-    return this.authHttp.get('api/locations').do(l => console.log(l));
+    return this.authHttp.get('api/locations').map(res => res.json());
   }
 
 }
