@@ -15,6 +15,12 @@ export function mockTokenResponse(connection: MockConnection) {
   connection.mockRespond(new Response(valid ? new ResponseOptions({body: _.cloneDeep(tokenJson)}) : new ResponseOptions({status: 400})));
 }
 
+export function mockRefreshTokenResponse(connection: MockConnection) {
+  expect(connection.request.getBody()).toContain('grant_type=refresh_token');
+  expect(connection.request.getBody()).toContain('refresh_token=');
+  connection.mockRespond(new Response(new ResponseOptions({body: _.cloneDeep(tokenJson)})));
+}
+
 @Component({
   selector: 'root-cmp',
   template: '<router-outlet></router-outlet>'

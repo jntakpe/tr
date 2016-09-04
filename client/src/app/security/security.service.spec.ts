@@ -3,7 +3,7 @@ import {SecurityService} from './security.service';
 import {MockBackend} from '@angular/http/testing/mock_backend';
 import {HttpModule, Http, BaseRequestOptions} from '@angular/http';
 import {User} from './user';
-import {mockTokenResponse, tokenJson} from '../shared/test/test-utils';
+import {mockTokenResponse, tokenJson, mockRefreshTokenResponse} from '../shared/test/test-utils';
 import * as moment from 'moment';
 
 describe('security service', () => {
@@ -41,10 +41,28 @@ describe('security service', () => {
       }, () => fail('should get token'));
     }));
 
+  it('should get new token with refresh token', inject([SecurityService, MockBackend],
+    (securityService: SecurityService, mockBackend: MockBackend) => {
+      mockBackend.connections.subscribe(c => mockRefreshTokenResponse(c));
+      securityService.loginWithRefresh(tokenJson.refresh_token).subscribe(token => {
+        expect(token).toBeTruthy();
+      });
+    }));
+
+  it('should store new token with refresh token', inject([SecurityService, MockBackend],
+    (securityService: SecurityService, mockBackend: MockBackend) => {
+      expect(localStorage.getItem(securityService.tokenKey)).toBeFalsy();
+      mockBackend.connections.subscribe(c => mockRefreshTokenResponse(c));
+      securityService.loginWithRefresh(tokenJson.refresh_token).subscribe(token => {
+        expect(token).toBeTruthy();
+        expect(localStorage.getItem(securityService.tokenKey)).toBeTruthy();
+      });
+    }));
+
   it('should fail cuz wrong username', inject([SecurityService, MockBackend],
     (securityService: SecurityService, mockBackend: MockBackend) => {
       mockBackend.connections.subscribe(c => mockTokenResponse(c));
-      securityService.login('toto', 'test').subscribe(() => fail('should not get success response'), (error) => expect(error).toBeTruthy());
+      securityService.login('toto', 'test').subscribe(() => fail('should not get success response'), error => expect(error).toBeTruthy());
     }));
 
   it('should store token in localstorage', inject([SecurityService, MockBackend],
