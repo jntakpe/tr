@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import {User} from './user';
-import 'rxjs/add/operator/do';
 
 const jwtDecode = require('jwt-decode');
 
@@ -28,6 +27,12 @@ export class SecurityService {
       .do(res => this.storeToken(res))
       .map(res => this.mapUser(res.json().access_token))
       .do(user => this.currentUser = user);
+  }
+
+  loginWithRefresh(token = this.getToken()): Observable<string> {
+    return this.refreshToken(token.refresh_token)
+      .do(res => this.storeToken(res))
+      .map(res => res.json().access_token);
   }
 
   getCurrentUser(): User {
@@ -60,9 +65,17 @@ export class SecurityService {
     return this.http.post('oauth/token', this.buildTokenRequestBody(username, password), this.buildTokenRequestOption());
   }
 
+  private refreshToken(refreshToken: string): Observable<Response> {
+    return this.http.post('oauth/token', this.buildRefreshTokenRequestBody(refreshToken), this.buildTokenRequestOption());
+  }
+
   private buildTokenRequestBody(username: string, password: string): string {
     return `username=${username}&password=${password}&grant_type=password&scope=${this.authParams.scope}`
       + `&client_id=${this.authParams.clientId}&client_secret=${this.authParams.secret}`;
+  }
+
+  private buildRefreshTokenRequestBody(token: string): string {
+    return `grant_type=refresh_token&refresh_token=${token}`;
   }
 
   private buildTokenRequestOption(): RequestOptionsArgs {
