@@ -11,41 +11,56 @@ export class AuthHttp {
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.intercept(this.http.get(url, this.addTokenToHeaders(options)));
+    return this.findAccessToken()
+      .flatMap(token => this.http.get(url, this.addTokenToHeaders(token, options)))
+      .catch(err => this.handleError(err));
   }
 
   post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.intercept(this.http.post(url, body, this.addTokenToHeaders(options)));
+    return this.findAccessToken()
+      .flatMap(token => this.http.post(url, body, this.addTokenToHeaders(token, options)))
+      .catch(err => this.handleError(err));
   }
 
   put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.intercept(this.http.put(url, body, this.addTokenToHeaders(options)));
+    return this.findAccessToken()
+      .flatMap(token => this.http.put(url, body, this.addTokenToHeaders(token, options)))
+      .catch(err => this.handleError(err));
   }
 
   delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.intercept(this.http.delete(url, this.addTokenToHeaders(options)));
+    return this.findAccessToken()
+      .flatMap(token => this.http.delete(url, this.addTokenToHeaders(token, options)))
+      .catch(err => this.handleError(err));
   }
 
-  private addTokenToHeaders(options: RequestOptionsArgs = new RequestOptions()): RequestOptionsArgs {
-    if (!options.headers) {
-      options.headers = new Headers(); // TODO tester syntaxe
-    }
+  private findAccessToken(): Observable<any> {
     const token = this.securityService.getToken();
-    if (token && this.securityService.isTokenStillValid(token)) {
-      options.headers.append('Authorization', `Bearer ${token.access_token}`);
+    if (!token) {
+      this.navigationService.goToLoginPage('unauthorized');
+      return Observable.empty();
     }
+    if (this.securityService.isTokenStillValid(token)) {
+      return Observable.of(token.access_token);
+    }
+    return this.securityService.loginWithRefresh(token).catch(err => this.handleError(err));
+  }
+
+  private addTokenToHeaders(accessToken, options: RequestOptionsArgs = new RequestOptions()): RequestOptionsArgs {
+    if (!options.headers) {
+      options.headers = new Headers();
+    }
+    options.headers.append('Authorization', `Bearer ${accessToken}`);
     return options;
   }
 
-  private intercept(response: Observable<Response>): Observable<Response> {
-    return response.catch(err => {
-      if (err.status === 401) {
-        this.navigationService.goToLoginPage('expired');
-        return Observable.empty();
-      } else {
-        return Observable.throw(err);
-      }
-    });
+  private handleError(err: any): Observable<any> {
+    if (err.status === 401) {
+      this.navigationService.goToLoginPage('expired');
+      return Observable.empty();
+    } else {
+      return Observable.throw(err);
+    }
   }
 
 }

@@ -9,6 +9,7 @@ import {AuthHttp} from './auth.http';
 import {RootComponent, FakeLoginComponent, createRoot, advance} from '../shared/test/test-utils';
 import {fakeAsync} from '@angular/core/testing/fake_async';
 import {Location} from '@angular/common';
+import {Observable} from 'rxjs';
 
 describe('auth http', () => {
 
@@ -27,6 +28,10 @@ describe('auth http', () => {
 
       getToken(): any {
         return {yep: 'sdf'};
+      }
+
+      loginWithRefresh(token?): Observable<string> {
+        return Observable.of('refreshtoken');
       }
     }
 
@@ -141,6 +146,10 @@ describe('auth http', () => {
       getToken(): any {
         return {yep: 'sdf'};
       }
+
+      loginWithRefresh(token?): Observable<string> {
+        return Observable.of('refreshtoken');
+      }
     }
 
     beforeEach(() => {
@@ -183,6 +192,7 @@ describe('auth http', () => {
 
     it('should not http delete with token', inject([AuthHttp, MockBackend], (authHttp: AuthHttp, mockBackend: MockBackend) => {
       mockBackend.connections.subscribe(withoutAuthHeader);
+      console.log(authHttp);
       authHttp.delete('test');
     }));
 
