@@ -34,3 +34,9 @@ export class AlertService {
     this.toastr.error('Une erreur inconnue est survenue', 'Erreur non gérée');
   }
 }
+
+export const titleConstants = {
+  error: {
+    server: 'Erreur serveur'
+  }
+};
