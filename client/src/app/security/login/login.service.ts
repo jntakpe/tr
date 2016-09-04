@@ -40,6 +40,8 @@ export class LoginService {
       this.alertService.success('Vous êtes à présent déconnecté', 'Deconnexion');
     } else if (fromParam === 'expired') {
       this.alertService.error('Votre session a expiré. Veuillez vous reconnecter', 'Expiration de session');
+    } else if (fromParam === 'unauthorized') {
+      this.alertService.error('Vous n\'êtes pas connecté. Veuillez vous connecter', 'Connexion obligatoire');
     }
   }
 
