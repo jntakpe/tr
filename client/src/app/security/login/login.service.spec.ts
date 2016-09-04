@@ -64,20 +64,18 @@ describe('login service', () => {
     });
   });
 
-  it('should login user', inject([LoginService, MockBackend],
-    (loginService: LoginService, mockBackend: MockBackend) => {
-      mockBackend.connections.subscribe(c => mockTokenResponse(c));
-      loginService.login('jntakpe', 'test').subscribe(user => {
-        expect(user).toBeTruthy();
-        expect(user.login).toBe('jntakpe');
-      }, () => fail('should get token'));
-    }));
+  it('should login user', inject([LoginService, MockBackend], (loginService: LoginService, mockBackend: MockBackend) => {
+    mockBackend.connections.subscribe(c => mockTokenResponse(c));
+    loginService.login('jntakpe', 'test').subscribe(user => {
+      expect(user).toBeTruthy();
+      expect(user.login).toBe('jntakpe');
+    }, () => fail('should get token'));
+  }));
 
-  it('should fail cuz wrong username', inject([LoginService, MockBackend],
-    (loginService: LoginService, mockBackend: MockBackend) => {
-      mockBackend.connections.subscribe(c => mockTokenResponse(c));
-      loginService.login('toto', 'test').subscribe(() => fail('should not get success response'), (error) => expect(error).toBeTruthy());
-    }));
+  it('should fail cuz wrong username', inject([LoginService, MockBackend], (loginService: LoginService, mockBackend: MockBackend) => {
+    mockBackend.connections.subscribe(c => mockTokenResponse(c));
+    loginService.login('toto', 'test').subscribe(() => fail('should not get success response'), (error) => expect(error).toBeTruthy());
+  }));
 
   it('should redirect to home page', fakeAsync(inject([LoginService, Router, Location],
     (loginService: LoginService, router: Router, location: Location) => {
@@ -88,13 +86,12 @@ describe('login service', () => {
     })
   ));
 
-  it('should call display error message',
-    inject([LoginService, AlertService], (loginService: LoginService, alertService: AlertService) => {
-      spyOn(alertService, 'error');
-      const component = TestBed.createComponent(TestComponent).componentInstance;
-      loginService.handleLoginError(new Response(new ResponseOptions({status: 400})), component.testGroup, component.notfocusedInput);
-      expect(alertService.error).toHaveBeenCalled();
-    }));
+  it('should call display error message', inject([LoginService, AlertService], (loginService: LoginService, alertService: AlertService) => {
+    spyOn(alertService, 'error');
+    const component = TestBed.createComponent(TestComponent).componentInstance;
+    loginService.handleLoginError(new Response(new ResponseOptions({status: 400})), component.testGroup, component.notfocusedInput);
+    expect(alertService.error).toHaveBeenCalled();
+  }));
 
   it('should call display default error message', inject([LoginService, AlertService],
     (loginService: LoginService, alertService: AlertService) => {
