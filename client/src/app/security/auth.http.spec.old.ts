@@ -192,7 +192,6 @@ describe('auth http', () => {
 
     it('should not http delete with token', inject([AuthHttp, MockBackend], (authHttp: AuthHttp, mockBackend: MockBackend) => {
       mockBackend.connections.subscribe(withoutAuthHeader);
-      console.log(authHttp);
       authHttp.delete('test');
     }));
 
