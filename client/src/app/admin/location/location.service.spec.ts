@@ -9,6 +9,7 @@ import {SecurityService} from '../../security/security.service';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {async} from '@angular/core/testing/async';
+
 describe('location service', () => {
 
   class MockSecurityService extends SecurityService {
