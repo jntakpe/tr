@@ -1,0 +1,15 @@
+<template #content let-confirm="close" let-dismiss="dismiss">
+  <div class="modal-header" *ngIf="title">
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">{{title}}</h4>
+  </div>
+  <div class="modal-body">
+    <p>{{message}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
+    <button type="button" class="btn btn-u" (click)="confirm()"><i class="fa fa-check"></i> Valider</button>
+  </div>
+</template>
