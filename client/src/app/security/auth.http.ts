@@ -18,13 +18,13 @@ export class AuthHttp {
 
   post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.findAccessToken()
-      .flatMap(token => this.http.post(url, body, this.addTokenToHeaders(token, options)))
+      .flatMap(token => this.http.post(url, body, this.addApplicationJsonContent(this.addTokenToHeaders(token, options))))
       .catch(err => this.handleError(err));
   }
 
   put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.findAccessToken()
-      .flatMap(token => this.http.put(url, body, this.addTokenToHeaders(token, options)))
+      .flatMap(token => this.http.put(url, body, this.addApplicationJsonContent(this.addTokenToHeaders(token, options))))
       .catch(err => this.handleError(err));
   }
 
@@ -51,6 +51,14 @@ export class AuthHttp {
       options.headers = new Headers();
     }
     options.headers.append('Authorization', `Bearer ${accessToken}`);
+    return options;
+  }
+
+  private addApplicationJsonContent(options: RequestOptionsArgs = new RequestOptions()) {
+    if (!options.headers) {
+      options.headers = new Headers();
+    }
+    options.headers.append('Content-Type', 'application/json');
     return options;
   }
 

@@ -1,9 +1,9 @@
 package com.github.jntakpe.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,11 +18,11 @@ import java.util.Set;
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "city"})})
 public class Location extends AuditingEntity {
 
-    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
-    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String city;
 

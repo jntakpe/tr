@@ -37,6 +37,7 @@ export class AlertService {
 
 export const titleConstants = {
   error: {
-    server: 'Erreur serveur'
+    server: 'Erreur serveur',
+    badRequest: 'Mauvaise requête'
   }
 };

@@ -6,10 +6,38 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let location of locations | async">
+  <tr *ngFor="let location of locations">
     <td>{{location.name}}</td>
     <td>{{location.city}}</td>
   </tr>
   </tbody>
 </table>
 
+<button class="btn btn-u" (click)="openModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
+
+<template #editContentModal let-submit="close" let-dismiss="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Modification d'un site de formation</h4>
+  </div>
+  <form [formGroup]="locationForm" (ngSubmit)="submit(locationForm)" autocomplete="off">
+    <div class="modal-body">
+      <section>
+        <div class="input-group margin-bottom-20">
+          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          <input #name name="name" type="text" formControlName="name" class="form-control" placeholder="Nom du site">
+        </div>
+      </section>
+      <section>
+        <div class="input-group margin-bottom-20">
+          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+          <input #city name="city" type="text" formControlName="city" class="form-control" placeholder="Ville">
+        </div>
+      </section>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default">Annuler</button>
+      <button type="submit" class="btn btn-primary">Valider</button>
+    </div>
+  </form>
+</template>

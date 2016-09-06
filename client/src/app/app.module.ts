@@ -4,10 +4,11 @@ import {AppComponent} from './app.component';
 import {LayoutModule} from './shared/layout/layout.module';
 import {SecurityModule} from './security/security.module';
 import {appRouting} from './app.routing';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, LayoutModule, SecurityModule, appRouting],
+  imports: [BrowserModule, NgbModule, LayoutModule, SecurityModule, appRouting],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
