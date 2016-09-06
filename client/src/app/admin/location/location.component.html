@@ -18,26 +18,30 @@
 <template #editContentModal let-submit="close" let-dismiss="dismiss">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Modification d'un site de formation</h4>
+    <h4 class="modal-title">{{creation ? 'Création' : 'Modification'}} d'un site de formation</h4>
   </div>
-  <form [formGroup]="locationForm" (ngSubmit)="submit(locationForm)" autocomplete="off">
+  <form class="form-horizontal" [formGroup]="locationForm" (ngSubmit)="submit(locationForm)" autocomplete="off">
     <div class="modal-body">
       <section>
-        <div class="input-group margin-bottom-20">
-          <span class="input-group-addon"><i class="fa fa-user"></i></span>
-          <input #name name="name" type="text" formControlName="name" class="form-control" placeholder="Nom du site">
+        <div class="form-group">
+          <label for="name" class="col-md-3 control-label">Nom du site</label>
+          <div class="col-md-9">
+            <input id="name" #name name="name" type="text" formControlName="name" class="form-control" placeholder="Nom du site">
+          </div>
         </div>
       </section>
       <section>
-        <div class="input-group margin-bottom-20">
-          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-          <input #city name="city" type="text" formControlName="city" class="form-control" placeholder="Ville">
+        <div class="form-group">
+          <label for="city" class="col-md-3 control-label">Ville</label>
+          <div class="col-md-9">
+            <input id="city" #city name="city" type="text" formControlName="city" class="form-control" placeholder="Ville">
+          </div>
         </div>
       </section>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-default">Annuler</button>
-      <button type="submit" class="btn btn-primary">Valider</button>
+      <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
+      <button type="submit" class="btn btn-u"><i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}</button>
     </div>
   </form>
 </template>

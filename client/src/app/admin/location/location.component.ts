@@ -18,6 +18,8 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   locationsSubscription: Subscription;
 
+  creation: boolean;
+
   constructor(private locationService: LocationService, private formBuilder: FormBuilder) {
   }
 
@@ -29,12 +31,13 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.locationsSubscription.unsubscribe();
   }
 
-  openModal() {
+  openModal(location: Location) {
     this.locationForm = this.formBuilder.group({
       name: ['', Validators.required],
       city: ['', Validators.required]
     });
-    this.locationsSubscription = this.locationService.saveModal(this.editContentModal)
+    this.creation = !location;
+    this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
       .flatMap(() => this.locationService.findAll())
       .subscribe(locations => this.locations = locations);
   }
