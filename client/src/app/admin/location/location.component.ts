@@ -12,6 +12,8 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   @ViewChild('editContentModal') editContentModal;
 
+  @ViewChild('confirmModal') confirmModal;
+
   locationForm: FormGroup;
 
   locations: Location[];
@@ -38,12 +40,12 @@ export class LocationComponent implements OnInit, OnDestroy {
     });
     this.creation = !location;
     this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
-      .flatMap(() => this.locationService.findAll())
       .subscribe(locations => this.locations = locations);
   }
 
   remove(location: Location) {
-    console.log('// TODO remove');
+    this.locationsSubscription = this.locationService.removeModal(this.confirmModal, location)
+      .subscribe(locations => this.locations = locations);
   }
 
 }

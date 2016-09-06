@@ -11,7 +11,7 @@ describe('location component', () => {
 
   class MockLocationService extends LocationService {
 
-    findAll(): Observable<Location> {
+    findAll(): Observable<Location[]> {
       return Observable.of([new Location('Triangle', 'Paris'), new Location('Colo1', 'Toulouse')]);
     }
 
@@ -21,7 +21,7 @@ describe('location component', () => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent],
       providers: [
-        {provide: LocationService, useValue: new MockLocationService(null, null)}
+        {provide: LocationService, useValue: new MockLocationService(null, null, null)}
       ]
     });
   });

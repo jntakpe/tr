@@ -6,9 +6,10 @@ import {CommonModule} from '@angular/common';
 import {SecurityModule} from '../../security/security.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 
 @NgModule({
-  declarations: [LocationComponent],
+  declarations: [LocationComponent, ConfirmModalComponent],
   imports: [CommonModule, HttpModule, SecurityModule, NgbModule, ReactiveFormsModule],
   exports: [LocationComponent],
   providers: [LocationService]
