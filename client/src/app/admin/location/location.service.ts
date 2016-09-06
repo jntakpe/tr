@@ -33,7 +33,7 @@ export class LocationService {
   }
 
   private save(location: Location): Observable<Location> {
-    return this.authHttp.post('api/locations', JSON.stringify(location))
+    return this.saveRequest(location)
       .map(res => res.json())
       .catch((err: Response) => {
         if (err.status === 500) {
@@ -45,5 +45,10 @@ export class LocationService {
         }
         return Observable.empty();
       });
+  }
+
+  private saveRequest(location: Location): Observable<Response> {
+    const body = JSON.stringify(location);
+    return location.id ? this.authHttp.put('api/locations', body) : this.authHttp.post('api/locations', body);
   }
 }

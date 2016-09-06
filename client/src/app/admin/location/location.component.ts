@@ -31,15 +31,19 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.locationsSubscription.unsubscribe();
   }
 
-  openModal(location: Location) {
+  saveModal(location: Location) {
     this.locationForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      city: ['', Validators.required]
+      name: [location ? location.name : '', Validators.required],
+      city: [location ? location.city : '', Validators.required]
     });
     this.creation = !location;
     this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
       .flatMap(() => this.locationService.findAll())
       .subscribe(locations => this.locations = locations);
+  }
+
+  remove(location: Location) {
+    console.log('// TODO remove');
   }
 
 }
