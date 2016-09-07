@@ -21,14 +21,13 @@ export class LocationService {
       } else {
         this.alertService.defaultErrorMsg();
       }
-      return Observable.throw(caught);
+      return Observable.empty();
     });
   }
 
   saveModal(modalContent: TemplateRef<any>, location: Location = new Location('', '')): Observable<Location[]> {
     return Observable.fromPromise(this.ngbModal.open(modalContent).result)
       .map((form: FormGroup) => {
-        console.log(form);
         return new Location(form.value.name, form.value.city, location.id);
       })
       .flatMap(l => this.save(l))

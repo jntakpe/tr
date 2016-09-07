@@ -8,12 +8,12 @@ import {MockBackend, MockConnection} from '@angular/http/testing/mock_backend';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {async} from '@angular/core/testing/async';
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, OnInit} from '@angular/core';
 import {Location} from './location';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {SecurityService} from '../../security/security.service';
-import {fakeAsync} from '@angular/core/testing/fake_async';
+import {tick, fakeAsync} from '@angular/core/testing/fake_async';
 import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 
 describe('location service', () => {
@@ -27,7 +27,7 @@ describe('location service', () => {
     <template #content let-close="close"><button id="close" (click)="close(locationForm)">Close modal</button></template>
   `
   })
-  class ModalComponent {
+  class ModalComponent implements OnInit {
 
     @ViewChild('content') tplContent;
 
@@ -125,6 +125,7 @@ describe('location service', () => {
 
   it('should create new location and refresh', fakeAsync(inject([MockBackend, LocationService, AlertService],
     (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let locations = [];
       let postCalled = false;
       let getCalled = false;
       fixture.detectChanges();
@@ -153,15 +154,124 @@ describe('location service', () => {
         }
       });
       locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
-        .subscribe(locations => {
-          expect(locations.length).toBe(2);
-          expect(postCalled).toBeTruthy();
-          expect(getCalled).toBeTruthy();
-          expect(alertService.success).toHaveBeenCalledWith('Site de formation Triangle de Paris créé');
-        }, err => fail('should save'));
+        .subscribe(l => locations = l, err => fail('should save'));
       fixture.debugElement.nativeElement.querySelector('#close').click();
       fixture.detectChanges();
+      tick();
+      expect(locations.length).toBe(2);
+      expect(postCalled).toBeTruthy();
+      expect(getCalled).toBeTruthy();
+      expect(alertService.success).toHaveBeenCalledWith('Site de formation Triangle de Paris créé');
     })));
 
+  it('should fail creating cuz bad request', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let postCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      spyOn(alertService, 'error');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Post) {
+          postCalled = true;
+          const error = new Error('Bad request');
+          error['status'] = 400;
+          error['text'] = function () {
+            return this.message;
+          };
+          conn.mockError(error);
+        }
+      });
+      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+        .subscribe(() => fail('should empty'), err => fail('should empty'));
+      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.detectChanges();
+      tick();
+      expect(alertService.success).not.toHaveBeenCalled();
+      expect(alertService.error).toHaveBeenCalledWith('Bad request', titleConstants.error.badRequest);
+    })));
+
+  it('should fail creating cuz server error', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let postCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      spyOn(alertService, 'error');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Post) {
+          postCalled = true;
+          const error = new Error('');
+          error['status'] = 500;
+          conn.mockError(error);
+        }
+      });
+      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+        .subscribe(() => fail('should empty'), err => fail('should empty'));
+      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.detectChanges();
+      tick();
+      expect(alertService.success).not.toHaveBeenCalled();
+      expect(alertService.error).toHaveBeenCalledWith('Impossible d\'enregistrer le site de formation', titleConstants.error.server);
+    })));
+
+  it('should fail creating cuz unknown error', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let postCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      spyOn(alertService, 'error');
+      spyOn(alertService, 'defaultErrorMsg');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Post) {
+          postCalled = true;
+          const error = new Error('');
+          error['status'] = 405;
+          conn.mockError(error);
+        }
+      });
+      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+        .subscribe(() => fail('should empty'), err => fail('should empty'));
+      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.detectChanges();
+      tick();
+      expect(alertService.success).not.toHaveBeenCalled();
+      expect(alertService.error).not.toHaveBeenCalled();
+      expect(alertService.defaultErrorMsg).toHaveBeenCalled();
+    })));
+
+  it('should fail getting locations', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let postCalled = false;
+      let getCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      spyOn(alertService, 'error');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Post) {
+          postCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            body: {
+              city: 'Paris',
+              name: 'Triangle'
+            },
+            status: 201
+          })));
+        } else if (conn.request.method === RequestMethod.Get) {
+          getCalled = true;
+          const error = new Error('');
+          error['status'] = 500;
+          conn.mockError(error);
+        }
+      });
+      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+        .subscribe(() => fail('should empty'), err => fail('should empty'));
+      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.detectChanges();
+      tick();
+      expect(postCalled).toBeTruthy();
+      expect(getCalled).toBeTruthy();
+      expect(alertService.success).toHaveBeenCalled();
+      expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des sites de formations depuis le serveur',
+        titleConstants.error.server);
+    })));
 
 });
