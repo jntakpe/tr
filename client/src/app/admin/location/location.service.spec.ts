@@ -1,16 +1,48 @@
 import {TestBed, inject} from '@angular/core/testing/test_bed';
-import {HttpModule, BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
+import {HttpModule, BaseRequestOptions, Http, Response, ResponseOptions, RequestMethod} from '@angular/http';
 import {LocationService} from './location.service';
 import {AuthHttp} from '../../security/auth.http';
 import {AlertService, titleConstants} from '../../shared/alert.service';
 import {NavigationService} from '../../shared/navigation.service';
 import {MockBackend, MockConnection} from '@angular/http/testing/mock_backend';
-import {SecurityService} from '../../security/security.service';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {async} from '@angular/core/testing/async';
+import {Component, ViewChild} from '@angular/core';
+import {Location} from './location';
+import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
+import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import {SecurityService} from '../../security/security.service';
+import {fakeAsync} from '@angular/core/testing/fake_async';
+import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 
 describe('location service', () => {
+
+  let fixture: ComponentFixture<ModalComponent>;
+
+  @Component({
+    selector: 'modal-cmp',
+    template: `
+    <template ngbModalContainer></template>
+    <template #content let-close="close"><button id="close" (click)="close(locationForm)">Close modal</button></template>
+  `
+  })
+  class ModalComponent {
+
+    @ViewChild('content') tplContent;
+
+    locationForm: FormGroup;
+
+    constructor(private formBuilder: FormBuilder) {
+    }
+
+    ngOnInit() {
+      this.locationForm = this.formBuilder.group({
+        name: ['Triangle', Validators.required],
+        city: ['Paris', Validators.required]
+      });
+    }
+  }
 
   class MockSecurityService extends SecurityService {
 
@@ -26,7 +58,8 @@ describe('location service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule, RouterTestingModule, RouterModule.forChild([])],
+      declarations: [ModalComponent],
+      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, NgbModalModule, RouterModule.forChild([])],
       providers: [
         LocationService,
         AuthHttp,
@@ -44,6 +77,7 @@ describe('location service', () => {
         {provide: SecurityService, useClass: MockSecurityService}
       ]
     });
+    fixture = TestBed.createComponent(ModalComponent);
   });
 
   it('should get locations', async(inject([LocationService, MockBackend], (locationService: LocationService, mockBackend: MockBackend) => {
@@ -88,5 +122,46 @@ describe('location service', () => {
         expect(alertService.defaultErrorMsg).toHaveBeenCalled();
       });
     })));
+
+  it('should create new location and refresh', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let postCalled = false;
+      let getCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Post) {
+          postCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            body: {
+              city: 'Paris',
+              name: 'Triangle'
+            },
+            status: 201
+          })));
+        } else if (conn.request.method === RequestMethod.Get) {
+          getCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            body: [{
+              city: 'Paris',
+              name: 'Triangle'
+            }, {
+              city: 'Paris',
+              name: 'Matei'
+            }]
+          })));
+        }
+      });
+      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+        .subscribe(locations => {
+          expect(locations.length).toBe(2);
+          expect(postCalled).toBeTruthy();
+          expect(getCalled).toBeTruthy();
+          expect(alertService.success).toHaveBeenCalledWith('Site de formation Triangle de Paris créé');
+        }, err => fail('should save'));
+      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.detectChanges();
+    })));
+
 
 });

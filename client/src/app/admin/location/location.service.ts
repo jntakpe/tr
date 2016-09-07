@@ -27,7 +27,10 @@ export class LocationService {
 
   saveModal(modalContent: TemplateRef<any>, location: Location = new Location('', '')): Observable<Location[]> {
     return Observable.fromPromise(this.ngbModal.open(modalContent).result)
-      .map((form: FormGroup) => new Location(form.value.name, form.value.city, location.id))
+      .map((form: FormGroup) => {
+        console.log(form);
+        return new Location(form.value.name, form.value.city, location.id);
+      })
       .flatMap(l => this.save(l))
       .flatMap(() => this.findAll())
       .catch(() => Observable.empty());

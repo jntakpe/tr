@@ -6,6 +6,7 @@ import {async} from '@angular/core/testing/async';
 import {By} from '@angular/platform-browser';
 import {Location} from './location';
 import {fakeAsync, tick} from '@angular/core/testing/fake_async';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('location component', () => {
 
@@ -20,6 +21,7 @@ describe('location component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent],
+      imports: [ReactiveFormsModule],
       providers: [
         {provide: LocationService, useValue: new MockLocationService(null, null, null)}
       ]
