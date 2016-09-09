@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewChild, OnDestroy, TemplateRef} from '@angular/core';
 import {LocationService} from './location.service';
 import {Location} from './location';
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
+import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
 
 @Component({
   selector: 'location-component',
@@ -12,11 +13,17 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   @ViewChild('editContentModal') editContentModal;
 
+  @ViewChild('editRowTmpl') editRowTmpl: TemplateRef<any>;
+
+  @ViewChild('removeRowTmpl') removeRowTmpl: TemplateRef<any>;
+
   @ViewChild('confirmModal') confirmModal;
 
   locationForm: FormGroup;
 
-  locations: Location[];
+  locations: Location[] = [];
+
+  dtOptions: TableOptions;
 
   locationsSubscription: Subscription;
 
@@ -27,6 +34,16 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.locationsSubscription = this.locationService.findAll().subscribe(locations => this.locations = locations);
+    this.dtOptions = new TableOptions({
+      reorderable: false,
+      columnMode: ColumnMode.force, rowHeight: 'auto', limit: 10,
+      columns: [
+        new TableColumn({name: 'Nom du site', prop: 'name'}),
+        new TableColumn({name: 'Ville', prop: 'city'}),
+        new TableColumn({name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false}),
+        new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false})
+      ]
+    });
   }
 
   ngOnDestroy() {

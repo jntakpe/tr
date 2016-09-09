@@ -7,10 +7,11 @@ import {SecurityModule} from '../../security/security.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {Angular2DataTableModule} from 'angular2-data-table';
 
 @NgModule({
   declarations: [LocationComponent, ConfirmModalComponent],
-  imports: [CommonModule, HttpModule, SecurityModule, NgbModule, ReactiveFormsModule],
+  imports: [CommonModule, HttpModule, SecurityModule, NgbModule, ReactiveFormsModule, Angular2DataTableModule],
   exports: [LocationComponent],
   providers: [LocationService]
 })

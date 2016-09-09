@@ -1,27 +1,13 @@
-<table class="table table-striped table-hover">
-  <thead>
-  <tr>
-    <th class="col-md-5">Nom</th>
-    <th class="col-md-5">Ville</th>
-    <th class="col-md-1">Modifier</th>
-    <th class="col-md-1">Supprimer</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let location of locations">
-    <td>{{location.name}}</td>
-    <td>{{location.city}}</td>
-    <td>
-      <button class="btn btn-info btn-xs" (click)="saveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
-    </td>
-    <td>
-      <button class="btn btn-danger btn-xs" (click)="remove(location)"><i class="fa fa-trash"></i> Supprimer</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
+<datatable class="material table-striped table-hover" [rows]="locations" [options]="dtOptions"></datatable>
 <button id="add-modal" class="btn btn-u" (click)="saveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
+
+<template #editRowTmpl let-location="row">
+  <button class="btn btn-info btn-xs" (click)="saveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
+</template>
+
+<template #removeRowTmpl let-location="row">
+  <button class="btn btn-danger btn-xs" (click)="remove(location)"><i class="fa fa-trash"></i> Supprimer</button>
+</template>
 
 <template #editContentModal let-submit="close" let-dismiss="dismiss">
   <div class="modal-header">

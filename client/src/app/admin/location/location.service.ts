@@ -46,7 +46,7 @@ export class LocationService {
   private save(location: Location): Observable<Location> {
     return this.saveRequest(location)
       .map(res => res.json())
-      .do((l: Location) => this.alertService.success(`Site de formation ${l.name} de ${l.city} ${location.id ? 'modifié' : 'créé'}`))
+      .do((l: Location) => this.alertService.success(`Site de formation ${l.name} de ${l.city} a été ${location.id ? 'modifié' : 'créé'}`))
       .catch((err: Response) => {
         if (err.status === 500) {
           this.alertService.error('Impossible d\'enregistrer le site de formation', titleConstants.error.server);
