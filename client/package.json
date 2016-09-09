@@ -24,7 +24,7 @@
     "@types/jquery": "^1.10.29",
     "@types/lodash": "^4.14.34",
     "@types/toastr": "^2.1.27",
-    "bootstrap": "^3.3.7",
+    "bootstrap-sass": "^3.3.7",
     "core-js": "^2.4.0",
     "font-awesome": "^4.6.3",
     "jquery": "^3.1.0",
