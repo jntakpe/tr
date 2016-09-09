@@ -39,7 +39,8 @@ export class LocationService {
     const message = `Êtes-vous sûr de vouloir supprimer le site de formation ${location.name} de ${location.city} ?`;
     return modalInstance.open(message, 'Suppression d\'un site de formation')
       .flatMap(() => this.remove(location))
-      .flatMap(() => this.findAll());
+      .flatMap(() => this.findAll())
+      .catch(() => Observable.empty());
   }
 
   private save(location: Location): Observable<Location> {

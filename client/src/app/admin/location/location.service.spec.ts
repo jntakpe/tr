@@ -15,6 +15,7 @@ import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {SecurityService} from '../../security/security.service';
 import {tick, fakeAsync} from '@angular/core/testing/fake_async';
 import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 
 describe('location service', () => {
 
@@ -24,14 +25,18 @@ describe('location service', () => {
     selector: 'modal-cmp',
     template: `
     <template ngbModalContainer></template>
-    <template #content let-close="close"><button id="close" (click)="close(locationForm)">Close modal</button></template>
+    <template #addContent let-close="close"><button id="close-add" (click)="close(locationForm)">Add modal</button></template>
+    <confirm-modal #confirmModal></confirm-modal>
   `
   })
   class ModalComponent implements OnInit {
 
-    @ViewChild('content') tplContent;
+    @ViewChild('addContent') addModalContent;
+    @ViewChild('confirmModal') confirmModal;
 
     locationForm: FormGroup;
+
+    location: Location = new Location('Matei', 'Paris', 1);
 
     constructor(private formBuilder: FormBuilder) {
     }
@@ -58,7 +63,7 @@ describe('location service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ModalComponent],
+      declarations: [ModalComponent, ConfirmModalComponent],
       imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, NgbModalModule, RouterModule.forChild([])],
       providers: [
         LocationService,
@@ -153,9 +158,9 @@ describe('location service', () => {
           })));
         }
       });
-      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
         .subscribe(l => locations = l, err => fail('should save'));
-      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
       expect(locations.length).toBe(2);
@@ -181,9 +186,9 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
-      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
       expect(alertService.success).not.toHaveBeenCalled();
@@ -204,9 +209,9 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
-      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
       expect(alertService.success).not.toHaveBeenCalled();
@@ -228,9 +233,9 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
-      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
       expect(alertService.success).not.toHaveBeenCalled();
@@ -238,7 +243,7 @@ describe('location service', () => {
       expect(alertService.defaultErrorMsg).toHaveBeenCalled();
     })));
 
-  it('should fail getting locations', fakeAsync(inject([MockBackend, LocationService, AlertService],
+  it('should fail getting locations after create', fakeAsync(inject([MockBackend, LocationService, AlertService],
     (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
       let postCalled = false;
       let getCalled = false;
@@ -262,9 +267,9 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.tplContent, new Location('Triangle', 'Paris'))
+      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
-      fixture.debugElement.nativeElement.querySelector('#close').click();
+      fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
       expect(postCalled).toBeTruthy();
@@ -273,5 +278,78 @@ describe('location service', () => {
       expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des sites de formations depuis le serveur',
         titleConstants.error.server);
     })));
+
+  it('should remove one location from table', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let locations = [];
+      let deleteCalled = false;
+      let getCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      spyOn(alertService, 'error');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Delete) {
+          deleteCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            status: 200
+          })));
+        } else if (conn.request.method === RequestMethod.Get) {
+          getCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            body: [{
+              city: 'Paris',
+              name: 'Triangle'
+            }]
+          })));
+        }
+      });
+      locationService.removeModal(fixture.componentInstance.confirmModal, new Location('Matei', 'Paris'))
+        .subscribe(l => locations = l, err => fail('should empty'));
+      fixture.debugElement.nativeElement.querySelector('button#confirm-btn').click();
+      fixture.detectChanges();
+      tick();
+      expect(locations.length).toBe(1);
+      expect(deleteCalled).toBeTruthy();
+      expect(getCalled).toBeTruthy();
+      expect(alertService.success).toHaveBeenCalledWith('Suppression du site de formation Matei de Paris effectué');
+    })));
+
+  it('should fail removing one location from table', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let locations = [];
+      let deleteCalled = false;
+      let getCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      spyOn(alertService, 'error');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Delete) {
+          deleteCalled = true;
+          const error = new Error();
+          error['status'] = 500;
+          conn.mockError(error);
+        } else if (conn.request.method === RequestMethod.Get) {
+          getCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            body: [{
+              city: 'Paris',
+              name: 'Triangle'
+            }]
+          })));
+        }
+      });
+      locationService.removeModal(fixture.componentInstance.confirmModal, new Location('Matei', 'Paris'))
+        .subscribe(err => fail('should empty'), err => fail('should empty'));
+      fixture.debugElement.nativeElement.querySelector('button#confirm-btn').click();
+      fixture.detectChanges();
+      tick();
+      expect(locations.length).toBe(0);
+      expect(deleteCalled).toBeTruthy();
+      expect(getCalled).toBeFalsy();
+      expect(alertService.success).not.toHaveBeenCalled();
+      expect(alertService.error).toHaveBeenCalledWith('Impossible de supprimer le site de formation Matei de Paris',
+        titleConstants.error.server);
+    })));
+
 
 });
