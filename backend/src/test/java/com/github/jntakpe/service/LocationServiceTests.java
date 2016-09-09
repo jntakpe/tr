@@ -83,7 +83,7 @@ public class LocationServiceTests extends AbstractDBServiceTests {
         location.setName(updatedLocationName);
         locationService.save(location);
         locationTestsUtils.flush();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE name=LOWER('" + updatedLocationName + "')";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE LOWER(name)=LOWER('" + updatedLocationName + "')";
         Location result = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
             Location mapper = new Location();
             mapper.setName(rs.getString("name"));

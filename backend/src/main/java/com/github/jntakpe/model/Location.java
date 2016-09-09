@@ -34,7 +34,7 @@ public class Location extends AuditingEntity {
     }
 
     public void setName(String name) {
-        this.name = Objects.nonNull(name) ? name.toLowerCase() : null;
+        this.name = name;
     }
 
     public String getCity() {
