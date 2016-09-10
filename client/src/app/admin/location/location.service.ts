@@ -46,7 +46,7 @@ export class LocationService {
   private save(location: Location): Observable<Location> {
     return this.saveRequest(location)
       .map(res => res.json())
-      .do((l: Location) => this.alertService.success(`Site de formation ${l.name} de ${l.city} a été ${location.id ? 'modifié' : 'créé'}`))
+      .do((l: Location) => this.alertService.success(`Le site de formation ${l.name} de ${l.city} a été ${location.id ? 'modifié' : 'créé'}`))
       .catch((err: Response) => {
         if (err.status === 500) {
           this.alertService.error('Impossible d\'enregistrer le site de formation', titleConstants.error.server);
@@ -61,7 +61,7 @@ export class LocationService {
 
   private remove(location: Location): Observable<Response> {
     return this.authHttp.delete(`api/locations/${location.id}`)
-      .do(() => this.alertService.success(`Suppression du site de formation ${location.name} de ${location.city} effectué`))
+      .do(() => this.alertService.success(`La suppression du site de formation ${location.name} de ${location.city} effectuée`))
       .catch(() => {
         this.alertService.error(`Impossible de supprimer le site de formation ${location.name} de ${location.city}`,
           titleConstants.error.server);

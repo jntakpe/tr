@@ -16,6 +16,7 @@ import {SecurityService} from '../../security/security.service';
 import {tick, fakeAsync} from '@angular/core/testing/fake_async';
 import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {Angular2DataTableModule} from 'angular2-data-table';
 
 describe('location service', () => {
 
@@ -64,7 +65,7 @@ describe('location service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ModalComponent, ConfirmModalComponent],
-      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, NgbModalModule, RouterModule.forChild([])],
+      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, Angular2DataTableModule, NgbModalModule, RouterModule.forChild([])],
       providers: [
         LocationService,
         AuthHttp,
@@ -166,7 +167,7 @@ describe('location service', () => {
       expect(locations.length).toBe(2);
       expect(postCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
-      expect(alertService.success).toHaveBeenCalledWith('Site de formation Triangle de Paris créé');
+      expect(alertService.success).toHaveBeenCalledWith('Le site de formation Triangle de Paris a été créé');
     })));
 
   it('should fail creating cuz bad request', fakeAsync(inject([MockBackend, LocationService, AlertService],
@@ -311,7 +312,7 @@ describe('location service', () => {
       expect(locations.length).toBe(1);
       expect(deleteCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
-      expect(alertService.success).toHaveBeenCalledWith('Suppression du site de formation Matei de Paris effectué');
+      expect(alertService.success).toHaveBeenCalledWith('La suppression du site de formation Matei de Paris effectuée');
     })));
 
   it('should fail removing one location from table', fakeAsync(inject([MockBackend, LocationService, AlertService],
