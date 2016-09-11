@@ -27,6 +27,19 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   locationsSubscription: Subscription;
 
+  formSubscription: Subscription;
+
+  formErrors: any = {};
+
+  validationMsgs: any = {
+    name: {
+      required: 'Le nom du site de formation est requis'
+    },
+    city: {
+      required: 'La ville du site de formation est requise'
+    }
+  };
+
   creation: boolean;
 
   constructor(private locationService: LocationService, private formBuilder: FormBuilder) {
@@ -48,6 +61,9 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.locationsSubscription.unsubscribe();
+    if (this.formSubscription) {
+      this.formSubscription.unsubscribe();
+    }
   }
 
   saveModal(location: Location) {
@@ -55,6 +71,8 @@ export class LocationComponent implements OnInit, OnDestroy {
       name: [location ? location.name : '', Validators.required],
       city: [location ? location.city : '', Validators.required]
     });
+    this.formErrors = {};
+    this.formSubscription = this.locationForm.valueChanges.subscribe(d => this.onValueChanged(d));
     this.creation = !location;
     this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
       .subscribe(locations => this.locations = locations);
@@ -63,6 +81,28 @@ export class LocationComponent implements OnInit, OnDestroy {
   remove(location: Location) {
     this.locationsSubscription = this.locationService.removeModal(this.confirmModal, location)
       .subscribe(locations => this.locations = locations);
+  }
+
+  private onValueChanged(data?: any) {
+    console.log(data);
+    for (const field in data) {
+      if (data.hasOwnProperty(field)) {
+        const control = this.locationForm.get(field);
+        if (control && control.dirty && control.invalid) {
+          for (const error in control.errors) {
+            if (control.errors.hasOwnProperty(error)) {
+              const message = this.validationMsgs[field] && this.validationMsgs[field][error];
+              if (message) {
+                this.formErrors[field] = message;
+                break;
+              }
+            }
+          }
+        } else {
+          delete this.formErrors[field];
+        }
+      }
+    }
   }
 
 }

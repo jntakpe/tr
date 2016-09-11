@@ -14,27 +14,34 @@
   <form class="form-horizontal" [formGroup]="locationForm" (ngSubmit)="submit(locationForm)" autocomplete="off">
     <div class="modal-body">
       <section>
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{'has-error': formErrors.name}">
           <label for="name" class="col-md-3 control-label">Nom du site</label>
           <div class="col-md-9">
             <input id="name" #name name="name" type="text" formControlName="name" class="form-control" placeholder="Nom du site">
+            <section *ngIf="formErrors.name">
+              <span class="help-block">{{formErrors.name}}</span>
+            </section>
           </div>
         </div>
       </section>
       <section>
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{'has-error': formErrors.city}">
           <label for="city" class="col-md-3 control-label">Ville</label>
           <div class="col-md-9">
             <input id="city" #city name="city" type="text" formControlName="city" class="form-control" placeholder="Ville">
+            <section *ngIf="formErrors.city">
+              <span class="help-block">{{formErrors.city}}</span>
+            </section>
           </div>
         </div>
       </section>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
-      <button type="submit" class="btn btn-u"><i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}</button>
+      <button type="submit" class="btn btn-u" [disabled]="locationForm.invalid">
+        <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
+      </button>
     </div>
   </form>
 </template>
-
 <confirm-modal #confirmModal></confirm-modal>
