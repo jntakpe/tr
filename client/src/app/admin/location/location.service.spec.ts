@@ -401,6 +401,8 @@ describe('location service', () => {
       });
       locationService.removeModal(fixture.componentInstance.confirmModal, new Location('Matei', 'Paris'))
         .subscribe(err => fail('should empty'), err => fail('should empty'));
+      fixture.detectChanges();
+      tick();
       fixture.debugElement.nativeElement.querySelector('button#confirm-btn').click();
       fixture.detectChanges();
       tick();

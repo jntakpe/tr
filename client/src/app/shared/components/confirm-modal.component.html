@@ -12,7 +12,9 @@
     </ul>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
-    <button id="confirm-btn" type="button" class="btn btn-u" (click)="confirm()"><i class="fa fa-check"></i> Valider</button>
+    <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Fermer</button>
+    <button id="confirm-btn" type="button" class="btn btn-u" *ngIf="!constraints" (click)="confirm()">
+      <i class="fa fa-check"></i> Valider
+    </button>
   </div>
 </template>
