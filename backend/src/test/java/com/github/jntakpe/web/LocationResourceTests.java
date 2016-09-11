@@ -141,8 +141,7 @@ public class LocationResourceTests extends AbstractResourceTests {
         Location location = locationTestsUtils.findUnusedLocation();
         ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS + "/{id}/constraints", location.getId())
                 .accept(MediaType.APPLICATION_JSON));
-        expectIsOkAndJsonContent(resultActions);
-        expectArrayEmpty(resultActions);
+        resultActions.andExpect(status().isNoContent());
     }
 
     @Test

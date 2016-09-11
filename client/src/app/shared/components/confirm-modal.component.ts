@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
+import {ConstraintsMessage} from '../constraint';
 
 @Component({
   selector: 'confirm-modal',
@@ -12,6 +13,8 @@ export class ConfirmModalComponent implements OnInit {
 
   message: string;
 
+  constraints: string[];
+
   title: string;
 
   constructor(private ngbModal: NgbModal) {
@@ -20,8 +23,9 @@ export class ConfirmModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  open(message: string, title?: string): Observable<any> {
+  open({message, constraints}: ConstraintsMessage, title?: string): Observable<any> {
     this.message = message;
+    this.constraints = constraints;
     this.title = title;
     return Observable.fromPromise(this.ngbModal.open(this.modalContent).result).catch(() => Observable.empty());
   }

@@ -170,6 +170,47 @@ describe('location service', () => {
       expect(alertService.success).toHaveBeenCalledWith('Le site de formation Triangle de Paris a été créé');
     })));
 
+  it('should edit location and refresh', fakeAsync(inject([MockBackend, LocationService, AlertService],
+    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+      let locations = [];
+      let putCalled = false;
+      let getCalled = false;
+      fixture.detectChanges();
+      spyOn(alertService, 'success');
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        if (conn.request.method === RequestMethod.Put) {
+          putCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            body: {
+              city: 'Paris',
+              name: 'Triangle'
+            },
+            status: 200
+          })));
+        } else if (conn.request.method === RequestMethod.Get) {
+          getCalled = true;
+          conn.mockRespond(new Response(new ResponseOptions({
+            body: [{
+              city: 'Paris',
+              name: 'Triangle'
+            }, {
+              city: 'Paris',
+              name: 'Matei'
+            }]
+          })));
+        }
+      });
+      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris', 1))
+        .subscribe(l => locations = l, err => fail('should save'));
+      fixture.debugElement.nativeElement.querySelector('#close-add').click();
+      fixture.detectChanges();
+      tick();
+      expect(locations.length).toBe(2);
+      expect(putCalled).toBeTruthy();
+      expect(getCalled).toBeTruthy();
+      expect(alertService.success).toHaveBeenCalledWith('Le site de formation Triangle de Paris a été créé');
+    })));
+
   it('should fail creating cuz bad request', fakeAsync(inject([MockBackend, LocationService, AlertService],
     (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
       let postCalled = false;
@@ -285,31 +326,42 @@ describe('location service', () => {
       let locations = [];
       let deleteCalled = false;
       let getCalled = false;
+      let constraintCalled = false;
       fixture.detectChanges();
       spyOn(alertService, 'success');
       spyOn(alertService, 'error');
       mockBackend.connections.subscribe((conn: MockConnection) => {
-        if (conn.request.method === RequestMethod.Delete) {
-          deleteCalled = true;
+        if (conn.request.url.indexOf('constraints') === -1) {
+          if (conn.request.method === RequestMethod.Delete) {
+            deleteCalled = true;
+            conn.mockRespond(new Response(new ResponseOptions({
+              status: 200
+            })));
+          } else if (conn.request.method === RequestMethod.Get) {
+            getCalled = true;
+            conn.mockRespond(new Response(new ResponseOptions({
+              body: [{
+                city: 'Paris',
+                name: 'Triangle'
+              }]
+            })));
+          }
+        } else {
+          constraintCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
-            status: 200
-          })));
-        } else if (conn.request.method === RequestMethod.Get) {
-          getCalled = true;
-          conn.mockRespond(new Response(new ResponseOptions({
-            body: [{
-              city: 'Paris',
-              name: 'Triangle'
-            }]
+            status: 204
           })));
         }
       });
       locationService.removeModal(fixture.componentInstance.confirmModal, new Location('Matei', 'Paris'))
         .subscribe(l => locations = l, err => fail('should empty'));
+      fixture.detectChanges();
+      tick();
       fixture.debugElement.nativeElement.querySelector('button#confirm-btn').click();
       fixture.detectChanges();
       tick();
       expect(locations.length).toBe(1);
+      expect(constraintCalled).toBeTruthy();
       expect(deleteCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
       expect(alertService.success).toHaveBeenCalledWith('La suppression du site de formation Matei de Paris effectuée');
@@ -320,22 +372,30 @@ describe('location service', () => {
       let locations = [];
       let deleteCalled = false;
       let getCalled = false;
+      let constraintCalled = false;
       fixture.detectChanges();
       spyOn(alertService, 'success');
       spyOn(alertService, 'error');
       mockBackend.connections.subscribe((conn: MockConnection) => {
-        if (conn.request.method === RequestMethod.Delete) {
-          deleteCalled = true;
-          const error = new Error();
-          error['status'] = 500;
-          conn.mockError(error);
-        } else if (conn.request.method === RequestMethod.Get) {
-          getCalled = true;
+        if (conn.request.url.indexOf('constraints') === -1) {
+          if (conn.request.method === RequestMethod.Delete) {
+            deleteCalled = true;
+            const error = new Error();
+            error['status'] = 500;
+            conn.mockError(error);
+          } else if (conn.request.method === RequestMethod.Get) {
+            getCalled = true;
+            conn.mockRespond(new Response(new ResponseOptions({
+              body: [{
+                city: 'Paris',
+                name: 'Triangle'
+              }]
+            })));
+          }
+        } else {
+          constraintCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
-            body: [{
-              city: 'Paris',
-              name: 'Triangle'
-            }]
+            status: 204
           })));
         }
       });
@@ -345,6 +405,7 @@ describe('location service', () => {
       fixture.detectChanges();
       tick();
       expect(locations.length).toBe(0);
+      expect(constraintCalled).toBeTruthy();
       expect(deleteCalled).toBeTruthy();
       expect(getCalled).toBeFalsy();
       expect(alertService.success).not.toHaveBeenCalled();

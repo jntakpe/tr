@@ -7,6 +7,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormGroup} from '@angular/forms';
 import {Response} from '@angular/http';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {ConstraintsMessage} from '../../shared/constraint';
 
 @Injectable()
 export class LocationService {
@@ -36,8 +37,8 @@ export class LocationService {
   }
 
   removeModal(modalInstance: ConfirmModalComponent, location: Location): Observable<Location[]> {
-    const message = `Êtes-vous sûr de vouloir supprimer le site de formation ${location.name} de ${location.city} ?`;
-    return modalInstance.open(message, 'Suppression d\'un site de formation')
+    return this.removeMessage(location)
+      .flatMap(c => modalInstance.open(c, 'Suppression d\'un site de formation'))
       .flatMap(() => this.remove(location))
       .flatMap(() => this.findAll())
       .catch(() => Observable.empty());
@@ -46,7 +47,7 @@ export class LocationService {
   private save(location: Location): Observable<Location> {
     return this.saveRequest(location)
       .map(res => res.json())
-      .do((l: Location) => this.alertService.success(`Le site de formation ${l.name} de ${l.city} a été ${location.id ? 'modifié' : 'créé'}`))
+      .do((l: Location) => this.alertService.success(`Le site de formation ${l.name} de ${l.city} a été ${l.id ? 'modifié' : 'créé'}`))
       .catch((err: Response) => {
         if (err.status === 500) {
           this.alertService.error('Impossible d\'enregistrer le site de formation', titleConstants.error.server);
@@ -59,6 +60,11 @@ export class LocationService {
       });
   }
 
+  private saveRequest(location: Location): Observable<Response> {
+    const body = JSON.stringify(location);
+    return location.id ? this.authHttp.put(`api/locations/${location.id}`, body) : this.authHttp.post('api/locations', body);
+  }
+
   private remove(location: Location): Observable<Response> {
     return this.authHttp.delete(`api/locations/${location.id}`)
       .do(() => this.alertService.success(`La suppression du site de formation ${location.name} de ${location.city} effectuée`))
@@ -69,9 +75,17 @@ export class LocationService {
       });
   }
 
-  private saveRequest(location: Location): Observable<Response> {
-    const body = JSON.stringify(location);
-    return location.id ? this.authHttp.put(`api/locations/${location.id}`, body) : this.authHttp.post('api/locations', body);
+  private removeMessage(location: Location): Observable<ConstraintsMessage> {
+    return this.authHttp.get(`api/locations/${location.id}/constraints`)
+      .map(res => {
+        const siteMsg = `le site de formation ${location.name} de ${location.city}`;
+        if (res.status === 204) {
+          return new ConstraintsMessage(`Êtes-vous sûr de vouloir supprimer ${siteMsg} ?`);
+        }
+        const constraints = res.json();
+        const msg = `Impossible de supprimer ${siteMsg} car il est utilisé par ${constraints.length > 1 ? 'les sessions' : 'la session'} :`;
+        return new ConstraintsMessage(msg, constraints);
+      });
   }
 
 }

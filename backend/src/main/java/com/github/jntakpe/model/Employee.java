@@ -1,6 +1,8 @@
 package com.github.jntakpe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Column;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 
 /**
  * Entité représentant un employé de Sopra Steria
@@ -54,6 +57,10 @@ public class Employee extends AuditingEntity {
 
     @JsonIgnore
     private LocalDateTime lastLdapCheck = LocalDateTime.now();
+
+    public String getFullName() {
+        return new StringJoiner(StringUtils.SPACE).add(getFirstName()).add(getLastName()).toString();
+    }
 
     public Set<Rating> getRatings() {
         return ratings;
@@ -168,5 +175,10 @@ public class Employee extends AuditingEntity {
         return login.hashCode();
     }
 
-
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("login", login)
+                .toString();
+    }
 }

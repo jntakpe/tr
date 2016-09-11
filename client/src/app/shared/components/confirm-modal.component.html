@@ -7,6 +7,9 @@
   </div>
   <div class="modal-body">
     <p>{{message}}</p>
+    <ul *ngFor="let contraint of constraints">
+      <li>{{contraint}}</li>
+    </ul>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
