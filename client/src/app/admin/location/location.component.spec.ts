@@ -10,8 +10,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {TemplateRef} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {Angular2DataTableModule} from 'angular2-data-table';
+import {ComponentFixture} from '@angular/core/testing/component_fixture';
 
 describe('location component', () => {
+
+  let fixture: ComponentFixture<LocationComponent>;
 
   class MockLocationService extends LocationService {
 
@@ -40,17 +43,16 @@ describe('location component', () => {
         {provide: LocationService, useClass: MockLocationService}
       ]
     });
+    fixture = TestBed.createComponent(LocationComponent);
   });
 
   it('should create location component', async(() => {
-    const fixture = TestBed.createComponent(LocationComponent);
     fixture.detectChanges();
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   }));
 
   it('should display locations', fakeAsync(() => {
-    const fixture = TestBed.createComponent(LocationComponent);
     fixture.detectChanges();
     const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
     tick(10);
@@ -60,7 +62,6 @@ describe('location component', () => {
   }));
 
   it('should add one location to table', fakeAsync(() => {
-    const fixture = TestBed.createComponent(LocationComponent);
     fixture.detectChanges();
     tick();
     const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
@@ -74,7 +75,6 @@ describe('location component', () => {
   }));
 
   it('should remove one location from table', fakeAsync(() => {
-    const fixture = TestBed.createComponent(LocationComponent);
     fixture.detectChanges();
     const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
     tick();

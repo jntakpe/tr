@@ -7,8 +7,11 @@ import {BreadcrumbsService} from './breadcrumbs.service';
 import {Observable} from 'rxjs';
 import {By} from '@angular/platform-browser/src/dom/debug/by';
 import {BreadcrumbsInfo} from './breadcrumbs';
+import {ComponentFixture} from '@angular/core/testing/component_fixture';
 
 describe('breadcrumb component', () => {
+
+  let fixture: ComponentFixture<BreadcrumbsComponent>;
 
   class MockBreadcrumbsService extends BreadcrumbsService {
 
@@ -40,21 +43,19 @@ describe('breadcrumb component', () => {
         {provide: BreadcrumbsService, useValue: new MockBreadcrumbsService(null)}
       ]
     });
+    fixture = TestBed.createComponent(BreadcrumbsComponent);
   });
 
   it('should create login component', async(() => {
-    const component = TestBed.createComponent(BreadcrumbsComponent).componentInstance;
-    expect(component).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   }));
 
   it('should get title', async(() => {
-    const fixture = TestBed.createComponent(BreadcrumbsComponent);
     fixture.detectChanges();
     expect(fixture.debugElement.componentInstance.title).toBe('Test title');
   }));
 
   it('should get breadcrumb', async(() => {
-    const fixture = TestBed.createComponent(BreadcrumbsComponent);
     fixture.detectChanges();
     const breadcrumbsInfos = fixture.debugElement.componentInstance.breadcrumbsInfos;
     expect(breadcrumbsInfos[0].path).toBe('previous');
@@ -62,14 +63,12 @@ describe('breadcrumb component', () => {
   }));
 
   it('should display title', async(() => {
-    const fixture = TestBed.createComponent(BreadcrumbsComponent);
     fixture.detectChanges();
     const title = fixture.debugElement.query(By.css('h1')).nativeElement.textContent;
     expect(title).toBe('Test title');
   }));
 
   it('should display previous link', async(() => {
-    const fixture = TestBed.createComponent(BreadcrumbsComponent);
     fixture.detectChanges();
     const link = fixture.debugElement.query(By.css('ul li a')).nativeElement;
     expect(link.href).toContain('/previous');
@@ -77,7 +76,6 @@ describe('breadcrumb component', () => {
   }));
 
   it('should display last title', async(() => {
-    const fixture = TestBed.createComponent(BreadcrumbsComponent);
     fixture.detectChanges();
     const li = fixture.debugElement.query(By.css('ul li:last-child')).nativeElement;
     expect(li.textContent).toBe('Test title');
