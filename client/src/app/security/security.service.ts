@@ -29,8 +29,8 @@ export class SecurityService {
       .do(user => this.currentUser = user);
   }
 
-  loginWithRefresh(token = this.getToken()): Observable<string> {
-    return this.refreshToken(token.refresh_token)
+  loginWithRefresh({refresh_token} = this.getToken()): Observable<string> {
+    return this.refreshToken(refresh_token)
       .do(res => this.storeToken(res))
       .map(res => res.json().access_token);
   }

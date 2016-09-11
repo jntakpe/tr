@@ -34,19 +34,18 @@ export class LoginService {
     element.nativeElement.focus();
   }
 
-  displayRedirectMessage(params: Params): void {
-    const fromParam = params['from'];
-    if (fromParam === 'logout') {
+  displayRedirectMessage({from}: Params): void {
+    if (from === 'logout') {
       this.alertService.success('Vous êtes à présent déconnecté', 'Deconnexion');
-    } else if (fromParam === 'expired') {
+    } else if (from === 'expired') {
       this.alertService.error('Votre session a expiré. Veuillez vous reconnecter', 'Expiration de session');
-    } else if (fromParam === 'unauthorized') {
+    } else if (from === 'unauthorized') {
       this.alertService.error('Vous n\'êtes pas connecté. Veuillez vous connecter', 'Connexion obligatoire');
     }
   }
 
-  private displayLoginError(error: Response): void {
-    if (error.status === 400) {
+  private displayLoginError({status}: Response): void {
+    if (status === 400) {
       this.alertService.error('Veuillez saisir vos identifiants Sopra Steria', 'Identifiants incorrects');
     } else {
       this.alertService.defaultErrorMsg();

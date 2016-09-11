@@ -7,7 +7,6 @@ import {NavigationService} from '../../../navigation.service';
 export class TopbarService {
 
   constructor(private securityService: SecurityService, private navigationService: NavigationService) {
-
   }
 
   getUserInfos(): any {
