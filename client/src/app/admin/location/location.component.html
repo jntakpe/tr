@@ -1,4 +1,4 @@
-<datatable class="material table-striped table-hover" [rows]="locations" [options]="dtOptions"></datatable>
+<datatable class="bootstrap table-striped table-hover" [rows]="locations" [options]="dtOptions"></datatable>
 <button id="add-modal" class="btn btn-u" (click)="saveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
 <template #editRowTmpl let-location="row">
   <button class="btn btn-info btn-xs" (click)="saveModal(location)"><i class="fa fa-edit"></i> Modifier</button>

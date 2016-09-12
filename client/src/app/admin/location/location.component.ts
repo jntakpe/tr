@@ -42,7 +42,10 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.locationsSubscription = this.locationService.findAll().subscribe(locations => this.locations = locations);
     this.dtOptions = new TableOptions({
       reorderable: false,
-      columnMode: ColumnMode.force, rowHeight: 'auto', limit: 10,
+      footerHeight: 50,
+      columnMode: ColumnMode.force,
+      rowHeight: 'auto',
+      limit: 3,
       columns: [
         new TableColumn({name: 'Nom du site', prop: 'name'}),
         new TableColumn({name: 'Ville', prop: 'city'}),

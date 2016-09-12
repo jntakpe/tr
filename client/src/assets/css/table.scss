@@ -1,4 +1,4 @@
-.datatable {
+.datatable.bootstrap {
   background-color: $table-bg;
   width: 100%;
   max-width: 100%;
@@ -147,4 +147,73 @@
       }
     }
   }
+
+  .datatable-footer {
+
+    padding-top: 10px;
+
+    .datatable-pager {
+
+      ul.pager li {
+
+        a {
+          min-height: 20px;
+          color: #777;
+          padding: 5px 15px;
+        }
+
+        &:not(.disabled) a:hover {
+          color: #fff;
+          background: #5fb611;
+          border-color: #5fb611;
+        }
+
+        &.active {
+          a, span, a:hover, span:hover, a:focus, span:focus {
+            color: #fff;
+            background: $primary-color;
+            border-color: $primary-color;
+          }
+        }
+
+        &.disabled {
+          a, span, a:hover, span:hover, a:focus, span:focus {
+            background: #ddd;
+            border-color: #ddd;
+          }
+        }
+
+        .icon-left,
+        .icon-skip,
+        .icon-right,
+        .icon-prev {
+          padding: 8px 12px 9px 12px;
+          font: normal normal normal 14px/1 FontAwesome;
+          font-size: inherit;
+          text-rendering: auto;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        .icon-prev:before {
+          content: "\f049";
+        }
+
+        .icon-left:before {
+          content: "\f04a";
+        }
+
+        .icon-right:before {
+          content: "\f04e";
+        }
+
+        .icon-skip:before {
+          content: "\f050";
+        }
+
+      }
+
+    }
+  }
+
 }
