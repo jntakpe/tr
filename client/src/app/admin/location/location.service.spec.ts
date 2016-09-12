@@ -35,7 +35,7 @@ describe('location service', () => {
     @ViewChild('addContent') addModalContent;
     @ViewChild('confirmModal') confirmModal;
 
-    locationForm: FormGroup;
+    saveForm: FormGroup;
 
     location: Location = new Location('Matei', 'Paris', 1);
 
@@ -43,7 +43,7 @@ describe('location service', () => {
     }
 
     ngOnInit() {
-      this.locationForm = this.formBuilder.group({
+      this.saveForm = this.formBuilder.group({
         name: ['Triangle', Validators.required],
         city: ['Paris', Validators.required]
       });

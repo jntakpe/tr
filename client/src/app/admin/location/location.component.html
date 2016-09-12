@@ -1,3 +1,25 @@
+<div class="panel panel-u search-panel">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-search"></i> Recherche</h3>
+  </div>
+  <div class="panel-body">
+    <form [formGroup]="searchForm">
+      <div class="row">
+        <div class="form-group col-md-5">
+          <label for="search-name">Recherche par nom du site</label>
+          <input id="search-name" type="text" class="form-control" placeholder="Nom du site de formation" formControlName="name">
+        </div>
+        <div class="form-group col-md-5">
+          <label for="search-city">Recherche par ville</label>
+          <input id="search-city" type="text" class="form-control" placeholder="Ville du site de formation" formControlName="city">
+        </div>
+        <div class="col-md-2 reset-search">
+          <button class="btn btn-warning pull-right" (click)="initSearchForm()"><i class="fa fa-eraser"></i> Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 <datatable class="bootstrap table-striped table-hover" [rows]="locations" [options]="dtOptions"></datatable>
 <button id="add-modal" class="btn btn-u" (click)="saveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
 <template #editRowTmpl let-location="row">
@@ -11,13 +33,13 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">{{creation ? 'Création' : 'Modification'}} d'un site de formation</h4>
   </div>
-  <form class="form-horizontal" [formGroup]="locationForm" (ngSubmit)="submit(locationForm)" autocomplete="off">
+  <form class="form-horizontal" [formGroup]="saveForm" (ngSubmit)="submit(saveForm)">
     <div class="modal-body">
       <section>
         <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.name}">
           <label for="name" class="col-md-3 control-label">Nom du site</label>
           <div class="col-md-9">
-            <input id="name" #name name="name" type="text" formControlName="name" class="form-control" placeholder="Nom du site">
+            <input id="name" type="text" class="form-control" placeholder="Nom du site" formControlName="name">
             <form-help-block [fieldError]="formErrors.name"></form-help-block>
           </div>
         </div>
@@ -26,7 +48,7 @@
         <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.city}">
           <label for="city" class="col-md-3 control-label">Ville</label>
           <div class="col-md-9">
-            <input id="city" #city name="city" type="text" formControlName="city" class="form-control" placeholder="Ville">
+            <input id="city" type="text" class="form-control" placeholder="Ville" formControlName="city">
             <form-help-block [fieldError]="formErrors.city"></form-help-block>
           </div>
         </div>
@@ -34,7 +56,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
-      <button type="submit" class="btn btn-u" [disabled]="locationForm.invalid">
+      <button type="submit" class="btn btn-u" [disabled]="saveForm.invalid">
         <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
       </button>
     </div>

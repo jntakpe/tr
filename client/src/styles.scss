@@ -29,3 +29,12 @@ body.portalbg {
 .btn:focus {
   color: #ffffff;
 }
+
+.panel.search-panel {
+  .panel-body {
+    padding: 5px 15px 0 15px;
+    .reset-search {
+      padding-top: 25px;
+    }
+  }
+}

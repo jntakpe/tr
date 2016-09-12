@@ -21,7 +21,9 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   @ViewChild('confirmModal') confirmModal;
 
-  locationForm: FormGroup;
+  saveForm: FormGroup;
+
+  searchForm: FormGroup;
 
   locations: Location[] = [];
 
@@ -29,7 +31,7 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   locationsSubscription: Subscription;
 
-  formSubscription: Subscription;
+  saveFormSubscription: Subscription;
 
   formErrors: {[key: string]: string} = {};
 
@@ -40,7 +42,48 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.locationsSubscription = this.locationService.findAll().subscribe(locations => this.locations = locations);
-    this.dtOptions = new TableOptions({
+    this.dtOptions = this.buildTableOptions();
+    this.initSearchForm();
+  }
+
+  ngOnDestroy() {
+    this.locationsSubscription.unsubscribe();
+    if (this.saveFormSubscription) {
+      this.saveFormSubscription.unsubscribe();
+    }
+  }
+
+  saveModal(location: Location) {
+    this.formErrors = {};
+    this.creation = !location;
+    const formMessages = this.formService.buildValidationForm({
+      name: new FormField([location ? location.name : '', Validators.required], {
+        required: 'Le nom du site de formation est requis'
+      }),
+      city: new FormField([location ? location.city : '', Validators.required], {
+        required: 'La ville du site de formation est requise'
+      })
+    });
+    this.saveForm = formMessages.formGroup;
+    this.saveFormSubscription = this.saveForm.valueChanges.subscribe(d => this.formErrors = this.formService.validate(d, formMessages));
+    this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
+      .subscribe(locations => this.locations = locations);
+  }
+
+  remove(location: Location) {
+    this.locationsSubscription = this.locationService.removeModal(this.confirmModal, location)
+      .subscribe(locations => this.locations = locations);
+  }
+
+  initSearchForm(): void {
+    this.searchForm = this.formService.formBuilder.group({
+      name: '',
+      city: ''
+    });
+  }
+
+  private buildTableOptions(): TableOptions {
+    return new TableOptions({
       reorderable: false,
       footerHeight: 50,
       columnMode: ColumnMode.force,
@@ -53,35 +96,6 @@ export class LocationComponent implements OnInit, OnDestroy {
         new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false})
       ]
     });
-  }
-
-  ngOnDestroy() {
-    this.locationsSubscription.unsubscribe();
-    if (this.formSubscription) {
-      this.formSubscription.unsubscribe();
-    }
-  }
-
-  saveModal(location: Location) {
-    this.formErrors = {};
-    this.creation = !location;
-    const formMessages = this.formService.buildForm({
-      name: new FormField([location ? location.name : '', Validators.required], {
-        required: 'Le nom du site de formation est requis'
-      }),
-      city: new FormField([location ? location.city : '', Validators.required], {
-        required: 'La ville du site de formation est requise'
-      })
-    });
-    this.locationForm = formMessages.formGroup;
-    this.formSubscription = this.locationForm.valueChanges.subscribe(d => this.formErrors = this.formService.validate(d, formMessages));
-    this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
-      .subscribe(locations => this.locations = locations);
-  }
-
-  remove(location: Location) {
-    this.locationsSubscription = this.locationService.removeModal(this.confirmModal, location)
-      .subscribe(locations => this.locations = locations);
   }
 
 }

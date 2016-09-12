@@ -6,10 +6,10 @@ import {FormMessages} from './form-messages';
 @Injectable()
 export class FormService {
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(public formBuilder: FormBuilder) {
   }
 
-  buildForm(fields: {[key: string]: FormField}): FormMessages {
+  buildValidationForm(fields: {[key: string]: FormField}): FormMessages {
     const {controlsConfig, messageConfig} = this.buildControlConfig(fields);
     return new FormMessages(this.formBuilder.group(controlsConfig), messageConfig);
   }

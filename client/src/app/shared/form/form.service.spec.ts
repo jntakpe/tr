@@ -26,21 +26,21 @@ describe('form service', () => {
   });
 
   it('should create form group', inject([FormService], (formService: FormService) => {
-    const formGroup = formService.buildForm(formConfig).formGroup;
+    const formGroup = formService.buildValidationForm(formConfig).formGroup;
     expect(formGroup).toBeTruthy();
     expect(formGroup.controls['f1']).toBeTruthy();
     expect(formGroup.controls['f1'].value).toBe('f1');
   }));
 
   it('should create messages', inject([FormService], (formService: FormService) => {
-    const messages = formService.buildForm(formConfig).messages;
+    const messages = formService.buildValidationForm(formConfig).messages;
     expect(messages).toBeTruthy();
     expect(messages['f1']).toBeTruthy();
     expect(messages['f1']['required']).toBe('Le champ f1 est requis');
   }));
 
   it('should validate form without error', fakeAsync(inject([FormService], (formService: FormService) => {
-    const formMessages = formService.buildForm(formConfig);
+    const formMessages = formService.buildValidationForm(formConfig);
     let errors;
     formMessages.formGroup.valueChanges.subscribe(d => errors = formService.validate(d, formMessages));
     formMessages.formGroup.setValue({f1: 'Test', f2: 'Test'});
@@ -50,7 +50,7 @@ describe('form service', () => {
   })));
 
   it('should validate form with error cuz f1 required', fakeAsync(inject([FormService], (formService: FormService) => {
-    const formMessages = formService.buildForm(formConfig);
+    const formMessages = formService.buildValidationForm(formConfig);
     let errors;
     formMessages.formGroup.valueChanges.subscribe(d => errors = formService.validate(d, formMessages));
     formMessages.formGroup.controls['f1'].markAsDirty(true);
@@ -62,7 +62,7 @@ describe('form service', () => {
   })));
 
   it('should validate form with error cuz f2 required', fakeAsync(inject([FormService], (formService: FormService) => {
-    const formMessages = formService.buildForm(formConfig);
+    const formMessages = formService.buildValidationForm(formConfig);
     let errors;
     formMessages.formGroup.valueChanges.subscribe(d => errors = formService.validate(d, formMessages));
     formMessages.formGroup.controls['f2'].markAsDirty(true);
@@ -74,7 +74,7 @@ describe('form service', () => {
   })));
 
   it('should validate form with error cuz f2 minlength', fakeAsync(inject([FormService], (formService: FormService) => {
-    const formMessages = formService.buildForm(formConfig);
+    const formMessages = formService.buildValidationForm(formConfig);
     let errors;
     formMessages.formGroup.valueChanges.subscribe(d => errors = formService.validate(d, formMessages));
     formMessages.formGroup.controls['f2'].markAsDirty(true);
