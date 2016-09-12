@@ -6,11 +6,11 @@ import {async} from '@angular/core/testing/async';
 import {By} from '@angular/platform-browser';
 import {Location} from './location';
 import {fakeAsync, tick} from '@angular/core/testing/fake_async';
-import {ReactiveFormsModule} from '@angular/forms';
 import {TemplateRef} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {Angular2DataTableModule} from 'angular2-data-table';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import {FormModule} from '../../shared/form/form.module';
 
 describe('location component', () => {
 
@@ -38,7 +38,7 @@ describe('location component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent],
-      imports: [ReactiveFormsModule, Angular2DataTableModule],
+      imports: [FormModule, Angular2DataTableModule],
       providers: [
         {provide: LocationService, useClass: MockLocationService}
       ]

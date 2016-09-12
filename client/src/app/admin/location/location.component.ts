@@ -1,9 +1,11 @@
 import {Component, OnInit, ViewChild, OnDestroy, TemplateRef} from '@angular/core';
 import {LocationService} from './location.service';
 import {Location} from './location';
-import {FormBuilder, Validators, FormGroup} from '@angular/forms';
+import {Validators, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
+import {FormService} from '../../shared/form/form.service';
+import {FormField} from '../../shared/form/form-field';
 
 @Component({
   selector: 'location-component',
@@ -29,20 +31,11 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   formSubscription: Subscription;
 
-  formErrors: any = {};
-
-  validationMsgs: any = {
-    name: {
-      required: 'Le nom du site de formation est requis'
-    },
-    city: {
-      required: 'La ville du site de formation est requise'
-    }
-  };
+  formErrors: {[key: string]: string} = {};
 
   creation: boolean;
 
-  constructor(private locationService: LocationService, private formBuilder: FormBuilder) {
+  constructor(private locationService: LocationService, private formService: FormService) {
   }
 
   ngOnInit() {
@@ -67,13 +60,18 @@ export class LocationComponent implements OnInit, OnDestroy {
   }
 
   saveModal(location: Location) {
-    this.locationForm = this.formBuilder.group({
-      name: [location ? location.name : '', Validators.required],
-      city: [location ? location.city : '', Validators.required]
-    });
     this.formErrors = {};
-    this.formSubscription = this.locationForm.valueChanges.subscribe(d => this.onValueChanged(d));
     this.creation = !location;
+    const formMessages = this.formService.buildForm({
+      name: new FormField([location ? location.name : '', Validators.required], {
+        required: 'Le nom du site de formation est requis'
+      }),
+      city: new FormField([location ? location.city : '', Validators.required], {
+        required: 'La ville du site de formation est requise'
+      })
+    });
+    this.locationForm = formMessages.formGroup;
+    this.formSubscription = this.locationForm.valueChanges.subscribe(d => this.formErrors = this.formService.validate(d, formMessages));
     this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
       .subscribe(locations => this.locations = locations);
   }
@@ -81,28 +79,6 @@ export class LocationComponent implements OnInit, OnDestroy {
   remove(location: Location) {
     this.locationsSubscription = this.locationService.removeModal(this.confirmModal, location)
       .subscribe(locations => this.locations = locations);
-  }
-
-  private onValueChanged(data?: any) {
-    console.log(data);
-    for (const field in data) {
-      if (data.hasOwnProperty(field)) {
-        const control = this.locationForm.get(field);
-        if (control && control.dirty && control.invalid) {
-          for (const error in control.errors) {
-            if (control.errors.hasOwnProperty(error)) {
-              const message = this.validationMsgs[field] && this.validationMsgs[field][error];
-              if (message) {
-                this.formErrors[field] = message;
-                break;
-              }
-            }
-          }
-        } else {
-          delete this.formErrors[field];
-        }
-      }
-    }
   }
 
 }
