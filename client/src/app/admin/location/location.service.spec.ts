@@ -26,7 +26,7 @@ describe('location service', () => {
     selector: 'modal-cmp',
     template: `
     <template ngbModalContainer></template>
-    <template #addContent let-close="close"><button id="close-add" (click)="close(locationForm)">Add modal</button></template>
+    <template #addContent let-close="close"><button id="close-add" (click)="close(saveForm)">Add modal</button></template>
     <confirm-modal #confirmModal></confirm-modal>
   `
   })
@@ -164,9 +164,9 @@ describe('location service', () => {
       fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
-      expect(locations.length).toBe(2);
       expect(postCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
+      expect(locations.length).toBe(2);
       expect(alertService.success).toHaveBeenCalledWith('Le site de formation Triangle de Paris a été créé');
     })));
 
