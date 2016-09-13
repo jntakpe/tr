@@ -9,12 +9,13 @@ import {ConfirmModalComponent} from '../../shared/components/confirm-modal.compo
 import {Angular2DataTableModule} from 'angular2-data-table';
 import {FormModule} from '../../shared/form/form.module';
 import {SaveModalComponent} from './modal/save-modal.component';
+import {FilterService} from '../../shared/table/filter.service';
 
 @NgModule({
   declarations: [LocationComponent, SaveModalComponent, ConfirmModalComponent],
   imports: [CommonModule, HttpModule, SecurityModule, NgbModule, FormModule, Angular2DataTableModule],
   exports: [LocationComponent],
-  providers: [LocationService]
+  providers: [LocationService, FilterService]
 })
 export class LocationModule {
 }

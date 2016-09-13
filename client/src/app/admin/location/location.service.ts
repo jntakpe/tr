@@ -8,16 +8,19 @@ import {FormGroup} from '@angular/forms';
 import {Response} from '@angular/http';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {ConstraintsMessage} from '../../shared/constraint';
-import * as sift from 'sift';
+import {FilterService} from '../../shared/table/filter.service';
 
 @Injectable()
 export class LocationService {
 
-  constructor(private authHttp: AuthHttp, private alertService: AlertService, private ngbModal: NgbModal) {
+  constructor(private authHttp: AuthHttp,
+              private alertService: AlertService,
+              private ngbModal: NgbModal,
+              private filterService: FilterService) {
   }
 
   findAll(): Observable<Location[]> {
-    return this.authHttp.get('api/locations').map(res => res.json()).catch((err, caught) => {
+    return this.authHttp.get('api/locations').map(res => res.json()).catch((err, caught) => { // TODO remove useless param
       if (err.status === 500) {
         this.alertService.error('Impossible de récupérer la liste des sites de formations depuis le serveur', titleConstants.error.server);
       } else {
@@ -44,17 +47,7 @@ export class LocationService {
   }
 
   filterTable(locations: Location[], {name, city}): Location[] {
-    if (!name && !city) {
-      return locations;
-    }
-    let predicates = [];
-    if (name) {
-      predicates.push({name: {$regex: `^${name}`, $options: 'i'}});
-    }
-    if (city) {
-      predicates.push({city: {$regex: `^${city}`, $options: 'i'}});
-    }
-    return sift({$and: predicates}, locations);
+    return this.filterService.regexFilter(locations, {name, city});
   }
 
   private save(location: Location): Observable<Location> {

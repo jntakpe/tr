@@ -20,7 +20,7 @@ export class FormService {
       if (data.hasOwnProperty(field)) {
         const control = formGroup.get(field);
         if (control && control.dirty && control.invalid) {
-          for (const error in control.errors) {
+          for (const error in control.errors) { // TODO replace for
             if (control.errors.hasOwnProperty(error)) {
               const message = messages[field] && messages[field][error];
               if (message) {
@@ -38,7 +38,7 @@ export class FormService {
   private buildControlConfig(fields: {[key: string]: FormField}): any {
     const controlsConfig = {};
     const messageConfig = {};
-    for (const field in fields) {
+    for (const field in fields) { // TODO replace for
       if (fields.hasOwnProperty(field)) {
         controlsConfig[field] = fields[field].control;
         messageConfig[field] = fields[field].messages;
