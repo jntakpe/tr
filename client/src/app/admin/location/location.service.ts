@@ -8,6 +8,7 @@ import {FormGroup} from '@angular/forms';
 import {Response} from '@angular/http';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {ConstraintsMessage} from '../../shared/constraint';
+import * as sift from 'sift';
 
 @Injectable()
 export class LocationService {
@@ -40,6 +41,20 @@ export class LocationService {
       .flatMap(() => this.remove(location))
       .flatMap(() => this.findAll())
       .catch(() => Observable.empty());
+  }
+
+  filterTable(locations: Location[], {name, city}): Location[] {
+    if (!name && !city) {
+      return locations;
+    }
+    let predicates = [];
+    if (name) {
+      predicates.push({name: {$regex: `^${name}`, $options: 'i'}});
+    }
+    if (city) {
+      predicates.push({city: {$regex: `^${city}`, $options: 'i'}});
+    }
+    return sift({$and: predicates}, locations);
   }
 
   private save(location: Location): Observable<Location> {

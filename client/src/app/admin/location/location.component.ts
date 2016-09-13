@@ -21,17 +21,21 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   @ViewChild('confirmModal') confirmModal;
 
+  private _locations: Location[] = [];
+
   saveForm: FormGroup;
 
   searchForm: FormGroup;
 
-  locations: Location[] = [];
+  displayedLocations: Location[] = [];
 
   dtOptions: TableOptions;
 
   locationsSubscription: Subscription;
 
   saveFormSubscription: Subscription;
+
+  searchFormSubscription: Subscription;
 
   formErrors: {[key: string]: string} = {};
 
@@ -48,6 +52,7 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.locationsSubscription.unsubscribe();
+    this.searchFormSubscription.unsubscribe();
     if (this.saveFormSubscription) {
       this.saveFormSubscription.unsubscribe();
     }
@@ -57,10 +62,10 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.formErrors = {};
     this.creation = !location;
     const formMessages = this.formService.buildValidationForm({
-      name: new FormField([location ? location.name : '', Validators.required], {
+      name: new FormField([location ? location.name : null, Validators.required], {
         required: 'Le nom du site de formation est requis'
       }),
-      city: new FormField([location ? location.city : '', Validators.required], {
+      city: new FormField([location ? location.city : null, Validators.required], {
         required: 'La ville du site de formation est requise'
       })
     });
@@ -73,13 +78,6 @@ export class LocationComponent implements OnInit, OnDestroy {
   remove(location: Location) {
     this.locationsSubscription = this.locationService.removeModal(this.confirmModal, location)
       .subscribe(locations => this.locations = locations);
-  }
-
-  initSearchForm(): void {
-    this.searchForm = this.formService.formBuilder.group({
-      name: '',
-      city: ''
-    });
   }
 
   private buildTableOptions(): TableOptions {
@@ -96,6 +94,24 @@ export class LocationComponent implements OnInit, OnDestroy {
         new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false})
       ]
     });
+  }
+
+  private initSearchForm(): void {
+    this.searchForm = this.formService.formBuilder.group({
+      name: null,
+      city: null
+    });
+    this.searchFormSubscription = this.searchForm.valueChanges
+      .subscribe(d => this.displayedLocations = this.locationService.filterTable(this.locations, d));
+  }
+
+  set locations(locations: Location[]) {
+    this._locations = locations;
+    this.displayedLocations = locations;
+  }
+
+  get locations() {
+    return this._locations;
   }
 
 }

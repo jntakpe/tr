@@ -14,13 +14,13 @@
           <input id="search-city" type="text" class="form-control" placeholder="Ville du site de formation" formControlName="city">
         </div>
         <div class="col-md-2 reset-search">
-          <button class="btn btn-warning pull-right" (click)="initSearchForm()"><i class="fa fa-eraser"></i> Reset</button>
+          <button class="btn btn-warning pull-right" type="reset"><i class="fa fa-eraser"></i> Reset</button>
         </div>
       </div>
     </form>
   </div>
 </div>
-<datatable class="bootstrap table-striped table-hover" [rows]="locations" [options]="dtOptions"></datatable>
+<datatable class="bootstrap table-striped table-hover" [rows]="displayedLocations" [options]="dtOptions"></datatable>
 <button id="add-modal" class="btn btn-u" (click)="saveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
 <template #editRowTmpl let-location="row">
   <button class="btn btn-info btn-xs" (click)="saveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
