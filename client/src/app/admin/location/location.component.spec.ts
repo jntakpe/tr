@@ -11,6 +11,7 @@ import {ConfirmModalComponent} from '../../shared/components/confirm-modal.compo
 import {Angular2DataTableModule} from 'angular2-data-table';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {FormModule} from '../../shared/form/form.module';
+import {SaveModalComponent} from './modal/save-modal.component';
 
 describe('location component', () => {
 
@@ -37,7 +38,7 @@ describe('location component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LocationComponent],
+      declarations: [LocationComponent, SaveModalComponent],
       imports: [FormModule, Angular2DataTableModule],
       providers: [
         {provide: LocationService, useClass: MockLocationService}
@@ -48,8 +49,7 @@ describe('location component', () => {
 
   it('should create location component', async(() => {
     fixture.detectChanges();
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   }));
 
   it('should display locations', fakeAsync(() => {

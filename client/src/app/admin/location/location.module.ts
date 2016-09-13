@@ -8,9 +8,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {Angular2DataTableModule} from 'angular2-data-table';
 import {FormModule} from '../../shared/form/form.module';
+import {SaveModalComponent} from './modal/save-modal.component';
 
 @NgModule({
-  declarations: [LocationComponent, ConfirmModalComponent],
+  declarations: [LocationComponent, SaveModalComponent, ConfirmModalComponent],
   imports: [CommonModule, HttpModule, SecurityModule, NgbModule, FormModule, Angular2DataTableModule],
   exports: [LocationComponent],
   providers: [LocationService]

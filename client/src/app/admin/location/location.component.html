@@ -21,45 +21,12 @@
   </div>
 </div>
 <datatable class="bootstrap table-striped table-hover" [rows]="displayedLocations" [options]="dtOptions"></datatable>
-<button id="add-modal" class="btn btn-u" (click)="saveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
+<button id="add-modal" class="btn btn-u" (click)="openSaveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
 <template #editRowTmpl let-location="row">
-  <button class="btn btn-info btn-xs" (click)="saveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
+  <button class="btn btn-info btn-xs" (click)="openSaveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
 </template>
 <template #removeRowTmpl let-location="row">
   <button class="btn btn-danger btn-xs" (click)="remove(location)"><i class="fa fa-trash"></i> Supprimer</button>
 </template>
-<template #editContentModal let-submit="close" let-dismiss="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">{{creation ? 'Création' : 'Modification'}} d'un site de formation</h4>
-  </div>
-  <form class="form-horizontal" [formGroup]="saveForm" (ngSubmit)="submit(saveForm)">
-    <div class="modal-body">
-      <section>
-        <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.name}">
-          <label for="name" class="col-md-3 control-label">Nom du site</label>
-          <div class="col-md-9">
-            <input id="name" type="text" class="form-control" placeholder="Nom du site" formControlName="name">
-            <form-help-block [fieldError]="formErrors.name"></form-help-block>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.city}">
-          <label for="city" class="col-md-3 control-label">Ville</label>
-          <div class="col-md-9">
-            <input id="city" type="text" class="form-control" placeholder="Ville" formControlName="city">
-            <form-help-block [fieldError]="formErrors.city"></form-help-block>
-          </div>
-        </div>
-      </section>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
-      <button type="submit" class="btn btn-u" [disabled]="saveForm.invalid">
-        <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
-      </button>
-    </div>
-  </form>
-</template>
+<save-modal #saveModal></save-modal>
 <confirm-modal #confirmModal></confirm-modal>

@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild, OnDestroy, TemplateRef} from '@angular/core';
 import {LocationService} from './location.service';
 import {Location} from './location';
-import {Validators, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
 import {FormService} from '../../shared/form/form.service';
-import {FormField} from '../../shared/form/form-field';
+import {SaveModalComponent} from './modal/save-modal.component';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 
 @Component({
   selector: 'location-component',
@@ -13,19 +14,13 @@ import {FormField} from '../../shared/form/form-field';
 })
 export class LocationComponent implements OnInit, OnDestroy {
 
-  @ViewChild('editContentModal') editContentModal;
-
   @ViewChild('editRowTmpl') editRowTmpl: TemplateRef<any>;
 
   @ViewChild('removeRowTmpl') removeRowTmpl: TemplateRef<any>;
 
-  @ViewChild('confirmModal') confirmModal;
+  @ViewChild('saveModal') saveModal: SaveModalComponent;
 
-  private _locations: Location[] = [];
-
-  saveForm: FormGroup;
-
-  searchForm: FormGroup;
+  @ViewChild('confirmModal') confirmModal: ConfirmModalComponent;
 
   displayedLocations: Location[] = [];
 
@@ -33,13 +28,11 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   locationsSubscription: Subscription;
 
-  saveFormSubscription: Subscription;
+  searchForm: FormGroup;
 
   searchFormSubscription: Subscription;
 
-  formErrors: {[key: string]: string} = {};
-
-  creation: boolean;
+  private _locations: Location[] = [];
 
   constructor(private locationService: LocationService, private formService: FormService) {
   }
@@ -53,26 +46,10 @@ export class LocationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.locationsSubscription.unsubscribe();
     this.searchFormSubscription.unsubscribe();
-    if (this.saveFormSubscription) {
-      this.saveFormSubscription.unsubscribe();
-    }
   }
 
-  saveModal(location: Location) {
-    this.formErrors = {};
-    this.creation = !location;
-    const formMessages = this.formService.buildValidationForm({
-      name: new FormField([location ? location.name : null, Validators.required], {
-        required: 'Le nom du site de formation est requis'
-      }),
-      city: new FormField([location ? location.city : null, Validators.required], {
-        required: 'La ville du site de formation est requise'
-      })
-    });
-    this.saveForm = formMessages.formGroup;
-    this.saveFormSubscription = this.saveForm.valueChanges.subscribe(d => this.formErrors = this.formService.validate(d, formMessages));
-    this.locationsSubscription = this.locationService.saveModal(this.editContentModal, location)
-      .subscribe(locations => this.locations = locations);
+  openSaveModal(location: Location) {
+    this.locationsSubscription = this.saveModal.save(location).subscribe(locations => this.locations = locations);
   }
 
   remove(location: Location) {
