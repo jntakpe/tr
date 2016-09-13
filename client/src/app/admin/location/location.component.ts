@@ -85,6 +85,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   set locations(locations: Location[]) {
     this._locations = locations;
     this.displayedLocations = locations;
+    this.initSearchForm();
   }
 
   get locations() {
