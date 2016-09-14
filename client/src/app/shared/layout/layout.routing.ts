@@ -3,6 +3,7 @@ import {HomeComponent} from '../../home/home.component';
 import {LocationComponent} from '../../admin/location/location.component';
 import {BreadcrumbsInfo} from '../../shared/layout/breadcrumbs/breadcrumbs';
 import {LayoutComponent} from '../../shared/layout/layout.component';
+import {TrainingComponent} from '../../admin/training/training.component';
 
 const homeRoute: Route = {
   path: 'home',
@@ -22,6 +23,15 @@ const locationRoute: Route = {
   }
 };
 
+const trainingRoute: Route = {
+  path: 'trainings',
+  component: TrainingComponent,
+  data: {
+    title: 'Formations',
+    breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+  }
+};
+
 const layoutRoutes: Routes = [
   {
     path: '',
@@ -29,7 +39,8 @@ const layoutRoutes: Routes = [
     children: [
       {path: '', redirectTo: '/home', pathMatch: 'full'},
       homeRoute,
-      locationRoute
+      locationRoute,
+      trainingRoute
     ]
   }
 ];
