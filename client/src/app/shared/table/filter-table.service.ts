@@ -3,12 +3,13 @@ import {RegexType} from './regex-type';
 import * as sift from 'sift';
 
 @Injectable()
-export class FilterService {
+export class FilterTableService {
 
   constructor() {
   }
 
   regexFilter<T>(data: T[], filterParams: {[key: string]: any}, operator = '$and') {
+    console.log(filterParams);
     const truthyParams = this.getTruthyParams(filterParams);
     if (!truthyParams) {
       return data;

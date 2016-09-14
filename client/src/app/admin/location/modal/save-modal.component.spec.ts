@@ -19,6 +19,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Location} from '../location';
 import {By} from '@angular/platform-browser';
+import {TableModule} from '../../../shared/table/table.module';
 
 describe('save modal component', () => {
 
@@ -46,7 +47,7 @@ describe('save modal component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent, SaveModalComponent],
-      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, FormModule, NgbModule, RouterModule.forChild([])],
+      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, FormModule, TableModule, NgbModule, RouterModule.forChild([])],
       providers: [
         LocationService,
         AlertService,

@@ -8,10 +8,10 @@ import {Location} from './location';
 import {fakeAsync, tick} from '@angular/core/testing/fake_async';
 import {TemplateRef} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {Angular2DataTableModule} from 'angular2-data-table';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {FormModule} from '../../shared/form/form.module';
 import {SaveModalComponent} from './modal/save-modal.component';
+import {TableModule} from '../../shared/table/table.module';
 
 describe('location component', () => {
 
@@ -39,7 +39,7 @@ describe('location component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent, SaveModalComponent],
-      imports: [FormModule, Angular2DataTableModule],
+      imports: [FormModule, TableModule],
       providers: [
         {provide: LocationService, useClass: MockLocationService}
       ]

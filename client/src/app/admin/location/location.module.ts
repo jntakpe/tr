@@ -6,16 +6,15 @@ import {CommonModule} from '@angular/common';
 import {SecurityModule} from '../../security/security.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {Angular2DataTableModule} from 'angular2-data-table';
 import {FormModule} from '../../shared/form/form.module';
 import {SaveModalComponent} from './modal/save-modal.component';
-import {FilterService} from '../../shared/table/filter.service';
+import {TableModule} from '../../shared/table/table.module';
 
 @NgModule({
   declarations: [LocationComponent, SaveModalComponent, ConfirmModalComponent],
-  imports: [CommonModule, HttpModule, SecurityModule, NgbModule, FormModule, Angular2DataTableModule],
+  imports: [CommonModule, HttpModule, NgbModule, SecurityModule, FormModule, TableModule],
   exports: [LocationComponent],
-  providers: [LocationService, FilterService]
+  providers: [LocationService]
 })
 export class LocationModule {
 }

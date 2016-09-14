@@ -16,7 +16,7 @@ import {SecurityService} from '../../security/security.service';
 import {tick, fakeAsync} from '@angular/core/testing/fake_async';
 import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {Angular2DataTableModule} from 'angular2-data-table';
+import {TableModule} from '../../shared/table/table.module';
 
 describe('location service', () => {
 
@@ -65,7 +65,7 @@ describe('location service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ModalComponent, ConfirmModalComponent],
-      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, Angular2DataTableModule, NgbModalModule, RouterModule.forChild([])],
+      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, TableModule, NgbModalModule, RouterModule.forChild([])],
       providers: [
         LocationService,
         AuthHttp,

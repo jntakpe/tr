@@ -8,7 +8,7 @@ import {FormGroup} from '@angular/forms';
 import {Response} from '@angular/http';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {ConstraintsMessage} from '../../shared/constraint';
-import {FilterService} from '../../shared/table/filter.service';
+import {FilterTableService} from '../../shared/table/filter-table.service';
 
 @Injectable()
 export class LocationService {
@@ -16,7 +16,7 @@ export class LocationService {
   constructor(private authHttp: AuthHttp,
               private alertService: AlertService,
               private ngbModal: NgbModal,
-              private filterService: FilterService) {
+              private filterService: FilterTableService) {
   }
 
   findAll(): Observable<Location[]> {
