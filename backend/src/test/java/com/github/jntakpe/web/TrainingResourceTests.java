@@ -135,4 +135,22 @@ public class TrainingResourceTests extends AbstractResourceTests {
         resultActions.andExpect(status().isNotFound());
     }
 
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void constraints_shouldBeEmpty() throws Exception {
+        Training training = trainingTestsUtils.findUnusedTraining();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.TRAININGS + "/{id}/constraints", training.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void constraints_shouldNotBeEmpty() throws Exception {
+        Training training = trainingTestsUtils.findUsedTraining();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.TRAININGS + "/{id}/constraints", training.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayNotEmpty(resultActions);
+    }
 }

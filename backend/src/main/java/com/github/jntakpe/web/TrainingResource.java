@@ -6,6 +6,7 @@ import com.github.jntakpe.model.Training;
 import com.github.jntakpe.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -56,8 +57,9 @@ public class TrainingResource {
 
     @RolesAllowed(AuthoritiesConstants.ADMIN)
     @RequestMapping(value = "/{id}/constraints", method = RequestMethod.GET)
-    public List<String> constraints(@PathVariable Long id) {
-        return trainingService.findConstraints(id);
+    public ResponseEntity<List<String>> constraints(@PathVariable Long id) {
+        List<String> constraints = trainingService.findConstraints(id);
+        return constraints.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(constraints, HttpStatus.OK);
     }
 
 }

@@ -62,7 +62,7 @@ public class TrainingService {
 
     private List<String> findConstraintStrings(Training training) {
         return training.getSessions().stream()
-                .map(Session::toString)
+                .map(Session::toStringConstraint)
                 .collect(Collectors.toList());
     }
 
