@@ -1,1 +1,36 @@
-<h1>Formations</h1>
+<div class="panel panel-u search-panel">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-search"></i> Recherche</h3>
+  </div>
+  <div class="panel-body">
+    <form [formGroup]="searchForm">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="search-name">Recherche par nom</label>
+          <input id="search-name" type="text" class="form-control" placeholder="Nom de la formation" formControlName="name">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="search-domain">Recherche par domaines</label>
+          <input id="search-domain" type="text" class="form-control" formControlName="domain">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="search-city">Recherche par durée</label>
+          <input id="search-city" type="text" class="form-control" formControlName="duration">
+        </div>
+        <div class="col-md-2 reset-search">
+          <button class="btn btn-warning pull-right" type="reset"><i class="fa fa-eraser"></i> Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<datatable class="bootstrap table-striped table-hover" [rows]="displayedTrainings" [options]="dtOptions"></datatable>
+<button id="add-modal" class="btn btn-u" (click)="openSaveModal()"><i class="fa fa-plus"></i> Ajouter une formation</button>
+<template #editRowTmpl let-training="row">
+  <button class="btn btn-info btn-xs" (click)="openSaveModal(training)"><i class="fa fa-edit"></i> Modifier</button>
+</template>
+<template #removeRowTmpl let-training="row">
+  <button class="btn btn-danger btn-xs" (click)="remove(training)"><i class="fa fa-trash"></i> Supprimer</button>
+</template>
+<save-training-modal #saveModal></save-training-modal>
+<confirm-modal #confirmModal></confirm-modal>

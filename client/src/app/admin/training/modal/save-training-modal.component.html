@@ -1,0 +1,43 @@
+<template #editContentModal let-submit="close" let-dismiss="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">{{creation ? 'Création' : 'Modification'}} d'une formation</h4>
+  </div>
+  <form class="form-horizontal" [formGroup]="saveForm" (ngSubmit)="submit(saveForm)">
+    <div class="modal-body">
+      <section>
+        <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.name}">
+          <label for="name" class="col-md-5 control-label">Nom de la formation</label>
+          <div class="col-md-7">
+            <input id="name" name="name" type="text" class="form-control" placeholder="Nom de la formation" formControlName="name">
+            <form-help-block [fieldError]="formErrors.name"></form-help-block>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.domain}">
+          <label for="domain" class="col-md-5 control-label">Domaine de la formation</label>
+          <div class="col-md-7">
+            <input id="domain" name="domain" type="text" class="form-control" formControlName="domain">
+            <form-help-block [fieldError]="formErrors.domain"></form-help-block>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.duration}">
+          <label for="duration" class="col-md-5 control-label">Durée de la formation</label>
+          <div class="col-md-7">
+            <input id="duration" name="duration" type="number" class="form-control" placeholder="Durée" formControlName="duration">
+            <form-help-block [fieldError]="formErrors.duration"></form-help-block>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
+      <button type="submit" class="btn btn-u" [disabled]="saveForm.invalid">
+        <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
+      </button>
+    </div>
+  </form>
+</template>
