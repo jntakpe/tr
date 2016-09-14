@@ -2,7 +2,7 @@
   background-color: $table-bg;
   width: 100%;
   max-width: 100%;
-  margin-bottom: $line-height-computed;
+  margin-bottom: 10px;
   col[class*="col-"] {
     position: static;
     float: none;
@@ -54,6 +54,10 @@
   .datatable-body .datatable-body-row:first-child .datatable-body-cell {
     border-top: 2px solid $table-border-color;
   }
+  .datatable-body .datatable-body-row .datatable-body-cell {
+    padding: 5px 8px 5px 8px;
+  }
+
   .datatable-header-cell,
   .datatable-body-cell {
     &[class*="col-"] {

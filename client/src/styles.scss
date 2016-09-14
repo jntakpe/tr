@@ -23,6 +23,10 @@ body {
   }
   .wrapper {
     min-height: calc(100vh - 49px);
+    .content {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
   }
 }
 
@@ -37,6 +41,7 @@ body {
 }
 
 .panel.search-panel {
+  margin-bottom: 10px;
   .panel-body {
     padding: 5px 15px 0 15px;
     .reset-search {

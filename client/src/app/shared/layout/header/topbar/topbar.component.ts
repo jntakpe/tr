@@ -4,6 +4,7 @@ import {TopbarService} from './topbar.service';
 @Component({
   selector: 'topbar-component',
   template: require('./topbar.component.html'),
+  styles: [require('./topbar.component.scss')]
 })
 export class TopbarComponent implements OnInit {
 

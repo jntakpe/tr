@@ -63,7 +63,7 @@ export class LocationComponent implements OnInit, OnDestroy {
       footerHeight: 50,
       columnMode: ColumnMode.force,
       rowHeight: 'auto',
-      limit: 3,
+      limit: 10,
       columns: [
         new TableColumn({name: 'Nom du site', prop: 'name'}),
         new TableColumn({name: 'Ville', prop: 'city'}),
