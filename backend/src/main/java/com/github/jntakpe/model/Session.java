@@ -38,6 +38,10 @@ public class Session extends AuditingEntity {
     @OneToMany(mappedBy = "session")
     private Set<Rating> ratings = new HashSet<>();
 
+    public String toStringConstraint() {
+        return "du " + getStart() + " de " + getTrainer().getFullName();
+    }
+
     public LocalDate getStart() {
         return start;
     }

@@ -62,12 +62,8 @@ public class LocationService {
 
     private List<String> findConstraintStrings(Location location) {
         return location.getSessions().stream()
-                .map(this::mapConstraintMessage)
+                .map(Session::toStringConstraint)
                 .collect(Collectors.toList());
-    }
-
-    private String mapConstraintMessage(Session session) {
-        return "du " + session.getStart() + " de " + session.getTrainer().getFullName();
     }
 
     private Location findById(Long id) {
