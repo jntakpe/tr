@@ -16,18 +16,14 @@ export class FormService {
 
   validate(data: any, {formGroup, messages}: FormMessages): {[key: string]: string} {
     const formErrors = {};
-    for (const field in data) {
-      if (data.hasOwnProperty(field)) {
-        const control = formGroup.get(field);
-        if (control && control.dirty && control.invalid) {
-          for (const error in control.errors) { // TODO replace for
-            if (control.errors.hasOwnProperty(error)) {
-              const message = messages[field] && messages[field][error];
-              if (message) {
-                formErrors[field] = message;
-                break;
-              }
-            }
+    for (const field of Object.keys(data)) {
+      const control = formGroup.get(field);
+      if (control && control.dirty && control.invalid) {
+        for (const error of Object.keys(control.errors)) {
+          const message = messages[field] && messages[field][error];
+          if (message) {
+            formErrors[field] = message;
+            break;
           }
         }
       }
@@ -38,7 +34,7 @@ export class FormService {
   private buildControlConfig(fields: {[key: string]: FormField}): any {
     const controlsConfig = {};
     const messageConfig = {};
-    for (const field in fields) { // TODO replace for
+    for (const field of Object.keys(fields)) {
       if (fields.hasOwnProperty(field)) {
         controlsConfig[field] = fields[field].control;
         messageConfig[field] = fields[field].messages;

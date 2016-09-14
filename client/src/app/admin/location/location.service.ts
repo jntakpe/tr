@@ -20,7 +20,7 @@ export class LocationService {
   }
 
   findAll(): Observable<Location[]> {
-    return this.authHttp.get('api/locations').map(res => res.json()).catch((err, caught) => { // TODO remove useless param
+    return this.authHttp.get('api/locations').map(res => res.json()).catch(err => {
       if (err.status === 500) {
         this.alertService.error('Impossible de récupérer la liste des sites de formations depuis le serveur', titleConstants.error.server);
       } else {

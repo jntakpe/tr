@@ -14,13 +14,12 @@ export class FilterTableService {
       return data;
     }
     const predicates = this.buildPredicatesArray(truthyParams, regexType);
-    // TODO use typescript
     return sift({[operator]: predicates}, data);
   }
 
   private buildPredicatesArray(filterParams: {[key: string]: any}, regexType: RegexType): any[] {
     const predicates = [];
-    for (let key of Object.keys(filterParams)) {
+    for (const key of Object.keys(filterParams)) {
       predicates.push(this.regexPredicate(key, filterParams[key], regexType));
     }
     return predicates;
@@ -48,7 +47,7 @@ export class FilterTableService {
     }
     const truthyParams: {[key: string]: any} = {};
     let isTruthy = false;
-    for (let key of Object.keys(filterParams)) {
+    for (const key of Object.keys(filterParams)) {
       const value = filterParams[key];
       if (value) {
         truthyParams[key] = value;
