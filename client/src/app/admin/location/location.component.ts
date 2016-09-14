@@ -79,7 +79,7 @@ export class LocationComponent implements OnInit, OnDestroy {
       city: null
     });
     this.searchFormSubscription = this.searchForm.valueChanges
-      .subscribe(d => this.displayedLocations = this.locationService.filterTable(this.locations, d));
+      .subscribe(dataForm => this.displayedLocations = this.locationService.filterTable(this.locations, dataForm));
   }
 
   set locations(locations: Location[]) {
