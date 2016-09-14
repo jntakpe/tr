@@ -1,5 +1,4 @@
 @import "variables";
-
 /* Vendors */
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "../node_modules/font-awesome/scss/font-awesome";
@@ -16,8 +15,15 @@
 /* App */
 @import "assets/css/table.scss";
 
-body.portalbg {
-  background-image: url('assets/images/portal.jpg');
+body {
+  height: 100%;
+  margin: 0;
+  &.portalbg {
+    background-image: url('assets/images/portal.jpg');
+  }
+  .wrapper {
+    min-height: calc(100vh - 49px);
+  }
 }
 
 @media (max-width: 1600px) {
