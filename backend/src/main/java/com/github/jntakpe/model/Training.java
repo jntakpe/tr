@@ -2,9 +2,7 @@ package com.github.jntakpe.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -24,6 +22,9 @@ public class Training extends AuditingEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    private Domain domain;
+
     @Min(1)
     @NotNull
     private Integer duration;
@@ -37,6 +38,14 @@ public class Training extends AuditingEntity {
 
     public void setName(String name) {
         this.name = Objects.nonNull(name) ? name.toLowerCase() : null;
+    }
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
     }
 
     public Integer getDuration() {
@@ -60,24 +69,24 @@ public class Training extends AuditingEntity {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Training)) {
             return false;
         }
-
         Training training = (Training) o;
-
-        return name.equals(training.name);
+        return Objects.equals(name, training.name) &&
+                domain == training.domain;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return Objects.hash(name, domain);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("name", name)
+                .append("domain", domain)
                 .append("duration", duration)
                 .toString();
     }

@@ -21,12 +21,13 @@ INSERT INTO employee_authorities (employee_id, authorities_id) VALUES ((SELECT i
 INSERT INTO employee_authorities (employee_id, authorities_id) VALUES ((SELECT id FROM employee WHERE login='sbourret'), (SELECT id FROM authority WHERE name='USER'));
 
 -- Table Training
-INSERT INTO training (name, duration, created_by, created_date) VALUES ('hibernate', 3, 'gpeel', CURRENT_TIMESTAMP);
-INSERT INTO training (name, duration, created_by, created_date) VALUES ('spring', 3, 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO training (name, duration, created_by, created_date) VALUES ('angularJS', 3, 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO training (name, duration, created_by, created_date) VALUES ('javascript', 3, 'sbourret', CURRENT_TIMESTAMP);
-INSERT INTO training (name, duration, created_by, created_date) VALUES ('js + angular', 4, 'jntakpe', CURRENT_TIMESTAMP);
-INSERT INTO training (name, duration, created_by, created_date) VALUES ('angular 2', 3, 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO training (name, domain, duration, created_by, created_date) VALUES ('hibernate', 'TECHNOLOGIES', 3, 'gpeel', CURRENT_TIMESTAMP);
+INSERT INTO training (name, domain, duration, created_by, created_date) VALUES ('spring', 'TECHNOLOGIES', 3, 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO training (name, domain, duration, created_by, created_date) VALUES ('angularJS', 'TECHNOLOGIES', 3, 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO training (name, domain, duration, created_by, created_date) VALUES ('javascript', 'TECHNOLOGIES', 3, 'sbourret', CURRENT_TIMESTAMP);
+INSERT INTO training (name, domain, duration, created_by, created_date) VALUES ('js + angular', 'TECHNOLOGIES', 4, 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO training (name, domain, duration, created_by, created_date) VALUES ('angular 2', 'TECHNOLOGIES', 3, 'jntakpe', CURRENT_TIMESTAMP);
+INSERT INTO training (name, domain, duration, created_by, created_date) VALUES ('manager', 'MANAGEMENT', 3, 'jntakpe', CURRENT_TIMESTAMP);
 
 -- Table Location
 INSERT INTO location (name, city, created_by, created_date) VALUES ('triangle', 'Paris', 'gpeel', CURRENT_TIMESTAMP);
