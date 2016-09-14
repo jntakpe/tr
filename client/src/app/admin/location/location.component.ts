@@ -5,7 +5,7 @@ import {FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
 import {FormService} from '../../shared/form/form.service';
-import {SaveModalComponent} from './modal/save-modal.component';
+import {SaveLocationModalComponent} from './modal/save-location-modal.component';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 
 @Component({
@@ -18,7 +18,7 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   @ViewChild('removeRowTmpl') removeRowTmpl: TemplateRef<any>;
 
-  @ViewChild('saveModal') saveModal: SaveModalComponent;
+  @ViewChild('saveModal') saveModal: SaveLocationModalComponent;
 
   @ViewChild('confirmModal') confirmModal: ConfirmModalComponent;
 

@@ -10,7 +10,7 @@ import {TemplateRef} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {FormModule} from '../../shared/form/form.module';
-import {SaveModalComponent} from './modal/save-modal.component';
+import {SaveLocationModalComponent} from './modal/save-location-modal.component';
 import {TableModule} from '../../shared/table/table.module';
 
 describe('location component', () => {
@@ -38,7 +38,7 @@ describe('location component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LocationComponent, SaveModalComponent],
+      declarations: [LocationComponent, SaveLocationModalComponent],
       imports: [FormModule, TableModule],
       providers: [
         {provide: LocationService, useClass: MockLocationService}

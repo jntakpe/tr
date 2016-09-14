@@ -7,10 +7,10 @@ import {Location} from '../location';
 import {FormField} from '../../../shared/form/form-field';
 
 @Component({
-  selector: 'save-modal',
-  template: require('./save-modal.component.html')
+  selector: 'save-location-modal',
+  template: require('./save-location-modal.component.html')
 })
-export class SaveModalComponent {
+export class SaveLocationModalComponent {
 
   @ViewChild('editContentModal') editContentModal;
 
@@ -28,7 +28,8 @@ export class SaveModalComponent {
   save(location?: Location): Observable<Location[]> {
     const formMessages = this.initForm(location);
     this.saveForm = formMessages.formGroup;
-    this.saveFormSubscription = this.saveForm.valueChanges.subscribe(d => this.formErrors = this.formService.validate(d, formMessages));
+    this.saveFormSubscription = this.saveForm.valueChanges
+      .subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
     return this.locationService.saveModal(this.editContentModal, location);
   }
 

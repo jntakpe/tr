@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing/test_bed';
-import {SaveModalComponent} from './save-modal.component';
+import {SaveLocationModalComponent} from './save-location-modal.component';
 import {FormModule} from '../../../shared/form/form.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
@@ -29,11 +29,11 @@ describe('save modal component', () => {
     selector: 'test-cmp',
     template: `
     <template ngbModalContainer></template>
-    <save-modal #saveModal></save-modal>`
+    <save-location-modal #saveModal></save-location-modal>`
   })
   class TestComponent implements OnInit {
 
-    @ViewChild('saveModal') saveModal: SaveModalComponent;
+    @ViewChild('saveModal') saveModal: SaveLocationModalComponent;
 
     ngOnInit() {
     }
@@ -46,7 +46,7 @@ describe('save modal component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent, SaveModalComponent],
+      declarations: [TestComponent, SaveLocationModalComponent],
       imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, FormModule, TableModule, NgbModule, RouterModule.forChild([])],
       providers: [
         LocationService,
