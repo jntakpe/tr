@@ -8,26 +8,25 @@ export class FilterTableService {
   constructor() {
   }
 
-  regexFilter<T>(data: T[], filterParams: {[key: string]: any}, operator = '$and') {
-    console.log(filterParams);
+  regexFilter<T>(data: T[], filterParams: {[key: string]: any}, regexType: RegexType = RegexType.StartsWith, operator = '$and') {
     const truthyParams = this.getTruthyParams(filterParams);
     if (!truthyParams) {
       return data;
     }
-    const predicates = this.buildPredicatesArray(truthyParams);
+    const predicates = this.buildPredicatesArray(truthyParams, regexType);
     // TODO use typescript
     return sift({[operator]: predicates}, data);
   }
 
-  private buildPredicatesArray(filterParams: {[key: string]: any}): any[] {
+  private buildPredicatesArray(filterParams: {[key: string]: any}, regexType: RegexType): any[] {
     const predicates = [];
     for (let key of Object.keys(filterParams)) {
-      predicates.push(this.regexPredicate(key, filterParams[key]));
+      predicates.push(this.regexPredicate(key, filterParams[key], regexType));
     }
     return predicates;
   }
 
-  private regexPredicate(key, value, regexType: RegexType = RegexType.StartsWith): any {
+  private regexPredicate(key, value, regexType: RegexType): any {
     const regex = this.regexByType(value, regexType);
     return {[key]: {$regex: regex, $options: 'i'}};
   }
