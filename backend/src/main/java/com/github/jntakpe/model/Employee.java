@@ -25,14 +25,6 @@ import java.util.StringJoiner;
 @Entity
 public class Employee extends AuditingEntity {
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "employee")
-    public Set<Rating> ratings = new HashSet<>();
-
-    @JsonIgnore
-    @ManyToMany
-    public Set<Authority> authorities = new HashSet<>();
-
     @NotNull
     @Column(unique = true, nullable = false)
     private String login;
@@ -58,24 +50,32 @@ public class Employee extends AuditingEntity {
     @JsonIgnore
     private LocalDateTime lastLdapCheck = LocalDateTime.now();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Set<Rating> ratings = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany
+    private Set<Authority> authorities = new HashSet<>();
+
     public String getFullName() {
         return new StringJoiner(StringUtils.SPACE).add(getFirstName()).add(getLastName()).toString();
     }
 
-    public Set<Rating> getRatings() {
-        return ratings;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setRatings(Set<Rating> ratings) {
-        this.ratings = ratings;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getLogin() {
@@ -98,22 +98,6 @@ public class Employee extends AuditingEntity {
             this.email = email.toLowerCase();
         }
         this.email = email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getDepartment() {
@@ -156,6 +140,27 @@ public class Employee extends AuditingEntity {
         this.lastLdapCheck = lastLdapCheck;
     }
 
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public int hashCode() {
+        return login.hashCode();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -168,11 +173,6 @@ public class Employee extends AuditingEntity {
         Employee employee = (Employee) o;
 
         return login.equals(employee.login);
-    }
-
-    @Override
-    public int hashCode() {
-        return login.hashCode();
     }
 
     @Override
