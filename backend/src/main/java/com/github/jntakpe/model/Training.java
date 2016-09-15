@@ -32,6 +32,10 @@ public class Training extends AuditingEntity {
     @OneToMany(mappedBy = "training")
     private Set<Session> sessions = new HashSet<>();
 
+    public String getDomainLabel() {
+        return domain.getLabel();
+    }
+
     public String getName() {
         return name;
     }
@@ -65,6 +69,11 @@ public class Training extends AuditingEntity {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(name, domain);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -75,11 +84,6 @@ public class Training extends AuditingEntity {
         Training training = (Training) o;
         return Objects.equals(name, training.name) &&
                 domain == training.domain;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, domain);
     }
 
     @Override
