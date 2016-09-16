@@ -6,10 +6,10 @@ import {RegexType} from './regex-type';
 describe('filter service', () => {
 
   const dummyData = [
-    {id: 1, firstName: 'Bruce', lastName: 'Wayne'},
-    {id: 2, firstName: 'John', lastName: 'Rambo'},
-    {id: 3, firstName: 'Clark', lastName: 'Kent'},
-    {id: 4, firstName: 'Bruce', lastName: 'Banner'}
+    {id: 1, firstName: 'Bruce', lastName: 'Wayne', age: 35},
+    {id: 2, firstName: 'John', lastName: 'Rambo', age: 40},
+    {id: 3, firstName: 'Clark', lastName: 'Kent', age: 35},
+    {id: 4, firstName: 'Bruce', lastName: 'Banner', age: 45}
   ];
 
   beforeEach(() => {
@@ -109,5 +109,25 @@ describe('filter service', () => {
       expect(result.length).toBe(1);
       expect(result[0].lastName).toBe('Banner');
     }));
+
+  it('should filter 2 with number', inject([FilterTableService], (filterTableService: FilterTableService) => {
+    const result = filterTableService.regexFilter(dummyData, {age: 35});
+    expect(result.length).toBe(2);
+  }));
+
+  it('should filter 1 with number', inject([FilterTableService], (filterTableService: FilterTableService) => {
+    const result = filterTableService.regexFilter(dummyData, {age: 45});
+    expect(result.length).toBe(1);
+  }));
+
+  it('should filter 0 with number', inject([FilterTableService], (filterTableService: FilterTableService) => {
+    const result = filterTableService.regexFilter(dummyData, {age: 20});
+    expect(result.length).toBe(0);
+  }));
+
+  it('should filter 1 with number and lastName', inject([FilterTableService], (filterTableService: FilterTableService) => {
+    const result = filterTableService.regexFilter(dummyData, {lastName: 'Kent', age: 35});
+    expect(result.length).toBe(1);
+  }));
 
 });

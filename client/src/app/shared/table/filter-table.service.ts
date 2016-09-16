@@ -9,6 +9,7 @@ export class FilterTableService {
   }
 
   regexFilter<T>(data: T[], filterParams: {[key: string]: any}, regexType: RegexType = RegexType.StartsWith, operator = '$and') {
+    console.log(filterParams);
     const truthyParams = this.getTruthyParams(filterParams);
     if (!truthyParams) {
       return data;
@@ -20,7 +21,9 @@ export class FilterTableService {
   private buildPredicatesArray(filterParams: {[key: string]: any}, regexType: RegexType): any[] {
     const predicates = [];
     for (const key of Object.keys(filterParams)) {
-      predicates.push(this.regexPredicate(key, filterParams[key], regexType));
+      const value = filterParams[key];
+      const predicate = typeof value === 'string' ? this.regexPredicate(key, value, regexType) : this.numberPredicate(key, value);
+      predicates.push(predicate);
     }
     return predicates;
   }
@@ -28,6 +31,10 @@ export class FilterTableService {
   private regexPredicate(key, value, regexType: RegexType): any {
     const regex = this.regexByType(value, regexType);
     return {[key]: {$regex: regex, $options: 'i'}};
+  }
+
+  private numberPredicate(key, value): any {
+    return {[key]: {$eq: value}};
   }
 
   private regexByType(value: any, regexType: RegexType): string {
