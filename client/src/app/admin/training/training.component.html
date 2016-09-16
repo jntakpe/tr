@@ -11,11 +11,14 @@
         </div>
         <div class="form-group col-md-4">
           <label for="search-domain">Recherche par domaines</label>
-          <input id="search-domain" type="text" class="form-control" formControlName="domain">
+          <select id="search-domain" class="form-control" formControlName="domain">
+            <option value="" selected>Choisir un domaine de formation</option>
+            <option *ngFor="let domain of domains | async" [value]="domain">{{domain}}</option>
+          </select>
         </div>
         <div class="form-group col-md-2">
-          <label for="search-city">Recherche par durée</label>
-          <input id="search-city" type="text" class="form-control" formControlName="duration">
+          <label for="search-duration">Recherche par durée</label>
+          <input id="search-duration" type="number" class="form-control" placeholder="Durée" formControlName="duration">
         </div>
         <div class="col-md-2 reset-search">
           <button class="btn btn-warning pull-right" type="reset"><i class="fa fa-eraser"></i> Reset</button>
@@ -32,5 +35,5 @@
 <template #removeRowTmpl let-training="row">
   <button class="btn btn-danger btn-xs" (click)="remove(training)"><i class="fa fa-trash"></i> Supprimer</button>
 </template>
-<save-training-modal #saveModal></save-training-modal>
+<save-training-modal #saveModal [domains]="domains"></save-training-modal>
 <confirm-modal #confirmModal></confirm-modal>

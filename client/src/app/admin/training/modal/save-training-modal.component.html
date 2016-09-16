@@ -18,7 +18,10 @@
         <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.domain}">
           <label for="domain" class="col-md-5 control-label">Domaine de la formation</label>
           <div class="col-md-7">
-            <input id="domain" name="domain" type="text" class="form-control" formControlName="domain">
+            <select id="domain" name="domain" class="form-control" formControlName="domain">
+              <option value="" selected>Choisir un domaine de formation</option>
+              <option *ngFor="let domain of domains | async" [value]="domain">{{domain}}</option>
+            </select>
             <form-help-block [fieldError]="formErrors.domain"></form-help-block>
           </div>
         </div>

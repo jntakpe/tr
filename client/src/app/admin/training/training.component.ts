@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, TemplateRef, OnDestroy} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {FormGroup} from '@angular/forms';
 import {TrainingService} from './training.service';
 import {FormService} from '../../shared/form/form.service';
@@ -31,11 +31,9 @@ export class TrainingComponent implements OnInit, OnDestroy {
 
   trainingsSubscription: Subscription;
 
-  domainsSubscription: Subscription;
-
   searchFormSubscription: Subscription;
 
-  domains: string[] = [];
+  domains: Observable<string[]>;
 
   private _trainings: Training[] = [];
 
@@ -44,7 +42,7 @@ export class TrainingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.trainingsSubscription = this.trainingService.findAll().subscribe(trainings => this.trainings = trainings);
-    this.domainsSubscription = this.domainService.findAll().subscribe(domains => this.domains = domains);
+    this.domains = this.domainService.findAll();
     this.dtOptions = this.buildTableOptions();
     this.initSearchForm();
   }
@@ -83,7 +81,7 @@ export class TrainingComponent implements OnInit, OnDestroy {
   private initSearchForm(): void {
     this.searchForm = this.formService.formBuilder.group({
       name: null,
-      domain: null,
+      domain: '',
       duration: null
     });
     this.searchFormSubscription = this.searchForm.valueChanges

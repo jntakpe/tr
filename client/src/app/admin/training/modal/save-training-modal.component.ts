@@ -5,12 +5,15 @@ import {FormService} from '../../../shared/form/form.service';
 import {FormField} from '../../../shared/form/form-field';
 import {TrainingService} from '../training.service';
 import {Training} from '../training';
+import {Input} from '@angular/core/src/metadata/directives';
 
 @Component({
   selector: 'save-training-modal',
   template: require('./save-training-modal.component.html')
 })
 export class SaveTrainingModalComponent {
+
+  @Input() domains: Observable<string[]>;
 
   @ViewChild('editContentModal') editContentModal;
 
@@ -40,7 +43,7 @@ export class SaveTrainingModalComponent {
       name: new FormField([training ? training.name : null, Validators.required], {
         required: 'Le nom de la formation est requis'
       }),
-      domain: new FormField([training ? training.domain : null, Validators.required], {
+      domain: new FormField([training ? training.domain : '', Validators.required], {
         required: 'Le domaine de la formation est requis'
       }),
       duration: new FormField([training ? training.duration : null, Validators.required], {
