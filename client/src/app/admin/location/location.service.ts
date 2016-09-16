@@ -30,7 +30,7 @@ export class LocationService {
     });
   }
 
-  saveModal(modalContent: TemplateRef<any>, location: Location = new Location('', '')): Observable<Location[]> {
+  saveModal(modalContent: TemplateRef<any>, location: Location = Location.EMPTY_TRAINING): Observable<Location[]> {
     return Observable.fromPromise(this.ngbModal.open(modalContent).result)
       .map((form: FormGroup) => new Location(form.value.name, form.value.city, location.id))
       .flatMap(l => this.save(l))
@@ -53,7 +53,8 @@ export class LocationService {
   private save(location: Location): Observable<Location> {
     return this.saveRequest(location)
       .map(res => res.json())
-      .do((l: Location) => this.alertService.success(`Le site de formation ${l.name} de ${l.city} a été ${l.id ? 'modifié' : 'créé'}`))
+      .do((l: Location) => this.alertService
+        .success(`Le site de formation ${l.name} de ${l.city} a été ${location.id ? 'modifié' : 'créé'}`))
       .catch((err: Response) => {
         if (err.status === 500) {
           this.alertService.error('Impossible d\'enregistrer le site de formation', titleConstants.error.server);

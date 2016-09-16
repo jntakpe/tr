@@ -9,7 +9,6 @@ export class FilterTableService {
   }
 
   regexFilter<T>(data: T[], filterParams: {[key: string]: any}, regexType: RegexType = RegexType.StartsWith, operator = '$and') {
-    console.log(filterParams);
     const truthyParams = this.getTruthyParams(filterParams);
     if (!truthyParams) {
       return data;

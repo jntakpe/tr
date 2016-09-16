@@ -53,7 +53,8 @@ export class TrainingService {
   private save(training: Training): Observable<Training> {
     return this.saveRequest(training)
       .map(res => res.json())
-      .do((t: Training) => this.alertService.success(`La formation ${t.name} du domaine ${t.domain} a été ${t.id ? 'modifiée' : 'créée'}`))
+      .do((t: Training) => this.alertService
+        .success(`La formation ${t.name} du domaine ${t.domain} a été ${training.id ? 'modifiée' : 'créée'}`))
       .catch((err: Response) => {
         if (err.status === 500) {
           this.alertService.error('Impossible d\'enregistrer la formation', titleConstants.error.server);

@@ -1,6 +1,6 @@
 import {TestBed, inject, async, tick, fakeAsync} from '@angular/core/testing';
 import {HttpModule, BaseRequestOptions, Http, Response, ResponseOptions, RequestMethod} from '@angular/http';
-import {LocationService} from './location.service';
+import {TrainingService} from './training.service';
 import {AuthHttp} from '../../security/auth.http';
 import {AlertService, titleConstants} from '../../shared/alert.service';
 import {NavigationService} from '../../shared/navigation.service';
@@ -8,7 +8,7 @@ import {MockBackend, MockConnection} from '@angular/http/testing/mock_backend';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {Component, ViewChild, OnInit} from '@angular/core';
-import {Location} from './location';
+import {Training} from './training';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {SecurityService} from '../../security/security.service';
@@ -16,7 +16,7 @@ import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {TableModule} from '../../shared/table/table.module';
 
-describe('location service', () => {
+describe('training service', () => {
 
   let fixture: ComponentFixture<ModalComponent>;
 
@@ -35,15 +35,16 @@ describe('location service', () => {
 
     saveForm: FormGroup;
 
-    location: Location = new Location('Matei', 'Paris', 1);
+    training: Training = new Training('Angular 2', 3, 'Technologies');
 
     constructor(private formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
       this.saveForm = this.formBuilder.group({
-        name: ['Triangle', Validators.required],
-        city: ['Paris', Validators.required]
+        name: ['Angular 2', Validators.required],
+        duration: [3, Validators.required],
+        domain: ['Technologies', Validators.required]
       });
     }
   }
@@ -65,7 +66,7 @@ describe('location service', () => {
       declarations: [ModalComponent, ConfirmModalComponent],
       imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, TableModule, NgbModalModule, RouterModule.forChild([])],
       providers: [
-        LocationService,
+        TrainingService,
         AuthHttp,
         AlertService,
         NavigationService,
@@ -84,52 +85,52 @@ describe('location service', () => {
     fixture = TestBed.createComponent(ModalComponent);
   });
 
-  it('should get locations', async(inject([LocationService, MockBackend], (locationService: LocationService, mockBackend: MockBackend) => {
+  it('should get trainings', async(inject([TrainingService, MockBackend], (trainingService: TrainingService, mockBackend: MockBackend) => {
     mockBackend.connections.subscribe((conn: MockConnection) => {
       conn.mockRespond(new Response(new ResponseOptions({
         body: [
-          {name: 'triangle', city: 'Paris'},
-          {name: 'colo1', city: 'Toulouse'}
+          {name: 'AngularJS', duration: 3, domain: 'Technologies'},
+          {name: 'ReactJS', duration: 4, domain: 'Technologies'}
         ]
       })));
     });
-    locationService.findAll().subscribe((locations) => {
-      expect(locations).toBeTruthy();
-      expect(locations instanceof Array).toBeTruthy();
-      expect(locations[0].name).toBe('triangle');
-    }, err => fail('error locations response'));
+    trainingService.findAll().subscribe((trainings) => {
+      expect(trainings).toBeTruthy();
+      expect(trainings instanceof Array).toBeTruthy();
+      expect(trainings[0].name).toBe('AngularJS');
+    }, err => fail('error trainings response'));
   })));
 
-  it('should not get locations and display error message', async(inject([LocationService, MockBackend, AlertService],
-    (locationService: LocationService, mockBackend: MockBackend, alertService: AlertService) => {
+  it('should not get trainings and display error message', async(inject([TrainingService, MockBackend, AlertService],
+    (trainingService: TrainingService, mockBackend: MockBackend, alertService: AlertService) => {
       spyOn(alertService, 'error');
       mockBackend.connections.subscribe((conn: MockConnection) => {
         const error = new Error('test');
         error['status'] = 500;
         conn.mockError(error);
       });
-      locationService.findAll().subscribe(res => fail('should fail'), () => {
-        expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des sites de formations depuis le serveur',
+      trainingService.findAll().subscribe(res => fail('should fail'), () => {
+        expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des formations depuis le serveur',
           titleConstants.error.server);
       });
     })));
 
-  it('should not get locations and display error message', async(inject([LocationService, MockBackend, AlertService],
-    (locationService: LocationService, mockBackend: MockBackend, alertService: AlertService) => {
+  it('should not get trainings and display error message', async(inject([TrainingService, MockBackend, AlertService],
+    (trainingService: TrainingService, mockBackend: MockBackend, alertService: AlertService) => {
       spyOn(alertService, 'defaultErrorMsg');
       mockBackend.connections.subscribe((conn: MockConnection) => {
         const error = new Error('test');
         error['status'] = 400;
         conn.mockError(error);
       });
-      locationService.findAll().subscribe(res => fail('should fail'), () => {
+      trainingService.findAll().subscribe(res => fail('should fail'), () => {
         expect(alertService.defaultErrorMsg).toHaveBeenCalled();
       });
     })));
 
-  it('should create new location and refresh', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
-      let locations = [];
+  it('should create new training and refresh', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
+      let trainings = [];
       let postCalled = false;
       let getCalled = false;
       fixture.detectChanges();
@@ -139,8 +140,9 @@ describe('location service', () => {
           postCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
             body: {
-              city: 'Paris',
-              name: 'Triangle'
+              name: 'Angular 2',
+              duration: 3,
+              domain: 'Technologies'
             },
             status: 201
           })));
@@ -148,29 +150,31 @@ describe('location service', () => {
           getCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
             body: [{
-              city: 'Paris',
-              name: 'Triangle'
+              name: 'Angular 2',
+              duration: 3,
+              domain: 'Technologies'
             }, {
-              city: 'Paris',
-              name: 'Matei'
+              name: 'ReactJS',
+              duration: 4,
+              domain: 'Technologies'
             }]
           })));
         }
       });
-      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
-        .subscribe(l => locations = l, err => fail('should save'));
+      trainingService.saveModal(fixture.componentInstance.addModalContent, new Training('Angular 2', 3, 'Technologies'))
+        .subscribe(l => trainings = l, err => fail('should save'));
       fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
       expect(postCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
-      expect(locations.length).toBe(2);
-      expect(alertService.success).toHaveBeenCalledWith('Le site de formation Triangle de Paris a été créé');
+      expect(trainings.length).toBe(2);
+      expect(alertService.success).toHaveBeenCalledWith('La formation Angular 2 du domaine Technologies a été créée');
     })));
 
-  it('should edit location and refresh', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
-      let locations = [];
+  it('should edit training and refresh', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
+      let trainings = [];
       let putCalled = false;
       let getCalled = false;
       fixture.detectChanges();
@@ -180,8 +184,9 @@ describe('location service', () => {
           putCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
             body: {
-              city: 'Paris',
-              name: 'Triangle'
+              name: 'Angular 2',
+              duration: 3,
+              domain: 'Technologies'
             },
             status: 200
           })));
@@ -189,28 +194,30 @@ describe('location service', () => {
           getCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
             body: [{
-              city: 'Paris',
-              name: 'Triangle'
+              name: 'Angular 2',
+              duration: 3,
+              domain: 'Technologies'
             }, {
-              city: 'Paris',
-              name: 'Matei'
+              name: 'ReactJS',
+              duration: 4,
+              domain: 'Technologies'
             }]
           })));
         }
       });
-      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris', 1))
-        .subscribe(l => locations = l, err => fail('should save'));
+      trainingService.saveModal(fixture.componentInstance.addModalContent, new Training('Angular 2', 3, 'Technologies', 1))
+        .subscribe(l => trainings = l, err => fail('should save'));
       fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
-      expect(locations.length).toBe(2);
+      expect(trainings.length).toBe(2);
       expect(putCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
-      expect(alertService.success).toHaveBeenCalledWith('Le site de formation Triangle de Paris a été modifié');
+      expect(alertService.success).toHaveBeenCalledWith('La formation Angular 2 du domaine Technologies a été modifiée');
     })));
 
-  it('should fail creating cuz bad request', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+  it('should fail creating cuz bad request', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
       let postCalled = false;
       fixture.detectChanges();
       spyOn(alertService, 'success');
@@ -226,7 +233,7 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
+      trainingService.saveModal(fixture.componentInstance.addModalContent, new Training('Angular 2', 3, 'Technologies'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
       fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
@@ -235,8 +242,8 @@ describe('location service', () => {
       expect(alertService.error).toHaveBeenCalledWith('Bad request', titleConstants.error.badRequest);
     })));
 
-  it('should fail creating cuz server error', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+  it('should fail creating cuz server error', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
       let postCalled = false;
       fixture.detectChanges();
       spyOn(alertService, 'success');
@@ -249,17 +256,17 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
+      trainingService.saveModal(fixture.componentInstance.addModalContent, new Training('Angular 2', 3, 'Technologies'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
       fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
       tick();
       expect(alertService.success).not.toHaveBeenCalled();
-      expect(alertService.error).toHaveBeenCalledWith('Impossible d\'enregistrer le site de formation', titleConstants.error.server);
+      expect(alertService.error).toHaveBeenCalledWith('Impossible d\'enregistrer la formation', titleConstants.error.server);
     })));
 
-  it('should fail creating cuz unknown error', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+  it('should fail creating cuz unknown error', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
       let postCalled = false;
       fixture.detectChanges();
       spyOn(alertService, 'success');
@@ -273,7 +280,7 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
+      trainingService.saveModal(fixture.componentInstance.addModalContent, new Training('Angular 2', 3, 'Technologies'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
       fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
@@ -283,8 +290,8 @@ describe('location service', () => {
       expect(alertService.defaultErrorMsg).toHaveBeenCalled();
     })));
 
-  it('should fail getting locations after create', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
+  it('should fail getting trainings after create', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
       let postCalled = false;
       let getCalled = false;
       fixture.detectChanges();
@@ -295,8 +302,9 @@ describe('location service', () => {
           postCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
             body: {
-              city: 'Paris',
-              name: 'Triangle'
+              name: 'Angular 2',
+              duration: 3,
+              domain: 'Technologies'
             },
             status: 201
           })));
@@ -307,7 +315,7 @@ describe('location service', () => {
           conn.mockError(error);
         }
       });
-      locationService.saveModal(fixture.componentInstance.addModalContent, new Location('Triangle', 'Paris'))
+      trainingService.saveModal(fixture.componentInstance.addModalContent, new Training('Angular 2', 3, 'Technologies'))
         .subscribe(() => fail('should empty'), err => fail('should empty'));
       fixture.debugElement.nativeElement.querySelector('#close-add').click();
       fixture.detectChanges();
@@ -315,13 +323,13 @@ describe('location service', () => {
       expect(postCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
       expect(alertService.success).toHaveBeenCalled();
-      expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des sites de formations depuis le serveur',
+      expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des formations depuis le serveur',
         titleConstants.error.server);
     })));
 
-  it('should remove one location from table', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
-      let locations = [];
+  it('should remove one training from table', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
+      let trainings = [];
       let deleteCalled = false;
       let getCalled = false;
       let constraintCalled = false;
@@ -339,8 +347,9 @@ describe('location service', () => {
             getCalled = true;
             conn.mockRespond(new Response(new ResponseOptions({
               body: [{
-                city: 'Paris',
-                name: 'Triangle'
+                name: 'Angular JS',
+                duration: 3,
+                domain: 'Technologies'
               }]
             })));
           }
@@ -351,23 +360,23 @@ describe('location service', () => {
           })));
         }
       });
-      locationService.removeModal(fixture.componentInstance.confirmModal, new Location('Matei', 'Paris'))
-        .subscribe(l => locations = l, err => fail('should empty'));
+      trainingService.removeModal(fixture.componentInstance.confirmModal, new Training('Angular 2', 3, 'Technologies'))
+        .subscribe(l => trainings = l, err => fail('should empty'));
       fixture.detectChanges();
       tick();
       fixture.debugElement.nativeElement.querySelector('button#confirm-btn').click();
       fixture.detectChanges();
       tick();
-      expect(locations.length).toBe(1);
+      expect(trainings.length).toBe(1);
       expect(constraintCalled).toBeTruthy();
       expect(deleteCalled).toBeTruthy();
       expect(getCalled).toBeTruthy();
-      expect(alertService.success).toHaveBeenCalledWith('La suppression du site de formation Matei de Paris effectuée');
+      expect(alertService.success).toHaveBeenCalledWith('La suppression de la formation Angular 2 du domaine Technologies effectuée');
     })));
 
-  it('should fail removing one location from table', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
-      let locations = [];
+  it('should fail removing one training from table', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
+      let trainings = [];
       let deleteCalled = false;
       let getCalled = false;
       let constraintCalled = false;
@@ -385,8 +394,9 @@ describe('location service', () => {
             getCalled = true;
             conn.mockRespond(new Response(new ResponseOptions({
               body: [{
-                city: 'Paris',
-                name: 'Triangle'
+                name: 'Angular JS',
+                duration: 3,
+                domain: 'Technologies'
               }]
             })));
           }
@@ -397,25 +407,25 @@ describe('location service', () => {
           })));
         }
       });
-      locationService.removeModal(fixture.componentInstance.confirmModal, new Location('Matei', 'Paris'))
+      trainingService.removeModal(fixture.componentInstance.confirmModal, new Training('Angular 2', 3, 'Technologies'))
         .subscribe(err => fail('should empty'), err => fail('should empty'));
       fixture.detectChanges();
       tick();
       fixture.debugElement.nativeElement.querySelector('button#confirm-btn').click();
       fixture.detectChanges();
       tick();
-      expect(locations.length).toBe(0);
+      expect(trainings.length).toBe(0);
       expect(constraintCalled).toBeTruthy();
       expect(deleteCalled).toBeTruthy();
       expect(getCalled).toBeFalsy();
       expect(alertService.success).not.toHaveBeenCalled();
-      expect(alertService.error).toHaveBeenCalledWith('Impossible de supprimer le site de formation Matei de Paris',
+      expect(alertService.error).toHaveBeenCalledWith('Impossible de supprimer la formation Angular 2 du domaine Technologies',
         titleConstants.error.server);
     })));
 
-  it('should fail removing one location from table cuz constraints', fakeAsync(inject([MockBackend, LocationService, AlertService],
-    (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
-      let locations = [];
+  it('should fail removing one training from table cuz constraints', fakeAsync(inject([MockBackend, TrainingService, AlertService],
+    (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
+      let trainings = [];
       let deleteCalled = false;
       let getCalled = false;
       let constraintCalled = false;
@@ -433,8 +443,9 @@ describe('location service', () => {
             getCalled = true;
             conn.mockRespond(new Response(new ResponseOptions({
               body: [{
-                city: 'Paris',
-                name: 'Triangle'
+                name: 'Angular JS',
+                duration: 3,
+                domain: 'Technologies'
               }]
             })));
           }
@@ -446,14 +457,14 @@ describe('location service', () => {
           })));
         }
       });
-      locationService.removeModal(fixture.componentInstance.confirmModal, new Location('Matei', 'Paris'))
+      trainingService.removeModal(fixture.componentInstance.confirmModal, new Training('Angular 2', 3, 'Technologies'))
         .subscribe(err => fail('should empty'), err => fail('should empty'));
       fixture.detectChanges();
       tick();
       expect(fixture.debugElement.nativeElement.querySelector('button#confirm-btn')).toBeFalsy();
       fixture.detectChanges();
       tick();
-      expect(locations.length).toBe(0);
+      expect(trainings.length).toBe(0);
       expect(constraintCalled).toBeTruthy();
       expect(deleteCalled).toBeFalsy();
       expect(getCalled).toBeFalsy();
