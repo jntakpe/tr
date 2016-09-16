@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
+import {Component, OnInit, ViewChild, TemplateRef, OnDestroy} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
 import {Subscription} from 'rxjs';
@@ -7,12 +7,13 @@ import {TrainingService} from './training.service';
 import {FormService} from '../../shared/form/form.service';
 import {Training} from './training';
 import {SaveTrainingModalComponent} from './modal/save-training-modal.component';
+import {DomainService} from './domain.service';
 
 @Component({
   selector: 'training-component',
   template: require('./training.component.html')
 })
-export class TrainingComponent implements OnInit {
+export class TrainingComponent implements OnInit, OnDestroy {
 
   @ViewChild('editRowTmpl') editRowTmpl: TemplateRef<any>;
 
@@ -30,15 +31,20 @@ export class TrainingComponent implements OnInit {
 
   trainingsSubscription: Subscription;
 
+  domainsSubscription: Subscription;
+
   searchFormSubscription: Subscription;
+
+  domains: string[] = [];
 
   private _trainings: Training[] = [];
 
-  constructor(private trainingService: TrainingService, private formService: FormService) {
+  constructor(private trainingService: TrainingService, private formService: FormService, private domainService: DomainService) {
   }
 
   ngOnInit() {
     this.trainingsSubscription = this.trainingService.findAll().subscribe(trainings => this.trainings = trainings);
+    this.domainsSubscription = this.domainService.findAll().subscribe(domains => this.domains = domains);
     this.dtOptions = this.buildTableOptions();
     this.initSearchForm();
   }

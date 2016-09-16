@@ -1,5 +1,8 @@
 package com.github.jntakpe.model;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Énumération des domaines de formation
  *
@@ -7,24 +10,34 @@ package com.github.jntakpe.model;
  */
 public enum Domain {
 
-    FONDAMENDAUX_GROUPE("Fondamendaux groupe"),
-    MANAGEMENT("Management"),
-    STRATEGIE_OFFRES("Stratégie et offres"),
-    COMMERCE("Commerce"),
-    COMPORTEMENT("Comportement"),
-    METHODE_QUALITE_SECURITE("Méthode, qualité et sécurité"),
-    METIERS_SECTEURS("Métiers et secteurs"),
-    TECHNOLOGIES("Technologies"),
-    SOLUTIONS("Solutions"),
-    LANGUES_BUREAUTIQUE("Langues et bureautique");
+    @JsonProperty("Fondamentaux groupe")
+    FONDAMENDAUX_GROUPE,
 
-    private final String label;
+    @JsonProperty("Management")
+    MANAGEMENT,
 
-    Domain(String label) {
-        this.label = label;
-    }
+    @JsonProperty("Stratégie et offres")
+    STRATEGIE_OFFRES,
 
-    public String getLabel() {
-        return label;
-    }
+    @JsonProperty("Commerce")
+    COMMERCE,
+
+    @JsonProperty("Comportement")
+    COMPORTEMENT,
+
+    @JsonProperty("Méthode, qualité et sécurité")
+    METHODE_QUALITE_SECURITE,
+
+    @JsonProperty("Métiers et secteurs")
+    METIERS_SECTEURS,
+
+    @JsonProperty("Technologies")
+    TECHNOLOGIES,
+
+    @JsonProperty("Solutions")
+    SOLUTIONS,
+
+    @JsonProperty("Langues et bureautique")
+    LANGUES_BUREAUTIQUE
+
 }

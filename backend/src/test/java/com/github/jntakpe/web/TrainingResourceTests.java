@@ -1,6 +1,7 @@
 package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
+import com.github.jntakpe.model.Domain;
 import com.github.jntakpe.model.Training;
 import com.github.jntakpe.service.EmployeeServiceTests;
 import com.github.jntakpe.service.TrainingService;
@@ -60,6 +61,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
         String name = "some training";
         Training training = new Training();
         training.setName(name);
+        training.setDomain(Domain.TECHNOLOGIES);
         training.setDuration(3);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
@@ -74,6 +76,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
     public void create_shouldFailCuzMissingValue() throws Exception {
         Training training = new Training();
         training.setName("fail");
+        training.setDomain(Domain.COMMERCE);
         training.setDuration(null);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))
@@ -86,6 +89,7 @@ public class TrainingResourceTests extends AbstractResourceTests {
     public void create_shouldFailCuzNameAlreadyTaken() throws Exception {
         Training training = new Training();
         training.setName(trainingTestsUtils.findAnyTraining().getName());
+        training.setDomain(Domain.COMMERCE);
         training.setDuration(1);
         ResultActions resultActions = realMvc.perform(post(UriConstants.TRAININGS)
                 .content(objectMapper.writeValueAsBytes(training))

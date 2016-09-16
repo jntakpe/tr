@@ -16,12 +16,14 @@ import java.util.Set;
  * @see AuditingEntity
  */
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "domain"})})
 public class Training extends AuditingEntity {
 
     @NotNull
     @Column(nullable = false, unique = true)
     private String name;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Domain domain;
 
@@ -31,10 +33,6 @@ public class Training extends AuditingEntity {
 
     @OneToMany(mappedBy = "training")
     private Set<Session> sessions = new HashSet<>();
-
-    public String getDomainLabel() {
-        return domain.getLabel();
-    }
 
     public String getName() {
         return name;

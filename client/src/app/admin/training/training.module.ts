@@ -8,12 +8,13 @@ import {TrainingComponent} from './training.component';
 import {SaveTrainingModalComponent} from './modal/save-training-modal.component';
 import {TrainingService} from './training.service';
 import {ModalModule} from '../../shared/components/modal.module';
+import {DomainService} from './domain.service';
 
 @NgModule({
   declarations: [TrainingComponent, SaveTrainingModalComponent],
   imports: [CommonModule, HttpModule, SecurityModule, ModalModule, FormModule, TableModule],
   exports: [TrainingComponent],
-  providers: [TrainingService]
+  providers: [TrainingService, DomainService]
 })
 export class TrainingModule {
 

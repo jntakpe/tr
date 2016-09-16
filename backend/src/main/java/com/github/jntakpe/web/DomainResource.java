@@ -23,4 +23,5 @@ public class DomainResource {
     public List<Domain> findAll() {
         return Arrays.stream(Domain.values()).collect(Collectors.toList());
     }
+
 }

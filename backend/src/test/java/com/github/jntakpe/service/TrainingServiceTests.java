@@ -1,5 +1,6 @@
 package com.github.jntakpe.service;
 
+import com.github.jntakpe.model.Domain;
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
 import com.github.jntakpe.utils.TrainingTestsUtils;
@@ -45,6 +46,7 @@ public class TrainingServiceTests extends AbstractDBServiceTests {
     public void save_shouldCreate() {
         Training training = new Training();
         training.setName("ReactJS");
+        training.setDomain(Domain.TECHNOLOGIES);
         training.setDuration(3);
         Training reactJS = trainingService.save(training);
         assertThat(reactJS).isNotNull();
