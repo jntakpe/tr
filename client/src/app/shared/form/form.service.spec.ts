@@ -1,9 +1,8 @@
-import {TestBed, inject} from '@angular/core/testing/test_bed';
+import {TestBed, inject, fakeAsync} from '@angular/core/testing';
 import {FormModule} from './form.module';
 import {FormService} from './form.service';
 import {Validators} from '@angular/forms';
 import {FormField} from './form-field';
-import {fakeAsync} from '@angular/core/testing/fake_async';
 
 describe('form service', () => {
 

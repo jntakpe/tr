@@ -1,10 +1,9 @@
-import {TestBed} from '@angular/core/testing/test_bed';
+import {TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {SaveLocationModalComponent} from './save-location-modal.component';
 import {FormModule} from '../../../shared/form/form.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {LocationService} from '../location.service';
-import {fakeAsync, tick} from '@angular/core/testing/fake_async';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Http, BaseRequestOptions, HttpModule} from '@angular/http';
 import {MockBackend} from '@angular/http/testing/mock_backend';

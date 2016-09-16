@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {tick} from '@angular/core/testing/fake_async';
+import {tick, TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
-import {TestBed} from '@angular/core/testing/test_bed';
-import {MockConnection} from '@angular/http/testing/mock_backend';
+import {MockConnection} from '@angular/http/testing';
 import {ResponseOptions, Response} from '@angular/http';
 import * as _ from 'lodash';
 

@@ -1,4 +1,4 @@
-import {TestBed, inject} from '@angular/core/testing/test_bed';
+import {TestBed, inject, fakeAsync} from '@angular/core/testing';
 import {LoginService} from './login.service';
 import {SecurityService} from '../security.service';
 import {AlertService} from '../../shared/alert.service';
@@ -9,7 +9,6 @@ import {mockTokenResponse, RootComponent, FakeHomeComponent, createRoot, advance
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {RouterModule, Routes, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {fakeAsync} from '@angular/core/testing/fake_async';
 import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
 import {By} from '@angular/platform-browser/src/dom/debug/by';

@@ -1,10 +1,9 @@
 import {Routes, RouterModule, Router} from '@angular/router';
 import {RootComponent, FakeHomeComponent, createRoot, advance} from './test/test-utils';
-import {TestBed, inject} from '@angular/core/testing/test_bed';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
+import {TestBed, inject, fakeAsync} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 import {NavigationService} from './navigation.service';
 import {Location} from '@angular/common';
-import {fakeAsync} from '@angular/core/testing/fake_async';
 
 describe('navigation service', () => {
 

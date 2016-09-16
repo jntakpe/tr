@@ -9,7 +9,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, NgbModule, LayoutModule, SecurityModule, appRouting],
-  entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

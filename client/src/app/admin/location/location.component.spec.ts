@@ -1,17 +1,16 @@
-import {TestBed} from '@angular/core/testing/test_bed';
+import {TestBed, async, fakeAsync, tick} from '@angular/core/testing';
 import {LocationComponent} from './location.component';
 import {LocationService} from './location.service';
 import {Observable} from 'rxjs';
-import {async} from '@angular/core/testing/async';
 import {By} from '@angular/platform-browser';
 import {Location} from './location';
-import {fakeAsync, tick} from '@angular/core/testing/fake_async';
 import {TemplateRef} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {FormModule} from '../../shared/form/form.module';
 import {SaveLocationModalComponent} from './modal/save-location-modal.component';
 import {TableModule} from '../../shared/table/table.module';
+import {ModalModule} from '../../shared/components/modal.module';
 
 describe('location component', () => {
 
@@ -39,7 +38,7 @@ describe('location component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent, SaveLocationModalComponent],
-      imports: [FormModule, TableModule],
+      imports: [FormModule, TableModule, ModalModule],
       providers: [
         {provide: LocationService, useClass: MockLocationService}
       ]

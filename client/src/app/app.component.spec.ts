@@ -1,10 +1,14 @@
 import {AppComponent} from './app.component';
-import {TestBed} from '@angular/core/testing/test_bed';
-import {async} from '@angular/core/testing/async';
+import {TestBed, async} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RouterModule} from '@angular/router';
 
 describe('App: Training Rating', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({declarations: [AppComponent]});
+    TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      imports: [RouterTestingModule, RouterModule.forChild([])]
+    });
   });
 
   it('should create the app', async(() => {

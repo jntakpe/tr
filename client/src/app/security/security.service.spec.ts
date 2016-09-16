@@ -1,4 +1,4 @@
-import {TestBed, inject} from '@angular/core/testing/test_bed';
+import {TestBed, inject} from '@angular/core/testing';
 import {SecurityService} from './security.service';
 import {MockBackend} from '@angular/http/testing/mock_backend';
 import {HttpModule, Http, BaseRequestOptions} from '@angular/http';

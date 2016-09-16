@@ -34,7 +34,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     document.querySelector('body').classList.remove(this.portalBgClass);
-    this.loginSubscription.unsubscribe();
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
   }
 
   login() {

@@ -1,6 +1,5 @@
-import {TestBed} from '@angular/core/testing/test_bed';
+import {TestBed, async} from '@angular/core/testing';
 import {BreadcrumbsComponent} from './breadcrumbs.component';
-import {async} from '@angular/core/testing/async';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {RouterModule, NavigationEnd, Event, Route, ActivatedRouteSnapshot} from '@angular/router';
 import {BreadcrumbsService} from './breadcrumbs.service';

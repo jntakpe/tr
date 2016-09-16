@@ -1,5 +1,4 @@
-import {async} from '@angular/core/testing/async';
-import {TestBed, inject} from '@angular/core/testing/test_bed';
+import {async, TestBed, inject, fakeAsync} from '@angular/core/testing';
 import {LoginComponent} from './login.component';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser/src/dom/debug/by';
@@ -9,7 +8,6 @@ import {Observable} from 'rxjs';
 import {User} from '../user';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {advance} from '../../shared/test/test-utils';
-import {fakeAsync} from '@angular/core/testing/fake_async';
 import {RouterModule} from '@angular/router';
 import {NavigationService} from '../../shared/navigation.service';
 import {LoginService} from './login.service';

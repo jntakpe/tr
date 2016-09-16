@@ -1,4 +1,4 @@
-import {TestBed} from '@angular/core/testing/test_bed';
+import {TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {NavbarComponent} from './navbar.component';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
