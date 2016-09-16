@@ -92,7 +92,7 @@ public class SessionResourceTests extends AbstractResourceTests {
     @Test
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void update_shouldUpdate() throws Exception {
-        Session session = sessionTestsUtils.findAnySession();
+        Session session = sessionTestsUtils.findAnySessionInitialized();
         LocalDate updatedDate = LocalDate.of(2016, 10, 10);
         session.setStart(updatedDate);
         ResultActions resultActions = realMvc.perform(put(UriConstants.SESSIONS + "/{id}", session.getId())

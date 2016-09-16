@@ -73,8 +73,8 @@ public class SessionServiceTests extends AbstractDBServiceTests {
 
     @Test
     public void save_shouldUpdateTraining() {
-        Session session = sessionTestsUtils.findAnySession();
-        Training updatedTraining = trainingTestsUtils.findAnyTrainingButThis(session.getTraining());
+        Session session = sessionTestsUtils.findAnySessionInitialized();
+        Training updatedTraining = trainingTestsUtils.findAnyTrainingButThis(session);
         sessionTestsUtils.detach(session);
         session.setStart(LocalDate.of(2012, 1, 2));
         session.setTraining(updatedTraining);

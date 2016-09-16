@@ -28,11 +28,11 @@ public class Session extends AuditingEntity {
     private Location location;
 
     @Valid
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Training training;
 
     @Valid
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Employee trainer;
 
     @OneToMany(mappedBy = "session")
@@ -48,6 +48,14 @@ public class Session extends AuditingEntity {
 
     public void setStart(LocalDate start) {
         this.start = start;
+    }
+
+    public Employee getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Employee trainer) {
+        this.trainer = trainer;
     }
 
     public Location getLocation() {
@@ -66,20 +74,22 @@ public class Session extends AuditingEntity {
         this.training = training;
     }
 
-    public Employee getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(Employee trainer) {
-        this.trainer = trainer;
-    }
-
     public Set<Rating> getRatings() {
         return ratings;
     }
 
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + start.hashCode();
+        result = 31 * result + location.hashCode();
+        result = 31 * result + training.hashCode();
+        result = 31 * result + trainer.hashCode();
+        return result;
     }
 
     @Override
@@ -107,16 +117,6 @@ public class Session extends AuditingEntity {
         }
         return trainer.equals(session.trainer);
 
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + start.hashCode();
-        result = 31 * result + location.hashCode();
-        result = 31 * result + training.hashCode();
-        result = 31 * result + trainer.hashCode();
-        return result;
     }
 
     @Override

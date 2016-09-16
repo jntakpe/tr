@@ -6,6 +6,7 @@ import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.model.Rating;
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.repository.RatingRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,16 @@ public class RatingTestsUtils {
     }
 
     @Transactional(readOnly = true)
+    public Rating findAnyRatingInitialized() {
+        Rating rating = ratingRepository.findAll().stream()
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("no rating"));
+        Hibernate.initialize(rating.getSession());
+        Hibernate.initialize(rating.getEmployee());
+        return rating;
+    }
+
+    @Transactional(readOnly = true)
     public Rating findAnyRatingForConnectedUser() {
         SpringSecurityUser user = SecurityUtils.getCurrentUserOrThrow();
         Long employeeId = user.getId();
@@ -76,6 +87,7 @@ public class RatingTestsUtils {
     public List<Rating> findRatingsWithEmployeeId(Long employeeId) {
         return ratingRepository.findAll().stream()
                 .filter(r -> r.getEmployee().getId().equals(employeeId))
+                .peek(r -> Hibernate.initialize(r.getSession()))
                 .collect(Collectors.toList());
     }
 

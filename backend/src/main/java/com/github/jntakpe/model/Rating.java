@@ -3,6 +3,7 @@ package com.github.jntakpe.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 /**
@@ -35,10 +36,10 @@ public class Rating extends AuditingEntity {
 
     private boolean anonymous;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Session session;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Employee employee;
 
     public Integer getSubject() {
@@ -138,6 +139,13 @@ public class Rating extends AuditingEntity {
     }
 
     @Override
+    public int hashCode() {
+        int result = session.hashCode();
+        result = 31 * result + employee.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -153,13 +161,6 @@ public class Rating extends AuditingEntity {
         }
         return employee.equals(rating.employee);
 
-    }
-
-    @Override
-    public int hashCode() {
-        int result = session.hashCode();
-        result = 31 * result + employee.hashCode();
-        return result;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.github.jntakpe.utils;
 
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
 import com.github.jntakpe.repository.TrainingRepository;
 import com.github.jntakpe.service.TrainingServiceTests;
@@ -42,9 +43,9 @@ public class TrainingTestsUtils {
     }
 
     @Transactional(readOnly = true)
-    public Training findAnyTrainingButThis(Training training) {
+    public Training findAnyTrainingButThis(Session session) {
         return trainingRepository.findAll().stream()
-                .filter(t -> !t.getId().equals(training.getId()))
+                .filter(t -> !t.getId().equals(session.getTraining().getId()))
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("No training except default one"));
     }

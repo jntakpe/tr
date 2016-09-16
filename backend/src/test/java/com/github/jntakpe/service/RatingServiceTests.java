@@ -46,6 +46,11 @@ public class RatingServiceTests extends AbstractDBServiceTests {
         assertThat(ratingService.findBySessionId(sessionId)).isNotEmpty().hasSize(expectedSize);
     }
 
+    private Integer countRatingWithSessionId(Long sessionId) {
+        String request = "SELECT COUNT(0) FROM " + TABLE_NAME + " WHERE session_id='" + sessionId + "'";
+        return jdbcTemplate.queryForObject(request, Integer.class);
+    }
+
     @Test
     public void register_shouldCreateNewRating() {
         Session session = sessionTestsUtils.findUnusedSession();
@@ -60,7 +65,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
 
     @Test(expected = ValidationException.class)
     public void register_shouldFailCuzAlreadyRegistered() {
-        Rating rating = ratingTestsUtils.findAnyRating();
+        Rating rating = ratingTestsUtils.findAnyRatingInitialized();
         Long sessionId = rating.getSession().getId();
         String login = rating.getEmployee().getLogin();
         Employee employee = new Employee();
@@ -71,7 +76,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
 
     @Test(expected = EntityNotFoundException.class)
     public void register_shouldFailCuzSessionDoesntExist() {
-        Rating rating = ratingTestsUtils.findAnyRating();
+        Rating rating = ratingTestsUtils.findAnyRatingInitialized();
         Employee employee = new Employee();
         employee.setLogin(rating.getEmployee().getLogin());
         ratingService.register(999L, employee);
@@ -139,7 +144,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
 
     @Test
     public void unregister_shouldUnregisterUserFromSession() {
-        Rating rating = ratingTestsUtils.findAnyRating();
+        Rating rating = ratingTestsUtils.findAnyRatingInitialized();
         ratingService.unregister(rating.getSession().getId(), rating.getId());
         ratingTestsUtils.flush();
         String query = "SELECT id FROM " + TABLE_NAME + " WHERE id='" + rating.getId() + "'";
@@ -155,7 +160,7 @@ public class RatingServiceTests extends AbstractDBServiceTests {
 
     @Test(expected = EntityNotFoundException.class)
     public void unregister_shouldFailCuzRatingDoesntExist() {
-        Rating rating = ratingTestsUtils.findAnyRating();
+        Rating rating = ratingTestsUtils.findAnyRatingInitialized();
         ratingService.unregister(rating.getSession().getId(), 999L);
         fail("should have failed at this point");
     }
@@ -163,11 +168,6 @@ public class RatingServiceTests extends AbstractDBServiceTests {
     @Override
     public String getTableName() {
         return TABLE_NAME;
-    }
-
-    private Integer countRatingWithSessionId(Long sessionId) {
-        String request = "SELECT COUNT(0) FROM " + TABLE_NAME + " WHERE session_id='" + sessionId + "'";
-        return jdbcTemplate.queryForObject(request, Integer.class);
     }
 
 }

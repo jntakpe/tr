@@ -114,7 +114,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     @Test
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void unregisterFromSession_shouldUnregister() throws Exception {
-        Rating rating = ratingTestsUtils.findAnyRating();
+        Rating rating = ratingTestsUtils.findAnyRatingInitialized();
         ResultActions resultActions = realMvc.perform(
                 delete(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", rating.getSession().getId(), rating.getId())
                         .contentType(MediaType.APPLICATION_JSON));
@@ -124,7 +124,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     @Test
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void unregisterFromSession_shouldFailCuzSessionDoesntExist() throws Exception {
-        Rating rating = ratingTestsUtils.findAnyRating();
+        Rating rating = ratingTestsUtils.findAnyRatingInitialized();
         ResultActions resultActions = realMvc.perform(
                 delete(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", 999L, rating.getId())
                         .contentType(MediaType.APPLICATION_JSON));
@@ -134,7 +134,7 @@ public class RatingResourceTests extends AbstractResourceTests {
     @Test
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void unregisterFromSession_shouldFailCuzRatingDoesntExit() throws Exception {
-        Rating rating = ratingTestsUtils.findAnyRating();
+        Rating rating = ratingTestsUtils.findAnyRatingInitialized();
         ResultActions resultActions = realMvc.perform(
                 delete(UriConstants.RATINGS_BY_SESSION + "/{ratingId}", rating.getSession().getId(), 999L)
                         .contentType(MediaType.APPLICATION_JSON));
