@@ -28,15 +28,24 @@ public class LocationService {
 
     private LocationRepository locationRepository;
 
+    private SessionService sessionService;
+
     @Autowired
-    public LocationService(LocationRepository locationRepository) {
+    public LocationService(LocationRepository locationRepository, SessionService sessionService) {
         this.locationRepository = locationRepository;
+        this.sessionService = sessionService;
     }
 
     @Transactional(readOnly = true)
     public List<Location> findAll() {
         LOGGER.debug("Recherche de l'ensemble des sites de formation");
-        return locationRepository.findAll();
+        List<Location> locations = locationRepository.findAll();
+        return countNbSessions(locations);
+    }
+
+    private List<Location> countNbSessions(List<Location> locations) {
+        locations.forEach(l -> l.setNbSessions(sessionService.countByLocationId(l.getId())));
+        return locations;
     }
 
     @Transactional
@@ -47,23 +56,19 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
+    private void checkNameAndCityAvailable(Location location) {
+        Optional<Location> opt = locationRepository.findByNameAndCityAllIgnoreCase(location.getName(), location.getCity());
+        if (opt.isPresent() && !opt.get().getId().equals(location.getId())) {
+            String msg = String.format("Le nom de site %s dans la ville %s est déjà pris", location.getName(), location.getCity());
+            throw new ValidationException(msg);
+        }
+    }
+
     @Transactional
     public void delete(Long id) {
         Location location = findById(id);
         LOGGER.info("Suppression du lieu {}", location);
         locationRepository.delete(location);
-    }
-
-    @Transactional(readOnly = true)
-    public List<String> findConstraints(Long id) {
-        Location location = findById(id);
-        return findConstraintStrings(location);
-    }
-
-    private List<String> findConstraintStrings(Location location) {
-        return location.getSessions().stream()
-                .map(Session::toStringConstraint)
-                .collect(Collectors.toList());
     }
 
     private Location findById(Long id) {
@@ -76,12 +81,16 @@ public class LocationService {
         return location;
     }
 
-    private void checkNameAndCityAvailable(Location location) {
-        Optional<Location> opt = locationRepository.findByNameAndCityAllIgnoreCase(location.getName(), location.getCity());
-        if (opt.isPresent() && !opt.get().getId().equals(location.getId())) {
-            String msg = String.format("Le nom de site %s dans la ville %s est déjà pris", location.getName(), location.getCity());
-            throw new ValidationException(msg);
-        }
+    @Transactional(readOnly = true)
+    public List<String> findConstraints(Long id) {
+        Location location = findById(id);
+        return findConstraintStrings(location);
+    }
+
+    private List<String> findConstraintStrings(Location location) {
+        return location.getSessions().stream()
+                .map(Session::toStringConstraint)
+                .collect(Collectors.toList());
     }
 
 }

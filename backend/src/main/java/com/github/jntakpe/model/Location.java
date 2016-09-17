@@ -29,6 +29,9 @@ public class Location extends AuditingEntity {
     @OneToMany(mappedBy = "location")
     private Set<Session> sessions = new HashSet<>();
 
+    @Transient
+    private Long nbSessions;
+
     public String getName() {
         return name;
     }
@@ -53,6 +56,19 @@ public class Location extends AuditingEntity {
         this.sessions = sessions;
     }
 
+    public Long getNbSessions() {
+        return nbSessions;
+    }
+
+    public void setNbSessions(Long nbSessions) {
+        this.nbSessions = nbSessions;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -63,11 +79,6 @@ public class Location extends AuditingEntity {
         }
         Location location = (Location) o;
         return Objects.equals(name, location.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 
     @Override

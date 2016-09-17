@@ -7,6 +7,7 @@ import com.github.jntakpe.model.Training;
 import com.github.jntakpe.repository.SessionRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,8 @@ public class SessionTestsUtils {
 
     private final SessionRepository sessionRepository;
 
+    private final JdbcTemplate jdbcTemplate;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -37,11 +40,13 @@ public class SessionTestsUtils {
     public SessionTestsUtils(LocationTestsUtils locationTestsUtils,
                              TrainingTestsUtils trainingTestsUtils,
                              EmployeeTestUtils employeeTestUtils,
-                             SessionRepository sessionRepository) {
+                             SessionRepository sessionRepository,
+                             JdbcTemplate jdbcTemplate) {
         this.locationTestsUtils = locationTestsUtils;
         this.trainingTestsUtils = trainingTestsUtils;
         this.employeeTestUtils = employeeTestUtils;
         this.sessionRepository = sessionRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional(readOnly = true)
@@ -103,6 +108,11 @@ public class SessionTestsUtils {
         Location location = locationTestsUtils.findDefaultLocation();
         Employee employee = employeeTestUtils.findDefaultEmployee();
         return getSession(startDate, location, training, employee);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countLocationsById(Long id) {
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM session WHERE location_id=" + id, Long.class);
     }
 
     public void flush() {

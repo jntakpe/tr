@@ -9,4 +9,6 @@ import com.github.jntakpe.model.Session;
  */
 public interface SessionRepository extends GenericRepository<Session> {
 
+    Long countByLocation_Id(Long id);
+
 }

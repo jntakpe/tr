@@ -60,4 +60,9 @@ public class SessionService {
         return session;
     }
 
+    @Transactional(readOnly = true)
+    public Long countByLocationId(Long id) {
+        return sessionRepository.countByLocation_Id(id);
+    }
+
 }

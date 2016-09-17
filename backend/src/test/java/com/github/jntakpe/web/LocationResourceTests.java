@@ -47,6 +47,15 @@ public class LocationResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    public void findAll_shouldFindWithNbSessionsCount() throws Exception {
+        ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS).accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayNotEmpty(resultActions);
+        resultActions.andExpect(jsonPath("$.[*].nbSessions").isNotEmpty());
+        ;
+    }
+
+    @Test
     public void findAll_shouldNotFind() throws Exception {
         when(mockLocationService.findAll()).thenReturn(Collections.emptyList());
         ResultActions resultActions = mockMvc.perform(get(UriConstants.LOCATIONS).accept(MediaType.APPLICATION_JSON));

@@ -48,6 +48,13 @@ public class LocationServiceTests extends AbstractDBServiceTests {
     }
 
     @Test
+    public void findAll_shouldCountSession() {
+        List<Location> locations = locationService.findAll();
+        assertThat(locations).isNotEmpty();
+        locations.forEach(l -> assertThat(l.getNbSessions()).isEqualTo(sessionTestsUtils.countLocationsById(l.getId())));
+    }
+
+    @Test
     public void save_shouldCreate() {
         Location location = new Location();
         location.setName("Ramassiers");
