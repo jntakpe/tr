@@ -1,0 +1,34 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+    <cache alias="trainings">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap unit="entries">1</heap>
+    </cache>
+    <cache alias="locations">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap unit="entries">1</heap>
+    </cache>
+    <cache alias="sessions">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap unit="entries">1</heap>
+    </cache>
+    <cache alias="session">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap unit="MB">2</heap>
+    </cache>
+    <cache alias="session-count-training">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap unit="entries">100000</heap>
+    </cache>
+
+</config>

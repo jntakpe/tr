@@ -6,6 +6,9 @@ import com.github.jntakpe.repository.TrainingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
  * @author jntakpe
  */
 @Service
+@CacheConfig(cacheNames = "trainings")
 public class TrainingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrainingService.class);
@@ -33,6 +37,7 @@ public class TrainingService {
         this.trainingRepository = trainingRepository;
     }
 
+    @Cacheable
     @Transactional(readOnly = true)
     public List<Training> findAll() {
         LOGGER.debug("Récupération de toutes les formations");
@@ -40,6 +45,7 @@ public class TrainingService {
     }
 
     @Transactional
+    @CacheEvict(allEntries = true)
     public Training save(Training training) {
         Objects.requireNonNull(training);
         checkNameAvailable(training);
@@ -48,6 +54,7 @@ public class TrainingService {
     }
 
     @Transactional
+    @CacheEvict(allEntries = true)
     public void delete(Long id) {
         Training training = findById(id);
         LOGGER.info("Suppression de la formation {}", training);
@@ -60,10 +67,11 @@ public class TrainingService {
         return findConstraintStrings(training);
     }
 
-    private List<String> findConstraintStrings(Training training) {
-        return training.getSessions().stream()
-                .map(Session::toStringConstraint)
-                .collect(Collectors.toList());
+    private void checkNameAvailable(Training training) {
+        Optional<Training> opt = trainingRepository.findByNameIgnoreCase(training.getName());
+        if (opt.isPresent() && !opt.get().getId().equals(training.getId())) {
+            throw new ValidationException("Le nom " + training.getName() + " de la formation est déjà pris");
+        }
     }
 
     private Training findById(Long id) {
@@ -76,11 +84,10 @@ public class TrainingService {
         return training;
     }
 
-    private void checkNameAvailable(Training training) {
-        Optional<Training> opt = trainingRepository.findByNameIgnoreCase(training.getName());
-        if (opt.isPresent() && !opt.get().getId().equals(training.getId())) {
-            throw new ValidationException("Le nom " + training.getName() + " de la formation est déjà pris");
-        }
+    private List<String> findConstraintStrings(Training training) {
+        return training.getSessions().stream()
+                .map(Session::toStringConstraint)
+                .collect(Collectors.toList());
     }
 
 }

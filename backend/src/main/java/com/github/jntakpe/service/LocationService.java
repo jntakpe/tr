@@ -6,6 +6,9 @@ import com.github.jntakpe.repository.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
  * @author jntakpe
  */
 @Service
+@CacheConfig(cacheNames = "locations")
 public class LocationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocationService.class);
@@ -36,6 +40,7 @@ public class LocationService {
         this.sessionService = sessionService;
     }
 
+    @Cacheable
     @Transactional(readOnly = true)
     public List<Location> findAll() {
         LOGGER.debug("Recherche de l'ensemble des sites de formation");
@@ -43,17 +48,32 @@ public class LocationService {
         return countNbSessions(locations);
     }
 
-    private List<Location> countNbSessions(List<Location> locations) {
-        locations.forEach(l -> l.setNbSessions(sessionService.countByLocationId(l.getId())));
-        return locations;
-    }
-
     @Transactional
+    @CacheEvict(allEntries = true)
     public Location save(Location location) {
         Objects.requireNonNull(location);
         checkNameAndCityAvailable(location);
         LOGGER.info("{} du site de formation {}", location.isNew() ? "Création" : "Modification", location);
         return locationRepository.save(location);
+    }
+
+    @Transactional
+    @CacheEvict(allEntries = true)
+    public void delete(Long id) {
+        Location location = findById(id);
+        LOGGER.info("Suppression du lieu {}", location);
+        locationRepository.delete(location);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> findConstraints(Long id) {
+        Location location = findById(id);
+        return findConstraintStrings(location);
+    }
+
+    private List<Location> countNbSessions(List<Location> locations) {
+        locations.forEach(l -> l.setNbSessions(sessionService.countByLocationId(l.getId())));
+        return locations;
     }
 
     private void checkNameAndCityAvailable(Location location) {
@@ -64,13 +84,6 @@ public class LocationService {
         }
     }
 
-    @Transactional
-    public void delete(Long id) {
-        Location location = findById(id);
-        LOGGER.info("Suppression du lieu {}", location);
-        locationRepository.delete(location);
-    }
-
     private Location findById(Long id) {
         Objects.requireNonNull(id);
         Location location = locationRepository.findOne(id);
@@ -79,12 +92,6 @@ public class LocationService {
             throw new EntityNotFoundException("Aucune lieu possédant l'id " + id);
         }
         return location;
-    }
-
-    @Transactional(readOnly = true)
-    public List<String> findConstraints(Long id) {
-        Location location = findById(id);
-        return findConstraintStrings(location);
     }
 
     private List<String> findConstraintStrings(Location location) {
