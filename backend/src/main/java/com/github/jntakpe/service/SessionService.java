@@ -24,8 +24,6 @@ public class SessionService {
 
     public static final String COLLECTION_CACHE_NAME = "sessions";
 
-    public static final String ENTIY_CACHE_NAME = "session";
-
     public static final String COUNT_TRAININGS_CACHE_NAME = "session-count-training";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionService.class);
@@ -45,7 +43,7 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, ENTIY_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME}, allEntries = true)
+    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME}, allEntries = true)
     public Session save(Session session) {
         Objects.requireNonNull(session);
         LOGGER.info("{} de la session {}", session.isNew() ? "Création" : "Modification", session);
@@ -53,14 +51,13 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, ENTIY_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME}, allEntries = true)
+    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME}, allEntries = true)
     public void delete(Long id) {
         Session session = findById(id);
         LOGGER.info("Suppression de la session de formation {}", session);
         sessionRepository.delete(session);
     }
 
-    @Cacheable(ENTIY_CACHE_NAME)
     @Transactional(readOnly = true)
     public Session findById(Long id) {
         Objects.requireNonNull(id);

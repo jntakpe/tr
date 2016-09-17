@@ -1,8 +1,16 @@
 package com.github.jntakpe.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -16,6 +24,7 @@ import java.util.Set;
  * @see AuditingEntity
  */
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"start", "location_id", "training_id", "trainer_id"})})
 public class Session extends AuditingEntity {
 

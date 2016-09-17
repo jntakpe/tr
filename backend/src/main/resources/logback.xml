@@ -29,7 +29,7 @@
     <logger name="org.hibernate.SQL" level="WARN"/>
     <logger name="org.hibernate.validator" level="WARN"/>
     <logger name="org.hibernate.type" level="INFO"/>
-    <logger name="net.sf.ehcache" level="WARN"/>
+    <logger name="org.ehcache" level="WARN"/>
     <logger name="com.zaxxer.hikari" level="WARN"/>
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.springframework.boot" level="WARN"/>
