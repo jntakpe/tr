@@ -3,6 +3,7 @@ package com.github.jntakpe.service;
 import com.github.jntakpe.model.Domain;
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
+import com.github.jntakpe.utils.SessionTestsUtils;
 import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,9 +38,19 @@ public class TrainingServiceTests extends AbstractDBServiceTests {
     @Autowired
     private TrainingTestsUtils trainingTestsUtils;
 
+    @Autowired
+    private SessionTestsUtils sessionTestsUtils;
+
     @Test
     public void findAll_shouldFind() {
         assertThat(trainingService.findAll()).isNotEmpty().hasSize(nbEntries);
+    }
+
+    @Test
+    public void findAll_shouldCountSession() {
+        List<Training> trainings = trainingService.findAll();
+        assertThat(trainings).isNotEmpty();
+        trainings.forEach(t -> assertThat(t.getNbSessions()).isEqualTo(sessionTestsUtils.countTrainingsById(t.getId())));
     }
 
     @Test

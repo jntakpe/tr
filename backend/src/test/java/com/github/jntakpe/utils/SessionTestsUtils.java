@@ -93,15 +93,6 @@ public class SessionTestsUtils {
         return getSession(startDate, location, training, employee);
     }
 
-    private Session getSession(LocalDate startDate, Location location, Training training, Employee employee) {
-        Session session = new Session();
-        session.setStart(startDate);
-        session.setLocation(location);
-        session.setTraining(training);
-        session.setTrainer(employee);
-        return session;
-    }
-
     @Transactional(readOnly = true)
     public Session getSessionWithAttachedRelations(LocalDate startDate) {
         Training training = trainingTestsUtils.findDefaultTraining();
@@ -115,12 +106,26 @@ public class SessionTestsUtils {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM session WHERE location_id=" + id, Long.class);
     }
 
+    @Transactional(readOnly = true)
+    public Long countTrainingsById(Long id) {
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM session WHERE training_id=" + id, Long.class);
+    }
+
     public void flush() {
         sessionRepository.flush();
     }
 
     public void detach(Session session) {
         entityManager.detach(session);
+    }
+
+    private Session getSession(LocalDate startDate, Location location, Training training, Employee employee) {
+        Session session = new Session();
+        session.setStart(startDate);
+        session.setLocation(location);
+        session.setTraining(training);
+        session.setTrainer(employee);
+        return session;
     }
 
 }

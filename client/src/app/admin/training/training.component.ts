@@ -72,6 +72,7 @@ export class TrainingComponent implements OnInit, OnDestroy {
         new TableColumn({name: 'Nom', prop: 'name'}),
         new TableColumn({name: 'Domaine', prop: 'domain'}),
         new TableColumn({name: 'Durée', prop: 'duration'}),
+        new TableColumn({name: 'Nombre de sessions', prop: 'nbSessions'}),
         new TableColumn({name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false}),
         new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false})
       ]

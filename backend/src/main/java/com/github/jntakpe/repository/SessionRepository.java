@@ -11,4 +11,6 @@ public interface SessionRepository extends GenericRepository<Session> {
 
     Long countByLocation_Id(Long id);
 
+    Long countByTraining_Id(Long id);
+
 }

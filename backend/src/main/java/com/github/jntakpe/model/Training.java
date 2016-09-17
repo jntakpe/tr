@@ -10,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -43,6 +44,9 @@ public class Training extends AuditingEntity {
     @OneToMany(mappedBy = "training")
     private Set<Session> sessions = new HashSet<>();
 
+    @Transient
+    private Long nbSessions;
+
     public String getName() {
         return name;
     }
@@ -73,6 +77,14 @@ public class Training extends AuditingEntity {
 
     public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public Long getNbSessions() {
+        return nbSessions;
+    }
+
+    public void setNbSessions(Long nbSessions) {
+        this.nbSessions = nbSessions;
     }
 
     @Override

@@ -24,7 +24,13 @@
         </expiry>
         <heap unit="MB">2</heap>
     </cache>
-    <cache alias="session-count-training">
+    <cache alias="session-count-trainings">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap unit="entries">100000</heap>
+    </cache>
+    <cache alias="session-count-locations">
         <expiry>
             <ttl unit="hours">1</ttl>
         </expiry>

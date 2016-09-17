@@ -2,6 +2,7 @@ package com.github.jntakpe.service;
 
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
+import com.github.jntakpe.utils.LocationTestsUtils;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
@@ -36,6 +37,9 @@ public class SessionServiceTests extends AbstractDBServiceTests {
 
     @Autowired
     private TrainingTestsUtils trainingTestsUtils;
+
+    @Autowired
+    private LocationTestsUtils locationTestsUtils;
 
     @Test
     public void findAll_shouldFind() {
@@ -112,6 +116,26 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     public void findById_shouldNotFind() {
         sessionService.findById(999L);
         fail("should have failed at this point");
+    }
+
+    @Test
+    public void countByLocationId_shouldCountOneOrMore() {
+        assertThat(sessionService.countByLocationId(locationTestsUtils.findUsedLocation().getId())).isGreaterThanOrEqualTo(1L);
+    }
+
+    @Test
+    public void countByLocationId_shouldCountZero() {
+        assertThat(sessionService.countByLocationId(locationTestsUtils.findUnusedLocation().getId())).isZero();
+    }
+
+    @Test
+    public void countByTrainingId_shouldCountOneOrMore() {
+        assertThat(sessionService.countByTrainingId(trainingTestsUtils.findUsedTraining().getId())).isGreaterThanOrEqualTo(1L);
+    }
+
+    @Test
+    public void countByTrainingId_shouldCountZero() {
+        assertThat(sessionService.countByTrainingId(trainingTestsUtils.findUnusedTraining().getId())).isZero();
     }
 
     @Override

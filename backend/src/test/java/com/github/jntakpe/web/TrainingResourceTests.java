@@ -48,6 +48,14 @@ public class TrainingResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    public void findAll_shouldFindWithSessionCount() throws Exception {
+        ResultActions resultActions = realMvc.perform(get(UriConstants.TRAININGS).accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayNotEmpty(resultActions);
+        resultActions.andExpect(jsonPath("$.[*].nbSessions").isNotEmpty());
+    }
+
+    @Test
     public void findAll_shouldNotFind() throws Exception {
         when(mockTrainingService.findAll()).thenReturn(Collections.emptyList());
         ResultActions resultActions = mockMvc.perform(get(UriConstants.TRAININGS).accept(MediaType.APPLICATION_JSON));

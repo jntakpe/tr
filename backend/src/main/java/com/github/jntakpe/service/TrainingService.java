@@ -30,18 +30,22 @@ public class TrainingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrainingService.class);
 
-    private TrainingRepository trainingRepository;
+    private final TrainingRepository trainingRepository;
+
+    private final SessionService sessionService;
 
     @Autowired
-    public TrainingService(TrainingRepository trainingRepository) {
+    public TrainingService(TrainingRepository trainingRepository, SessionService sessionService) {
         this.trainingRepository = trainingRepository;
+        this.sessionService = sessionService;
     }
 
     @Cacheable
     @Transactional(readOnly = true)
     public List<Training> findAll() {
         LOGGER.debug("Récupération de toutes les formations");
-        return trainingRepository.findAll();
+        List<Training> trainings = trainingRepository.findAll();
+        return countNbTrainings(trainings);
     }
 
     @Transactional
@@ -65,6 +69,11 @@ public class TrainingService {
     public List<String> findConstraints(Long id) {
         Training training = findById(id);
         return findConstraintStrings(training);
+    }
+
+    private List<Training> countNbTrainings(List<Training> trainings) {
+        trainings.forEach(t -> t.setNbSessions(sessionService.countByTrainingId(t.getId())));
+        return trainings;
     }
 
     private void checkNameAvailable(Training training) {

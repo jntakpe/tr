@@ -22,9 +22,11 @@ import java.util.Objects;
 @Service
 public class SessionService {
 
-    public static final String COLLECTION_CACHE_NAME = "sessions";
+    private static final String COLLECTION_CACHE_NAME = "sessions";
 
-    public static final String COUNT_TRAININGS_CACHE_NAME = "session-count-training";
+    private static final String COUNT_LOCATIONS_CACHE_NAME = "session-count-locations";
+
+    private static final String COUNT_TRAININGS_CACHE_NAME = "session-count-trainings";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionService.class);
 
@@ -43,7 +45,7 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME}, allEntries = true)
+    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME, COUNT_LOCATIONS_CACHE_NAME}, allEntries = true)
     public Session save(Session session) {
         Objects.requireNonNull(session);
         LOGGER.info("{} de la session {}", session.isNew() ? "Création" : "Modification", session);
@@ -51,7 +53,7 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME}, allEntries = true)
+    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME, COUNT_LOCATIONS_CACHE_NAME}, allEntries = true)
     public void delete(Long id) {
         Session session = findById(id);
         LOGGER.info("Suppression de la session de formation {}", session);
@@ -70,9 +72,15 @@ public class SessionService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(COUNT_TRAININGS_CACHE_NAME)
+    @Cacheable(COUNT_LOCATIONS_CACHE_NAME)
     public Long countByLocationId(Long id) {
         return sessionRepository.countByLocation_Id(id);
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(COUNT_TRAININGS_CACHE_NAME)
+    public Long countByTrainingId(Long id) {
+        return sessionRepository.countByTraining_Id(id);
     }
 
 }
