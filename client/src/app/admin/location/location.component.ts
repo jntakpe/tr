@@ -67,6 +67,7 @@ export class LocationComponent implements OnInit, OnDestroy {
       columns: [
         new TableColumn({name: 'Nom du site', prop: 'name'}),
         new TableColumn({name: 'Ville', prop: 'city'}),
+        new TableColumn({name: 'Nombre de sessions', prop: 'nbSessions'}),
         new TableColumn({name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false}),
         new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false})
       ]
