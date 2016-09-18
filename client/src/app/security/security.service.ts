@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 import {User} from './user';
 
 const jwtDecode = require('jwt-decode');
@@ -59,6 +60,12 @@ export class SecurityService {
 
   isTokenStillValid(token = this.getToken()): boolean {
     return token && token.expires_at && moment(token.expires_at).isAfter(moment());
+  }
+
+  hasAnyRole(roles: string[]): boolean {
+    const currentUser = this.currentUser || this.getCurrentUser();
+    const intersection = _.intersection(roles, currentUser.authorities);
+    return !!intersection.length;
   }
 
   private accessToken(username: string, password: string): Observable<Response> {

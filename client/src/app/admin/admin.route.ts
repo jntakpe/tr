@@ -4,6 +4,7 @@ import {Route} from '@angular/router';
 import {homeRoute} from '../home/home.route';
 import {BreadcrumbsInfo} from '../shared/layout/breadcrumbs/breadcrumbs';
 import {AdminComponent} from './admin.component';
+import {AdminGuard} from './admin-guard.service';
 
 const locationRoute: Route = {
   path: 'locations',
@@ -25,6 +26,7 @@ const trainingRoute: Route = {
 
 export const adminRoute: Route = {
   path: 'admin',
+  canActivateChild: [AdminGuard],
   component: AdminComponent,
   children: [locationRoute, trainingRoute]
 };

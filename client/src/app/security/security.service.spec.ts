@@ -134,4 +134,54 @@ describe('security service', () => {
     expect(valid).toBeFalsy();
   }));
 
+  it('should match roles one to one', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN']});
+    expect(securityService.hasAnyRole(['ROLE_ADMIN'])).toBeTruthy();
+  }));
+
+  it('should match roles one to many', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN']});
+    expect(securityService.hasAnyRole(['ROLE_ADMIN', 'ROLE_USER'])).toBeTruthy();
+  }));
+
+  it('should match roles many to one', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN', 'ROLE_USER']});
+    expect(securityService.hasAnyRole(['ROLE_USER'])).toBeTruthy();
+  }));
+
+  it('should match roles many to many', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN', 'ROLE_USER']});
+    expect(securityService.hasAnyRole(['ROLE_USER', 'ROLE_ADMIN'])).toBeTruthy();
+  }));
+
+  it('should not match roles to many with many', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN', 'ROLE_USER']});
+    expect(securityService.hasAnyRole(['ROLE_UNKNOWN', 'ROLE_UNKNOWN2'])).toBeFalsy();
+  }));
+
+  it('should not match roles to one with many', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN', 'ROLE_USER']});
+    expect(securityService.hasAnyRole(['ROLE_UNKNOWN'])).toBeFalsy();
+  }));
+
+  it('should not match roles to one with one', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN']});
+    expect(securityService.hasAnyRole(['ROLE_UNKNOWN'])).toBeFalsy();
+  }));
+
+  it('should not match roles to empty with one', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: ['ROLE_ADMIN']});
+    expect(securityService.hasAnyRole([])).toBeFalsy();
+  }));
+
+  it('should not match roles to empty with empty', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({authorities: []});
+    expect(securityService.hasAnyRole([])).toBeFalsy();
+  }));
+
+  it('should not match roles to one with falsy', inject([SecurityService], (securityService: SecurityService) => {
+    spyOn(securityService, 'getCurrentUser').and.returnValue({});
+    expect(securityService.hasAnyRole(['ROLE_USER'])).toBeFalsy();
+  }));
+
 });
