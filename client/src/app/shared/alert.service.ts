@@ -38,6 +38,7 @@ export class AlertService {
 export const titleConstants = {
   error: {
     server: 'Erreur serveur',
-    badRequest: 'Mauvaise requête'
+    badRequest: 'Mauvaise requête',
+    forbidden: 'Non autorisé'
   }
 };
