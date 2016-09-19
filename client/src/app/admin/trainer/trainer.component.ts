@@ -48,8 +48,7 @@ export class TrainerComponent implements OnInit, OnDestroy {
         new TableColumn({name: 'Login', prop: 'login'}),
         new TableColumn({name: 'Email', prop: 'email'}),
         new TableColumn({name: 'Prénom', prop: 'firstName'}),
-        new TableColumn({name: 'Nom', prop: 'lastName'}),
-        new TableColumn({name: 'Formations', prop: 'trainings'})
+        new TableColumn({name: 'Nom', prop: 'lastName'})
       ]
     });
   }
@@ -59,8 +58,7 @@ export class TrainerComponent implements OnInit, OnDestroy {
       login: null,
       email: null,
       firstName: null,
-      lastName: null,
-      trainings: null
+      lastName: null
     });
     this.searchFormSubscription = this.searchForm.valueChanges
       .subscribe(dataForm => this.displayedTrainers = this.trainerService.filterTable(this.trainers, dataForm));
