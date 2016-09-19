@@ -44,6 +44,8 @@ public class Employee extends AuditingEntity {
 
     private String location;
 
+    private boolean trainer;
+
     @JsonIgnore
     private String password;
 
@@ -122,6 +124,14 @@ public class Employee extends AuditingEntity {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public boolean isTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(boolean trainer) {
+        this.trainer = trainer;
     }
 
     public String getPassword() {
