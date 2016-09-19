@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,6 +51,12 @@ public class EmployeeService {
         Employee employee = findById(id);
         Hibernate.initialize(employee.getAuthorities());
         return employee;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Employee> findAllTrainers() {
+        LOGGER.debug("Recherche de tous les formateurs");
+        return employeeRepository.findByTrainer(true);
     }
 
     @Transactional(readOnly = true)

@@ -5,6 +5,7 @@ import com.github.jntakpe.repository.EmployeeRepository;
 import com.github.jntakpe.service.EmployeeServiceTests;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +23,15 @@ public class EmployeeTestUtils {
 
     private final EmployeeRepository employeeRepository;
 
+    private final JdbcTemplate jdbcTemplate;
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Autowired
-    public EmployeeTestUtils(EmployeeRepository employeeRepository) {
+    public EmployeeTestUtils(EmployeeRepository employeeRepository, JdbcTemplate jdbcTemplate) {
         this.employeeRepository = employeeRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional(readOnly = true)
@@ -57,4 +61,8 @@ public class EmployeeTestUtils {
         entityManager.detach(employee);
     }
 
+    @Transactional(readOnly = true)
+    public Long countTrainers() {
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM employee WHERE trainer=TRUE", Long.class);
+    }
 }

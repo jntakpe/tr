@@ -1,5 +1,6 @@
 package com.github.jntakpe.service;
 
+import com.github.jntakpe.utils.EmployeeTestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class EmployeeServiceTests extends AbstractDBServiceTests {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private EmployeeTestUtils employeeTestUtils;
+
     @Test
     public void findByLogin_shouldFindOne() {
         assertThat(employeeService.findByLogin(EXISTING_LOGIN)).isPresent();
@@ -42,6 +46,11 @@ public class EmployeeServiceTests extends AbstractDBServiceTests {
     @Test
     public void findByLogin_shouldNotFind() {
         assertThat(employeeService.findByLogin(SOME_UNKNOWN_LOGIN)).isNotPresent();
+    }
+
+    @Test
+    public void findAllTrainers_shouldFind() {
+        assertThat(employeeService.findAllTrainers().size()).isNotZero().isEqualTo(employeeTestUtils.countTrainers().intValue());
     }
 
     @Override
