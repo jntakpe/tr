@@ -1,0 +1,31 @@
+<div class="panel panel-u search-panel">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-search"></i> Recherche</h3>
+  </div>
+  <div class="panel-body">
+    <form [formGroup]="searchForm">
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="search-login">Recherche par login</label>
+          <input id="search-login" type="text" class="form-control" placeholder="Login" formControlName="login">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="search-email">Recherche par email</label>
+          <input id="search-email" type="text" class="form-control" placeholder="Email" formControlName="email">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="search-firstname">Recherche par prénom</label>
+          <input id="search-firstname" type="text" class="form-control" placeholder="Prénom" formControlName="firstName">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="search-lastname">Recherche par nom</label>
+          <input id="search-lastname" type="text" class="form-control" placeholder="Nom" formControlName="lastName">
+        </div>
+        <div class="col-md-2 reset-search">
+          <button class="btn btn-warning pull-right" type="reset"><i class="fa fa-eraser"></i> Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<datatable class="bootstrap table-striped table-hover" [rows]="displayedTrainers" [options]="dtOptions"></datatable>

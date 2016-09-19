@@ -5,6 +5,7 @@ import {homeRoute} from '../home/home.route';
 import {BreadcrumbsInfo} from '../shared/layout/breadcrumbs/breadcrumbs';
 import {AdminComponent} from './admin.component';
 import {AdminGuard} from './admin-guard.service';
+import {TrainerComponent} from './trainer/trainer.component';
 
 const locationRoute: Route = {
   path: 'locations',
@@ -24,9 +25,19 @@ const trainingRoute: Route = {
   }
 };
 
+const trainerRoute: Route = {
+  path: 'trainers',
+  component: TrainerComponent,
+  data: {
+    title: 'Formateurs',
+    breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+  }
+};
+
+
 export const adminRoute: Route = {
   path: 'admin',
   canActivateChild: [AdminGuard],
   component: AdminComponent,
-  children: [locationRoute, trainingRoute]
+  children: [locationRoute, trainingRoute, trainerRoute]
 };

@@ -6,12 +6,13 @@ import {RouterModule} from '@angular/router';
 import {TrainingComponent} from './training/training.component';
 import {LocationComponent} from './location/location.component';
 import {AdminGuard} from './admin-guard.service';
+import {TrainerModule} from './trainer/trainer.module';
 
 @NgModule({
-  imports: [TrainingModule, LocationModule, RouterModule],
+  imports: [TrainingModule, LocationModule, TrainerModule, RouterModule],
   declarations: [AdminComponent],
   providers: [AdminGuard],
-  exports: [TrainingComponent, LocationComponent, AdminComponent]
+  exports: [TrainingComponent, LocationComponent, TrainingComponent, AdminComponent]
 })
 export class AdminModule {
 
