@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, OnDestroy} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {Subscription, Observable} from 'rxjs';
 import {FormService} from '../../../shared/form/form.service';
@@ -10,7 +10,7 @@ import {FormField} from '../../../shared/form/form-field';
   selector: 'save-location-modal',
   template: require('./save-location-modal.component.html')
 })
-export class SaveLocationModalComponent {
+export class SaveLocationModalComponent implements OnDestroy {
 
   @ViewChild('editContentModal') editContentModal;
 
@@ -31,6 +31,12 @@ export class SaveLocationModalComponent {
     this.saveFormSubscription = this.saveForm.valueChanges
       .subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
     return this.locationService.saveModal(this.editContentModal, location);
+  }
+
+  ngOnDestroy() {
+    if (this.saveFormSubscription) {
+      this.saveFormSubscription.unsubscribe();
+    }
   }
 
   private initForm(location?: Location) {

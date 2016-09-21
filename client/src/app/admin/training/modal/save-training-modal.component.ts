@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, OnDestroy} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {Subscription, Observable} from 'rxjs';
 import {FormService} from '../../../shared/form/form.service';
@@ -11,7 +11,7 @@ import {Input} from '@angular/core/src/metadata/directives';
   selector: 'save-training-modal',
   template: require('./save-training-modal.component.html')
 })
-export class SaveTrainingModalComponent {
+export class SaveTrainingModalComponent implements OnDestroy {
 
   @Input() domains: Observable<string[]>;
 
@@ -34,6 +34,12 @@ export class SaveTrainingModalComponent {
     this.saveFormSubscription = this.saveForm.valueChanges
       .subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
     return this.trainingService.saveModal(this.editContentModal, training);
+  }
+
+  ngOnDestroy() {
+    if (this.saveFormSubscription) {
+      this.saveFormSubscription.unsubscribe();
+    }
   }
 
   private initForm(training?: Training) {
