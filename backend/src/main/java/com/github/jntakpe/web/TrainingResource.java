@@ -2,7 +2,9 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.config.security.AuthoritiesConstants;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
+import com.github.jntakpe.service.SessionService;
 import com.github.jntakpe.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +24,14 @@ import java.util.List;
 @RequestMapping(UriConstants.TRAININGS)
 public class TrainingResource {
 
-    private TrainingService trainingService;
+    private final TrainingService trainingService;
+
+    private final SessionService sessionService;
 
     @Autowired
-    public TrainingResource(TrainingService trainingService) {
+    public TrainingResource(TrainingService trainingService, SessionService sessionService) {
         this.trainingService = trainingService;
+        this.sessionService = sessionService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -60,6 +65,12 @@ public class TrainingResource {
     public ResponseEntity<List<String>> constraints(@PathVariable Long id) {
         List<String> constraints = trainingService.findConstraints(id);
         return constraints.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(constraints, HttpStatus.OK);
+    }
+
+    @RolesAllowed(AuthoritiesConstants.ADMIN)
+    @RequestMapping(value = "/{id}/sessions", method = RequestMethod.GET)
+    public List<Session> findSessions(@PathVariable Long id) {
+        return sessionService.findByTrainingId(id);
     }
 
 }

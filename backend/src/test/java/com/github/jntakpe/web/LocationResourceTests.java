@@ -4,6 +4,7 @@ import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Location;
 import com.github.jntakpe.service.EmployeeServiceTests;
 import com.github.jntakpe.service.LocationService;
+import com.github.jntakpe.service.SessionService;
 import com.github.jntakpe.utils.LocationTestsUtils;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -33,9 +34,12 @@ public class LocationResourceTests extends AbstractResourceTests {
     @Mock
     private LocationService mockLocationService;
 
+    @Mock
+    private SessionService mockSessionService;
+
     @Override
     public Object getMockResource() {
-        return new LocationResource(mockLocationService);
+        return new LocationResource(mockLocationService, mockSessionService);
     }
 
     @Test
@@ -52,7 +56,6 @@ public class LocationResourceTests extends AbstractResourceTests {
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);
         resultActions.andExpect(jsonPath("$.[*].nbSessions").isNotEmpty());
-        ;
     }
 
     @Test
@@ -161,5 +164,28 @@ public class LocationResourceTests extends AbstractResourceTests {
                 .accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);
+    }
+
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void findSessions_shouldReturnSomeSessions() throws Exception {
+        Location location = locationTestsUtils.findUsedLocation();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS + "/{id}/sessions", location.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayNotEmpty(resultActions);
+        resultActions.andExpect(jsonPath("$.[*].training.id").isNotEmpty());
+        resultActions.andExpect(jsonPath("$.[*].location.id").isNotEmpty());
+        resultActions.andExpect(jsonPath("$.[*].trainer.id").isNotEmpty());
+    }
+
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void findSessions_shouldReturnEmpty() throws Exception {
+        Location location = locationTestsUtils.findUnusedLocation();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.LOCATIONS + "/{id}/sessions", location.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayEmpty(resultActions);
     }
 }

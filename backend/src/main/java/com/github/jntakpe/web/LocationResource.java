@@ -3,7 +3,9 @@ package com.github.jntakpe.web;
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.config.security.AuthoritiesConstants;
 import com.github.jntakpe.model.Location;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.service.LocationService;
+import com.github.jntakpe.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,14 @@ import java.util.List;
 @RequestMapping(UriConstants.LOCATIONS)
 public class LocationResource {
 
-    private LocationService locationService;
+    private final LocationService locationService;
+
+    private final SessionService sessionService;
 
     @Autowired
-    public LocationResource(LocationService locationService) {
+    public LocationResource(LocationService locationService, SessionService sessionService) {
         this.locationService = locationService;
+        this.sessionService = sessionService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -62,4 +67,9 @@ public class LocationResource {
         return constraints.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(constraints, HttpStatus.OK);
     }
 
+    @RolesAllowed(AuthoritiesConstants.ADMIN)
+    @RequestMapping(value = "/{id}/sessions", method = RequestMethod.GET)
+    public List<Session> findSessions(@PathVariable Long id) {
+        return sessionService.findByLocationId(id);
+    }
 }

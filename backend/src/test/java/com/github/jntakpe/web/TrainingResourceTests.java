@@ -4,6 +4,7 @@ import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Domain;
 import com.github.jntakpe.model.Training;
 import com.github.jntakpe.service.EmployeeServiceTests;
+import com.github.jntakpe.service.SessionService;
 import com.github.jntakpe.service.TrainingService;
 import com.github.jntakpe.utils.TrainingTestsUtils;
 import org.junit.Test;
@@ -34,9 +35,12 @@ public class TrainingResourceTests extends AbstractResourceTests {
     @Mock
     private TrainingService mockTrainingService;
 
+    @Mock
+    private SessionService mockSessionService;
+
     @Override
     public Object getMockResource() {
-        return new TrainingResource(mockTrainingService);
+        return new TrainingResource(mockTrainingService, mockSessionService);
     }
 
     @Test
@@ -164,5 +168,28 @@ public class TrainingResourceTests extends AbstractResourceTests {
                 .accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);
+    }
+
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void findSessions_shouldReturnSomeSessions() throws Exception {
+        Training training = trainingTestsUtils.findUsedTraining();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.TRAININGS + "/{id}/sessions", training.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayNotEmpty(resultActions);
+        resultActions.andExpect(jsonPath("$.[*].training.id").isNotEmpty());
+        resultActions.andExpect(jsonPath("$.[*].location.id").isNotEmpty());
+        resultActions.andExpect(jsonPath("$.[*].trainer.id").isNotEmpty());
+    }
+
+    @Test
+    @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
+    public void findSessions_shouldReturnEmpty() throws Exception {
+        Training training = trainingTestsUtils.findUnusedTraining();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.TRAININGS + "/{id}/sessions", training.getId())
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectArrayEmpty(resultActions);
     }
 }
