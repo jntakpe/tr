@@ -5,6 +5,7 @@ import com.github.jntakpe.model.Training;
 import com.github.jntakpe.utils.LocationTestsUtils;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import com.github.jntakpe.utils.TrainingTestsUtils;
+import org.hibernate.Hibernate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -138,8 +140,51 @@ public class SessionServiceTests extends AbstractDBServiceTests {
         assertThat(sessionService.countByTrainingId(trainingTestsUtils.findUnusedTraining().getId())).isZero();
     }
 
+    @Test
+    public void findByLocationId_shouldFindOneOrMore() {
+        assertThat(sessionService.findByLocationId(locationTestsUtils.findUsedLocation().getId()).size()).isGreaterThanOrEqualTo(1);
+    }
+
+    @Test
+    public void findByLocationId_shouldFetch() {
+        List<Session> sessions = sessionService.findByLocationId(locationTestsUtils.findUsedLocation().getId());
+        assertThat(sessions.get(0).getLocation()).isNotNull();
+        assertThat(sessions.get(0).getTrainer()).isNotNull();
+        assertThat(sessions.get(0).getTraining()).isNotNull();
+        assertThat(Hibernate.isInitialized(sessions.get(0).getLocation())).isTrue();
+        assertThat(Hibernate.isInitialized(sessions.get(0).getTrainer())).isTrue();
+        assertThat(Hibernate.isInitialized(sessions.get(0).getTraining())).isTrue();
+    }
+
+    @Test
+    public void findByLocationId_shouldFindZero() {
+        assertThat(sessionService.findByLocationId(locationTestsUtils.findUnusedLocation().getId())).isEmpty();
+    }
+
+    @Test
+    public void findByTrainingId_shouldFindOneOrMore() {
+        assertThat(sessionService.findByTrainingId(trainingTestsUtils.findUsedTraining().getId()).size()).isGreaterThanOrEqualTo(1);
+    }
+
+    @Test
+    public void findByTrainingId_shouldFetch() {
+        List<Session> sessions = sessionService.findByTrainingId(trainingTestsUtils.findUsedTraining().getId());
+        assertThat(sessions.get(0).getLocation()).isNotNull();
+        assertThat(sessions.get(0).getTrainer()).isNotNull();
+        assertThat(sessions.get(0).getTraining()).isNotNull();
+        assertThat(Hibernate.isInitialized(sessions.get(0).getLocation())).isTrue();
+        assertThat(Hibernate.isInitialized(sessions.get(0).getTrainer())).isTrue();
+        assertThat(Hibernate.isInitialized(sessions.get(0).getTraining())).isTrue();
+    }
+
+    @Test
+    public void findByTrainingId_shouldFindZero() {
+        assertThat(sessionService.findByTrainingId(trainingTestsUtils.findUnusedTraining().getId())).isEmpty();
+    }
+
     @Override
     public String getTableName() {
         return TABLE_NAME;
     }
+
 }

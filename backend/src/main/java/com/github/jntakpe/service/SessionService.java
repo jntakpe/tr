@@ -22,11 +22,15 @@ import java.util.Objects;
 @Service
 public class SessionService {
 
-    private static final String COLLECTION_CACHE_NAME = "sessions";
+    private static final String COLLECTION_CACHE = "sessions";
 
-    private static final String COUNT_LOCATIONS_CACHE_NAME = "session-count-locations";
+    private static final String COUNT_LOCATIONS_CACHE = "session-count-locations";
 
-    private static final String COUNT_TRAININGS_CACHE_NAME = "session-count-trainings";
+    private static final String COUNT_TRAININGS_CACHE = "session-count-trainings";
+
+    private static final String LOCATIONS_CACHE = "session-locations";
+
+    private static final String TRAININGS_CACHE = "session-trainings";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionService.class);
 
@@ -37,7 +41,7 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    @Cacheable(COLLECTION_CACHE_NAME)
+    @Cacheable(COLLECTION_CACHE)
     @Transactional(readOnly = true)
     public List<Session> findAll() {
         LOGGER.debug("Recherche de toutes les sessions");
@@ -45,7 +49,8 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME, COUNT_LOCATIONS_CACHE_NAME}, allEntries = true)
+    @CacheEvict(cacheNames = {COLLECTION_CACHE, COUNT_TRAININGS_CACHE, COUNT_LOCATIONS_CACHE, LOCATIONS_CACHE, TRAININGS_CACHE},
+            allEntries = true)
     public Session save(Session session) {
         Objects.requireNonNull(session);
         LOGGER.info("{} de la session {}", session.isNew() ? "Création" : "Modification", session);
@@ -53,7 +58,8 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE_NAME, COUNT_TRAININGS_CACHE_NAME, COUNT_LOCATIONS_CACHE_NAME}, allEntries = true)
+    @CacheEvict(cacheNames = {COLLECTION_CACHE, COUNT_TRAININGS_CACHE, COUNT_LOCATIONS_CACHE, LOCATIONS_CACHE, TRAININGS_CACHE},
+            allEntries = true)
     public void delete(Long id) {
         Session session = findById(id);
         LOGGER.info("Suppression de la session de formation {}", session);
@@ -72,15 +78,29 @@ public class SessionService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(COUNT_LOCATIONS_CACHE_NAME)
+    @Cacheable(COUNT_LOCATIONS_CACHE)
     public Long countByLocationId(Long id) {
         return sessionRepository.countByLocation_Id(id);
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(COUNT_TRAININGS_CACHE_NAME)
+    @Cacheable(COUNT_TRAININGS_CACHE)
     public Long countByTrainingId(Long id) {
         return sessionRepository.countByTraining_Id(id);
+    }
+
+    @Cacheable(LOCATIONS_CACHE)
+    @Transactional(readOnly = true)
+    public List<Session> findByLocationId(Long id) {
+        LOGGER.debug("Recherche des sessions pour le site de formation {}", id);
+        return sessionRepository.findByLocation_Id(id);
+    }
+
+    @Cacheable(TRAININGS_CACHE)
+    @Transactional(readOnly = true)
+    public List<Session> findByTrainingId(Long id) {
+        LOGGER.debug("Recherche des sessions pour la formation {}", id);
+        return sessionRepository.findByTraining_Id(id);
     }
 
 }
