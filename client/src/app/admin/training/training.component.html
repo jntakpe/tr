@@ -30,7 +30,7 @@
 <datatable class="bootstrap table-striped table-hover" [rows]="displayedTrainings" [options]="dtOptions"></datatable>
 <button id="add-modal" class="btn btn-u" (click)="openSaveModal()"><i class="fa fa-plus"></i> Ajouter une formation</button>
 <template #editRowTmpl let-training="row">
-  <button class="btn btn-info btn-xs" (click)="openSaveModal(training)"><i class="fa fa-edit"></i> Modifier</button>
+  <button class="btn btn-warning btn-xs" (click)="openSaveModal(training)"><i class="fa fa-edit"></i> Modifier</button>
 </template>
 <template #removeRowTmpl let-training="row">
   <button class="btn btn-danger btn-xs" (click)="remove(training)"><i class="fa fa-trash"></i> Supprimer</button>

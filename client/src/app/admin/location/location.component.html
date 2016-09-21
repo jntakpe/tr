@@ -23,7 +23,7 @@
 <datatable class="bootstrap table-striped table-hover" [rows]="displayedLocations" [options]="dtOptions"></datatable>
 <button id="add-modal" class="btn btn-u" (click)="openSaveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
 <template #editRowTmpl let-location="row">
-  <button class="btn btn-info btn-xs" (click)="openSaveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
+  <button class="btn btn-warning btn-xs" (click)="openSaveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
 </template>
 <template #removeRowTmpl let-location="row">
   <button class="btn btn-danger btn-xs" (click)="remove(location)"><i class="fa fa-trash"></i> Supprimer</button>
