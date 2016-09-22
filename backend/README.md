@@ -58,4 +58,5 @@ Lorsque l'application est démarrée la documentation de l'API REST est disponib
 * Spring MVC
 * Spring security OAuth2
 * Hibernate
+* QueryDSL
 * Swagger
