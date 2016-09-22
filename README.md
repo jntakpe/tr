@@ -5,4 +5,4 @@ Application permettant de saisir les notes et remarques d'une session de formati
 L'application est décomposée en 2 modules :
 
 * [Module backend](/backend/) : expose les services métiers via une API REST
-* [Module frontend](/frontend/) : UI permettant de réaliser les différentes actions
+* [Module client](/client/) : UI permettant de réaliser les différentes actions
