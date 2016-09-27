@@ -11,12 +11,16 @@ export class AdminGuard implements CanActivateChild {
   }
 
   canActivateChild(): boolean {
-    const isAuthorized = this.securityService.hasAnyRole(['ROLE_ADMIN']);
-    if (!isAuthorized) {
+    if (!this.securityService.isTokenStillValid()) {
+      this.navigationService.goToLoginPage('expired');
+      return false;
+    }
+    if (!this.securityService.hasAnyRole(['ROLE_ADMIN'])) {
       this.alertService.error('Vous n\'êtes pas autorisé à accéder à cette page', titleConstants.error.forbidden);
       this.navigationService.goToHomePage();
+      return false;
     }
-    return isAuthorized;
+    return true;
   }
 
 }
