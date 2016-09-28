@@ -63,6 +63,7 @@ public class SessionTestsUtils {
                 .orElseThrow(() -> new IllegalStateException("No session"));
         Hibernate.initialize(session.getTraining());
         Hibernate.initialize(session.getTrainer());
+        Hibernate.initialize(session.getLocation());
         return session;
     }
 
@@ -191,6 +192,24 @@ public class SessionTestsUtils {
     public Long countByTrainerFirstAndLastNames(String firstName, String lastName) {
         String query = "SELECT count(*) FROM session INNER JOIN employee ON session.trainer_id = employee.id " +
                 "WHERE first_name LIKE '" + firstName + "%' AND last_name LIKE '" + lastName + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByStartDate(LocalDate startDate) {
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM session WHERE start = '" + startDate.toString() + "'", Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByLocationAndTrainingAndTrainerAndStart(Location location, Training training, Employee trainer, LocalDate start) {
+        String query = "SELECT count(*) FROM session INNER JOIN location ON session.location_id = location.id " +
+                "INNER JOIN training ON session.training_id = training.id " +
+                "INNER JOIN employee ON session.trainer_id = employee.id " +
+                "WHERE location.name LIKE '" + location.getName() + "%' AND location.city LIKE '" + location.getCity() + "%' " +
+                "AND training.name LIKE '" + training.getName() + "%' AND training.domain = '" + training.getDomain().name() + "' " +
+                "AND employee.first_name LIKE '" + trainer.getFirstName() + "%' " +
+                "AND employee.last_name LIKE '" + trainer.getLastName() + "%' " +
+                "AND session.start = '" + start + "'";
         return jdbcTemplate.queryForObject(query, Long.class);
     }
 

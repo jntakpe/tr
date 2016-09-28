@@ -126,7 +126,7 @@ public class LocationServiceTests extends AbstractDBServiceTests {
 
     @Test(expected = DataIntegrityViolationException.class)
     public void delete_shouldFailCuzLocationUsedByRelation() {
-        Location location = sessionTestsUtils.findAnySession().getLocation();
+        Location location = sessionTestsUtils.findAnySessionInitialized().getLocation();
         locationService.delete(location.getId());
         locationTestsUtils.flush();
         fail("should have failed at this point");

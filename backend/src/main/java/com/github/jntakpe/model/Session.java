@@ -29,7 +29,7 @@ public class Session extends AuditingEntity {
     private LocalDate start;
 
     @Valid
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Location location;
 
     @Valid

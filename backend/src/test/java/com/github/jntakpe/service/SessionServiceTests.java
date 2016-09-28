@@ -331,7 +331,10 @@ public class SessionServiceTests extends AbstractDBServiceTests {
 
     @Test
     public void findWithPredicate_shouldFindOneWithTrainingAndLocation() {
-        Session session = sessionTestsUtils.findAnySessionInitialized();
+        Session anySession = sessionTestsUtils.findAnySessionInitialized();
+        Session session = new Session();
+        session.setTraining(anySession.getTraining());
+        session.setLocation(anySession.getLocation());
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
                 .isNotZero()
                 .isEqualTo(sessionTestsUtils.countByLocationAndTraining(session.getLocation(), session.getTraining()));
@@ -374,6 +377,33 @@ public class SessionServiceTests extends AbstractDBServiceTests {
         session.setTraining(training);
         session.setLocation(locationTestsUtils.findAnyLocation());
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindNoneCuzUnknownStart() {
+        Session session = new Session();
+        session.setStart(LocalDate.MAX);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindSomeWithStartDate() {
+        Session session = new Session();
+        session.setStart(sessionTestsUtils.findAnySessionInitialized().getStart());
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isEqualTo(sessionTestsUtils.countByStartDate(sessionTestsUtils.findAnySessionInitialized().getStart()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithTrainingAndLocationAndTrainerAndStart() {
+        Session session = sessionTestsUtils.findAnySessionInitialized();
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByLocationAndTrainingAndTrainerAndStart(
+                        session.getLocation(),
+                        session.getTraining(),
+                        session.getTrainer(),
+                        session.getStart()));
     }
 
     @Override

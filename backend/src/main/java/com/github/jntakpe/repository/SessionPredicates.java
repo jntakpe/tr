@@ -5,7 +5,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
 
-import static com.github.jntakpe.model.QSession.session;
+import java.time.LocalDate;
 
 /**
  * Predicats permettant de filtrer les {@link Session}
@@ -22,14 +22,15 @@ public final class SessionPredicates {
         return builder
                 .and(withLocation(session.getLocation()))
                 .and(withTraining(session.getTraining()))
-                .and(withTrainer(session.getTrainer()));
+                .and(withTrainer(session.getTrainer()))
+                .and(withStartDate(session.getStart()));
     }
 
     private static Predicate withLocation(Location location) {
         if (location == null) {
             return null;
         }
-        QLocation qLocation = session.location;
+        QLocation qLocation = QSession.session.location;
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.isNotBlank(location.getName())) {
             builder.and(qLocation.name.startsWithIgnoreCase(location.getName()));
@@ -44,7 +45,7 @@ public final class SessionPredicates {
         if (training == null) {
             return null;
         }
-        QTraining qTraining = session.training;
+        QTraining qTraining = QSession.session.training;
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.isNotBlank(training.getName())) {
             builder.and(qTraining.name.startsWithIgnoreCase(training.getName()));
@@ -59,7 +60,7 @@ public final class SessionPredicates {
         if (trainer == null) {
             return null;
         }
-        QEmployee qEmployee = session.trainer;
+        QEmployee qEmployee = QSession.session.trainer;
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.isNotBlank(trainer.getFirstName())) {
             builder.and(qEmployee.firstName.startsWithIgnoreCase(trainer.getFirstName()));
@@ -68,6 +69,13 @@ public final class SessionPredicates {
             builder.and(qEmployee.lastName.startsWithIgnoreCase(trainer.getLastName()));
         }
         return builder;
+    }
+
+    private static Predicate withStartDate(LocalDate startDate) {
+        if (startDate == null) {
+            return null;
+        }
+        return QSession.session.start.eq(startDate);
     }
 
 }
