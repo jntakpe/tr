@@ -115,9 +115,9 @@ public class SessionService {
         LOGGER.debug("Recherche des sessions de la page : {}", pageable);
         // TODO Pourra être fait en un appel quand la PR https://github.com/spring-projects/spring-data-jpa/pull/182
         Page<Session> page = sessionRepository.findAll(SessionPredicates.withSession(session), pageable);
-        Map<Long, Session> idsMap = sessionRepository.findByIdIn(page.map(IdentifiableEntity::getId).getContent()).stream()
+        Map<Long, Session> idsMap = page.map(IdentifiableEntity::getId).getContent().stream()
+                .map(this::findById)
                 .collect(Collectors.toMap(IdentifiableEntity::getId, Function.identity()));
         return page.map(s -> idsMap.get(s.getId()));
     }
-
 }
