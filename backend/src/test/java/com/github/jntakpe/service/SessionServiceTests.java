@@ -1,9 +1,6 @@
 package com.github.jntakpe.service;
 
-import com.github.jntakpe.model.Domain;
-import com.github.jntakpe.model.Location;
-import com.github.jntakpe.model.Session;
-import com.github.jntakpe.model.Training;
+import com.github.jntakpe.model.*;
 import com.github.jntakpe.utils.LocationTestsUtils;
 import com.github.jntakpe.utils.SessionTestsUtils;
 import com.github.jntakpe.utils.TrainingTestsUtils;
@@ -69,9 +66,10 @@ public class SessionServiceTests extends AbstractDBServiceTests {
 
     @Test
     public void save_shouldUpdate() {
-        Session session = sessionTestsUtils.findAnySession();
+        Session session = sessionTestsUtils.findAnySessionInitialized();
         LocalDate updatedStart = LocalDate.of(2017, 11, 11);
         session.setStart(updatedStart);
+        sessionTestsUtils.detach(session);
         sessionService.save(session);
         sessionTestsUtils.flush();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE start='" + updatedStart.toString() + "'";
@@ -252,7 +250,7 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test
     public void findWithPredicate_shouldFindOneWithFullTraining() {
         Session session = new Session();
-        Training anyTraining = trainingTestsUtils.findAnyTraining();
+        Training anyTraining = sessionTestsUtils.findAnySessionInitialized().getTraining();
         session.setTraining(anyTraining);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
                 .isNotZero()
@@ -260,7 +258,7 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     }
 
     @Test
-    public void findWithPredicate_shouldFindSomeWithLocationDomain() {
+    public void findWithPredicate_shouldFindSomeWithTrainingDomain() {
         Training training = new Training();
         training.setDomain(Domain.TECHNOLOGIES);
         Session session = new Session();
@@ -282,11 +280,70 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     }
 
     @Test
+    public void findWithPredicate_shouldFindNoneCuzUnknownTrainerFirstName() {
+        Employee trainer = new Employee();
+        trainer.setFirstName("Unknown");
+        Session session = new Session();
+        session.setTrainer(trainer);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindNoneCuzUnknownTrainerLastName() {
+        Employee trainer = new Employee();
+        trainer.setLastName("Unknown");
+        Session session = new Session();
+        session.setTrainer(trainer);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithFullTrainer() {
+        Session session = new Session();
+        Employee anyTrainer = sessionTestsUtils.findAnySessionInitialized().getTrainer();
+        session.setTrainer(anyTrainer);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByTrainerFirstAndLastNames(anyTrainer.getFirstName(), anyTrainer.getLastName()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindSomeWithTrainerFirstName() {
+        Employee trainer = new Employee();
+        trainer.setFirstName(sessionTestsUtils.findAnySessionInitialized().getTrainer().getFirstName());
+        Session session = new Session();
+        session.setTrainer(trainer);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByTrainerFirstName(trainer.getFirstName()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindSomeWithTrainerLastName() {
+        Employee trainer = new Employee();
+        trainer.setLastName(sessionTestsUtils.findAnySessionInitialized().getTrainer().getLastName());
+        Session session = new Session();
+        session.setTrainer(trainer);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByTrainerLastName(trainer.getLastName()));
+    }
+
+    @Test
     public void findWithPredicate_shouldFindOneWithTrainingAndLocation() {
         Session session = sessionTestsUtils.findAnySessionInitialized();
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
                 .isNotZero()
                 .isEqualTo(sessionTestsUtils.countByLocationAndTraining(session.getLocation(), session.getTraining()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithTrainingAndLocationAndTrainer() {
+        Session session = sessionTestsUtils.findAnySessionInitialized();
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils
+                        .countByLocationAndTrainingAndTrainer(session.getLocation(), session.getTraining(), session.getTrainer()));
     }
 
     @Test
@@ -296,6 +353,16 @@ public class SessionServiceTests extends AbstractDBServiceTests {
         Location location = new Location();
         location.setName("Unknown");
         session.setLocation(location);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindNoneWithTrainingAndTrainerUnknown() {
+        Session session = new Session();
+        session.setTraining(trainingTestsUtils.findAnyTraining());
+        Employee trainer = new Employee();
+        trainer.setFirstName("Unknown");
+        session.setTrainer(trainer);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
     }
 

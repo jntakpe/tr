@@ -162,6 +162,38 @@ public class SessionTestsUtils {
         return jdbcTemplate.queryForObject(query, Long.class);
     }
 
+    @Transactional(readOnly = true)
+    public Long countByLocationAndTrainingAndTrainer(Location location, Training training, Employee trainer) {
+        String query = "SELECT count(*) FROM session INNER JOIN location ON session.location_id = location.id " +
+                "INNER JOIN training ON session.training_id = training.id " +
+                "INNER JOIN employee ON session.trainer_id = employee.id " +
+                "WHERE location.name LIKE '" + location.getName() + "%' AND location.city LIKE '" + location.getCity() + "%' " +
+                "AND training.name LIKE '" + training.getName() + "%' AND training.domain = '" + training.getDomain().name() + "' " +
+                "AND first_name LIKE '" + trainer.getFirstName() + "%' AND last_name LIKE '" + trainer.getLastName() + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByTrainerFirstName(String firstName) {
+        String query = "SELECT count(*) FROM session INNER JOIN employee ON session.trainer_id = employee.id " +
+                "WHERE first_name LIKE '" + firstName + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByTrainerLastName(String lastName) {
+        String query = "SELECT count(*) FROM session INNER JOIN employee ON session.trainer_id = employee.id " +
+                "WHERE last_name LIKE '" + lastName + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByTrainerFirstAndLastNames(String firstName, String lastName) {
+        String query = "SELECT count(*) FROM session INNER JOIN employee ON session.trainer_id = employee.id " +
+                "WHERE first_name LIKE '" + firstName + "%' AND last_name LIKE '" + lastName + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
     public void flush() {
         sessionRepository.flush();
     }

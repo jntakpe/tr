@@ -21,7 +21,8 @@ public final class SessionPredicates {
         }
         return builder
                 .and(withLocation(session.getLocation()))
-                .and(withTraining(session.getTraining()));
+                .and(withTraining(session.getTraining()))
+                .and(withTrainer(session.getTrainer()));
     }
 
     private static Predicate withLocation(Location location) {
@@ -46,10 +47,25 @@ public final class SessionPredicates {
         QTraining qTraining = session.training;
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.isNotBlank(training.getName())) {
-            builder.and(qTraining.name.startsWith(training.getName()));
+            builder.and(qTraining.name.startsWithIgnoreCase(training.getName()));
         }
         if (training.getDomain() != null) {
             builder.and(qTraining.domain.eq(training.getDomain()));
+        }
+        return builder;
+    }
+
+    private static Predicate withTrainer(Employee trainer) {
+        if (trainer == null) {
+            return null;
+        }
+        QEmployee qEmployee = session.trainer;
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isNotBlank(trainer.getFirstName())) {
+            builder.and(qEmployee.firstName.startsWithIgnoreCase(trainer.getFirstName()));
+        }
+        if (StringUtils.isNotBlank(trainer.getLastName())) {
+            builder.and(qEmployee.lastName.startsWithIgnoreCase(trainer.getLastName()));
         }
         return builder;
     }
