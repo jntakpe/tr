@@ -221,7 +221,7 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test
     public void findWithPredicate_shouldFindSomeWithLocationCity() {
         Location location = new Location();
-        location.setCity(locationTestsUtils.findAnyLocation().getCity());
+        location.setCity(sessionTestsUtils.findAnySessionInitialized().getLocation().getCity());
         Session session = new Session();
         session.setLocation(location);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
@@ -232,7 +232,7 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test
     public void findWithPredicate_shouldFindSomeWithLocationName() {
         Location location = new Location();
-        location.setName(locationTestsUtils.findAnyLocation().getName());
+        location.setName(sessionTestsUtils.findAnySessionInitialized().getLocation().getName());
         Session session = new Session();
         session.setLocation(location);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
@@ -273,7 +273,7 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test
     public void findWithPredicate_shouldFindSomeWithTrainingName() {
         Training training = new Training();
-        training.setName(trainingTestsUtils.findAnyTraining().getName());
+        training.setName(sessionTestsUtils.findAnySessionInitialized().getTraining().getName());
         Session session = new Session();
         session.setTraining(training);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
