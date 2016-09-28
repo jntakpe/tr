@@ -1,5 +1,6 @@
 package com.github.jntakpe.service;
 
+import com.github.jntakpe.model.Domain;
 import com.github.jntakpe.model.Location;
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
@@ -210,30 +211,102 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test
     public void findWithPredicate_shouldFindOneWithFullLocation() {
         Session session = new Session();
-        Location anyLocation = locationTestsUtils.findAnyLocation();
+        Location anyLocation = sessionTestsUtils.findAnySessionInitialized().getLocation();
         session.setLocation(anyLocation);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
                 .isEqualTo(sessionTestsUtils.countByLocationNameAndCity(anyLocation.getName(), anyLocation.getCity()));
     }
 
     @Test
-    public void findWithPredicate_shouldFindTwoWithLocationCity() {
+    public void findWithPredicate_shouldFindSomeWithLocationCity() {
         Location location = new Location();
-        location.setCity("Lille");
+        location.setCity(locationTestsUtils.findAnyLocation().getCity());
         Session session = new Session();
         session.setLocation(location);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
                 .isEqualTo(sessionTestsUtils.countByLocationCity(location.getCity()));
     }
 
     @Test
-    public void findWithPredicate_shouldFindOneWithLocationName() {
+    public void findWithPredicate_shouldFindSomeWithLocationName() {
         Location location = new Location();
-        location.setName("triangle");
+        location.setName(locationTestsUtils.findAnyLocation().getName());
         Session session = new Session();
         session.setLocation(location);
         assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
                 .isEqualTo(sessionTestsUtils.countByLocationName(location.getName()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindNoneCuzUnknownTrainingName() {
+        Training training = new Training();
+        training.setName("Unknown");
+        Session session = new Session();
+        session.setTraining(training);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithFullTraining() {
+        Session session = new Session();
+        Training anyTraining = trainingTestsUtils.findAnyTraining();
+        session.setTraining(anyTraining);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByTrainingNameAndDomain(anyTraining.getName(), anyTraining.getDomain().name()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindSomeWithLocationDomain() {
+        Training training = new Training();
+        training.setDomain(Domain.TECHNOLOGIES);
+        Session session = new Session();
+        session.setTraining(training);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByTrainingDomain(training.getDomain().name()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindSomeWithTrainingName() {
+        Training training = new Training();
+        training.setName(trainingTestsUtils.findAnyTraining().getName());
+        Session session = new Session();
+        session.setTraining(training);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByTrainingName(training.getName()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithTrainingAndLocation() {
+        Session session = sessionTestsUtils.findAnySessionInitialized();
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isNotZero()
+                .isEqualTo(sessionTestsUtils.countByLocationAndTraining(session.getLocation(), session.getTraining()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindNoneWithTrainingAndLocationUnknown() {
+        Session session = new Session();
+        session.setTraining(trainingTestsUtils.findAnyTraining());
+        Location location = new Location();
+        location.setName("Unknown");
+        session.setLocation(location);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithTrainingUnknownAndLocation() {
+        Session session = new Session();
+        Training training = new Training();
+        training.setName("Unknown");
+        session.setTraining(training);
+        session.setLocation(locationTestsUtils.findAnyLocation());
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
     }
 
     @Override

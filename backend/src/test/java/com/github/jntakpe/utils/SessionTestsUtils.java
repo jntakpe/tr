@@ -97,8 +97,8 @@ public class SessionTestsUtils {
     public Session getSessionWithAttachedRelations(LocalDate startDate) {
         Training training = trainingTestsUtils.findDefaultTraining();
         Location location = locationTestsUtils.findDefaultLocation();
-        Employee employee = employeeTestUtils.findDefaultEmployee();
-        return getSession(startDate, location, training, employee);
+        Employee trainer = employeeTestUtils.findDefaultEmployee();
+        return getSession(startDate, location, training, trainer);
     }
 
     @Transactional(readOnly = true)
@@ -129,6 +129,36 @@ public class SessionTestsUtils {
     public Long countByLocationNameAndCity(String name, String city) {
         String query = "SELECT count(*) FROM session INNER JOIN location ON session.location_id = location.id " +
                 "WHERE location.name LIKE '" + name + "%' AND location.city LIKE '" + city + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByTrainingName(String name) {
+        String query = "SELECT count(*) FROM session INNER JOIN training ON session.training_id = training.id WHERE training.name LIKE '"
+                + name + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByTrainingDomain(String domain) {
+        String query = "SELECT count(*) FROM session INNER JOIN training ON session.training_id = training.id WHERE training.domain = '"
+                + domain + "'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByTrainingNameAndDomain(String name, String domain) {
+        String query = "SELECT count(*) FROM session INNER JOIN training ON session.training_id = training.id " +
+                "WHERE training.name LIKE '" + name + "%' AND training.domain = '" + domain + "'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByLocationAndTraining(Location location, Training training) {
+        String query = "SELECT count(*) FROM session INNER JOIN location ON session.location_id = location.id " +
+                "INNER JOIN training ON session.training_id = training.id " +
+                "WHERE location.name LIKE '" + location.getName() + "%' AND location.city LIKE '" + location.getCity() + "%' " +
+                "AND training.name LIKE '" + training.getName() + "%' AND training.domain = '" + training.getDomain().name() + "'";
         return jdbcTemplate.queryForObject(query, Long.class);
     }
 

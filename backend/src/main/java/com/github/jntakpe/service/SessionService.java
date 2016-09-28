@@ -112,7 +112,7 @@ public class SessionService {
 
     @Transactional(readOnly = true)
     public Page<Session> findWithPredicate(Session session, Pageable pageable) {
-        LOGGER.debug("Recherche des sessions de la page {}", pageable);
+        LOGGER.debug("Recherche des sessions de la page : {}", pageable);
         // TODO Pourra être fait en un appel quand la PR https://github.com/spring-projects/spring-data-jpa/pull/182
         Page<Session> page = sessionRepository.findAll(SessionPredicates.withSession(session), pageable);
         Map<Long, Session> idsMap = sessionRepository.findByIdIn(page.map(IdentifiableEntity::getId).getContent()).stream()

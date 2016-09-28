@@ -121,7 +121,6 @@ public class Session extends AuditingEntity {
             return false;
         }
         return trainer.equals(session.trainer);
-
     }
 
     @Override
