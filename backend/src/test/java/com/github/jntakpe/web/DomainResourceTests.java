@@ -26,4 +26,5 @@ public class DomainResourceTests extends AbstractResourceTests {
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);
     }
+
 }

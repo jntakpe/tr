@@ -1,5 +1,6 @@
 package com.github.jntakpe.service;
 
+import com.github.jntakpe.model.Location;
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.model.Training;
 import com.github.jntakpe.utils.LocationTestsUtils;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityNotFoundException;
@@ -180,6 +182,58 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     @Test
     public void findByTrainingId_shouldFindZero() {
         assertThat(sessionService.findByTrainingId(trainingTestsUtils.findUnusedTraining().getId())).isEmpty();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindAllCuzNoSession() {
+        assertThat(sessionService.findWithPredicate(null, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isEqualTo(nbEntries);
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindNoneCuzUnknownLocationName() {
+        Location location = new Location();
+        location.setName("Unknown");
+        Session session = new Session();
+        session.setLocation(location);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindNoneCuzUnknownLocationCity() {
+        Location location = new Location();
+        location.setCity("Unknown");
+        Session session = new Session();
+        session.setLocation(location);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements()).isZero();
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithFullLocation() {
+        Session session = new Session();
+        Location anyLocation = locationTestsUtils.findAnyLocation();
+        session.setLocation(anyLocation);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isEqualTo(sessionTestsUtils.countByLocationNameAndCity(anyLocation.getName(), anyLocation.getCity()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindTwoWithLocationCity() {
+        Location location = new Location();
+        location.setCity("Lille");
+        Session session = new Session();
+        session.setLocation(location);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isEqualTo(sessionTestsUtils.countByLocationCity(location.getCity()));
+    }
+
+    @Test
+    public void findWithPredicate_shouldFindOneWithLocationName() {
+        Location location = new Location();
+        location.setName("triangle");
+        Session session = new Session();
+        session.setLocation(location);
+        assertThat(sessionService.findWithPredicate(session, new PageRequest(0, Integer.MAX_VALUE)).getTotalElements())
+                .isEqualTo(sessionTestsUtils.countByLocationName(location.getName()));
     }
 
     @Override

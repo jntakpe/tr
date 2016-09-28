@@ -1,18 +1,25 @@
 package com.github.jntakpe.service;
 
+import com.github.jntakpe.model.IdentifiableEntity;
 import com.github.jntakpe.model.Session;
+import com.github.jntakpe.repository.SessionPredicates;
 import com.github.jntakpe.repository.SessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Services associés à l'entité {@link Session}
@@ -101,6 +108,16 @@ public class SessionService {
     public List<Session> findByTrainingId(Long id) {
         LOGGER.debug("Recherche des sessions pour la formation {}", id);
         return sessionRepository.findByTraining_Id(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Session> findWithPredicate(Session session, Pageable pageable) {
+        LOGGER.debug("Recherche des sessions de la page {}", pageable);
+        // TODO Pourra être fait en un appel quand la PR https://github.com/spring-projects/spring-data-jpa/pull/182
+        Page<Session> page = sessionRepository.findAll(SessionPredicates.withSession(session), pageable);
+        Map<Long, Session> idsMap = sessionRepository.findByIdIn(page.map(IdentifiableEntity::getId).getContent()).stream()
+                .collect(Collectors.toMap(IdentifiableEntity::getId, Function.identity()));
+        return page.map(s -> idsMap.get(s.getId()));
     }
 
 }

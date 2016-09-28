@@ -111,6 +111,27 @@ public class SessionTestsUtils {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM session WHERE training_id=" + id, Long.class);
     }
 
+    @Transactional(readOnly = true)
+    public Long countByLocationName(String name) {
+        String query = "SELECT count(*) FROM session INNER JOIN location ON session.location_id = location.id WHERE location.name LIKE '"
+                + name + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByLocationCity(String city) {
+        String query = "SELECT count(*) FROM session INNER JOIN location ON session.location_id = location.id WHERE location.city LIKE '"
+                + city + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByLocationNameAndCity(String name, String city) {
+        String query = "SELECT count(*) FROM session INNER JOIN location ON session.location_id = location.id " +
+                "WHERE location.name LIKE '" + name + "%' AND location.city LIKE '" + city + "%'";
+        return jdbcTemplate.queryForObject(query, Long.class);
+    }
+
     public void flush() {
         sessionRepository.flush();
     }
