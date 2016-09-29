@@ -21,6 +21,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.github.jntakpe.service.EmployeeService.TRAINERS_CACHE;
+
 /**
  * Services associés à l'entité {@link Session}
  *
@@ -29,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 public class SessionService {
 
-    private static final String COLLECTION_CACHE = "sessions";
+    private static final String SESSIONS_CACHE = "sessions";
 
     private static final String COUNT_LOCATIONS_CACHE = "session-count-locations";
 
@@ -48,7 +50,7 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    @Cacheable(COLLECTION_CACHE)
+    @Cacheable(SESSIONS_CACHE)
     @Transactional(readOnly = true)
     public List<Session> findAll() {
         LOGGER.debug("Recherche de toutes les sessions");
@@ -56,8 +58,8 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE, COUNT_TRAININGS_CACHE, COUNT_LOCATIONS_CACHE, LOCATIONS_CACHE, TRAININGS_CACHE},
-            allEntries = true)
+    @CacheEvict(allEntries = true,
+            cacheNames = {SESSIONS_CACHE, COUNT_TRAININGS_CACHE, COUNT_LOCATIONS_CACHE, LOCATIONS_CACHE, TRAININGS_CACHE, TRAINERS_CACHE})
     public Session save(Session session) {
         Objects.requireNonNull(session);
         LOGGER.info("{} de la session {}", session.isNew() ? "Création" : "Modification", session);
@@ -65,8 +67,8 @@ public class SessionService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = {COLLECTION_CACHE, COUNT_TRAININGS_CACHE, COUNT_LOCATIONS_CACHE, LOCATIONS_CACHE, TRAININGS_CACHE},
-            allEntries = true)
+    @CacheEvict(allEntries = true,
+            cacheNames = {SESSIONS_CACHE, COUNT_TRAININGS_CACHE, COUNT_LOCATIONS_CACHE, LOCATIONS_CACHE, TRAININGS_CACHE, TRAINERS_CACHE})
     public void delete(Long id) {
         Session session = findById(id);
         LOGGER.info("Suppression de la session de formation {}", session);
@@ -120,4 +122,5 @@ public class SessionService {
                 .collect(Collectors.toMap(IdentifiableEntity::getId, Function.identity()));
         return page.map(s -> idsMap.get(s.getId()));
     }
+
 }
