@@ -16,7 +16,7 @@ export class TrainingService {
   constructor(private authHttp: AuthHttp,
               private alertService: AlertService,
               private ngbModal: NgbModal,
-              private filterService: FilterTableService) {
+              private filterTableService: FilterTableService) {
   }
 
   findAll(): Observable<Training[]> {
@@ -47,7 +47,7 @@ export class TrainingService {
   }
 
   filterTable(trainings: Training[], {name, duration, domain}): Training[] {
-    return this.filterService.regexFilter(trainings, {name, duration, domain});
+    return this.filterTableService.regexFilter(trainings, {name, duration, domain});
   }
 
   private save(training: Training): Observable<Training> {

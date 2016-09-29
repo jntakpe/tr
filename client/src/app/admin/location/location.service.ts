@@ -16,7 +16,7 @@ export class LocationService {
   constructor(private authHttp: AuthHttp,
               private alertService: AlertService,
               private ngbModal: NgbModal,
-              private filterService: FilterTableService) {
+              private filterTableService: FilterTableService) {
   }
 
   findAll(): Observable<Location[]> {
@@ -47,7 +47,7 @@ export class LocationService {
   }
 
   filterTable(locations: Location[], {name, city}): Location[] {
-    return this.filterService.regexFilter(locations, {name, city});
+    return this.filterTableService.regexFilter(locations, {name, city});
   }
 
   private save(location: Location): Observable<Location> {
