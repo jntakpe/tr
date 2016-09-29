@@ -63,6 +63,7 @@ public class EmployeeTestUtils {
 
     @Transactional(readOnly = true)
     public Long countTrainers() {
-        return jdbcTemplate.queryForObject("SELECT count(*) FROM employee WHERE trainer=TRUE", Long.class);
+        String query = "SELECT count(DISTINCT employee.id) FROM employee INNER JOIN session ON employee.id = session.trainer_id";
+        return jdbcTemplate.queryForObject(query, Long.class);
     }
 }

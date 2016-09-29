@@ -30,4 +30,5 @@ public class TrainerResource {
     public List<Employee> findAll() {
         return employeeService.findAllTrainers();
     }
+
 }

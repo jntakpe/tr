@@ -36,5 +36,11 @@
         </expiry>
         <heap unit="entries">100000</heap>
     </cache>
+    <cache alias="trainers">
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <heap unit="entries">1</heap>
+    </cache>
 
 </config>

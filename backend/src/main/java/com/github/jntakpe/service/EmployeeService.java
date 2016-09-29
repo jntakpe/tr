@@ -6,6 +6,7 @@ import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,8 @@ import java.util.Optional;
  */
 @Service
 public class EmployeeService {
+
+    public static final String TRAINERS_CACHE = "trainers";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeService.class);
 
@@ -53,10 +56,11 @@ public class EmployeeService {
         return employee;
     }
 
+    @Cacheable(TRAINERS_CACHE)
     @Transactional(readOnly = true)
     public List<Employee> findAllTrainers() {
         LOGGER.debug("Recherche de tous les formateurs");
-        return employeeRepository.findByTrainer(true);
+        return employeeRepository.findAllTrainers();
     }
 
     @Transactional(readOnly = true)
