@@ -2,15 +2,16 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.config.security.AuthoritiesConstants;
+import com.github.jntakpe.dto.PageDTO;
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Publication de la ressource {@link Session}
@@ -29,8 +30,8 @@ public class SessionResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Session> findAll() {
-        return sessionService.findAll();
+    public Page<Session> findAll(PageDTO page, Session session) {
+        return sessionService.findWithPredicate(page.toPageRequest(), session);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

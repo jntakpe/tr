@@ -23,6 +23,6 @@ public interface SessionRepository extends GenericRepository<Session> {
     List<Session> findByTraining_Id(Long id);
 
     @EntityGraph(value = "Session.detail", type = EntityGraph.EntityGraphType.FETCH)
-    Session findOne(Long id);
+    Session findById(Long id);
 
 }

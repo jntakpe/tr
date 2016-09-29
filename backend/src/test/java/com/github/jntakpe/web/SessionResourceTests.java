@@ -13,9 +13,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
-import java.util.Collections;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,22 +35,6 @@ public class SessionResourceTests extends AbstractResourceTests {
     @Override
     public Object getMockResource() {
         return new SessionResource(mockSessionService);
-    }
-
-    @Test
-    public void findAll_shouldFind() throws Exception {
-        ResultActions resultActions = realMvc.perform(get(UriConstants.SESSIONS).accept(MediaType.APPLICATION_JSON));
-        expectIsOkAndJsonContent(resultActions);
-        expectArrayNotEmpty(resultActions);
-        resultActions.andExpect(jsonPath("$.[*].start").isNotEmpty());
-    }
-
-    @Test
-    public void findAll_shouldNotFind() throws Exception {
-        when(mockSessionService.findAll()).thenReturn(Collections.emptyList());
-        ResultActions resultActions = mockMvc.perform(get(UriConstants.SESSIONS).accept(MediaType.APPLICATION_JSON));
-        expectIsOkAndJsonContent(resultActions);
-        expectArrayEmpty(resultActions);
     }
 
     @Test

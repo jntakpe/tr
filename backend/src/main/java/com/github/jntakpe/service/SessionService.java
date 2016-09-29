@@ -50,13 +50,6 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    @Cacheable(SESSIONS_CACHE)
-    @Transactional(readOnly = true)
-    public List<Session> findAll() {
-        LOGGER.debug("Recherche de toutes les sessions");
-        return sessionRepository.findAll();
-    }
-
     @Transactional
     @CacheEvict(allEntries = true,
             cacheNames = {SESSIONS_CACHE, COUNT_TRAININGS_CACHE, COUNT_LOCATIONS_CACHE, LOCATIONS_CACHE, TRAININGS_CACHE, TRAINERS_CACHE})
@@ -113,12 +106,12 @@ public class SessionService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Session> findWithPredicate(Session session, Pageable pageable) {
+    public Page<Session> findWithPredicate(Pageable pageable, Session session) {
         LOGGER.debug("Recherche des sessions de la page : {}", pageable);
         // TODO Pourra être fait en un appel quand la PR https://github.com/spring-projects/spring-data-jpa/pull/182
         Page<Session> page = sessionRepository.findAll(SessionPredicates.withSession(session), pageable);
         Map<Long, Session> idsMap = page.map(IdentifiableEntity::getId).getContent().stream()
-                .map(this::findById)
+                .map(id -> sessionRepository.findById(id))
                 .collect(Collectors.toMap(IdentifiableEntity::getId, Function.identity()));
         return page.map(s -> idsMap.get(s.getId()));
     }
