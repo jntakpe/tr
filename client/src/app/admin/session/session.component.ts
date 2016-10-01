@@ -3,6 +3,8 @@ import {SessionService} from './session.service';
 import {Subscription} from 'rxjs';
 import {Session} from '../../session/session';
 import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
+import {PageRequest} from '../../shared/pagination/page-request';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'session-component',
@@ -16,16 +18,16 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   dtOptions: TableOptions;
 
+  searchForm: FormGroup;
+
   private _sessions: Session[] = [];
 
   constructor(private sessionService: SessionService) {
   }
 
   ngOnInit() {
-    this.sessionSubscription = this.sessionService.findSessions().subscribe(sessions => {
-      this.sessions = sessions;
-    });
     this.dtOptions = this.buildTableOptions();
+    this.updateSessions();
   }
 
   ngOnDestroy() {
@@ -36,8 +38,20 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   }
 
+  changePage({offset, limit}) {
+    this.updateSessions(new PageRequest(new Session('', null, null, null), offset, limit));
+  }
+
+  private updateSessions(pageRequest: PageRequest<Session> = new PageRequest(new Session('', null, null, null), 0, this.dtOptions.limit)) {
+    this.sessionSubscription = this.sessionService.findSessions(pageRequest).subscribe(page => {
+      this.dtOptions.count = page.totalElements;
+      this.sessions = page.content;
+    });
+  }
+
   private buildTableOptions(): TableOptions {
     return new TableOptions({
+      externalPaging: true,
       reorderable: false,
       footerHeight: 50,
       columnMode: ColumnMode.force,
