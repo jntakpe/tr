@@ -19,11 +19,11 @@ export class FilterTableService {
 
   private buildPredicatesArray(filterParams: {[key: string]: any}, regexType: RegexType): any[] {
     const predicates = [];
-    for (const key of Object.keys(filterParams)) {
+    Object.keys(filterParams).forEach(key => {
       const value = filterParams[key];
       const predicate = typeof value === 'string' ? this.regexPredicate(key, value, regexType) : this.numberPredicate(key, value);
       predicates.push(predicate);
-    }
+    });
     return predicates;
   }
 
@@ -53,13 +53,13 @@ export class FilterTableService {
     }
     const truthyParams: {[key: string]: any} = {};
     let isTruthy = false;
-    for (const key of Object.keys(filterParams)) {
+    Object.keys(filterParams).forEach(key => {
       const value = filterParams[key];
       if (value) {
         truthyParams[key] = value;
         isTruthy = true;
       }
-    }
+    });
     return isTruthy ? truthyParams : null;
   }
 

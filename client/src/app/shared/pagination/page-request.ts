@@ -25,11 +25,11 @@ export class PageRequest<T> {
 
   private searchObjToParams(urlSearchParams: URLSearchParams = new URLSearchParams()): URLSearchParams {
     if (this.searchObj) {
-      for (let key of Object.keys(this.searchObj)) {
+      Object.keys(this.searchObj).forEach(key => {
         if (this.searchObj[key]) {
           urlSearchParams.set(key, this.searchObj[key]);
         }
-      }
+      });
     }
     return urlSearchParams;
   }

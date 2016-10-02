@@ -14,7 +14,6 @@ export class PaginationService {
       reIndexed[start + idx] = value;
     });
     page.content = reIndexed;
-    console.log(page);
     return page;
   }
 

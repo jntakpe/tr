@@ -16,7 +16,7 @@ export class FormService {
 
   validate(data: any, {formGroup, messages}: FormMessages): {[key: string]: string} {
     const formErrors = {};
-    for (const field of Object.keys(data)) {
+    Object.keys(data).forEach(field => {
       const control = formGroup.get(field);
       if (control && control.dirty && control.invalid) {
         for (const error of Object.keys(control.errors)) {
@@ -27,19 +27,19 @@ export class FormService {
           }
         }
       }
-    }
+    });
     return formErrors;
   }
 
   private buildControlConfig(fields: {[key: string]: FormField}): any {
     const controlsConfig = {};
     const messageConfig = {};
-    for (const field of Object.keys(fields)) {
+    Object.keys(fields).forEach(field => {
       if (fields.hasOwnProperty(field)) {
         controlsConfig[field] = fields[field].control;
         messageConfig[field] = fields[field].messages;
       }
-    }
+    });
     return {controlsConfig, messageConfig};
   }
 
