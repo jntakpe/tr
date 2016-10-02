@@ -1,9 +1,24 @@
 import {URLSearchParams} from '@angular/http';
-import {Direction} from './direction';
+import {TableOptions, SortDirection} from 'angular2-data-table';
 
 export class PageRequest<T> {
 
-  constructor(public searchObj?: T, public page = 0, public size = 10, public direction?: Direction, public column?: string) {
+  page: number;
+
+  size: number;
+
+  direction: SortDirection;
+
+  column: string;
+
+  constructor({offset: page = 0, limit: size = 10, sorts}: TableOptions, public searchObj?: T) {
+    this.page = page;
+    this.size = size;
+    if (sorts && sorts.length) {
+      const {dir, prop} = sorts[0];
+      this.direction = dir;
+      this.column = prop;
+    }
   }
 
   toUrlSearchParams(): URLSearchParams {
@@ -15,7 +30,7 @@ export class PageRequest<T> {
     urlSearchParams.set('page', this.page.toString());
     urlSearchParams.set('size', this.size.toString());
     if (this.direction) {
-      urlSearchParams.set('direction', Direction[this.direction]);
+      urlSearchParams.set('direction', SortDirection[this.direction]);
     }
     if (this.column) {
       urlSearchParams.set('column', this.column);

@@ -1,2 +1,3 @@
-<datatable class="bootstrap table-striped table-hover" [rows]="displayedSessions" [options]="dtOptions" (onPageChange)="changePage($event)">
+<datatable class="bootstrap table-striped table-hover" [rows]="displayedSessions" [options]="dtOptions" (onPageChange)="changePage($event)"
+           (onColumnChange)="sortColumn($event)">
 </datatable>

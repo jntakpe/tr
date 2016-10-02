@@ -38,12 +38,16 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   }
 
-  changePage({offset, limit}) {
-    this.updateSessions(new PageRequest(new Session('', null, null, null), offset, limit));
+  changePage() {
+    this.updateSessions();
   }
 
-  private updateSessions(pageRequest: PageRequest<Session> = new PageRequest(new Session('', null, null, null), 0, this.dtOptions.limit)) {
-    this.sessionSubscription = this.sessionService.findSessions(pageRequest).subscribe(page => {
+  sortColumn() {
+    this.updateSessions();
+  }
+
+  private updateSessions() {
+    this.sessionSubscription = this.sessionService.findSessions(new PageRequest<Session>(this.dtOptions)).subscribe(page => {
       this.dtOptions.count = page.totalElements;
       this.sessions = page.content;
     });
