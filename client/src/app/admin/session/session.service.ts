@@ -12,6 +12,7 @@ import {SessionSearchForm} from './session-search-form';
 import {Location} from '../location/location';
 import {Training} from '../training/training';
 import {Employee} from '../../shared/employee';
+import * as moment from 'moment';
 
 @Injectable()
 export class SessionService {
@@ -38,10 +39,12 @@ export class SessionService {
   }
 
   formToSession(formData: SessionSearchForm): Session {
+    const start = formData.start && moment({year: formData.start.year, month: formData.start.month, day: formData.start.day})
+        .format('YYYY-MM-DD');
     const location = new Location(formData.locationName, formData.locationCity);
     const trainer = new Employee(null, null, formData.firstName, formData.lastName, null, null);
     const training = new Training(formData.trainingName, null, formData.trainingDomain);
-    return new Session(formData.start, location, trainer, training);
+    return new Session(start, location, trainer, training);
   }
 
 }

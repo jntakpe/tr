@@ -12,7 +12,8 @@ import {SessionSearchForm} from './session-search-form';
 
 @Component({
   selector: 'session-component',
-  template: require('./session.component.html')
+  template: require('./session.component.html'),
+  styles: [require('./session.component.scss')]
 })
 export class SessionComponent implements OnInit, OnDestroy {
 
@@ -73,7 +74,7 @@ export class SessionComponent implements OnInit, OnDestroy {
       rowHeight: 'auto',
       limit: 10,
       columns: [
-        new TableColumn({name: 'Début', prop: 'start', width: 100}),
+        new TableColumn({name: 'Début', prop: 'start', width: 150}),
         new TableColumn({name: 'Domaine', prop: 'training.domain', width: 150}),
         new TableColumn({name: 'Formation', prop: 'training.name', width: 150}),
         new TableColumn({name: 'Ville', prop: 'location.city', width: 80}),
