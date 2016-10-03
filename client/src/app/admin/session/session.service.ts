@@ -8,6 +8,10 @@ import {Session} from '../../session/session';
 import {Observable} from 'rxjs';
 import {Page} from '../../shared/pagination/page';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import {SessionSearchForm} from './session-search-form';
+import {Location} from '../location/location';
+import {Training} from '../training/training';
+import {Employee} from '../../shared/employee';
 
 @Injectable()
 export class SessionService {
@@ -19,7 +23,7 @@ export class SessionService {
               private filterTableService: FilterTableService) {
   }
 
-  findSessions(pageRequest: PageRequest<Session>, session?: Session): Observable<Page<Session>> {
+  findSessions(pageRequest: PageRequest<Session>): Observable<Page<Session>> {
     return this.authHttp.get('api/sessions', {search: pageRequest.toUrlSearchParams()})
       .map(res => res.json())
       .map(page => this.paginationService.reIndexContent(page))
@@ -31,6 +35,13 @@ export class SessionService {
         }
         return Observable.empty();
       });
+  }
+
+  formToSession(formData: SessionSearchForm): Session {
+    const location = new Location(formData.locationName, formData.locationCity);
+    const trainer = new Employee(null, null, formData.firstName, formData.lastName, null, null);
+    const training = new Training(formData.trainingName, null, formData.trainingDomain);
+    return new Session(formData.start, location, trainer, training);
   }
 
 }

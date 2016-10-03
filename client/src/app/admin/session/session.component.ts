@@ -8,6 +8,7 @@ import {FormGroup} from '@angular/forms';
 import {ViewChild} from '@angular/core/src/metadata/di';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {FormService} from '../../shared/form/form.service';
+import {SessionSearchForm} from './session-search-form';
 
 @Component({
   selector: 'session-component',
@@ -38,12 +39,13 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dtOptions = this.buildTableOptions();
-    this.updateSessions();
     this.initSearchForm();
+    this.updateSessions();
   }
 
   ngOnDestroy() {
     this.sessionSubscription.unsubscribe();
+    this.searchFormSubscription.unsubscribe();
   }
 
   changePage() {
@@ -55,7 +57,8 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   private updateSessions() {
-    this.sessionSubscription = this.sessionService.findSessions(new PageRequest<Session>(this.dtOptions)).subscribe(page => {
+    const pageRequest = new PageRequest<Session>(this.dtOptions, this.sessionService.formToSession(this.searchForm.value));
+    this.sessionSubscription = this.sessionService.findSessions(pageRequest).subscribe(page => {
       this.dtOptions.count = page.totalElements;
       this.sessions = page.content;
     });
@@ -84,7 +87,12 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   private initSearchForm(): void {
-    this.searchForm = this.formService.formBuilder.group({
+    this.searchForm = this.formService.formBuilder.group(this.searchFormObj());
+    this.searchFormSubscription = this.searchForm.valueChanges.debounceTime(500).subscribe(() => this.updateSessions());
+  }
+
+  private searchFormObj(): SessionSearchForm {
+    return {
       start: null,
       trainingName: null,
       trainingDomain: null,
@@ -92,14 +100,12 @@ export class SessionComponent implements OnInit, OnDestroy {
       locationCity: null,
       firstName: null,
       lastName: null
-    });
-    this.searchFormSubscription = this.searchForm.valueChanges.subscribe(formData => console.log(formData));
+    };
   }
 
   set sessions(sessions: Session[]) {
     this._sessions = sessions;
     this.displayedSessions = sessions;
-    this.initSearchForm();
   }
 
   get sessions() {

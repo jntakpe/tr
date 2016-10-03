@@ -1,6 +1,8 @@
 import {URLSearchParams} from '@angular/http';
 import {TableOptions, SortDirection} from 'angular2-data-table';
 
+const flatten = require('flat');
+
 export class PageRequest<T> {
 
   page: number;
@@ -40,9 +42,10 @@ export class PageRequest<T> {
 
   private searchObjToParams(urlSearchParams: URLSearchParams = new URLSearchParams()): URLSearchParams {
     if (this.searchObj) {
-      Object.keys(this.searchObj).forEach(key => {
-        if (this.searchObj[key]) {
-          urlSearchParams.set(key, this.searchObj[key]);
+      const flatSearch = flatten(this.searchObj);
+      Object.keys(flatSearch).forEach(key => {
+        if (flatSearch[key]) {
+          urlSearchParams.set(key, flatSearch[key]);
         }
       });
     }
