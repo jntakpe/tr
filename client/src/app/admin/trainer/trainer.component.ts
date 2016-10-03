@@ -28,8 +28,8 @@ export class TrainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.trainersSubscription = this.trainerService.findAll().subscribe(trainers => this.trainers = trainers);
     this.dtOptions = this.buildTableOptions();
+    this.trainersSubscription = this.trainerService.findAll().subscribe(trainers => this.trainers = trainers);
     this.initSearchForm();
   }
 

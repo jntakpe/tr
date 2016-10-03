@@ -41,9 +41,9 @@ export class TrainingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.dtOptions = this.buildTableOptions();
     this.trainingsSubscription = this.trainingService.findAll().subscribe(trainings => this.trainings = trainings);
     this.domains = this.domainService.findAll();
-    this.dtOptions = this.buildTableOptions();
     this.initSearchForm();
   }
 

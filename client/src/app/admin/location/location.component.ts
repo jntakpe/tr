@@ -38,8 +38,8 @@ export class LocationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.locationsSubscription = this.locationService.findAll().subscribe(locations => this.locations = locations);
     this.dtOptions = this.buildTableOptions();
+    this.locationsSubscription = this.locationService.findAll().subscribe(locations => this.locations = locations);
     this.initSearchForm();
   }
 
