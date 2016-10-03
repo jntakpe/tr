@@ -1,5 +1,47 @@
-<datatable class="bootstrap table-striped table-hover" [rows]="displayedSessions" [options]="dtOptions" (onPageChange)="changePage($event)"
-           (onColumnChange)="sortColumn($event)">
+<div class="panel panel-u search-panel">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-search"></i> Recherche</h3>
+  </div>
+  <div class="panel-body">
+    <form [formGroup]="searchForm">
+      <div class="row">
+        <div class="form-group col-md-1">
+          <label for="search-start">Début</label>
+          <input id="search-start" type="text" class="form-control" placeholder="Début" formControlName="start">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="search-domain">Domaine</label>
+          <input id="search-domain" type="text" class="form-control" placeholder="Domaine" formControlName="trainingDomain">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="search-training">Formation</label>
+          <input id="search-training" type="text" class="form-control" placeholder="Formation" formControlName="trainingName">
+        </div>
+        <div class="form-group col-md-1">
+          <label for="search-city">Ville</label>
+          <input id="search-city" type="text" class="form-control" placeholder="Ville" formControlName="locationCity">
+        </div>
+        <div class="form-group col-md-1">
+          <label for="search-location">Site</label>
+          <input id="search-location" type="text" class="form-control" placeholder="Site" formControlName="locationName">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="search-firstname">Prénom</label>
+          <input id="search-firstname" type="text" class="form-control" placeholder="Prénom" formControlName="firstName">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="search-lastname">Nom</label>
+          <input id="search-lastname" type="text" class="form-control" placeholder="Nom" formControlName="lastName">
+        </div>
+        <div class="col-md-1 reset-search">
+          <button class="btn btn-warning pull-right" type="reset"><i class="fa fa-eraser"></i> Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<datatable class="bootstrap table-striped table-hover" [rows]="displayedSessions" [options]="dtOptions" (onPageChange)="changePage()"
+           (onColumnChange)="sortColumn()">
 </datatable>
 <a class="btn btn-u" [routerLink]="['/admin/sessions']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>
 <template #editRowTmpl let-session="row">
