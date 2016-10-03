@@ -8,10 +8,11 @@ import {FormModule} from '../../shared/form/form.module';
 import {TableModule} from '../../shared/table/table.module';
 import {SessionService} from './session.service';
 import {PaginationModule} from '../../shared/pagination/pagination.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [SessionComponent],
-  imports: [CommonModule, HttpModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule],
+  imports: [CommonModule, HttpModule, RouterModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule],
   exports: [SessionComponent],
   providers: [SessionService]
 })
