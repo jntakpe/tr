@@ -74,9 +74,9 @@ export class LocationService {
 
   private remove(location: Location): Observable<Response> {
     return this.authHttp.delete(`api/locations/${location.id}`)
-      .do(() => this.alertService.success(`La suppression du site de formation ${location.name} de ${location.city} effectuée`))
+      .do(() => this.alertService.success(`La suppression du ${this.locationLabel(location)} effectuée`))
       .catch(() => {
-        this.alertService.error(`Impossible de supprimer le site de formation ${location.name} de ${location.city}`,
+        this.alertService.error(`Impossible de supprimer le ${this.locationLabel(location)}`,
           titleConstants.error.server);
         return Observable.empty();
       });
@@ -85,7 +85,7 @@ export class LocationService {
   private removeMessage(location: Location): Observable<ConstraintsMessage> {
     return this.authHttp.get(`api/locations/${location.id}/constraints`)
       .map(res => {
-        const siteMsg = `le site de formation ${location.name} de ${location.city}`;
+        const siteMsg = `le ${this.locationLabel(location)}`;
         if (res.status === 204) {
           return new ConstraintsMessage(`Êtes-vous sûr de vouloir supprimer ${siteMsg} ?`);
         }
@@ -93,6 +93,10 @@ export class LocationService {
         const msg = `Impossible de supprimer ${siteMsg} car il est utilisé par ${constraints.length > 1 ? 'les sessions' : 'la session'} :`;
         return new ConstraintsMessage(msg, constraints);
       });
+  }
+
+  private locationLabel({name, city}: Location): string {
+    return `site de formation ${name} de ${city}`;
   }
 
 }

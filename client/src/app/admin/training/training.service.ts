@@ -54,7 +54,7 @@ export class TrainingService {
     return this.saveRequest(training)
       .map(res => res.json())
       .do((t: Training) => this.alertService
-        .success(`La formation ${t.name} du domaine ${t.domain} a été ${training.id ? 'modifiée' : 'créée'}`))
+        .success(`La ${this.trainingLabel(training)} a été ${training.id ? 'modifiée' : 'créée'}`))
       .catch((err: Response) => {
         if (err.status === 500) {
           this.alertService.error('Impossible d\'enregistrer la formation', titleConstants.error.server);
@@ -74,9 +74,9 @@ export class TrainingService {
 
   private remove(training: Training): Observable<Response> {
     return this.authHttp.delete(`api/trainings/${training.id}`)
-      .do(() => this.alertService.success(`La suppression de la formation ${training.name} du domaine ${training.domain} effectuée`))
+      .do(() => this.alertService.success(`La suppression de la ${this.trainingLabel(training)} effectuée`))
       .catch(() => {
-        this.alertService.error(`Impossible de supprimer la formation ${training.name} du domaine ${training.domain}`,
+        this.alertService.error(`Impossible de supprimer la ${this.trainingLabel(training)}`,
           titleConstants.error.server);
         return Observable.empty();
       });
@@ -85,7 +85,7 @@ export class TrainingService {
   private removeMessage(training: Training): Observable<ConstraintsMessage> {
     return this.authHttp.get(`api/trainings/${training.id}/constraints`)
       .map(res => {
-        const siteMsg = `la formation ${training.name} du domaine ${training.domain}`;
+        const siteMsg = `la ${this.trainingLabel(training)}`;
         if (res.status === 204) {
           return new ConstraintsMessage(`Êtes-vous sûr de vouloir supprimer ${siteMsg} ?`);
         }
@@ -94,6 +94,10 @@ export class TrainingService {
         const msg = `Impossible de supprimer ${siteMsg} car elle est utilisée par ${sessionText} :`;
         return new ConstraintsMessage(msg, constraints);
       });
+  }
+
+  private trainingLabel({name, domain}: Training): string {
+    return `formation ${name} du domaine ${domain}`;
   }
 
 }
