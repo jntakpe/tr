@@ -9,6 +9,7 @@ import {ViewChild} from '@angular/core/src/metadata/di';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {FormService} from '../../shared/form/form.service';
 import {SessionSearchForm} from './session-search-form';
+import {Page} from '../../shared/pagination/page';
 
 @Component({
   selector: 'session-component',
@@ -57,12 +58,18 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.updateSessions();
   }
 
+  remove(session: Session) {
+    this.sessionSubscription = this.sessionService.removeModal(this.confirmModal, session, this.createPageRequest())
+      .subscribe(page => this.consumePage(page));
+  }
+
   private updateSessions() {
-    const pageRequest = new PageRequest<Session>(this.dtOptions, this.sessionService.formToSession(this.searchForm.value));
-    this.sessionSubscription = this.sessionService.findSessions(pageRequest).subscribe(page => {
-      this.dtOptions.count = page.totalElements;
-      this.sessions = page.content;
-    });
+    this.sessionSubscription = this.sessionService.findSessions(this.createPageRequest()).subscribe(page => this.consumePage(page));
+  }
+
+  private consumePage(page: Page<Session>) {
+    this.dtOptions.count = page.totalElements;
+    this.sessions = page.content;
   }
 
   private buildTableOptions(): TableOptions {
@@ -105,6 +112,10 @@ export class SessionComponent implements OnInit, OnDestroy {
       firstName: null,
       lastName: null
     };
+  }
+
+  private createPageRequest(): PageRequest<Session> {
+    return new PageRequest<Session>(this.dtOptions, this.sessionService.formToSession(this.searchForm.value));
   }
 
   set sessions(sessions: Session[]) {

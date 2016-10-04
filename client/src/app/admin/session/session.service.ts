@@ -13,6 +13,8 @@ import {Location} from '../location/location';
 import {Training} from '../training/training';
 import {Employee} from '../../shared/employee';
 import * as moment from 'moment';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {ConstraintsMessage} from '../../shared/constraint';
 
 @Injectable()
 export class SessionService {
@@ -45,6 +47,32 @@ export class SessionService {
     const trainer = new Employee(null, null, formData.firstName, formData.lastName, null, null);
     const training = new Training(formData.trainingName, null, formData.trainingDomain);
     return new Session(start, location, trainer, training);
+  }
+
+  removeModal(modalInstance: ConfirmModalComponent, session: Session, pageRequest: PageRequest<Session>): Observable<Page<Session>> {
+    return modalInstance.open(this.removeMessage(session), 'Suppression d\'une session de formation')
+      .flatMap(() => this.remove(session))
+      .flatMap(() => this.findSessions(pageRequest))
+      .catch(() => Observable.empty());
+  }
+
+  private remove(session: Session) {
+    return this.authHttp.delete(`api/sessions/${session.id}`)
+      .do(() => this.alertService.success(`La suppression de la ${this.sessionLabel(session)} effectuée`))
+      .catch(() => {
+        this.alertService.error(`Impossible de supprimer la ${this.sessionLabel(session)}`,
+          titleConstants.error.server);
+        return Observable.empty();
+      });
+  }
+
+  private removeMessage(session: Session): ConstraintsMessage {
+    const msg = `Êtes-vous sûr de vouloir supprimer la ${this.sessionLabel(session)} ainsi que les notes associées`;
+    return new ConstraintsMessage(msg);
+  }
+
+  private sessionLabel({training: {name: trainingName}, start}: Session): string {
+    return `session ${trainingName} du ${start}`;
   }
 
 }
