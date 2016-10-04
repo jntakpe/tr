@@ -89,7 +89,10 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   private initSearchForm(): void {
     this.searchForm = this.formService.formBuilder.group(this.searchFormObj());
-    this.searchFormSubscription = this.searchForm.valueChanges.debounceTime(500).subscribe(() => this.updateSessions());
+    this.searchFormSubscription = this.searchForm.valueChanges
+      .debounceTime(500)
+      .do(() => this.dtOptions.offset = 0)
+      .subscribe(() => this.updateSessions());
   }
 
   private searchFormObj(): SessionSearchForm {
