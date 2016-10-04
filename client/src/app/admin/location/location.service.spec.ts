@@ -102,7 +102,7 @@ describe('location service', () => {
       });
     })));
 
-  it('should not get locations and display error message', async(inject([LocationService, MockBackend, AlertService],
+  it('should not get locations and display default error message', async(inject([LocationService, MockBackend, AlertService],
     (locationService: LocationService, mockBackend: MockBackend, alertService: AlertService) => {
       spyOn(alertService, 'defaultErrorMsg');
       mockBackend.connections.subscribe((conn: MockConnection) => {

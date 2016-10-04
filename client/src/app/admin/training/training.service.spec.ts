@@ -103,7 +103,7 @@ describe('training service', () => {
       });
     })));
 
-  it('should not get trainings and display error message', async(inject([TrainingService, MockBackend, AlertService],
+  it('should not get trainings and display default error message', async(inject([TrainingService, MockBackend, AlertService],
     (trainingService: TrainingService, mockBackend: MockBackend, alertService: AlertService) => {
       spyOn(alertService, 'defaultErrorMsg');
       mockBackend.connections.subscribe((conn: MockConnection) => {
