@@ -67,12 +67,12 @@ export class SessionService {
   }
 
   private removeMessage(session: Session): ConstraintsMessage {
-    const msg = `Êtes-vous sûr de vouloir supprimer la ${this.sessionLabel(session)} ainsi que les notes associées`;
+    const msg = `Êtes-vous sûr de vouloir supprimer la ${this.sessionLabel(session)} ainsi que les notes associées ?`;
     return new ConstraintsMessage(msg);
   }
 
-  private sessionLabel({training: {name: trainingName}, start}: Session): string {
-    return `session ${trainingName} du ${start}`;
+  private sessionLabel(session: Session): string {
+    return `session ${session.training.name} du ${session.start}`;
   }
 
 }
