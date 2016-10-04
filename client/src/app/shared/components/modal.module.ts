@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmModalComponent} from './confirm-modal.component';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
-  imports: [NgbModule, CommonModule],
+  imports: [NgbModalModule, CommonModule],
   declarations: [ConfirmModalComponent],
-  exports: [NgbModule, ConfirmModalComponent]
+  exports: [NgbModalModule, ConfirmModalComponent]
 })
 export class ModalModule {
 }

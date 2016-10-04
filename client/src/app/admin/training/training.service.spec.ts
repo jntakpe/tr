@@ -9,12 +9,12 @@ import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {Component, ViewChild, OnInit} from '@angular/core';
 import {Training} from './training';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {SecurityService} from '../../security/security.service';
 import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {TableModule} from '../../shared/table/table.module';
+import {MockSecurityService} from '../../shared/test/test-utils';
+import {ModalModule} from '../../shared/components/modal.module';
 
 describe('training service', () => {
 
@@ -49,22 +49,10 @@ describe('training service', () => {
     }
   }
 
-  class MockSecurityService extends SecurityService {
-
-    isTokenStillValid(token = this.getToken()): boolean {
-      return true;
-    }
-
-    getToken(): any {
-      return {access_token: 'fake'};
-    }
-
-  }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ModalComponent, ConfirmModalComponent],
-      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, TableModule, NgbModalModule, RouterModule.forChild([])],
+      declarations: [ModalComponent],
+      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, TableModule, ModalModule, RouterModule.forChild([])],
       providers: [
         TrainingService,
         AuthHttp,
@@ -94,7 +82,7 @@ describe('training service', () => {
         ]
       })));
     });
-    trainingService.findAll().subscribe((trainings) => {
+    trainingService.findAll().subscribe(trainings => {
       expect(trainings).toBeTruthy();
       expect(trainings instanceof Array).toBeTruthy();
       expect(trainings[0].name).toBe('AngularJS');

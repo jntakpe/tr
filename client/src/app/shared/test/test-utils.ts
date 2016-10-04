@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {MockConnection} from '@angular/http/testing';
 import {ResponseOptions, Response} from '@angular/http';
 import * as _ from 'lodash';
+import {SecurityService} from '../../security/security.service';
 
 export const tokenJson = require('./token-response.json');
 
@@ -18,6 +19,18 @@ export function mockRefreshTokenResponse(connection: MockConnection) {
   expect(connection.request.getBody()).toContain('grant_type=refresh_token');
   expect(connection.request.getBody()).toContain('refresh_token=');
   connection.mockRespond(new Response(new ResponseOptions({body: _.cloneDeep(tokenJson)})));
+}
+
+export class MockSecurityService extends SecurityService {
+
+  isTokenStillValid(token = this.getToken()): boolean {
+    return true;
+  }
+
+  getToken(): any {
+    return {access_token: 'fake'};
+  }
+
 }
 
 @Component({
