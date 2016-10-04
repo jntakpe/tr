@@ -9,11 +9,12 @@ import {TableModule} from '../../shared/table/table.module';
 import {SessionService} from './session.service';
 import {PaginationModule} from '../../shared/pagination/pagination.module';
 import {RouterModule} from '@angular/router';
+import {SessionEditComponent} from './edit/session-edit.component';
 
 @NgModule({
-  declarations: [SessionComponent],
+  declarations: [SessionComponent, SessionEditComponent],
   imports: [CommonModule, HttpModule, RouterModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule],
-  exports: [SessionComponent],
+  exports: [SessionComponent, SessionEditComponent],
   providers: [SessionService]
 })
 export class SessionModule {

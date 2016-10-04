@@ -7,6 +7,7 @@ import {AdminComponent} from './admin.component';
 import {AdminGuard} from './admin-guard.service';
 import {TrainerComponent} from './trainer/trainer.component';
 import {SessionComponent} from './session/session.component';
+import {SessionEditComponent} from './session/edit/session-edit.component';
 
 const locationRoute: Route = {
   path: 'locations',
@@ -36,7 +37,7 @@ const trainerRoute: Route = {
 };
 
 const sessionRoute: Route = {
-  path: 'sessions',
+  path: '',
   component: SessionComponent,
   data: {
     title: 'Sessions',
@@ -44,9 +45,23 @@ const sessionRoute: Route = {
   }
 };
 
+const editSessionRoute: Route = {
+  path: ':id',
+  component: SessionEditComponent,
+  data: {
+    title: 'Édition d\'une session',
+    breadcrumb: [new BreadcrumbsInfo(homeRoute), new BreadcrumbsInfo(sessionRoute)]
+  }
+};
+
+const sessionsRoute: Route = {
+  path: 'sessions',
+  children: [sessionRoute, editSessionRoute]
+};
+
 export const adminRoute: Route = {
   path: 'admin',
   canActivateChild: [AdminGuard],
   component: AdminComponent,
-  children: [locationRoute, trainingRoute, trainerRoute, sessionRoute]
+  children: [locationRoute, trainingRoute, trainerRoute, sessionsRoute]
 };

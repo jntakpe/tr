@@ -12,7 +12,7 @@ const homeRoute: Route = {
   }
 };
 
-const layoutRoutes: Routes = [
+export const layoutRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,

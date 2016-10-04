@@ -49,9 +49,9 @@
 <datatable class="bootstrap table-striped table-hover" [rows]="displayedSessions" [options]="dtOptions" (onPageChange)="changePage()"
            (onColumnChange)="sortColumn()">
 </datatable>
-<a class="btn btn-u" [routerLink]="['/admin/sessions']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>
+<a class="btn btn-u" [routerLink]="['/admin/sessions', '']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>
 <template #editRowTmpl let-session="row">
-  <a class="btn btn-warning btn-xs" [routerLink]="['/admin/sessions']"><i class="fa fa-edit"></i> Modifier</a>
+  <a class="btn btn-warning btn-xs" [routerLink]="['/admin/sessions', session.id]"><i class="fa fa-edit"></i> Modifier</a>
 </template>
 <template #removeRowTmpl let-session="row">
   <button class="btn btn-danger btn-xs" (click)="remove(session)"><i class="fa fa-trash"></i> Supprimer</button>

@@ -1,8 +1,4 @@
-import {Routes, RouterModule} from '@angular/router';
-import {LayoutComponent} from './shared/layout/layout.component';
+import {RouterModule} from '@angular/router';
+import {layoutRoutes} from './shared/layout/layout.routing';
 
-const routes: Routes = [
-  {path: '', component: LayoutComponent}
-];
-
-export const appRouting = RouterModule.forRoot(routes);
+export const appRouting = RouterModule.forRoot(layoutRoutes);
