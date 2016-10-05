@@ -276,38 +276,6 @@ describe('session service', () => {
         titleConstants.error.server);
     })));
 
-  function createFakeResponse(number = 0, totalElements = 3) {
-    return {
-      totalPages: 1,
-      totalElements,
-      first: true,
-      last: false,
-      size: 10,
-      numberOfElements: 3,
-      number,
-      content: [
-        {
-          start: '2016-10-04',
-          location: {name: 'colo1', city: 'Toulouse'},
-          training: {name: 'AngularJS', duration: 3, domain: 'Technologies'},
-          trainer: {login: 'jntakpe', email: 'jocelyn.ntakpe@mail.com', firstName: 'Jocelyn', lastName: 'Ntakpé'}
-        },
-        {
-          start: '2016-10-04',
-          location: {name: 'triangle', city: 'Paris'},
-          training: {name: 'Hibernate', duration: 3, domain: 'Technologies'},
-          trainer: {login: 'gpeel', email: 'gauthier.peel@mail.com', firstName: 'Gauthier', lastName: 'Peel'}
-        },
-        {
-          start: '2015-11-04',
-          location: {name: 'matei', city: 'Paris'},
-          training: {name: 'Spring', duration: 3, domain: 'Technologies'},
-          trainer: {login: 'gpeel', email: 'gauthier.peel@mail.com', firstName: 'Gauthier', lastName: 'Peel'}
-        }
-      ]
-    };
-  }
-
   function createSession(): Session {
     const start = '2016-11-10';
     const location = new Location('Triangle', 'Paris');
@@ -317,3 +285,27 @@ describe('session service', () => {
   }
 
 });
+
+export function createFakeResponse(number = 0, totalElements = 3): Page<Session> {
+  const content = [
+    new Session(
+      '2016-10-04',
+      new Location('colo1', 'Toulouse'),
+      new Employee('jntakpe', 'jntakpe@mail.com', 'Jocelyn', 'Ntakpe', null, null),
+      new Training('AngularJS', 3, 'Technologies')
+    ),
+    new Session(
+      '2016-10-04',
+      new Location('triangle', 'Paris'),
+      new Employee('gpeel', 'gauthier.peel@mail.com', 'Gauthier', 'Peel', null, null),
+      new Training('Hibernate', 3, 'Technologies')
+    ),
+    new Session(
+      '2015-11-04',
+      new Location('matei', 'Paris'),
+      new Employee('gpeel', 'gauthier.peel@mail.com', 'Gauthier', 'Peel', null, null),
+      new Training('Spring', 3, 'Technologies')
+    )
+  ];
+  return new Page(content, 1, totalElements, true, false, 10, 3, null, number);
+}
