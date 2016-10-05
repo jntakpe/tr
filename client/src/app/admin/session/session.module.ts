@@ -10,10 +10,12 @@ import {SessionService} from './session.service';
 import {PaginationModule} from '../../shared/pagination/pagination.module';
 import {RouterModule} from '@angular/router';
 import {SessionEditComponent} from './edit/session-edit.component';
+import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [SessionComponent, SessionEditComponent],
-  imports: [CommonModule, HttpModule, RouterModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule],
+  imports: [CommonModule, HttpModule, RouterModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule,
+    NgbDatepickerModule],
   exports: [SessionComponent, SessionEditComponent],
   providers: [SessionService]
 })

@@ -30,8 +30,9 @@ describe('location component', () => {
     }
 
     removeModal(modalInstance: ConfirmModalComponent, location: Location): Observable<Location[]> {
-      this.locations.pop();
-      return Observable.of(this.locations);
+      const temp = this.locations;
+      temp.pop();
+      return Observable.of(temp);
     }
   }
 

@@ -38,8 +38,9 @@ describe('training component', () => {
     }
 
     removeModal(modalInstance: ConfirmModalComponent, training: Training): Observable<Training[]> {
-      this.trainings.pop();
-      return Observable.of(this.trainings);
+      const temp = this.trainings;
+      temp.pop();
+      return Observable.of(temp);
     }
   }
 

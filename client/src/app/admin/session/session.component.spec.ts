@@ -1,4 +1,4 @@
-import {TestBed, ComponentFixture, async} from '@angular/core/testing';
+import {TestBed, ComponentFixture, async, tick, fakeAsync} from '@angular/core/testing';
 import {SessionComponent} from './session.component';
 import {FormModule} from '../../shared/form/form.module';
 import {TableModule} from '../../shared/table/table.module';
@@ -15,6 +15,7 @@ import {Page} from '../../shared/pagination/page';
 import {SessionSearchForm} from './session-search-form';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {createFakeResponse} from './session.service.spec';
+import {By} from '@angular/platform-browser';
 
 describe('session component', () => {
 
@@ -31,7 +32,9 @@ describe('session component', () => {
     }
 
     removeModal(modalInstance: ConfirmModalComponent, session: Session, pageRequest: PageRequest<Session>): Observable<Page<Session>> {
-      return super.removeModal(modalInstance, session, pageRequest);
+      const sessionsPage: Page<Session> = createFakeResponse();
+      sessionsPage.content.pop();
+      return Observable.of(sessionsPage);
     }
   }
 
@@ -50,6 +53,28 @@ describe('session component', () => {
   it('should create session component', async(() => {
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
+  }));
+
+  it('should display sessions', fakeAsync(() => {
+    fixture.detectChanges();
+    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
+    tick(10);
+    fixture.detectChanges();
+    expect(tbody).toBeTruthy();
+    expect(tbody.children.length).toBe(3);
+  }));
+
+  it('should remove one session from table', fakeAsync(() => {
+    fixture.detectChanges();
+    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
+    tick();
+    fixture.detectChanges();
+    expect(tbody).toBeTruthy();
+    fixture.debugElement.nativeElement.querySelector('button.btn.btn-danger.btn-xs:first-child').click();
+    tick();
+    fixture.detectChanges();
+    tick(500);
+    expect(fixture.componentInstance.displayedSessions.length).toBe(2);
   }));
 
 });
