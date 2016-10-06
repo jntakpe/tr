@@ -1,1 +1,13 @@
-<h1>Session detail</h1>
+<form class="form-horizontal" [formGroup]="sessionForm">
+  <fieldset>
+    <section>
+      <div class="form-group">
+        <label for="start" class="col-md-3 control-label">Date de début de la session</label>
+        <div class="input-group col-md-2">
+          <input id="start" class="form-control" placeholder="yyyy-mm-dd" formControlName="start" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-addon dp-addon" (click)="dp.toggle()"><i class="fa fa-calendar"></i></div>
+        </div>
+      </div>
+    </section>
+  </fieldset>
+</form>
