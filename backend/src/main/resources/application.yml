@@ -28,7 +28,7 @@ api:
 oauth2:
   clientId: trainingrating
   secret: supertrainingratingsecret
-  accessTokenValiditySeconds: 180
+  accessTokenValiditySeconds: 900
   refreshTokenValidityMinutes: 60
   ldapCheckIntervalInHours: 48
   keystoreKey: trainingratingkey
