@@ -11,7 +11,7 @@ import {FormModule} from '../../shared/form/form.module';
 import {SaveTrainingModalComponent} from './modal/save-training-modal.component';
 import {TableModule} from '../../shared/table/table.module';
 import {ModalModule} from '../../shared/components/modal.module';
-import {DomainService} from './domain.service';
+import {DomainService} from '../../shared/domain/domain.service';
 
 describe('training component', () => {
 

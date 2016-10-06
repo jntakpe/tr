@@ -7,7 +7,7 @@ import {TrainingService} from './training.service';
 import {FormService} from '../../shared/form/form.service';
 import {Training} from './training';
 import {SaveTrainingModalComponent} from './modal/save-training-modal.component';
-import {DomainService} from './domain.service';
+import {DomainService} from '../../shared/domain/domain.service';
 
 @Component({
   selector: 'training-component',
