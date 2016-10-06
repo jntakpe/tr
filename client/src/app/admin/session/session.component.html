@@ -17,7 +17,10 @@
         </div>
         <div class="form-group col-md-1">
           <label for="search-domain">Domaine</label>
-          <input id="search-domain" type="text" class="form-control" placeholder="Domaine" formControlName="trainingDomain">
+          <select id="search-domain" class="form-control" formControlName="trainingDomain">
+            <option value="" selected>Choisir un domaine</option>
+            <option *ngFor="let domain of domains | async" [value]="domain">{{domain}}</option>
+          </select>
         </div>
         <div class="form-group col-md-2">
           <label for="search-training">Formation</label>

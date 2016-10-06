@@ -1,7 +1,9 @@
 package com.github.jntakpe.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.Arrays;
 
 /**
  * Énumération des domaines de formation
@@ -10,34 +12,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public enum Domain {
 
-    @JsonProperty("Fondamentaux groupe")
-    FONDAMENDAUX_GROUPE,
+    FONDAMENDAUX_GROUPE("Fondamentaux groupe"),
 
-    @JsonProperty("Management")
-    MANAGEMENT,
+    MANAGEMENT("Management"),
 
-    @JsonProperty("Stratégie et offres")
-    STRATEGIE_OFFRES,
+    STRATEGIE_OFFRES("Stratégie et offres"),
 
-    @JsonProperty("Commerce")
-    COMMERCE,
+    COMMERCE("Commerce"),
 
-    @JsonProperty("Comportement")
-    COMPORTEMENT,
+    COMPORTEMENT("Comportement"),
 
-    @JsonProperty("Méthode, qualité et sécurité")
-    METHODE_QUALITE_SECURITE,
+    METHODE_QUALITE_SECURITE("Méthode, qualité et sécurité"),
 
-    @JsonProperty("Métiers et secteurs")
-    METIERS_SECTEURS,
+    METIERS_SECTEURS("Métiers et secteurs"),
 
-    @JsonProperty("Technologies")
-    TECHNOLOGIES,
+    TECHNOLOGIES("Technologies"),
 
-    @JsonProperty("Solutions")
-    SOLUTIONS,
+    SOLUTIONS("Solutions"),
 
-    @JsonProperty("Langues et bureautique")
-    LANGUES_BUREAUTIQUE
+    LANGUES_BUREAUTIQUE("Langues et bureautique");
+
+    private final String libelle;
+
+    Domain(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public static Domain fromLibelle(String libelle) {
+        return Arrays.stream(Domain.values())
+                .filter(d -> d.getLibelle().equals(libelle))
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No domain value for libelle : " + libelle));
+    }
+
+    @JsonValue
+    public String getLibelle() {
+        return libelle;
+    }
 
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy, TemplateRef} from '@angular/core';
 import {SessionService} from './session.service';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {Session} from '../../session/session';
 import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
 import {PageRequest} from '../../shared/pagination/page-request';
@@ -10,6 +10,7 @@ import {ConfirmModalComponent} from '../../shared/components/confirm-modal.compo
 import {FormService} from '../../shared/form/form.service';
 import {SessionSearchForm} from './session-search-form';
 import {Page} from '../../shared/pagination/page';
+import {DomainService} from '../training/domain.service';
 
 @Component({
   selector: 'session-component',
@@ -34,15 +35,18 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   searchFormSubscription: Subscription;
 
+  domains: Observable<string[]>;
+
   private _sessions: Session[] = [];
 
-  constructor(private sessionService: SessionService, private formService: FormService) {
+  constructor(private sessionService: SessionService, private formService: FormService, private domainService: DomainService) {
   }
 
   ngOnInit() {
     this.dtOptions = this.buildTableOptions();
     this.initSearchForm();
     this.updateSessions();
+    this.domains = this.domainService.findAll();
   }
 
   ngOnDestroy() {
@@ -106,7 +110,7 @@ export class SessionComponent implements OnInit, OnDestroy {
     return {
       start: null,
       trainingName: null,
-      trainingDomain: null,
+      trainingDomain: '',
       locationName: null,
       locationCity: null,
       firstName: null,
