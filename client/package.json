@@ -22,6 +22,7 @@
     "@angular/router": "3.0.1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.6",
     "angular2-data-table": "0.7.3",
+    "angular2-select": "^1.0.0-alpha.9",
     "bootstrap-sass": "^3.3.7",
     "core-js": "^2.4.1",
     "flat": "^2.0.1",
