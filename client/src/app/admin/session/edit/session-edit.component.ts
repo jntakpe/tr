@@ -6,12 +6,17 @@ import {Subscription} from 'rxjs';
 import {Session} from '../../../session/session';
 import {FormField} from '../../../shared/form/form-field';
 import {FormMessages} from '../../../shared/form/form-messages';
+import {SelectEntry} from '../../../shared/select-entry';
 
 @Component({
   selector: 'session-edit-component',
   template: require('./session-edit.component.html')
 })
 export class SessionEditComponent implements OnInit, OnDestroy {
+
+  trainings: SelectEntry[] = [];
+
+  trainingsSubscription: Subscription;
 
   session: Session;
 
@@ -29,9 +34,11 @@ export class SessionEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const formMessages = this.initForm();
     this.sessionForm = formMessages.formGroup;
+    this.trainingsSubscription = this.sessionService.findAllTrainings().subscribe(trainings => this.trainings = trainings);
   }
 
   ngOnDestroy() {
+    this.trainingsSubscription.unsubscribe();
   }
 
   private initForm(): FormMessages {
@@ -41,13 +48,13 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       start: new FormField([this.session ? this.session.start : null, Validators.required], {
         required: 'La saisie de la date début de la session est obligatoire'
       }),
-      location: new FormField([this.session ? this.session.location && this.session.location.name : null, Validators.required], {
+      location: new FormField([this.session ? this.session.location && this.session.location.id : null, Validators.required], {
         required: 'La saisie du site de formation est obligatoire'
       }),
-      trainer: new FormField([this.session ? this.session.trainer && this.session.trainer.login : null, Validators.required], {
+      trainer: new FormField([this.session ? this.session.trainer && this.session.trainer.id : null, Validators.required], {
         required: 'La saisie du formateur est obligatoire'
       }),
-      training: new FormField([this.session ? this.session.training && this.session.training.name : null, Validators.required], {
+      training: new FormField([this.session ? this.session.training && this.session.training.id : null, Validators.required], {
         required: 'La saisie de la formation est obligatoire'
       })
     });

@@ -10,7 +10,7 @@ import {ConfirmModalComponent} from '../../shared/components/confirm-modal.compo
 import {FormService} from '../../shared/form/form.service';
 import {SessionSearchForm} from './session-search-form';
 import {Page} from '../../shared/pagination/page';
-import {DomainService} from '../training/domain.service';
+import {DomainService} from '../../shared/domain/domain.service';
 
 @Component({
   selector: 'session-component',

@@ -13,13 +13,16 @@ import {Employee} from '../../shared/employee';
 import * as moment from 'moment';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {ConstraintsMessage} from '../../shared/constraint';
+import {TrainingService} from '../training/training.service';
+import {SelectEntry} from '../../shared/select-entry';
 
 @Injectable()
 export class SessionService {
 
   constructor(private authHttp: AuthHttp,
               private alertService: AlertService,
-              private paginationService: PaginationService) {
+              private paginationService: PaginationService,
+              private trainingService: TrainingService) {
   }
 
   findSessions(pageRequest: PageRequest<Session>): Observable<Page<Session>> {
@@ -50,6 +53,10 @@ export class SessionService {
       .flatMap(() => this.remove(session))
       .flatMap(() => this.findSessions(pageRequest))
       .catch(() => Observable.empty());
+  }
+
+  findAllTrainings(): Observable<SelectEntry[]> {
+    return this.trainingService.findAll().map((trainings: Training[]) => trainings.map(t => new SelectEntry(t.id, t.name)));
   }
 
   private remove(session: Session) {
