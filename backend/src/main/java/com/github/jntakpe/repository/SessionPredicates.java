@@ -1,6 +1,13 @@
 package com.github.jntakpe.repository;
 
-import com.github.jntakpe.model.*;
+import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.Location;
+import com.github.jntakpe.model.QEmployee;
+import com.github.jntakpe.model.QLocation;
+import com.github.jntakpe.model.QSession;
+import com.github.jntakpe.model.QTraining;
+import com.github.jntakpe.model.Session;
+import com.github.jntakpe.model.Training;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
@@ -8,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.LocalDate;
 
 /**
- * Predicats permettant de filtrer les {@link Session}
+ * Predicates permettant de filtrer les {@link Session}
  *
  * @author jntakpe
  */
