@@ -1,5 +1,5 @@
 import {URLSearchParams} from '@angular/http';
-import {TableOptions, SortDirection} from 'angular2-data-table';
+import {SortDirection} from 'angular2-data-table';
 
 const flatten = require('flat');
 
@@ -13,7 +13,7 @@ export class PageRequest<T> {
 
   column: string;
 
-  constructor({offset: page = 0, limit: size = 10, sorts}: TableOptions, public searchObj?: T) {
+  constructor({offset: page = 0, limit: size = 10, sorts}: any, public searchObj?: T) {
     this.page = page;
     this.size = size;
     if (sorts && sorts.length) {

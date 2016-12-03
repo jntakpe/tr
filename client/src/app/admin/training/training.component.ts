@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, TemplateRef, OnDestroy} from '@angular/core';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
+import {ColumnMode} from 'angular2-data-table';
 import {Subscription, Observable} from 'rxjs';
 import {FormGroup} from '@angular/forms';
 import {TrainingService} from './training.service';
@@ -25,7 +25,7 @@ export class TrainingComponent implements OnInit, OnDestroy {
 
   displayedTrainings: Training[] = [];
 
-  dtOptions: TableOptions;
+  dtOptions: any;
 
   searchForm: FormGroup;
 
@@ -61,22 +61,22 @@ export class TrainingComponent implements OnInit, OnDestroy {
       .subscribe(trainings => this.trainings = trainings);
   }
 
-  private buildTableOptions(): TableOptions {
-    return new TableOptions({
+  private buildTableOptions() {
+    return {
       reorderable: false,
       footerHeight: 50,
       columnMode: ColumnMode.force,
       rowHeight: 'auto',
       limit: 10,
       columns: [
-        new TableColumn({name: 'Nom', prop: 'name'}),
-        new TableColumn({name: 'Domaine', prop: 'domain'}),
-        new TableColumn({name: 'Durée', prop: 'duration'}),
-        new TableColumn({name: 'Nombre de sessions', prop: 'nbSessions'}),
-        new TableColumn({name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false}),
-        new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false})
+        {name: 'Nom', prop: 'name'},
+        {name: 'Domaine', prop: 'domain'},
+        {name: 'Durée', prop: 'duration'},
+        {name: 'Nombre de sessions', prop: 'nbSessions'},
+        {name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false},
+        {name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false}
       ]
-    });
+    };
   }
 
   private initSearchForm(): void {

@@ -3,7 +3,7 @@ import {LocationService} from './location.service';
 import {Location} from './location';
 import {FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
+import { ColumnMode} from 'angular2-data-table';
 import {FormService} from '../../shared/form/form.service';
 import {SaveLocationModalComponent} from './modal/save-location-modal.component';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
@@ -24,7 +24,7 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   displayedLocations: Location[] = [];
 
-  dtOptions: TableOptions;
+  dtOptions: any;
 
   locationsSubscription: Subscription;
 
@@ -57,21 +57,21 @@ export class LocationComponent implements OnInit, OnDestroy {
       .subscribe(locations => this.locations = locations);
   }
 
-  private buildTableOptions(): TableOptions {
-    return new TableOptions({
+  private buildTableOptions() {
+    return {
       reorderable: false,
       footerHeight: 50,
       columnMode: ColumnMode.force,
       rowHeight: 'auto',
       limit: 10,
       columns: [
-        new TableColumn({name: 'Nom du site', prop: 'name'}),
-        new TableColumn({name: 'Ville', prop: 'city'}),
-        new TableColumn({name: 'Nombre de sessions', prop: 'nbSessions'}),
-        new TableColumn({name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false}),
-        new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false})
+        {name: 'Nom du site', prop: 'name'},
+        {name: 'Ville', prop: 'city'},
+        {name: 'Nombre de sessions', prop: 'nbSessions'},
+        {name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false},
+        {name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false}
       ]
-    });
+    };
   }
 
   private initSearchForm(): void {

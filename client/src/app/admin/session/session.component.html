@@ -49,7 +49,14 @@
     </form>
   </div>
 </div>
-<datatable class="bootstrap table-striped table-hover" [rows]="displayedSessions" [options]="dtOptions" (onPageChange)="changePage()"
+<datatable class="bootstrap table-striped table-hover" [rows]="displayedSessions"
+           [columns]="dtOptions.columns"
+           [reorderable]="dtOptions.reorderable"
+           [footerHeight]="dtOptions.footerHeight"
+           [columnMode]="dtOptions.columnMode"
+           [rowHeight]="dtOptions.rowHeight"
+           [limit]="dtOptions.limit"
+           (onPageChange)="changePage()"
            (onColumnChange)="sortColumn()">
 </datatable>
 <a class="btn btn-u" [routerLink]="['/admin/sessions', '']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>

@@ -2,7 +2,7 @@ import {OnInit, OnDestroy, Component} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {TrainerService} from './trainer.service';
 import {Trainer} from './trainer';
-import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
+import {ColumnMode} from 'angular2-data-table';
 import {FormGroup} from '@angular/forms';
 import {FormService} from '../../shared/form/form.service';
 
@@ -14,7 +14,7 @@ export class TrainerComponent implements OnInit, OnDestroy {
 
   displayedTrainers: Trainer[] = [];
 
-  dtOptions: TableOptions;
+  dtOptions: any;
 
   trainersSubscription: Subscription;
 
@@ -37,20 +37,20 @@ export class TrainerComponent implements OnInit, OnDestroy {
     this.trainersSubscription.unsubscribe();
   }
 
-  private buildTableOptions(): TableOptions {
-    return new TableOptions({
+  private buildTableOptions() {
+    return {
       reorderable: false,
       footerHeight: 50,
       columnMode: ColumnMode.force,
       rowHeight: 'auto',
       limit: 10,
       columns: [
-        new TableColumn({name: 'Login', prop: 'login'}),
-        new TableColumn({name: 'Email', prop: 'email'}),
-        new TableColumn({name: 'Prénom', prop: 'firstName'}),
-        new TableColumn({name: 'Nom', prop: 'lastName'})
+        {name: 'Login', prop: 'login'},
+        {name: 'Email', prop: 'email'},
+        {name: 'Prénom', prop: 'firstName'},
+        {name: 'Nom', prop: 'lastName'}
       ]
-    });
+    };
   }
 
   private initSearchForm(): void {

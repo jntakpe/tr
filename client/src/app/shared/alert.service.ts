@@ -1,17 +1,10 @@
-import {Injectable} from '@angular/core';
-import * as toastr from 'toastr';
+import {Injectable, ViewContainerRef} from '@angular/core';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class AlertService {
 
-  toastr: Toastr;
-
-  constructor() {
-    this.toastr = toastr;
-    this.toastr.options = {
-      progressBar: true,
-      closeButton: true
-    };
+  constructor(public toastr: ToastsManager) {
   }
 
   info(message: string, title?: string) {

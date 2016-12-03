@@ -27,7 +27,15 @@
     </form>
   </div>
 </div>
-<datatable class="bootstrap table-striped table-hover" [rows]="displayedTrainings" [options]="dtOptions"></datatable>
+<datatable class="bootstrap table-striped table-hover"
+           [rows]="displayedTrainings"
+           [columns]="dtOptions.columns"
+           [reorderable]="dtOptions.reorderable"
+           [footerHeight]="dtOptions.footerHeight"
+           [columnMode]="dtOptions.columnMode"
+           [rowHeight]="dtOptions.rowHeight"
+           [limit]="dtOptions.limit"
+></datatable>
 <button id="add-modal" class="btn btn-u" (click)="openSaveModal()"><i class="fa fa-plus"></i> Ajouter une formation</button>
 <template #editRowTmpl let-training="row">
   <button class="btn btn-warning btn-xs" (click)="openSaveModal(training)"><i class="fa fa-edit"></i> Modifier</button>

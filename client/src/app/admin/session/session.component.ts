@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy, TemplateRef} from '@angular/core';
 import {SessionService} from './session.service';
 import {Subscription, Observable} from 'rxjs';
 import {Session} from '../../session/session';
-import {TableOptions, ColumnMode, TableColumn} from 'angular2-data-table';
+import {ColumnMode} from 'angular2-data-table';
 import {PageRequest} from '../../shared/pagination/page-request';
 import {FormGroup} from '@angular/forms';
 import {ViewChild} from '@angular/core/src/metadata/di';
@@ -29,7 +29,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   sessionSubscription: Subscription;
 
-  dtOptions: TableOptions;
+  dtOptions: any;
 
   searchForm: FormGroup;
 
@@ -76,8 +76,8 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.sessions = page.content;
   }
 
-  private buildTableOptions(): TableOptions {
-    return new TableOptions({
+  private buildTableOptions(){
+    return{
       externalPaging: true,
       reorderable: false,
       footerHeight: 50,
@@ -85,17 +85,17 @@ export class SessionComponent implements OnInit, OnDestroy {
       rowHeight: 'auto',
       limit: 10,
       columns: [
-        new TableColumn({name: 'Début', prop: 'start', width: 150}),
-        new TableColumn({name: 'Domaine', prop: 'training.domain', width: 150}),
-        new TableColumn({name: 'Formation', prop: 'training.name', width: 150}),
-        new TableColumn({name: 'Ville', prop: 'location.city', width: 80}),
-        new TableColumn({name: 'Site', prop: 'location.name', width: 80}),
-        new TableColumn({name: 'Prénom', prop: 'trainer.firstName', width: 100}),
-        new TableColumn({name: 'Nom', prop: 'trainer.lastName', width: 100}),
-        new TableColumn({name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false, width: 80}),
-        new TableColumn({name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false, width: 120})
+        {name: 'Début', prop: 'start', width: 150},
+        {name: 'Domaine', prop: 'training.domain', width: 150},
+        {name: 'Formation', prop: 'training.name', width: 150},
+        {name: 'Ville', prop: 'location.city', width: 80},
+        {name: 'Site', prop: 'location.name', width: 80},
+        {name: 'Prénom', prop: 'trainer.firstName', width: 100},
+        {name: 'Nom', prop: 'trainer.lastName', width: 100},
+        {name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false, width: 80},
+        {name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false, width: 120}
       ]
-    });
+    };
   }
 
   private initSearchForm(): void {
