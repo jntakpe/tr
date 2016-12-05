@@ -31,7 +31,7 @@ describe('confirm modal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ConfirmModalComponent, TestComponent],
-      imports: [NgbModalModule]
+      imports: [NgbModalModule.forRoot()]
     });
     fixture = TestBed.createComponent(TestComponent);
   });

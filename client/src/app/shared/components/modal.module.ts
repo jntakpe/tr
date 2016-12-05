@@ -4,7 +4,7 @@ import {ConfirmModalComponent} from './confirm-modal.component';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
-  imports: [NgbModalModule, CommonModule],
+  imports: [NgbModalModule.forRoot(), CommonModule],
   declarations: [ConfirmModalComponent],
   exports: [NgbModalModule, ConfirmModalComponent]
 })

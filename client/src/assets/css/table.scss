@@ -131,12 +131,12 @@
         .datatable-body,
         .datatable-footer {
           .datatable-header-cell:first-child,
-          .datatable-body-cell:first-child
+          .datatable-body-cell:first-child,
           .datatable-footer-cell:first-child {
             border-left: 0;
           }
           .datatable-header-cell:last-child,
-          .datatable-body-cell:last-child
+          .datatable-body-cell:last-child,
           .datatable-footer-cell:last-child {
             border-right: 0;
           }
@@ -145,7 +145,7 @@
         .datatable-footer {
           .datatable-body-row:last-child,
           .datatable-footer-row:last-child {
-            .datatable-body-cell
+            .datatable-body-cell,
             .datatable-footer-cell {
               border-bottom: 0;
             }

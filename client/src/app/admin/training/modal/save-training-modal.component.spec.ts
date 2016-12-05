@@ -1,7 +1,7 @@
 import {TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {SaveTrainingModalComponent} from './save-training-modal.component';
 import {FormModule} from '../../../shared/form/form.module';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {ComponentFixture} from '@angular/core/testing/component_fixture';
 import {TrainingService} from '../training.service';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
@@ -48,7 +48,8 @@ describe('save modal component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent, SaveTrainingModalComponent],
-      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, FormModule, TableModule, NgbModule, RouterModule.forChild([])],
+      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, FormModule, TableModule, NgbModule, NgbModalModule.forRoot(),
+        RouterModule.forChild([])],
       providers: [
         TrainingService,
         AlertService,

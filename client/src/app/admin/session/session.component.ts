@@ -76,8 +76,8 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.sessions = page.content;
   }
 
-  private buildTableOptions(){
-    return{
+  private buildTableOptions() {
+    return {
       externalPaging: true,
       reorderable: false,
       footerHeight: 50,

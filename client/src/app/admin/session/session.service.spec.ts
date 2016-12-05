@@ -14,7 +14,6 @@ import {MockSecurityService} from '../../shared/test/test-utils';
 import {SessionService} from './session.service';
 import {PaginationService} from '../../shared/pagination/pagination.service';
 import {PageRequest} from '../../shared/pagination/page-request';
-import {TableOptions} from 'angular2-data-table';
 import {Page} from '../../shared/pagination/page';
 import {Session} from '../../session/session';
 import {Component} from '@angular/core/src/metadata/directives';
@@ -22,6 +21,8 @@ import {ViewChild} from '@angular/core/src/metadata/di';
 import {Employee} from '../../shared/employee';
 import {Training} from '../training/training';
 import {Location} from '../location/location';
+import {TrainingService} from '../training/training.service';
+import {TrainingModule} from '../training/training.module';
 
 describe('session service', () => {
 
@@ -46,13 +47,14 @@ describe('session service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ModalComponent],
-      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, TableModule, ModalModule, RouterModule.forChild([])],
+      imports: [TrainingModule, HttpModule, ReactiveFormsModule, RouterTestingModule, TableModule, ModalModule, RouterModule.forChild([])],
       providers: [
         SessionService,
         PaginationService,
         AuthHttp,
         AlertService,
         NavigationService,
+        TrainingService,
         MockBackend,
         BaseRequestOptions,
         {
@@ -76,7 +78,7 @@ describe('session service', () => {
           body: createFakeResponse()
         })));
       });
-      sessionService.findSessions(new PageRequest<Session>(new TableOptions({}))).subscribe((page: Page<Session>) => {
+      sessionService.findSessions(new PageRequest<Session>({})).subscribe((page: Page<Session>) => {
         expect(page).toBeTruthy();
         expect(page.content.length).toBe(3);
         expect(page.content[0].location.name).toBe('colo1');
@@ -91,7 +93,7 @@ describe('session service', () => {
         error['status'] = 500;
         conn.mockError(error);
       });
-      sessionService.findSessions(new PageRequest<Session>(new TableOptions({}))).subscribe(() => fail('error sessions response'), () => {
+      sessionService.findSessions(new PageRequest<Session>({})).subscribe(() => fail('error sessions response'), () => {
         expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des sessions depuis le serveur',
           titleConstants.error.server);
       });
@@ -105,7 +107,7 @@ describe('session service', () => {
         error['status'] = 400;
         conn.mockError(error);
       });
-      sessionService.findSessions(new PageRequest<Session>(new TableOptions({}))).subscribe(() => fail('error sessions response'), () => {
+      sessionService.findSessions(new PageRequest<Session>({})).subscribe(() => fail('error sessions response'), () => {
         expect(alertService.defaultErrorMsg).toHaveBeenCalled();
       });
     })));
@@ -117,7 +119,7 @@ describe('session service', () => {
           body: createFakeResponse(1, 13)
         })));
       });
-      sessionService.findSessions(new PageRequest<Session>(new TableOptions({}))).subscribe((page: Page<Session>) => {
+      sessionService.findSessions(new PageRequest<Session>({})).subscribe((page: Page<Session>) => {
         expect(page).toBeTruthy();
         expect(page.content.length).toBe(13);
         expect(page.content[0]).toBeFalsy();
@@ -194,7 +196,7 @@ describe('session service', () => {
           })));
         }
       });
-      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>(new TableOptions({})))
+      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>({}))
         .subscribe(page => pageSession = page, err => fail('should empty'));
       fixture.detectChanges();
       tick();
@@ -228,7 +230,7 @@ describe('session service', () => {
           })));
         }
       });
-      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>(new TableOptions({})))
+      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>({}))
         .subscribe(() => fail('should fail'), () => fail('should empty'));
       fixture.detectChanges();
       tick();
@@ -262,7 +264,7 @@ describe('session service', () => {
           })));
         }
       });
-      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>(new TableOptions({})))
+      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>({}))
         .subscribe(() => fail('should fail'), () => fail('should empty'));
       fixture.detectChanges();
       tick();
