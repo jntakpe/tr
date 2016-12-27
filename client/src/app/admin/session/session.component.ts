@@ -92,8 +92,8 @@ export class SessionComponent implements OnInit, OnDestroy {
         {name: 'Site', prop: 'location.name', width: 80},
         {name: 'Prénom', prop: 'trainer.firstName', width: 100},
         {name: 'Nom', prop: 'trainer.lastName', width: 100},
-        {name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false, width: 80},
-        {name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false, width: 120}
+        {name: 'Modifier', cellTemplate: this.editRowTmpl, sortable: false, canAutoResize: false, width: 80},
+        {name: 'Supprimer', cellTemplate: this.removeRowTmpl, sortable: false, canAutoResize: false, width: 120}
       ]
     };
   }

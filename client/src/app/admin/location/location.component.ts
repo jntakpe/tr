@@ -68,8 +68,8 @@ export class LocationComponent implements OnInit, OnDestroy {
         {name: 'Nom du site', prop: 'name'},
         {name: 'Ville', prop: 'city'},
         {name: 'Nombre de sessions', prop: 'nbSessions'},
-        {name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false},
-        {name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false}
+        {name: 'Modifier', cellTemplate: this.editRowTmpl, sortable: false, canAutoResize: false},
+        {name: 'Supprimer', cellTemplate: this.removeRowTmpl, sortable: false, canAutoResize: false}
       ]
     };
   }

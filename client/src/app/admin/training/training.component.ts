@@ -73,8 +73,8 @@ export class TrainingComponent implements OnInit, OnDestroy {
         {name: 'Domaine', prop: 'domain'},
         {name: 'Durée', prop: 'duration'},
         {name: 'Nombre de sessions', prop: 'nbSessions'},
-        {name: 'Modifier', template: this.editRowTmpl, sortable: false, canAutoResize: false},
-        {name: 'Supprimer', template: this.removeRowTmpl, sortable: false, canAutoResize: false}
+        {name: 'Modifier', cellTemplate: this.editRowTmpl, sortable: false, canAutoResize: false},
+        {name: 'Supprimer', cellTemplate: this.removeRowTmpl, sortable: false, canAutoResize: false}
       ]
     };
   }
