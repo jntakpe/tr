@@ -7,6 +7,8 @@ import {Session} from '../../../session/session';
 import {FormField} from '../../../shared/form/form-field';
 import {FormMessages} from '../../../shared/form/form-messages';
 import {SelectEntry} from '../../../shared/select-entry';
+import {TrainerService} from "../../trainer/trainer.service";
+import {LocationService} from "../../location/location.service";
 
 @Component({
   selector: 'session-edit-component',
@@ -18,23 +20,35 @@ export class SessionEditComponent implements OnInit, OnDestroy {
 
   trainingsSubscription: Subscription;
 
+  locations : SelectEntry[] = [];
+
+  locationsSubscription: Subscription;
+
+  trainers: SelectEntry[] = [];
+
+  trainersSubscription: Subscription;
+
   session: Session;
 
   sessionForm: FormGroup;
 
   sessionFormSubscription: Subscription;
 
+
+
   formErrors: {[key: string]: string} = {};
 
   creation: boolean;
 
-  constructor(private sessionService: SessionService, private formService: FormService) {
+  constructor(private sessionService: SessionService, private formService: FormService, private trainerService: TrainerService, private locationService: LocationService) {
   }
 
   ngOnInit() {
     const formMessages = this.initForm();
     this.sessionForm = formMessages.formGroup;
     this.trainingsSubscription = this.sessionService.findAllTrainings().subscribe(trainings => this.trainings = trainings);
+    this.locationsSubscription = this.locationService.findAllLocations().subscribe(locations => this.locations = locations);
+    this.trainersSubscription = this.trainerService.findAllTrainers().subscribe(trainers => this.trainers = trainers);
   }
 
   ngOnDestroy() {

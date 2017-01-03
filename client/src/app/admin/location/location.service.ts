@@ -9,6 +9,7 @@ import {Response} from '@angular/http';
 import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
 import {ConstraintsMessage} from '../../shared/constraint';
 import {FilterTableService} from '../../shared/table/filter-table.service';
+import {SelectEntry} from "../../shared/select-entry";
 
 @Injectable()
 export class LocationService {
@@ -28,6 +29,10 @@ export class LocationService {
       }
       return Observable.empty();
     });
+  }
+
+  findAllLocations(): Observable<SelectEntry[]> {
+    return this.findAll().map((locations: Location[]) => locations.map(t => new SelectEntry(t.id, t.name)));
   }
 
   saveModal(modalContent: TemplateRef<any>, location: Location = Location.EMPTY_TRAINING): Observable<Location[]> {
