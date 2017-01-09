@@ -4,7 +4,8 @@
       <div class="form-group">
         <label for="start" class="col-md-3 control-label">Date de début de la session</label>
         <div class="input-group col-md-2">
-          <input id="start" class="form-control" placeholder="yyyy-mm-dd" formControlName="start" ngbDatepicker #dp="ngbDatepicker">
+          {{session.start}}
+          <input id="start" name="start" class="form-control" placeholder="yyyy-mm-dd" formControlName="start" ngbDatepicker #dp="ngbDatepicker">
           <div class="input-group-addon dp-addon" (click)="dp.toggle()"><i class="fa fa-calendar"></i></div>
         </div>
       </div>
@@ -13,7 +14,8 @@
       <div class="form-group">
         <label for="location" class="col-md-3 control-label">Lieu</label>
         <div class="input-group col-md-2">
-          <ng-select id="location" formControlName="location" [options]="locations"></ng-select>
+          {{session.location?.id}}
+          <ng-select id="location" name="location" formControlName="location"   [(ngModel)]="binding"  (selected)="selected($event)" [options]="locations"></ng-select>
         </div>
       </div>
     </section>
@@ -21,7 +23,8 @@
       <div class="form-group">
         <label for="trainer" class="col-md-3 control-label">Formateur</label>
         <div class="input-group col-md-2">
-          <ng-select id="trainer" formControlName="trainer" [options]="trainers"></ng-select>
+          {{session.trainer?.id}}
+          <ng-select id="trainer" name="trainer" formControlName="trainer" [(ngModel)]="binding" [options]="trainers"></ng-select>
         </div>
       </div>
     </section>
@@ -29,9 +32,16 @@
       <div class="form-group">
         <label for="training" class="col-md-3 control-label">Formation</label>
         <div class="input-group col-md-2">
-          <ng-select id="training" formControlName="training" [options]="trainings"></ng-select>
+          {{session.training?.id}}
+          <ng-select id="training" name="training" formControlName="training" [(ngModel)]="binding" [options]="trainings"></ng-select>
         </div>
       </div>
     </section>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning"><i class="fa fa-remove"></i> Annuler</button>
+      <button type="submit" class="btn btn-u" (click)="binding=[1]">
+        <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
+      </button>
+    </div>
   </fieldset>
 </form>

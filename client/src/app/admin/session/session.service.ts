@@ -39,6 +39,17 @@ export class SessionService {
       });
   }
 
+  findSession(id : number): Observable<Session>{
+    return this.authHttp.get(`api/sessions/${id}`).map(res => res.json()).catch(err => {
+      if (err.status === 500) {
+        this.alertService.error('Impossible de récupérer la session depuis le serveur', titleConstants.error.server);
+      } else {
+        this.alertService.defaultErrorMsg();
+      }
+      return Observable.empty();
+    });
+  }
+
   formToSession(formData: SessionSearchForm): Session {
     const start = formData.start &&
       moment({year: formData.start.year, month: formData.start.month - 1, day: formData.start.day}).format('YYYY-MM-DD');

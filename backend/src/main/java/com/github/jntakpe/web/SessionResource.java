@@ -33,6 +33,12 @@ public class SessionResource {
     public Page<Session> findAll(PageDTO page, Session session) {
         return sessionService.findWithPredicate(page.toPageRequest(), session);
     }
+    
+    @RolesAllowed(AuthoritiesConstants.ADMIN)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Session findById(@PathVariable Long id){
+        return sessionService.findById(id);
+    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed(AuthoritiesConstants.ADMIN)

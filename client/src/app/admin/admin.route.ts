@@ -8,6 +8,7 @@ import {AdminGuard} from './admin-guard.service';
 import {TrainerComponent} from './trainer/trainer.component';
 import {SessionComponent} from './session/session.component';
 import {SessionEditComponent} from './session/edit/session-edit.component';
+import {SessionResolve} from "./session/session.resolve";
 
 const locationRoute: Route = {
   path: 'locations',
@@ -51,6 +52,9 @@ const editSessionRoute: Route = {
   data: {
     title: 'Édition d\'une session',
     breadcrumb: [new BreadcrumbsInfo(homeRoute), new BreadcrumbsInfo(sessionRoute)]
+  },
+  resolve: {
+    sessionToEdit: SessionResolve
   }
 };
 
