@@ -1,16 +1,16 @@
-import {TestBed, async, fakeAsync, tick} from '@angular/core/testing';
-import {LocationComponent} from './location.component';
-import {LocationService} from './location.service';
-import {Observable} from 'rxjs';
-import {By} from '@angular/platform-browser';
-import {Location} from './location';
-import {TemplateRef} from '@angular/core';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {FormModule} from '../../shared/form/form.module';
-import {SaveLocationModalComponent} from './modal/save-location-modal.component';
-import {TableModule} from '../../shared/table/table.module';
-import {ModalModule} from '../../shared/components/modal.module';
+import { TestBed, async } from '@angular/core/testing';
+import { LocationComponent } from './location.component';
+import { LocationService } from './location.service';
+import { Observable } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { Location } from './location';
+import { TemplateRef } from '@angular/core';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import { FormModule } from '../../shared/form/form.module';
+import { SaveLocationModalComponent } from './modal/save-location-modal.component';
+import { TableModule } from '../../shared/table/table.module';
+import { ModalModule } from '../../shared/components/modal.module';
 
 describe('location component', () => {
 
@@ -52,39 +52,26 @@ describe('location component', () => {
     expect(fixture.componentInstance).toBeTruthy();
   }));
 
-  it('should display locations', fakeAsync(() => {
+  it('should display locations', async(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
-    tick(10);
+    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
     fixture.detectChanges();
     expect(tbody).toBeTruthy();
     expect(tbody.children.length).toBe(2);
   }));
 
-  it('should add one location to table', fakeAsync(() => {
+  it('should add one location to table', async(() => {
     fixture.detectChanges();
-    tick();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
-    fixture.detectChanges();
-    expect(tbody).toBeTruthy();
     fixture.debugElement.nativeElement.querySelector('button#add-modal').click();
-    tick();
     fixture.detectChanges();
-    tick(500);
-    expect(tbody.children.length).toBe(3);
+    expect(fixture.componentInstance.displayedLocations.length).toBe(3);
   }));
 
-  it('should remove one location from table', fakeAsync(() => {
+  it('should remove one location from table', async(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
-    tick();
-    fixture.detectChanges();
-    expect(tbody).toBeTruthy();
     fixture.debugElement.nativeElement.querySelector('button.btn.btn-danger.btn-xs:first-child').click();
-    tick();
     fixture.detectChanges();
-    tick(500);
-    expect(tbody.children.length).toBe(1);
+    expect(fixture.componentInstance.displayedLocations.length).toBe(1);
   }));
 
 });

@@ -1,24 +1,24 @@
-import {TestBed, fakeAsync, tick} from '@angular/core/testing';
-import {SaveLocationModalComponent} from './save-location-modal.component';
-import {FormModule} from '../../../shared/form/form.module';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {LocationService} from '../location.service';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {Http, BaseRequestOptions, HttpModule} from '@angular/http';
-import {MockBackend} from '@angular/http/testing/mock_backend';
-import {AlertService} from '../../../shared/alert.service';
-import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
-import {AuthHttp} from '../../../security/auth.http';
-import {NavigationService} from '../../../shared/navigation.service';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {RouterModule} from '@angular/router';
-import {SecurityService} from '../../../security/security.service';
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Location} from '../location';
-import {By} from '@angular/platform-browser';
-import {TableModule} from '../../../shared/table/table.module';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { SaveLocationModalComponent } from './save-location-modal.component';
+import { FormModule } from '../../../shared/form/form.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import { LocationService } from '../location.service';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Http, BaseRequestOptions, HttpModule } from '@angular/http';
+import { MockBackend } from '@angular/http/testing/mock_backend';
+import { AlertService } from '../../../shared/alert.service';
+import { dispatchEvent } from '@angular/platform-browser/testing/browser_util';
+import { AuthHttp } from '../../../security/auth.http';
+import { NavigationService } from '../../../shared/navigation.service';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { RouterModule } from '@angular/router';
+import { SecurityService } from '../../../security/security.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Location } from '../location';
+import { By } from '@angular/platform-browser';
+import { TableModule } from '../../../shared/table/table.module';
 
 describe('save modal component', () => {
 
@@ -46,7 +46,15 @@ describe('save modal component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent, SaveLocationModalComponent],
-      imports: [HttpModule, ReactiveFormsModule, RouterTestingModule, FormModule, TableModule, NgbModule, RouterModule.forChild([])],
+      imports: [
+        HttpModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        FormModule,
+        TableModule,
+        NgbModule.forRoot(),
+        RouterModule.forChild([])
+      ],
       providers: [
         LocationService,
         AlertService,

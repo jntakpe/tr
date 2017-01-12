@@ -1,17 +1,17 @@
-import {TestBed, async, fakeAsync, tick} from '@angular/core/testing';
-import {TrainingComponent} from './training.component';
-import {TrainingService} from './training.service';
-import {Observable} from 'rxjs';
-import {By} from '@angular/platform-browser';
-import {Training} from './training';
-import {TemplateRef} from '@angular/core';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {FormModule} from '../../shared/form/form.module';
-import {SaveTrainingModalComponent} from './modal/save-training-modal.component';
-import {TableModule} from '../../shared/table/table.module';
-import {ModalModule} from '../../shared/components/modal.module';
-import {DomainService} from '../../shared/domain/domain.service';
+import { TestBed, async } from '@angular/core/testing';
+import { TrainingComponent } from './training.component';
+import { TrainingService } from './training.service';
+import { Observable } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { Training } from './training';
+import { TemplateRef } from '@angular/core';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import { FormModule } from '../../shared/form/form.module';
+import { SaveTrainingModalComponent } from './modal/save-training-modal.component';
+import { TableModule } from '../../shared/table/table.module';
+import { ModalModule } from '../../shared/components/modal.module';
+import { DomainService } from '../../shared/domain/domain.service';
 
 describe('training component', () => {
 
@@ -61,48 +61,39 @@ describe('training component', () => {
     expect(fixture.componentInstance).toBeTruthy();
   }));
 
-  it('should display trainings', fakeAsync(() => {
+  it('should display trainings', async(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
-    tick(10);
+    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
     fixture.detectChanges();
     expect(tbody).toBeTruthy();
     expect(tbody.children.length).toBe(2);
   }));
 
-  it('should display domains', fakeAsync(() => {
+  it('should display domains', async(() => {
     fixture.detectChanges();
     const select = fixture.debugElement.query(By.css('#search-domain'));
-    tick(10);
     fixture.detectChanges();
     expect(select).toBeTruthy();
     expect(select.children.length).toBe(3);
   }));
 
-  it('should add one training to table', fakeAsync(() => {
+  it('should add one training to table', async(() => {
     fixture.detectChanges();
-    tick();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
-    fixture.detectChanges();
-    expect(tbody).toBeTruthy();
     fixture.debugElement.nativeElement.querySelector('button#add-modal').click();
-    tick();
     fixture.detectChanges();
-    tick(500);
-    expect(tbody.children.length).toBe(3);
+    expect(fixture.componentInstance.displayedTrainings.length).toBe(3);
   }));
 
-  it('should remove one training from table', fakeAsync(() => {
+  it('should remove one training from table', async(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
-    tick();
-    fixture.detectChanges();
+    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
     expect(tbody).toBeTruthy();
-    fixture.debugElement.nativeElement.querySelector('button.btn.btn-danger.btn-xs:first-child').click();
-    tick();
+    expect(tbody.children.length).toBe(2);
+    const firstBtn = tbody.nativeElement.querySelector('button.btn.btn-danger.btn-xs:first-child');
+    expect(firstBtn).toBeTruthy();
+    firstBtn.click();
     fixture.detectChanges();
-    tick(500);
-    expect(tbody.children.length).toBe(1);
+    expect(fixture.componentInstance.displayedTrainings.length).toBe(1);
   }));
 
 });

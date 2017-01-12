@@ -1,27 +1,31 @@
-import {TestBed, ComponentFixture, async, tick, fakeAsync} from '@angular/core/testing';
-import {SessionComponent} from './session.component';
-import {FormModule} from '../../shared/form/form.module';
-import {TableModule} from '../../shared/table/table.module';
-import {ModalModule} from '../../shared/components/modal.module';
-import {SessionService} from './session.service';
-import {FormService} from '../../shared/form/form.service';
-import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
-import {RouterTestingModule} from '@angular/router/testing';
-import {RouterModule} from '@angular/router';
-import {PageRequest} from '../../shared/pagination/page-request';
-import {Session} from '../../session/session';
-import {Observable} from 'rxjs';
-import {Page} from '../../shared/pagination/page';
-import {SessionSearchForm} from './session-search-form';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {createFakeResponse} from './session.service.spec';
-import {By} from '@angular/platform-browser';
+import { TestBed, ComponentFixture, async, tick, fakeAsync } from '@angular/core/testing';
+import { SessionComponent } from './session.component';
+import { FormModule } from '../../shared/form/form.module';
+import { TableModule } from '../../shared/table/table.module';
+import { SessionService } from './session.service';
+import { FormService } from '../../shared/form/form.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
+import { PageRequest } from '../../shared/pagination/page-request';
+import { Session } from '../../session/session';
+import { Observable } from 'rxjs';
+import { Page } from '../../shared/pagination/page';
+import { SessionSearchForm } from './session-search-form';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
+import { createFakeResponse } from './session.service.spec';
+import { By } from '@angular/platform-browser';
+import { DomainService } from '../../shared/domain/domain.service';
 
 describe('session component', () => {
 
   let fixture: ComponentFixture<SessionComponent>;
 
   class MockSessionService extends SessionService {
+
+    constructor() {
+      super(null, null, null, null);
+    }
 
     findSessions(pageRequest: PageRequest<Session>): Observable<Page<Session>> {
       return Observable.of(createFakeResponse());
@@ -38,12 +42,24 @@ describe('session component', () => {
     }
   }
 
+  class MockDomainService extends DomainService {
+
+    constructor() {
+      super(null);
+    }
+
+    findAll(): Observable<string[]> {
+      return Observable.of(['MockDomain 1', 'MockDomain 2']);
+    }
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SessionComponent],
-      imports: [FormModule, TableModule, ModalModule, NgbDatepickerModule, RouterTestingModule, RouterModule.forChild([])],
+      declarations: [SessionComponent, ConfirmModalComponent],
+      imports: [FormModule, TableModule, NgbModule.forRoot(), RouterTestingModule, RouterModule.forChild([])],
       providers: [
         {provide: SessionService, useClass: MockSessionService},
+        {provide: DomainService, useClass: MockDomainService},
         FormService
       ]
     });
@@ -57,7 +73,7 @@ describe('session component', () => {
 
   it('should display sessions', fakeAsync(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
+    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
     tick(10);
     fixture.detectChanges();
     expect(tbody).toBeTruthy();
@@ -66,7 +82,7 @@ describe('session component', () => {
 
   it('should remove one session from table', fakeAsync(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body>div>.datatable-scroll'));
+    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
     tick();
     fixture.detectChanges();
     expect(tbody).toBeTruthy();
