@@ -4,11 +4,9 @@ import com.github.jntakpe.model.IdentifiableEntity;
 import com.github.jntakpe.model.Session;
 import com.github.jntakpe.repository.SessionPredicates;
 import com.github.jntakpe.repository.SessionRepository;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -71,14 +69,10 @@ public class SessionService {
         sessionRepository.delete(session);
     }
 
-    @Cacheable(LOCATIONS_CACHE)
     @Transactional(readOnly = true)
     public Session findById(Long id) {
         Objects.requireNonNull(id);
         Session session = sessionRepository.findOne(id);
-        Hibernate.initialize(session.getTrainer());
-        Hibernate.initialize(session.getLocation());
-        Hibernate.initialize(session.getTraining());
         if (session == null) {
             LOGGER.warn("Aucune session de formation possédant l'id {}", id);
             throw new EntityNotFoundException(String.format("Aucune session de formation possédant l'id %s", id));
