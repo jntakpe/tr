@@ -26,7 +26,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-warning" (click)="dismiss()"><i class="fa fa-remove"></i> Annuler</button>
-      <button type="submit" class="btn btn-u" [disabled]="sessionForm.invalid">
+      <button type="submit" class="btn btn-u" [disabled]="saveForm.invalid">
         <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
       </button>
     </div>
