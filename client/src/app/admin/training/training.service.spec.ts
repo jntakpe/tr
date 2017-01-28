@@ -1,20 +1,20 @@
-import {TestBed, inject, async, tick, fakeAsync} from '@angular/core/testing';
-import {HttpModule, BaseRequestOptions, Http, Response, ResponseOptions, RequestMethod} from '@angular/http';
-import {TrainingService} from './training.service';
-import {AuthHttp} from '../../security/auth.http';
-import {AlertService, titleConstants} from '../../shared/alert.service';
-import {NavigationService} from '../../shared/navigation.service';
-import {MockBackend, MockConnection} from '@angular/http/testing/mock_backend';
-import {RouterModule} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {Training} from './training';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {SecurityService} from '../../security/security.service';
-import {FormGroup, Validators, FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import {TableModule} from '../../shared/table/table.module';
-import {MockSecurityService} from '../../shared/test/test-utils';
-import {ModalModule} from '../../shared/components/modal.module';
+import { TestBed, inject, async, tick, fakeAsync } from '@angular/core/testing';
+import { HttpModule, BaseRequestOptions, Http, Response, ResponseOptions, RequestMethod } from '@angular/http';
+import { TrainingService } from './training.service';
+import { AuthHttp } from '../../security/auth.http';
+import { AlertService, titleConstants } from '../../shared/alert.service';
+import { NavigationService } from '../../shared/navigation.service';
+import { MockBackend, MockConnection } from '@angular/http/testing/mock_backend';
+import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { Training } from './training';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import { SecurityService } from '../../security/security.service';
+import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { TableModule } from '../../shared/table/table.module';
+import { MockSecurityService } from '../../shared/test/test-utils';
+import { ModalModule } from '../../shared/components/modal.module';
 
 describe('training service', () => {
 

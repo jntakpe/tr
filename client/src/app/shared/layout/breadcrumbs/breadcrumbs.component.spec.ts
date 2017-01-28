@@ -1,12 +1,12 @@
-import {TestBed, async} from '@angular/core/testing';
-import {BreadcrumbsComponent} from './breadcrumbs.component';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {RouterModule, NavigationEnd, Event, Route, ActivatedRouteSnapshot} from '@angular/router';
-import {BreadcrumbsService} from './breadcrumbs.service';
-import {Observable} from 'rxjs';
-import {By} from '@angular/platform-browser/src/dom/debug/by';
-import {BreadcrumbsInfo} from './breadcrumbs';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import { TestBed, async } from '@angular/core/testing';
+import { BreadcrumbsComponent } from './breadcrumbs.component';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { RouterModule, NavigationEnd, Event, Route, ActivatedRouteSnapshot } from '@angular/router';
+import { BreadcrumbsService } from './breadcrumbs.service';
+import { Observable } from 'rxjs';
+import { By } from '@angular/platform-browser/src/dom/debug/by';
+import { BreadcrumbsInfo } from './breadcrumbs';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
 
 describe('breadcrumb component', () => {
 

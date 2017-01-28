@@ -1,15 +1,15 @@
-import {Injectable, TemplateRef} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Location} from './location';
-import {AuthHttp} from '../../security/auth.http';
-import {AlertService, titleConstants} from '../../shared/alert.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormGroup} from '@angular/forms';
-import {Response} from '@angular/http';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {ConstraintsMessage} from '../../shared/constraint';
-import {FilterTableService} from '../../shared/table/filter-table.service';
-import {SelectEntry} from "../../shared/select-entry";
+import { Injectable, TemplateRef } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Location } from './location';
+import { AuthHttp } from '../../security/auth.http';
+import { AlertService, titleConstants } from '../../shared/alert.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup } from '@angular/forms';
+import { Response } from '@angular/http';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
+import { ConstraintsMessage } from '../../shared/constraint';
+import { FilterTableService } from '../../shared/table/filter-table.service';
+import { SelectEntry } from '../../shared/select-entry';
 
 @Injectable()
 export class LocationService {

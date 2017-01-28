@@ -1,11 +1,11 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {AdminGuard} from './admin-guard.service';
-import {SecurityService} from '../security/security.service';
-import {RouterTestingModule} from '@angular/router/testing';
-import {RouterModule} from '@angular/router';
-import {NavigationService} from '../shared/navigation.service';
-import {AlertService, titleConstants} from '../shared/alert.service';
-import {HttpModule} from '@angular/http';
+import { TestBed, inject } from '@angular/core/testing';
+import { AdminGuard } from './admin-guard.service';
+import { SecurityService } from '../security/security.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
+import { NavigationService } from '../shared/navigation.service';
+import { AlertService, titleConstants } from '../shared/alert.service';
+import { HttpModule } from '@angular/http';
 
 describe('admin guard service', () => {
 

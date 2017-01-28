@@ -1,5 +1,5 @@
-import {PageRequest} from './page-request';
-import {SortDirection} from 'angular2-data-table';
+import { PageRequest } from './page-request';
+import { SortDirection } from 'angular2-data-table';
 
 describe('page request', () => {
 

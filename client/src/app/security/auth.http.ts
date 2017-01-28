@@ -1,8 +1,8 @@
-import {Http, RequestOptions, Response, RequestOptionsArgs, Headers} from '@angular/http';
-import {Observable} from 'rxjs';
-import {Injectable} from '@angular/core';
-import {SecurityService} from './security.service';
-import {NavigationService} from '../shared/navigation.service';
+import { Http, RequestOptions, Response, RequestOptionsArgs, Headers } from '@angular/http';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { SecurityService } from './security.service';
+import { NavigationService } from '../shared/navigation.service';
 
 @Injectable()
 export class AuthHttp {

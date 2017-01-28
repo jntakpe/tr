@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {AuthHttp} from '../../security/auth.http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { AuthHttp } from '../../security/auth.http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class DomainService {

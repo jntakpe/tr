@@ -1,9 +1,9 @@
-import {ConfirmModalComponent} from './confirm-modal.component';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
-import {TestBed, async, tick, fakeAsync} from '@angular/core/testing';
-import {ConstraintsMessage} from '../constraint';
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import { ConfirmModalComponent } from './confirm-modal.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
+import { TestBed, async, tick, fakeAsync } from '@angular/core/testing';
+import { ConstraintsMessage } from '../constraint';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
 
 describe('confirm modal', () => {
 

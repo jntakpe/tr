@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Page} from './page';
+import { Injectable } from '@angular/core';
+import { Page } from './page';
 
 @Injectable()
 export class PaginationService {

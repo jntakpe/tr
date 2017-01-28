@@ -1,14 +1,14 @@
-import {TestBed, inject, async, fakeAsync} from '@angular/core/testing';
-import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {RouterModule} from '@angular/router';
-import {AuthHttp} from './auth.http';
-import {AlertService} from '../shared/alert.service';
-import {NavigationService} from '../shared/navigation.service';
-import {MockBackend, MockConnection} from '@angular/http/testing/mock_backend';
-import {SecurityService} from './security.service';
-import {tokenJson} from '../shared/test/test-utils';
-import {Observable} from 'rxjs';
+import { TestBed, inject, async, fakeAsync } from '@angular/core/testing';
+import { HttpModule, BaseRequestOptions, Http, ResponseOptions, Response } from '@angular/http';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { RouterModule } from '@angular/router';
+import { AuthHttp } from './auth.http';
+import { AlertService } from '../shared/alert.service';
+import { NavigationService } from '../shared/navigation.service';
+import { MockBackend, MockConnection } from '@angular/http/testing/mock_backend';
+import { SecurityService } from './security.service';
+import { tokenJson } from '../shared/test/test-utils';
+import { Observable } from 'rxjs';
 
 describe('auth http', () => {
 

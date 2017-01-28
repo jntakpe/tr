@@ -1,9 +1,9 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {SecurityService} from './security.service';
-import {MockBackend} from '@angular/http/testing/mock_backend';
-import {HttpModule, Http, BaseRequestOptions} from '@angular/http';
-import {User} from './user';
-import {mockTokenResponse, tokenJson, mockRefreshTokenResponse} from '../shared/test/test-utils';
+import { TestBed, inject } from '@angular/core/testing';
+import { SecurityService } from './security.service';
+import { MockBackend } from '@angular/http/testing/mock_backend';
+import { HttpModule, Http, BaseRequestOptions } from '@angular/http';
+import { User } from './user';
+import { mockTokenResponse, tokenJson, mockRefreshTokenResponse } from '../shared/test/test-utils';
 import * as moment from 'moment';
 
 describe('security service', () => {

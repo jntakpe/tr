@@ -1,12 +1,12 @@
-import {Injectable, ElementRef} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {SecurityService} from '../security.service';
-import {Observable} from 'rxjs';
-import {User} from '../user';
-import {NavigationService} from '../../shared/navigation.service';
-import {Response} from '@angular/http';
-import {AlertService} from '../../shared/alert.service';
-import {Params} from '@angular/router';
+import { Injectable, ElementRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { SecurityService } from '../security.service';
+import { Observable } from 'rxjs';
+import { User } from '../user';
+import { NavigationService } from '../../shared/navigation.service';
+import { Response } from '@angular/http';
+import { AlertService } from '../../shared/alert.service';
+import { Params } from '@angular/router';
 
 @Injectable()
 export class LoginService {

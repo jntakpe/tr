@@ -1,5 +1,5 @@
-import {URLSearchParams} from '@angular/http';
-import {SortDirection} from 'angular2-data-table';
+import { URLSearchParams } from '@angular/http';
+import { SortDirection } from 'angular2-data-table';
 
 const flatten = require('flat');
 

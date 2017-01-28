@@ -1,15 +1,15 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {SessionService} from '../session.service';
-import {FormGroup, Validators} from '@angular/forms';
-import {FormService} from '../../../shared/form/form.service';
-import {Subscription} from 'rxjs';
-import {Session} from '../../../session/session';
-import {FormField} from '../../../shared/form/form-field';
-import {FormMessages} from '../../../shared/form/form-messages';
-import {SelectEntry} from '../../../shared/select-entry';
-import {TrainerService} from "../../trainer/trainer.service";
-import {LocationService} from "../../location/location.service";
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SessionService } from '../session.service';
+import { FormGroup, Validators } from '@angular/forms';
+import { FormService } from '../../../shared/form/form.service';
+import { Subscription } from 'rxjs';
+import { Session } from '../../../session/session';
+import { FormField } from '../../../shared/form/form-field';
+import { FormMessages } from '../../../shared/form/form-messages';
+import { SelectEntry } from '../../../shared/select-entry';
+import { TrainerService } from '../../trainer/trainer.service';
+import { LocationService } from '../../location/location.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'session-edit-component',
@@ -21,7 +21,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
 
   trainingsSubscription: Subscription;
 
-  locations : SelectEntry[] = [];
+  locations: SelectEntry[] = [];
 
   locationsSubscription: Subscription;
 
@@ -42,7 +42,8 @@ export class SessionEditComponent implements OnInit, OnDestroy {
               private formService: FormService,
               private trainerService: TrainerService,
               private locationService: LocationService,
-              private route: ActivatedRoute){}
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.session = this.route.snapshot.data['sessionToEdit'];
@@ -50,7 +51,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
     this.sessionForm = formMessages.formGroup;
     this.locationsSubscription = this.locationService.findAllLocations().subscribe(locations => this.locations = locations);
     this.trainersSubscription = this.trainerService.findAllTrainers().subscribe(trainers => this.trainers = trainers);
-    this.trainingsSubscription = this.sessionService.findAllTrainings().subscribe(trainings =>this.trainings = trainings);
+    this.trainingsSubscription = this.sessionService.findAllTrainings().subscribe(trainings => this.trainings = trainings);
   }
 
   ngOnDestroy() {
@@ -62,15 +63,15 @@ export class SessionEditComponent implements OnInit, OnDestroy {
   private initForm(): FormMessages {
     this.formErrors = {};
     this.creation = !this.session;
-    console.log( [this.session.location.id]);
+    console.log([this.session.location.id]);
     return this.formService.buildValidationForm({
       start: new FormField([this.session ? this.session.start : null, Validators.required], {
-        required: 'La saisie de la datthis.session && this.session.location ? this.session.location.id : nulle début de la session est obligatoire'
+        required: 'La saisie de la date de début de la session est obligatoire'
       }),
-      location: new FormField([this.session && this.session.location ? [''+this.session.location.id]: null, Validators.required], {
+      location: new FormField([this.session && this.session.location ? this.session.location.id : null, Validators.required], {
         required: 'La saisie du site de formation est obligatoire'
       }),
-      trainer: new FormField([this.session && this.session.trainer ?  this.session.trainer.id : null, Validators.required], {
+      trainer: new FormField([this.session && this.session.trainer ? this.session.trainer.id : null, Validators.required], {
         required: 'La saisie du formateur est obligatoire'
       }),
       training: new FormField([this.session && this.session.training ? this.session.training.id : null, Validators.required], {
@@ -79,11 +80,11 @@ export class SessionEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  save(form){
+  save(form) {
     console.log(form);
   }
 
-  public selected(value:SelectEntry):void {
+  public selected(value: SelectEntry): void {
     console.log('Selected value is: ', value);
   }
 }

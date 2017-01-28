@@ -1,7 +1,7 @@
-import {AppComponent} from './app.component';
-import {TestBed, async} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {RouterModule} from '@angular/router';
+import { AppComponent } from './app.component';
+import { TestBed, async } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 
 describe('App: Training Rating', () => {
   beforeEach(() => {

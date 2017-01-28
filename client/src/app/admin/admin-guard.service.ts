@@ -1,8 +1,8 @@
-import {CanActivateChild} from '@angular/router';
-import {Injectable} from '@angular/core';
-import {SecurityService} from '../security/security.service';
-import {NavigationService} from '../shared/navigation.service';
-import {AlertService, titleConstants} from '../shared/alert.service';
+import { CanActivateChild } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { SecurityService } from '../security/security.service';
+import { NavigationService } from '../shared/navigation.service';
+import { AlertService, titleConstants } from '../shared/alert.service';
 
 @Injectable()
 export class AdminGuard implements CanActivateChild {

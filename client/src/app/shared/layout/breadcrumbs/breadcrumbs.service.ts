@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Route, Router, Event, NavigationEnd, ActivatedRouteSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Route, Router, Event, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/filter';
 
 @Injectable()

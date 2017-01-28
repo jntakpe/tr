@@ -1,8 +1,8 @@
-import {TestBed} from '@angular/core/testing';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {NavbarComponent} from './navbar.component';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {RouterModule} from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import { NavbarComponent } from './navbar.component';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { RouterModule } from '@angular/router';
 
 describe('navbar component', () => {
 

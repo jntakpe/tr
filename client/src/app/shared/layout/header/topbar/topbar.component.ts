@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {TopbarService} from './topbar.service';
+import { Component, OnInit } from '@angular/core';
+import { TopbarService } from './topbar.service';
 
 @Component({
   selector: 'topbar-component',

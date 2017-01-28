@@ -1,8 +1,8 @@
-import {TestBed, inject, fakeAsync} from '@angular/core/testing';
-import {FormModule} from './form.module';
-import {FormService} from './form.service';
-import {Validators} from '@angular/forms';
-import {FormField} from './form-field';
+import { TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { FormModule } from './form.module';
+import { FormService } from './form.service';
+import { Validators } from '@angular/forms';
+import { FormField } from './form-field';
 
 describe('form service', () => {
 

@@ -1,16 +1,16 @@
-import {Component, OnInit, OnDestroy, TemplateRef} from '@angular/core';
-import {SessionService} from './session.service';
-import {Subscription, Observable} from 'rxjs';
-import {Session} from '../../session/session';
-import {ColumnMode} from 'angular2-data-table';
-import {PageRequest} from '../../shared/pagination/page-request';
-import {FormGroup} from '@angular/forms';
-import {ViewChild} from '@angular/core/src/metadata/di';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {FormService} from '../../shared/form/form.service';
-import {SessionSearchForm} from './session-search-form';
-import {Page} from '../../shared/pagination/page';
-import {DomainService} from '../../shared/domain/domain.service';
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { SessionService } from './session.service';
+import { Subscription, Observable } from 'rxjs';
+import { Session } from '../../session/session';
+import { ColumnMode } from 'angular2-data-table';
+import { PageRequest } from '../../shared/pagination/page-request';
+import { FormGroup } from '@angular/forms';
+import { ViewChild } from '@angular/core/src/metadata/di';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
+import { FormService } from '../../shared/form/form.service';
+import { SessionSearchForm } from './session-search-form';
+import { Page } from '../../shared/pagination/page';
+import { DomainService } from '../../shared/domain/domain.service';
 
 @Component({
   selector: 'session-component',

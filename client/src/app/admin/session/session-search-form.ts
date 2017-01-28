@@ -1,4 +1,4 @@
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 export interface SessionSearchForm {
   start: NgbDateStruct;

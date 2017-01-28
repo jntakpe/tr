@@ -1,20 +1,20 @@
-import {async, TestBed, inject, fakeAsync} from '@angular/core/testing';
-import {LoginComponent} from './login.component';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {By} from '@angular/platform-browser/src/dom/debug/by';
-import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
-import {SecurityService} from '../security.service';
-import {Observable} from 'rxjs';
-import {User} from '../user';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {advance} from '../../shared/test/test-utils';
-import {RouterModule} from '@angular/router';
-import {NavigationService} from '../../shared/navigation.service';
-import {LoginService} from './login.service';
-import {HttpModule, Response} from '@angular/http';
-import {AlertService} from '../../shared/alert.service';
-import {ElementRef} from '@angular/core';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import { async, TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { LoginComponent } from './login.component';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser/src/dom/debug/by';
+import { dispatchEvent } from '@angular/platform-browser/testing/browser_util';
+import { SecurityService } from '../security.service';
+import { Observable } from 'rxjs';
+import { User } from '../user';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { advance } from '../../shared/test/test-utils';
+import { RouterModule } from '@angular/router';
+import { NavigationService } from '../../shared/navigation.service';
+import { LoginService } from './login.service';
+import { HttpModule, Response } from '@angular/http';
+import { AlertService } from '../../shared/alert.service';
+import { ElementRef } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
 
 describe('Login component', () => {
 

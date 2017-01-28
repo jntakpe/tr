@@ -1,11 +1,11 @@
-import {Component, ViewChild, OnDestroy} from '@angular/core';
-import {FormGroup, Validators} from '@angular/forms';
-import {Subscription, Observable} from 'rxjs';
-import {FormService} from '../../../shared/form/form.service';
-import {FormField} from '../../../shared/form/form-field';
-import {TrainingService} from '../training.service';
-import {Training} from '../training';
-import {Input} from '@angular/core/src/metadata/directives';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { FormGroup, Validators } from '@angular/forms';
+import { Subscription, Observable } from 'rxjs';
+import { FormService } from '../../../shared/form/form.service';
+import { FormField } from '../../../shared/form/form-field';
+import { TrainingService } from '../training.service';
+import { Training } from '../training';
+import { Input } from '@angular/core/src/metadata/directives';
 
 @Component({
   selector: 'save-training-modal',

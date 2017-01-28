@@ -1,8 +1,8 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {BreadcrumbsService} from './breadcrumbs.service';
-import {Subscription} from 'rxjs';
-import {BreadcrumbsInfo} from './breadcrumbs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbsService } from './breadcrumbs.service';
+import { Subscription } from 'rxjs';
+import { BreadcrumbsInfo } from './breadcrumbs';
 
 @Component({
   selector: 'breadcrumbs-component',

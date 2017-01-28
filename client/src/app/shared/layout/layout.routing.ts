@@ -1,7 +1,7 @@
-import {Routes, RouterModule, Route} from '@angular/router';
-import {HomeComponent} from '../../home/home.component';
-import {LayoutComponent} from '../../shared/layout/layout.component';
-import {adminRoute} from '../../admin/admin.route';
+import { Routes, RouterModule, Route } from '@angular/router';
+import { HomeComponent } from '../../home/home.component';
+import { LayoutComponent } from '../../shared/layout/layout.component';
+import { adminRoute } from '../../admin/admin.route';
 
 const homeRoute: Route = {
   path: 'home',

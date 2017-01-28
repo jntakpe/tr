@@ -1,7 +1,7 @@
-import {FormBuilder} from '@angular/forms';
-import {FormField} from './form-field';
-import {Injectable} from '@angular/core';
-import {FormMessages} from './form-messages';
+import { FormBuilder } from '@angular/forms';
+import { FormField } from './form-field';
+import { Injectable } from '@angular/core';
+import { FormMessages } from './form-messages';
 
 @Injectable()
 export class FormService {

@@ -1,7 +1,7 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {TableModule} from './table.module';
-import {FilterTableService} from './filter-table.service';
-import {RegexType} from './regex-type';
+import { TestBed, inject } from '@angular/core/testing';
+import { TableModule } from './table.module';
+import { FilterTableService } from './filter-table.service';
+import { RegexType } from './regex-type';
 
 describe('filter service', () => {
 

@@ -1,20 +1,20 @@
-import {Injectable} from '@angular/core';
-import {AuthHttp} from '../../security/auth.http';
-import {AlertService, titleConstants} from '../../shared/alert.service';
-import {PageRequest} from '../../shared/pagination/page-request';
-import {Session} from '../../session/session';
-import {Observable} from 'rxjs';
-import {Page} from '../../shared/pagination/page';
-import {PaginationService} from '../../shared/pagination/pagination.service';
-import {SessionSearchForm} from './session-search-form';
-import {Location} from '../location/location';
-import {Training} from '../training/training';
-import {Employee} from '../../shared/employee';
+import { Injectable } from '@angular/core';
+import { AuthHttp } from '../../security/auth.http';
+import { AlertService, titleConstants } from '../../shared/alert.service';
+import { PageRequest } from '../../shared/pagination/page-request';
+import { Session } from '../../session/session';
+import { Observable } from 'rxjs';
+import { Page } from '../../shared/pagination/page';
+import { PaginationService } from '../../shared/pagination/pagination.service';
+import { SessionSearchForm } from './session-search-form';
+import { Location } from '../location/location';
+import { Training } from '../training/training';
+import { Employee } from '../../shared/employee';
 import * as moment from 'moment';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {ConstraintsMessage} from '../../shared/constraint';
-import {TrainingService} from '../training/training.service';
-import {SelectEntry} from '../../shared/select-entry';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
+import { ConstraintsMessage } from '../../shared/constraint';
+import { TrainingService } from '../training/training.service';
+import { SelectEntry } from '../../shared/select-entry';
 
 @Injectable()
 export class SessionService {
@@ -39,7 +39,7 @@ export class SessionService {
       });
   }
 
-  findSession(id : number): Observable<Session>{
+  findSession(id: number): Observable<Session> {
     return this.authHttp.get(`api/sessions/${id}`).map(res => res.json()).catch(err => {
       if (err.status === 500) {
         this.alertService.error('Impossible de récupérer la session depuis le serveur', titleConstants.error.server);

@@ -1,8 +1,8 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {LoginService} from './login.service';
-import {Subscription} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LoginService } from './login.service';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'login-component',

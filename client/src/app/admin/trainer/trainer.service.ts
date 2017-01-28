@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {AuthHttp} from '../../security/auth.http';
-import {AlertService, titleConstants} from '../../shared/alert.service';
-import {FilterTableService} from '../../shared/table/filter-table.service';
-import {Trainer} from './trainer';
-import {Observable} from 'rxjs';
-import {SelectEntry} from "../../shared/select-entry";
+import { Injectable } from '@angular/core';
+import { AuthHttp } from '../../security/auth.http';
+import { AlertService, titleConstants } from '../../shared/alert.service';
+import { FilterTableService } from '../../shared/table/filter-table.service';
+import { Trainer } from './trainer';
+import { Observable } from 'rxjs';
+import { SelectEntry } from '../../shared/select-entry';
 
 @Injectable()
 export class TrainerService {
@@ -26,7 +26,7 @@ export class TrainerService {
   }
 
   findAllTrainers(): Observable<SelectEntry[]> {
-    return this.findAll().map((trainers: Trainer[]) => trainers.map(t => new SelectEntry(t.id, t.firstName+" "+t.lastName)));
+    return this.findAll().map((trainers: Trainer[]) => trainers.map(t => new SelectEntry(t.id, `${t.firstName} ${t.lastName}`)));
   }
 
   filterTable(trainers: Trainer[], {login, email, firstName, lastName, trainings}): Trainer[] {

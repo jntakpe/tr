@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {RegexType} from './regex-type';
+import { Injectable } from '@angular/core';
+import { RegexType } from './regex-type';
 import * as sift from 'sift';
 
 @Injectable()

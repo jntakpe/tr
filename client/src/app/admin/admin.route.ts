@@ -1,14 +1,14 @@
-import {LocationComponent} from './location/location.component';
-import {TrainingComponent} from './training/training.component';
-import {Route} from '@angular/router';
-import {homeRoute} from '../home/home.route';
-import {BreadcrumbsInfo} from '../shared/layout/breadcrumbs/breadcrumbs';
-import {AdminComponent} from './admin.component';
-import {AdminGuard} from './admin-guard.service';
-import {TrainerComponent} from './trainer/trainer.component';
-import {SessionComponent} from './session/session.component';
-import {SessionEditComponent} from './session/edit/session-edit.component';
-import {SessionResolve} from "./session/session.resolve";
+import { LocationComponent } from './location/location.component';
+import { TrainingComponent } from './training/training.component';
+import { Route } from '@angular/router';
+import { homeRoute } from '../home/home.route';
+import { BreadcrumbsInfo } from '../shared/layout/breadcrumbs/breadcrumbs';
+import { AdminComponent } from './admin.component';
+import { AdminGuard } from './admin-guard.service';
+import { TrainerComponent } from './trainer/trainer.component';
+import { SessionComponent } from './session/session.component';
+import { SessionEditComponent } from './session/edit/session-edit.component';
+import { SessionResolve } from './session/session.resolve';
 
 const locationRoute: Route = {
   path: 'locations',

@@ -1,14 +1,14 @@
-import {Injectable, TemplateRef} from '@angular/core';
-import {AuthHttp} from '../../security/auth.http';
-import {AlertService, titleConstants} from '../../shared/alert.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {FilterTableService} from '../../shared/table/filter-table.service';
-import {Observable} from 'rxjs';
-import {Training} from './training';
-import {FormGroup} from '@angular/forms';
-import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
-import {Response} from '@angular/http';
-import {ConstraintsMessage} from '../../shared/constraint';
+import { Injectable, TemplateRef } from '@angular/core';
+import { AuthHttp } from '../../security/auth.http';
+import { AlertService, titleConstants } from '../../shared/alert.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FilterTableService } from '../../shared/table/filter-table.service';
+import { Observable } from 'rxjs';
+import { Training } from './training';
+import { FormGroup } from '@angular/forms';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
+import { Response } from '@angular/http';
+import { ConstraintsMessage } from '../../shared/constraint';
 
 @Injectable()
 export class TrainingService {

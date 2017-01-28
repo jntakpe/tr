@@ -1,7 +1,7 @@
-import {TestBed, inject, async} from '@angular/core/testing';
-import {TopbarComponent} from './topbar.component';
-import {TopbarService} from './topbar.service';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import { TestBed, inject, async } from '@angular/core/testing';
+import { TopbarComponent } from './topbar.component';
+import { TopbarService } from './topbar.service';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
 
 describe('topbar component', () => {
 

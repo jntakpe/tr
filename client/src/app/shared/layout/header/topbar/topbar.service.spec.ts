@@ -1,14 +1,14 @@
-import {TestBed, inject, fakeAsync} from '@angular/core/testing';
-import {HttpModule, BaseRequestOptions, Http} from '@angular/http';
-import {SecurityService} from '../../../../security/security.service';
-import {MockBackend} from '@angular/http/testing/mock_backend';
-import {TopbarService} from './topbar.service';
-import {User} from '../../../../security/user';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {Routes, Router, RouterModule} from '@angular/router';
-import {Location} from '@angular/common';
-import {RootComponent, FakeLoginComponent, createRoot, advance, tokenJson} from '../../../test/test-utils';
-import {NavigationService} from '../../../navigation.service';
+import { TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { HttpModule, BaseRequestOptions, Http } from '@angular/http';
+import { SecurityService } from '../../../../security/security.service';
+import { MockBackend } from '@angular/http/testing/mock_backend';
+import { TopbarService } from './topbar.service';
+import { User } from '../../../../security/user';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { Routes, Router, RouterModule } from '@angular/router';
+import { Location } from '@angular/common';
+import { RootComponent, FakeLoginComponent, createRoot, advance, tokenJson } from '../../../test/test-utils';
+import { NavigationService } from '../../../navigation.service';
 
 describe('topbar service', () => {
 

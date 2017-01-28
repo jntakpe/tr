@@ -1,6 +1,6 @@
-import {FooterComponent} from './footer.component';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {TestBed} from '@angular/core/testing';
+import { FooterComponent } from './footer.component';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import { TestBed } from '@angular/core/testing';
 
 describe('footer component', () => {
 

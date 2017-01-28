@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response, RequestOptionsArgs } from '@angular/http';
+import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import {User} from './user';
+import { User } from './user';
 
 const jwtDecode = require('jwt-decode');
 

@@ -1,9 +1,9 @@
-import {Routes, RouterModule, Router} from '@angular/router';
-import {RootComponent, FakeHomeComponent, FakeFeatureComponent, createRoot, advance} from '../../test/test-utils';
-import {TestBed, inject, fakeAsync} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {BreadcrumbsService} from './breadcrumbs.service';
-import {BreadcrumbsInfo} from './breadcrumbs';
+import { Routes, RouterModule, Router } from '@angular/router';
+import { RootComponent, FakeHomeComponent, FakeFeatureComponent, createRoot, advance } from '../../test/test-utils';
+import { TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { BreadcrumbsService } from './breadcrumbs.service';
+import { BreadcrumbsInfo } from './breadcrumbs';
 
 describe('breadcrumbs service', () => {
 

@@ -1,10 +1,10 @@
-import {OnInit, OnDestroy, Component} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {TrainerService} from './trainer.service';
-import {Trainer} from './trainer';
-import {ColumnMode} from 'angular2-data-table';
-import {FormGroup} from '@angular/forms';
-import {FormService} from '../../shared/form/form.service';
+import { OnInit, OnDestroy, Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { TrainerService } from './trainer.service';
+import { Trainer } from './trainer';
+import { ColumnMode } from 'angular2-data-table';
+import { FormGroup } from '@angular/forms';
+import { FormService } from '../../shared/form/form.service';
 
 @Component({
   selector: 'trainer-component',

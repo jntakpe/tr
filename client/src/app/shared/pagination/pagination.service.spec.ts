@@ -1,6 +1,6 @@
-import {TestBed, inject} from '@angular/core/testing';
-import {PaginationService} from './pagination.service';
-import {Page} from './page';
+import { TestBed, inject } from '@angular/core/testing';
+import { PaginationService } from './pagination.service';
+import { Page } from './page';
 describe('pagination service', () => {
 
   beforeEach(() => {

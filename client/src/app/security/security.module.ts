@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {SecurityService} from './security.service';
-import {securityRouting} from './security.routing';
-import {LoginModule} from './login/login.module';
-import {AuthHttp} from './auth.http';
+import { NgModule } from '@angular/core';
+import { SecurityService } from './security.service';
+import { securityRouting } from './security.routing';
+import { LoginModule } from './login/login.module';
+import { AuthHttp } from './auth.http';
 
 @NgModule({
   imports: [LoginModule, securityRouting],

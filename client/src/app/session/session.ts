@@ -1,6 +1,6 @@
-import {Location} from '../admin/location/location';
-import {Trainer} from '../admin/trainer/trainer';
-import {Training} from '../admin/training/training';
+import { Location } from '../admin/location/location';
+import { Trainer } from '../admin/trainer/trainer';
+import { Training } from '../admin/training/training';
 
 export class Session {
 

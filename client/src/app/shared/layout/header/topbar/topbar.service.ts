@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {SecurityService} from '../../../../security/security.service';
-import {User} from '../../../../security/user';
-import {NavigationService} from '../../../navigation.service';
+import { Injectable } from '@angular/core';
+import { SecurityService } from '../../../../security/security.service';
+import { User } from '../../../../security/user';
+import { NavigationService } from '../../../navigation.service';
 
 @Injectable()
 export class TopbarService {

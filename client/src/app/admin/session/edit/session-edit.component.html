@@ -5,21 +5,23 @@
         <label for="start" class="col-md-3 control-label">Date de début de la session</label>
         <div class="input-group col-md-2">
           {{session.start}}
-          <input id="start" name="start" class="form-control" placeholder="yyyy-mm-dd" formControlName="start" ngbDatepicker #dp="ngbDatepicker">
+          <input id="start" name="start" class="form-control" placeholder="yyyy-mm-dd" formControlName="start" ngbDatepicker
+                 #dp="ngbDatepicker">
           <div class="input-group-addon dp-addon" (click)="dp.toggle()"><i class="fa fa-calendar"></i></div>
         </div>
       </div>
     </section>
-   <section>
+    <section>
       <div class="form-group">
         <label for="location" class="col-md-3 control-label">Lieu</label>
         <div class="input-group col-md-2">
           {{session.location?.id}}
-          <ng-select id="location" name="location" formControlName="location"   [(ngModel)]="binding"  (selected)="selected($event)" [options]="locations"></ng-select>
+          <ng-select id="location" name="location" formControlName="location" [(ngModel)]="binding" (selected)="selected($event)"
+                     [options]="locations"></ng-select>
         </div>
       </div>
     </section>
-     <section>
+    <section>
       <div class="form-group">
         <label for="trainer" class="col-md-3 control-label">Formateur</label>
         <div class="input-group col-md-2">

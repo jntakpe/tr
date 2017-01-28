@@ -1,18 +1,18 @@
-import {TestBed, inject, fakeAsync} from '@angular/core/testing';
-import {LoginService} from './login.service';
-import {SecurityService} from '../security.service';
-import {AlertService} from '../../shared/alert.service';
-import {NavigationService} from '../../shared/navigation.service';
-import {HttpModule, BaseRequestOptions, Http, Response, ResponseOptions} from '@angular/http';
-import {MockBackend} from '@angular/http/testing/mock_backend';
-import {mockTokenResponse, RootComponent, FakeHomeComponent, createRoot, advance, FakeLoginComponent} from '../../shared/test/test-utils';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
-import {RouterModule, Routes, Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
-import {By} from '@angular/platform-browser/src/dom/debug/by';
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import { TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { LoginService } from './login.service';
+import { SecurityService } from '../security.service';
+import { AlertService } from '../../shared/alert.service';
+import { NavigationService } from '../../shared/navigation.service';
+import { HttpModule, BaseRequestOptions, Http, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing/mock_backend';
+import { mockTokenResponse, RootComponent, FakeHomeComponent, createRoot, advance, FakeLoginComponent } from '../../shared/test/test-utils';
+import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
+import { RouterModule, Routes, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { dispatchEvent } from '@angular/platform-browser/testing/browser_util';
+import { By } from '@angular/platform-browser/src/dom/debug/by';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 describe('login service', () => {
 

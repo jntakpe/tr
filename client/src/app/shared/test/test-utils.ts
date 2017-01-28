@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
-import {ComponentFixture} from '@angular/core/testing/component_fixture';
-import {tick, TestBed} from '@angular/core/testing';
-import {Router} from '@angular/router';
-import {MockConnection} from '@angular/http/testing';
-import {ResponseOptions, Response} from '@angular/http';
+import { Component } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import { tick, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { MockConnection } from '@angular/http/testing';
+import { ResponseOptions, Response } from '@angular/http';
 import * as _ from 'lodash';
-import {SecurityService} from '../../security/security.service';
+import { SecurityService } from '../../security/security.service';
 
 export const tokenJson = require('./token-response.json');
 

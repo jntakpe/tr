@@ -1,4 +1,4 @@
-import {Employee} from '../../shared/employee';
+import { Employee } from '../../shared/employee';
 
 export class Trainer extends Employee {
 
