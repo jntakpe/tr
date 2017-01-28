@@ -22,9 +22,9 @@ api:
   license: MIT license
   licenseUrl: https://tldrlegal.com/license/mit-license
   contact:
-    name : Jocelyn NTAKPE
+    name: Jocelyn NTAKPE
     url: http://github.com/jntakpe
-    email: j.ntakpe@gmail.com
+    mail: j.ntakpe@gmail.com
 oauth2:
   clientId: trainingrating
   secret: supertrainingratingsecret
