@@ -8,7 +8,7 @@ import { FormService } from '../../shared/form/form.service';
 
 @Component({
   selector: 'trainer-component',
-  template: require('./trainer.component.html')
+  templateUrl: './trainer.component.html'
 })
 export class TrainerComponent implements OnInit, OnDestroy {
 

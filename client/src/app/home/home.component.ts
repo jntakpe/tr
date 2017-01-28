@@ -3,7 +3,7 @@ import { AlertService } from '../shared/alert.service';
 
 @Component({
   selector: 'home-component',
-  template: require('./home.component.html'),
+  templateUrl: './home.component.html',
   providers: [AlertService]
 })
 export class HomeComponent implements OnInit {

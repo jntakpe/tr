@@ -10,7 +10,7 @@ import { ConfirmModalComponent } from '../../shared/components/confirm-modal.com
 
 @Component({
   selector: 'location-component',
-  template: require('./location.component.html')
+  templateUrl: './location.component.html'
 })
 export class LocationComponent implements OnInit, OnDestroy {
 

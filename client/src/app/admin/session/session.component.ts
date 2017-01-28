@@ -14,8 +14,8 @@ import { DomainService } from '../../shared/domain/domain.service';
 
 @Component({
   selector: 'session-component',
-  template: require('./session.component.html'),
-  styles: [require('./session.component.scss')]
+  templateUrl: './session.component.html',
+  styleUrls: ['./session.component.scss']
 })
 export class SessionComponent implements OnInit, OnDestroy {
 

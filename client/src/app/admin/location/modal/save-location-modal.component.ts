@@ -8,7 +8,7 @@ import { FormField } from '../../../shared/form/form-field';
 
 @Component({
   selector: 'save-location-modal',
-  template: require('./save-location-modal.component.html')
+  templateUrl: './save-location-modal.component.html'
 })
 export class SaveLocationModalComponent implements OnDestroy {
 

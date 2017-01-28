@@ -9,7 +9,7 @@ import { Input } from '@angular/core/src/metadata/directives';
 
 @Component({
   selector: 'save-training-modal',
-  template: require('./save-training-modal.component.html')
+  templateUrl: './save-training-modal.component.html'
 })
 export class SaveTrainingModalComponent implements OnDestroy {
 

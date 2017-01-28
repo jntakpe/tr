@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'login-component',
-  template: require('./login.component.html'),
-  styles: [require('./login.component.scss')]
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
 

@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'session-edit-component',
-  template: require('./session-edit.component.html')
+  templateUrl: './session-edit.component.html'
 })
 export class SessionEditComponent implements OnInit, OnDestroy {
 

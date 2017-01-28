@@ -6,8 +6,8 @@ import { BreadcrumbsInfo } from './breadcrumbs';
 
 @Component({
   selector: 'breadcrumbs-component',
-  template: require('./breadcrumbs.component.html'),
-  styles: [require('./breadcrumbs.scss')]
+  templateUrl: './breadcrumbs.component.html',
+  styleUrls: ['./breadcrumbs.scss']
 })
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
 

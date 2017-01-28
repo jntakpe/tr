@@ -11,7 +11,7 @@ import { DomainService } from '../../shared/domain/domain.service';
 
 @Component({
   selector: 'training-component',
-  template: require('./training.component.html')
+  templateUrl: './training.component.html'
 })
 export class TrainingComponent implements OnInit, OnDestroy {
 
