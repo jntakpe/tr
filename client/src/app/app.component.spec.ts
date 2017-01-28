@@ -17,5 +17,4 @@ describe('App: Training Rating', () => {
       expect(app).toBeTruthy();
     });
   }));
-
 });

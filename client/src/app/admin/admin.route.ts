@@ -10,12 +10,16 @@ import { SessionComponent } from './session/session.component';
 import { SessionEditComponent } from './session/edit/session-edit.component';
 import { SessionResolve } from './session/session.resolve';
 
+export function homeBreadcrumb(): BreadcrumbsInfo {
+  return new BreadcrumbsInfo(homeRoute);
+}
+
 const locationRoute: Route = {
   path: 'locations',
   component: LocationComponent,
   data: {
     title: 'Sites de formation',
-    breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+    breadcrumb: [homeBreadcrumb]
   }
 };
 
@@ -24,7 +28,7 @@ const trainingRoute: Route = {
   component: TrainingComponent,
   data: {
     title: 'Formations',
-    breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+    breadcrumb: [homeBreadcrumb]
   }
 };
 
@@ -33,7 +37,7 @@ const trainerRoute: Route = {
   component: TrainerComponent,
   data: {
     title: 'Formateurs',
-    breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+    breadcrumb: [homeBreadcrumb]
   }
 };
 
@@ -42,16 +46,20 @@ const sessionRoute: Route = {
   component: SessionComponent,
   data: {
     title: 'Sessions',
-    breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+    breadcrumb: [homeBreadcrumb]
   }
 };
+
+export function editSessionBreadcrumb() {
+  return new BreadcrumbsInfo(sessionRoute);
+}
 
 const editSessionRoute: Route = {
   path: ':id',
   component: SessionEditComponent,
   data: {
     title: 'Édition d\'une session',
-    breadcrumb: [new BreadcrumbsInfo(homeRoute), new BreadcrumbsInfo(sessionRoute)]
+    breadcrumb: [homeBreadcrumb, editSessionBreadcrumb]
   },
   resolve: {
     sessionToEdit: SessionResolve

@@ -7,10 +7,11 @@ import { appRouting } from './app.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   imports: [BrowserModule, NgbModule.forRoot(), LayoutModule, SecurityModule, appRouting],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
 }

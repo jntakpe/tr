@@ -20,6 +20,10 @@ describe('location component', () => {
 
     locations: Location[] = [new Location('Triangle', 'Paris'), new Location('Colo1', 'Toulouse')];
 
+    constructor() {
+      super(null, null, null, null);
+    }
+
     findAll(): Observable<Location[]> {
       return Observable.of(this.locations);
     }
@@ -41,7 +45,7 @@ describe('location component', () => {
       declarations: [LocationComponent, SaveLocationModalComponent],
       imports: [FormModule, TableModule, ModalModule],
       providers: [
-        {provide: LocationService, useClass: MockLocationService}
+        {provide: LocationService, useValue: new MockLocationService()}
       ]
     });
     fixture = TestBed.createComponent(LocationComponent);

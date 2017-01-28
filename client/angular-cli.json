@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.21",
+    "version": "1.0.0-beta.26",
     "name": "client"
   },
   "apps": [
@@ -28,8 +28,6 @@
       }
     }
   ],
-  "addons": [],
-  "packages": [],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
@@ -41,7 +39,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "prefixInterfaces": false,
     "inline": {
       "style": false,

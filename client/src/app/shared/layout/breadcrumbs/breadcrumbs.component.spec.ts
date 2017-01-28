@@ -22,13 +22,15 @@ describe('breadcrumb component', () => {
     findContentRoute(snapshot: ActivatedRouteSnapshot): Route {
       return {
         data: {
-          title: 'Test title', breadcrumb: [new BreadcrumbsInfo({
-            path: 'previous',
-            data: {
-              title: 'Previous title',
-              breadcrumb: []
-            }
-          })]
+          title: 'Test title', breadcrumb: [function () {
+            return new BreadcrumbsInfo({
+              path: 'previous',
+              data: {
+                title: 'Previous title',
+                breadcrumb: []
+              }
+            });
+          }]
         }
       };
     }

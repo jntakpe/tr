@@ -5,7 +5,7 @@ import { ConstraintsMessage } from '../constraint';
 
 @Component({
   selector: 'confirm-modal',
-  template: require('./confirm-modal.component.html')
+  templateUrl: require('./confirm-modal.component.html')
 })
 export class ConfirmModalComponent implements OnInit {
 

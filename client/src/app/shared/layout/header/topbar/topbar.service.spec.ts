@@ -88,7 +88,7 @@ describe('topbar service', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [FakeLoginComponent, RootComponent],
-        imports: [RouterTestingModule, RouterModule.forChild(routes)],
+        imports: [HttpModule, RouterTestingModule, RouterModule.forChild(routes)],
         providers: [
           NavigationService,
           TopbarService,
@@ -118,7 +118,7 @@ describe('topbar service', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [FakeLoginComponent, RootComponent],
-        imports: [RouterTestingModule, RouterModule.forChild(routes)],
+        imports: [HttpModule, RouterTestingModule, RouterModule.forChild(routes)],
         providers: [
           TopbarService,
           NavigationService,

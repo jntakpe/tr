@@ -19,6 +19,10 @@ describe('training component', () => {
 
   class MockDomainService extends DomainService {
 
+    constructor() {
+      super(null);
+    }
+
     findAll(): Observable<string[]> {
       return Observable.of(['Technologies', 'Commerce']);
     }
@@ -27,6 +31,11 @@ describe('training component', () => {
   class MockTrainingService extends TrainingService {
 
     trainings: Training[] = [new Training('Angular 2', 3, 'Technologies'), new Training('AngularJS', 3, 'Technologies')];
+
+
+    constructor() {
+      super(null, null, null, null);
+    }
 
     findAll(): Observable<Training[]> {
       return Observable.of(this.trainings);
@@ -49,8 +58,8 @@ describe('training component', () => {
       declarations: [TrainingComponent, SaveTrainingModalComponent],
       imports: [FormModule, TableModule, ModalModule],
       providers: [
-        {provide: TrainingService, useClass: MockTrainingService},
-        {provide: DomainService, useClass: MockDomainService}
+        {provide: TrainingService, useValue: new MockTrainingService()},
+        {provide: DomainService, useValue: new MockDomainService()},
       ]
     });
     fixture = TestBed.createComponent(TrainingComponent);
