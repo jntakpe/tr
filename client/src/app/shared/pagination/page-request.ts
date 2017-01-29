@@ -14,12 +14,12 @@ export class PageRequest<T> {
 
   column: string;
 
-  constructor({pageEvent: {offset, limit}, sortEvent}: PageContext, public searchObj?: T) {
+  constructor({pageEvent: {offset, limit}, sort}: PageContext, public searchObj?: T) {
     this.page = offset;
     this.size = limit;
-    if (sortEvent) {
-      this.column = sortEvent.prop;
-      this.direction = sortEvent.dir;
+    if (sort) {
+      this.column = sort.prop;
+      this.direction = sort.dir;
     }
   }
 

@@ -13,6 +13,7 @@ import { Page } from '../../shared/pagination/page';
 import { DomainService } from '../../shared/domain/domain.service';
 import { PageEvent } from '../../shared/pagination/page-event';
 import { PageContext } from '../../shared/pagination/page-context';
+import { SortEvent } from '../../shared/pagination/sort-event';
 
 @Component({
   selector: 'session-component',
@@ -67,10 +68,8 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.updateSessions();
   }
 
-  changeSort($event: any) {
-    if ($event && $event.sorts && $event.sorts.length) {
-      this.pageCtx.sortEvent = $event.sorts[0];
-    }
+  changeSort($event: SortEvent) {
+    this.pageCtx.sort = $event.toSort();
     this.updateSessions();
   }
 

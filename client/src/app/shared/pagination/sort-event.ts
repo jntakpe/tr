@@ -1,6 +1,13 @@
+import { Sort } from './sort';
+
 export class SortEvent {
 
-  constructor(public prop: string, public dir: string) {
+  sorts: Sort[];
+
+  toSort(): Sort {
+    if (this.sorts && this.sorts.length) {
+      return this.sorts[0];
+    }
   }
 
 }

@@ -24,6 +24,7 @@ import { Location } from '../location/location';
 import { TrainingService } from '../training/training.service';
 import { TrainingModule } from '../training/training.module';
 import { DomainService } from '../../shared/domain/domain.service';
+import { PageContext } from '../../shared/pagination/page-context';
 
 describe('session service', () => {
 
@@ -80,7 +81,7 @@ describe('session service', () => {
           body: createFakeResponse()
         })));
       });
-      sessionService.findSessions(new PageRequest<Session>({})).subscribe((page: Page<Session>) => {
+      sessionService.findSessions(new PageRequest<Session>(new PageContext())).subscribe((page: Page<Session>) => {
         expect(page).toBeTruthy();
         expect(page.content.length).toBe(3);
         expect(page.content[0].location.name).toBe('colo1');
@@ -95,7 +96,7 @@ describe('session service', () => {
         error['status'] = 500;
         conn.mockError(error);
       });
-      sessionService.findSessions(new PageRequest<Session>({})).subscribe(() => fail('error sessions response'), () => {
+      sessionService.findSessions(new PageRequest<Session>(new PageContext())).subscribe(() => fail('error sessions response'), () => {
         expect(alertService.error).toHaveBeenCalledWith('Impossible de récupérer la liste des sessions depuis le serveur',
           titleConstants.error.server);
       });
@@ -109,7 +110,7 @@ describe('session service', () => {
         error['status'] = 400;
         conn.mockError(error);
       });
-      sessionService.findSessions(new PageRequest<Session>({})).subscribe(() => fail('error sessions response'), () => {
+      sessionService.findSessions(new PageRequest<Session>(new PageContext())).subscribe(() => fail('error sessions response'), () => {
         expect(alertService.defaultErrorMsg).toHaveBeenCalled();
       });
     })));
@@ -121,7 +122,7 @@ describe('session service', () => {
           body: createFakeResponse(1, 13)
         })));
       });
-      sessionService.findSessions(new PageRequest<Session>({})).subscribe((page: Page<Session>) => {
+      sessionService.findSessions(new PageRequest<Session>(new PageContext())).subscribe((page: Page<Session>) => {
         expect(page).toBeTruthy();
         expect(page.content.length).toBe(13);
         expect(page.content[0]).toBeFalsy();
@@ -198,7 +199,7 @@ describe('session service', () => {
           })));
         }
       });
-      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>({}))
+      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>(new PageContext()))
         .subscribe(page => pageSession = page, err => fail('should empty'));
       fixture.detectChanges();
       tick();
@@ -232,7 +233,7 @@ describe('session service', () => {
           })));
         }
       });
-      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>({}))
+      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>(new PageContext()))
         .subscribe(() => fail('should fail'), () => fail('should empty'));
       fixture.detectChanges();
       tick();
@@ -266,7 +267,7 @@ describe('session service', () => {
           })));
         }
       });
-      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>({}))
+      sessionService.removeModal(fixture.componentInstance.confirmModal, createSession(), new PageRequest<Session>(new PageContext()))
         .subscribe(() => fail('should fail'), () => fail('should empty'));
       fixture.detectChanges();
       tick();

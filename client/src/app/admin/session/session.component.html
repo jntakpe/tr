@@ -18,7 +18,7 @@
         <div class="form-group col-md-1">
           <label for="search-domain">Domaine</label>
           <select id="search-domain" class="form-control" formControlName="trainingDomain">
-            <option value="" selected>Choisir un domaine</option>
+            <option value="" selected>Choisir</option>
             <option *ngFor="let domain of domains | async" [value]="domain">{{domain}}</option>
           </select>
         </div>
