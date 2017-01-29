@@ -6,12 +6,15 @@ import { BreadcrumbsInfo } from '../shared/layout/breadcrumbs/breadcrumbs';
 import { AdminComponent } from './admin.component';
 import { AdminGuard } from './admin-guard.service';
 import { TrainerComponent } from './trainer/trainer.component';
-import { SessionComponent } from './session/session.component';
 import { SessionEditComponent } from './session/edit/session-edit.component';
-import { SessionResolve } from './session/session.resolve';
+import { SessionComponent } from './session/session.component';
 
 export function homeBreadcrumb(): BreadcrumbsInfo {
   return new BreadcrumbsInfo(homeRoute);
+}
+
+export function sessionsBreadcrumb(): BreadcrumbsInfo {
+  return new BreadcrumbsInfo(sessionsRoute);
 }
 
 const locationRoute: Route = {
@@ -41,39 +44,28 @@ const trainerRoute: Route = {
   }
 };
 
-const sessionRoute: Route = {
-  path: '',
-  component: SessionComponent,
-  data: {
-    title: 'Sessions',
-    breadcrumb: [homeBreadcrumb]
-  }
-};
-
-export function editSessionBreadcrumb() {
-  return new BreadcrumbsInfo(sessionRoute);
-}
-
 const editSessionRoute: Route = {
-  path: ':id',
+  path: 'sessions/:id',
   component: SessionEditComponent,
   data: {
     title: 'Édition d\'une session',
-    breadcrumb: [homeBreadcrumb, editSessionBreadcrumb]
-  },
-  resolve: {
-    sessionToEdit: SessionResolve
+    breadcrumb: [homeBreadcrumb, sessionsBreadcrumb]
   }
 };
 
 const sessionsRoute: Route = {
   path: 'sessions',
-  children: [sessionRoute, editSessionRoute]
+  component: SessionComponent,
+  data: {
+    title: 'Sessions',
+    breadcrumb: [homeBreadcrumb],
+    absolutePath: '/admin/sessions'
+  }
 };
 
 export const adminRoute: Route = {
   path: 'admin',
   canActivateChild: [AdminGuard],
   component: AdminComponent,
-  children: [locationRoute, trainingRoute, trainerRoute, sessionsRoute]
+  children: [locationRoute, trainingRoute, trainerRoute, sessionsRoute, editSessionRoute]
 };

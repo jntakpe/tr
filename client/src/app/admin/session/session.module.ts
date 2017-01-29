@@ -15,14 +15,13 @@ import { TrainingModule } from '../training/training.module';
 import { TrainerModule } from '../trainer/trainer.module';
 import { LocationModule } from '../location/location.module';
 import { DomainModule } from '../../shared/domain/domain.module';
-import { SessionResolve } from './session.resolve';
 
 @NgModule({
   declarations: [SessionComponent, SessionEditComponent],
   imports: [CommonModule, HttpModule, RouterModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule,
     NgbDatepickerModule.forRoot(), TrainingModule, TrainerModule, LocationModule, DomainModule],
   exports: [SessionComponent, SessionEditComponent],
-  providers: [SessionService, SessionResolve]
+  providers: [SessionService]
 })
 export class SessionModule {
 }

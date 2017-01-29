@@ -8,7 +8,7 @@ export class BreadcrumbsInfo {
 
   constructor(route: Route) {
     this.title = route.data['title'];
-    this.path = route.path;
+    this.path = route.data['absolutePath'] ? route.data['absolutePath'] : route.path;
   }
 
 }

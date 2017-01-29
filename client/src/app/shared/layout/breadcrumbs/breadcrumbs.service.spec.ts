@@ -16,17 +16,28 @@ describe('breadcrumbs service', () => {
     }
   };
 
+  const featRoute = {
+    path: 'feat',
+    component: FakeFeatureComponent,
+    data: {
+      title: 'feat',
+      breadcrumb: [new BreadcrumbsInfo(homeRoute)],
+      absolutePath: '/feat'
+    }
+  };
+
   const routes: Routes = [
     {path: '', component: RootComponent},
     homeRoute,
+    featRoute,
     {
-      path: 'feat',
+      path: 'child',
       component: FakeFeatureComponent,
       data: {
-        title: 'feat',
-        breadcrumb: [new BreadcrumbsInfo(homeRoute)]
+        title: 'child',
+        breadcrumb: [new BreadcrumbsInfo(homeRoute), new BreadcrumbsInfo(featRoute)]
       }
-    },
+    }
   ];
 
   beforeEach(() => {
@@ -85,6 +96,19 @@ describe('breadcrumbs service', () => {
       const breadcrumbsInfos = breadcrumbsService.findContentRoute(activeRoute).data['breadcrumb'];
       expect(breadcrumbsInfos[0].path).toBe('home');
       expect(breadcrumbsInfos[0].title).toBe('home');
+    })));
+
+  it('should use abs route if possible', fakeAsync(inject([BreadcrumbsService, Router],
+    (breadcrumbsService: BreadcrumbsService, router: Router) => {
+      const fixture = createRoot(router, RootComponent);
+      router.navigate(['/child']);
+      advance(fixture);
+      const activeRoute = router.routerState.snapshot.root;
+      const breadcrumbsInfos = breadcrumbsService.findContentRoute(activeRoute).data['breadcrumb'];
+      expect(breadcrumbsInfos[0].path).toBe('home');
+      expect(breadcrumbsInfos[0].title).toBe('home');
+      expect(breadcrumbsInfos[1].path).toBe('/feat');
+      expect(breadcrumbsInfos[1].title).toBe('feat');
     })));
 
 });
