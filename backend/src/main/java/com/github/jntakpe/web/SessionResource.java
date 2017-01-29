@@ -34,10 +34,9 @@ public class SessionResource {
         return sessionService.findWithPredicate(page.toPageRequest(), session);
     }
     
-    @RolesAllowed(AuthoritiesConstants.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Session findById(@PathVariable Long id){
-        return sessionService.findById(id);
+        return sessionService.findByIdWithRelations(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

@@ -4,6 +4,7 @@ import com.github.jntakpe.model.Session;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository gérant l'entité {@link Session}
@@ -23,6 +24,6 @@ public interface SessionRepository extends GenericRepository<Session> {
     List<Session> findByTraining_Id(Long id);
 
     @EntityGraph(value = "Session.detail", type = EntityGraph.EntityGraphType.FETCH)
-    Session findById(Long id);
+    Optional<Session> findById(Long id);
 
 }

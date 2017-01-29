@@ -109,11 +109,29 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     public void findById_shouldFindOne() {
         Session session = sessionService.findById(sessionTestsUtils.findAnySession().getId());
         assertThat(session).isNotNull();
+        assertThat(Hibernate.isInitialized(session.getLocation())).isFalse();
+        assertThat(Hibernate.isInitialized(session.getTrainer())).isFalse();
+        assertThat(Hibernate.isInitialized(session.getTraining())).isFalse();
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void findById_shouldNotFind() {
         sessionService.findById(999L);
+        fail("should have failed at this point");
+    }
+
+    @Test
+    public void findByIdWithRelations_shouldFindOne() {
+        Session session = sessionService.findByIdWithRelations(sessionTestsUtils.findAnySession().getId());
+        assertThat(session).isNotNull();
+        assertThat(Hibernate.isInitialized(session.getLocation())).isTrue();
+        assertThat(Hibernate.isInitialized(session.getTrainer())).isTrue();
+        assertThat(Hibernate.isInitialized(session.getTraining())).isTrue();
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void findByIdWithRelations_shouldNotFind() {
+        sessionService.findByIdWithRelations(999L);
         fail("should have failed at this point");
     }
 

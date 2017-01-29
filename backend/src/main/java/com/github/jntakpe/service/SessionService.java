@@ -18,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,15 @@ public class SessionService {
     }
 
     @Transactional(readOnly = true)
+    public Session findByIdWithRelations(Long id) {
+        Objects.requireNonNull(id);
+        return sessionRepository.findById(id).orElseThrow(() -> {
+            LOGGER.warn("Aucune session de formation possédant l'id {}", id);
+            return new EntityNotFoundException(String.format("Aucune session de formation possédant l'id %s", id));
+        });
+    }
+
+    @Transactional(readOnly = true)
     @Cacheable(COUNT_LOCATIONS_CACHE)
     public Long countByLocationId(Long id) {
         return sessionRepository.countByLocation_Id(id);
@@ -113,6 +123,8 @@ public class SessionService {
         Page<Session> page = sessionRepository.findAll(SessionPredicates.withSession(session), pageable);
         Map<Long, Session> idsMap = page.map(IdentifiableEntity::getId).getContent().stream()
                 .map(id -> sessionRepository.findById(id))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toMap(IdentifiableEntity::getId, Function.identity()));
         return page.map(s -> idsMap.get(s.getId()));
     }

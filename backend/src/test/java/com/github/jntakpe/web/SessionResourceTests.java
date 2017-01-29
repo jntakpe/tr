@@ -38,6 +38,26 @@ public class SessionResourceTests extends AbstractResourceTests {
     }
 
     @Test
+    public void findById_shouldFind() throws Exception {
+        Long sessionId = sessionTestsUtils.findAnySession().getId();
+        ResultActions resultActions = realMvc.perform(get(UriConstants.SESSIONS + "/{id}", sessionId)
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        expectObjectExists(resultActions);
+        resultActions.andExpect(jsonPath("$.start").isNotEmpty());
+        resultActions.andExpect(jsonPath("$.location.id").isNotEmpty());
+        resultActions.andExpect(jsonPath("$.training.id").isNotEmpty());
+        resultActions.andExpect(jsonPath("$.trainer.id").isNotEmpty());
+    }
+
+    @Test
+    public void findById_shouldNotFind() throws Exception {
+        realMvc.perform(get(UriConstants.SESSIONS + "/{id}", 9999L)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
+    }
+
+    @Test
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldCreate() throws Exception {
         LocalDate startDate = LocalDate.of(2016, 2, 2);
