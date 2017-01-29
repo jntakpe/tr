@@ -12,11 +12,6 @@ import { SessionComponent } from './session/session.component';
 export function homeBreadcrumb(): BreadcrumbsInfo {
   return new BreadcrumbsInfo(homeRoute);
 }
-
-export function sessionsBreadcrumb(): BreadcrumbsInfo {
-  return new BreadcrumbsInfo(sessionsRoute);
-}
-
 const locationRoute: Route = {
   path: 'locations',
   component: LocationComponent,
@@ -44,15 +39,6 @@ const trainerRoute: Route = {
   }
 };
 
-const editSessionRoute: Route = {
-  path: 'sessions/:id',
-  component: SessionEditComponent,
-  data: {
-    title: 'Édition d\'une session',
-    breadcrumb: [homeBreadcrumb, sessionsBreadcrumb]
-  }
-};
-
 const sessionsRoute: Route = {
   path: 'sessions',
   component: SessionComponent,
@@ -60,6 +46,19 @@ const sessionsRoute: Route = {
     title: 'Sessions',
     breadcrumb: [homeBreadcrumb],
     absolutePath: '/admin/sessions'
+  }
+};
+
+export function sessionsBreadcrumb(): BreadcrumbsInfo {
+  return new BreadcrumbsInfo(sessionsRoute);
+}
+
+const editSessionRoute: Route = {
+  path: 'sessions/:id',
+  component: SessionEditComponent,
+  data: {
+    title: 'Édition d\'une session',
+    breadcrumb: [homeBreadcrumb, sessionsBreadcrumb]
   }
 };
 

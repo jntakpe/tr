@@ -1,10 +1,11 @@
 import { OnInit, OnDestroy, Component } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { TrainerService } from './trainer.service';
 import { Trainer } from './trainer';
 import { FormGroup } from '@angular/forms';
 import { FormService } from '../../shared/form/form.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import '../../shared/rxjs.extension';
 
 @Component({
   selector: 'trainer-component',

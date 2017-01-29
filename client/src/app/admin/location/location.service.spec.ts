@@ -355,7 +355,7 @@ describe('location service', () => {
 
   it('should fail removing one location from table', fakeAsync(inject([MockBackend, LocationService, AlertService],
     (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
-      let locations = [];
+      const locations = [];
       let deleteCalled = false;
       let getCalled = false;
       let constraintCalled = false;
@@ -403,7 +403,7 @@ describe('location service', () => {
 
   it('should fail removing one location from table cuz constraints', fakeAsync(inject([MockBackend, LocationService, AlertService],
     (mockBackend: MockBackend, locationService: LocationService, alertService: AlertService) => {
-      let locations = [];
+      const locations = [];
       let deleteCalled = false;
       let getCalled = false;
       let constraintCalled = false;

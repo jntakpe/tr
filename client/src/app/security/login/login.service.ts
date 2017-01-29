@@ -1,7 +1,8 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { SecurityService } from '../security.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../../shared/rxjs.extension';
 import { User } from '../user';
 import { NavigationService } from '../../shared/navigation.service';
 import { Response } from '@angular/http';

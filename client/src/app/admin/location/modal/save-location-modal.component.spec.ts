@@ -15,7 +15,8 @@ import { RouterTestingModule } from '@angular/router/testing/router_testing_modu
 import { RouterModule } from '@angular/router';
 import { SecurityService } from '../../../security/security.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../../../shared/rxjs.extension';
 import { Location } from '../location';
 import { By } from '@angular/platform-browser';
 import { TableModule } from '../../../shared/table/table.module';

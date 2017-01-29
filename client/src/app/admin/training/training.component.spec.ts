@@ -1,7 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
 import { TrainingComponent } from './training.component';
 import { TrainingService } from './training.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../../shared/rxjs.extension';
 import { By } from '@angular/platform-browser';
 import { Training } from './training';
 import { TemplateRef } from '@angular/core';

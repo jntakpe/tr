@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Route, Router, Event, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../../rxjs.extension';
 import 'rxjs/add/operator/filter';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class BreadcrumbsService {
   }
 
   private walkRouteTree(snapshot: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
-    let terminalRoute = snapshot;
+    const terminalRoute = snapshot;
     if (snapshot.children && snapshot.children.length > 0) {
       return this.walkRouteTree(snapshot.children[0]);
     }

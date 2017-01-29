@@ -1,7 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { LocationComponent } from './location.component';
 import { LocationService } from './location.service';
-import { Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Location } from './location';
 import { TemplateRef } from '@angular/core';
@@ -11,6 +10,8 @@ import { FormModule } from '../../shared/form/form.module';
 import { SaveLocationModalComponent } from './modal/save-location-modal.component';
 import { TableModule } from '../../shared/table/table.module';
 import { ModalModule } from '../../shared/components/modal.module';
+import '../../shared/rxjs.extension';
+import { Observable } from 'rxjs/Observable';
 
 describe('location component', () => {
 

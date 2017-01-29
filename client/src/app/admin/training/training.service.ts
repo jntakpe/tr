@@ -3,7 +3,8 @@ import { AuthHttp } from '../../security/auth.http';
 import { AlertService, titleConstants } from '../../shared/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterTableService } from '../../shared/table/filter-table.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../../shared/rxjs.extension';
 import { Training } from './training';
 import { FormGroup } from '@angular/forms';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
@@ -38,16 +39,16 @@ export class TrainingService {
   saveModal(modalContent: TemplateRef<any>, training: Training = Training.EMPTY_TRAINING): Observable<Training[]> {
     return Observable.fromPromise(this.ngbModal.open(modalContent).result)
       .map((form: FormGroup) => new Training(form.value.name, form.value.duration, form.value.domain, training.id))
-      .flatMap(l => this.save(l))
-      .flatMap(() => this.findAll())
+      .mergeMap(l => this.save(l))
+      .mergeMap(() => this.findAll())
       .catch(() => Observable.empty());
   }
 
   removeModal(modalInstance: ConfirmModalComponent, training: Training): Observable<Training[]> {
     return this.removeMessage(training)
-      .flatMap(c => modalInstance.open(c, 'Suppression d\'une formation'))
-      .flatMap(() => this.remove(training))
-      .flatMap(() => this.findAll())
+      .mergeMap(c => modalInstance.open(c, 'Suppression d\'une formation'))
+      .mergeMap(() => this.remove(training))
+      .mergeMap(() => this.findAll())
       .catch(() => Observable.empty());
   }
 

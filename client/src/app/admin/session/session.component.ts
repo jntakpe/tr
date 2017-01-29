@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { SessionService } from './session.service';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { Session } from '../../session/session';
 import { PageRequest } from '../../shared/pagination/page-request';
 import { FormGroup } from '@angular/forms';
@@ -14,6 +15,7 @@ import { PageEvent } from '../../shared/pagination/page-event';
 import { PageContext } from '../../shared/pagination/page-context';
 import { SortEvent } from '../../shared/pagination/sort-event';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import '../../shared/rxjs.extension';
 
 @Component({
   selector: 'session-component',
@@ -32,9 +34,9 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   pageCtx: PageContext = new PageContext();
 
-  count: number = 0;
+  count = 0;
 
-  offset: number = 0;
+  offset = 0;
 
   sessionSubscription: Subscription;
 

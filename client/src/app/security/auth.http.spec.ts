@@ -8,7 +8,8 @@ import { NavigationService } from '../shared/navigation.service';
 import { MockBackend, MockConnection } from '@angular/http/testing/mock_backend';
 import { SecurityService } from './security.service';
 import { tokenJson } from '../shared/test/test-utils';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../shared/rxjs.extension';
 
 describe('auth http', () => {
 

@@ -10,7 +10,7 @@ import { SecurityService } from '../../security/security.service';
 export const tokenJson = require('./token-response.json');
 
 export function mockTokenResponse(connection: MockConnection) {
-  let valid: boolean = connection.request.getBody().indexOf('username=jntakpe&password=test') !== -1;
+  const valid: boolean = connection.request.getBody().indexOf('username=jntakpe&password=test') !== -1;
   expect(connection.request.url).toEqual('oauth/token');
   connection.mockRespond(new Response(valid ? new ResponseOptions({body: _.cloneDeep(tokenJson)}) : new ResponseOptions({status: 400})));
 }

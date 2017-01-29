@@ -1,6 +1,8 @@
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import '../../../shared/rxjs.extension';
 import { FormService } from '../../../shared/form/form.service';
 import { FormField } from '../../../shared/form/form-field';
 import { TrainingService } from '../training.service';

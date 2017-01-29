@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../rxjs.extension';
 import { ConstraintsMessage } from '../constraint';
 
 @Component({

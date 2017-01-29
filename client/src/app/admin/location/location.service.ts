@@ -1,5 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Location } from './location';
 import { AuthHttp } from '../../security/auth.http';
 import { AlertService, titleConstants } from '../../shared/alert.service';
@@ -10,6 +10,7 @@ import { ConfirmModalComponent } from '../../shared/components/confirm-modal.com
 import { ConstraintsMessage } from '../../shared/constraint';
 import { FilterTableService } from '../../shared/table/filter-table.service';
 import { SelectEntry } from '../../shared/select-entry';
+import '../../shared/rxjs.extension';
 
 @Injectable()
 export class LocationService {
@@ -38,16 +39,16 @@ export class LocationService {
   saveModal(modalContent: TemplateRef<any>, location: Location = Location.EMPTY_TRAINING): Observable<Location[]> {
     return Observable.fromPromise(this.ngbModal.open(modalContent).result)
       .map((form: FormGroup) => new Location(form.value.name, form.value.city, location.id))
-      .flatMap(l => this.save(l))
-      .flatMap(() => this.findAll())
+      .mergeMap(l => this.save(l))
+      .mergeMap(() => this.findAll())
       .catch(() => Observable.empty());
   }
 
   removeModal(modalInstance: ConfirmModalComponent, location: Location): Observable<Location[]> {
     return this.removeMessage(location)
-      .flatMap(c => modalInstance.open(c, 'Suppression d\'un site de formation'))
-      .flatMap(() => this.remove(location))
-      .flatMap(() => this.findAll())
+      .mergeMap(c => modalInstance.open(c, 'Suppression d\'un site de formation'))
+      .mergeMap(() => this.remove(location))
+      .mergeMap(() => this.findAll())
       .catch(() => Observable.empty());
   }
 

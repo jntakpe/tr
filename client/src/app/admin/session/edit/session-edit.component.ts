@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SessionService } from '../session.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../../../shared/form/form.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { Session } from '../../../session/session';
 import { FormField } from '../../../shared/form/form-field';
 import { FormMessages } from '../../../shared/form/form-messages';
@@ -11,6 +11,7 @@ import { TrainerService } from '../../trainer/trainer.service';
 import { LocationService } from '../../location/location.service';
 import { ActivatedRoute } from '@angular/router';
 import { TrainingService } from '../../training/training.service';
+import '../../../shared/rxjs.extension';
 
 @Component({
   selector: 'session-edit-component',
@@ -59,7 +60,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       this.trainings = trainings;
       this.initSelectize('training');
     });
-    this.route.params.flatMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
+    this.route.params.mergeMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
       this.session = s;
       const formMessages = this.initForm();
       this.sessionForm = formMessages.formGroup;

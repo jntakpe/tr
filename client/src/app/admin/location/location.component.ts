@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, OnDestroy, TemplateRef } from '@angular/c
 import { LocationService } from './location.service';
 import { Location } from './location';
 import { FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import '../../shared/rxjs.extension';
 import { FormService } from '../../shared/form/form.service';
 import { SaveLocationModalComponent } from './modal/save-location-modal.component';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';

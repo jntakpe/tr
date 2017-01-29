@@ -364,7 +364,7 @@ describe('training service', () => {
 
   it('should fail removing one training from table', fakeAsync(inject([MockBackend, TrainingService, AlertService],
     (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
-      let trainings = [];
+      const trainings = [];
       let deleteCalled = false;
       let getCalled = false;
       let constraintCalled = false;
@@ -413,7 +413,7 @@ describe('training service', () => {
 
   it('should fail removing one training from table cuz constraints', fakeAsync(inject([MockBackend, TrainingService, AlertService],
     (mockBackend: MockBackend, trainingService: TrainingService, alertService: AlertService) => {
-      let trainings = [];
+      const trainings = [];
       let deleteCalled = false;
       let getCalled = false;
       let constraintCalled = false;

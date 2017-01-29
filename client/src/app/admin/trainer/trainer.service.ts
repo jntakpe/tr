@@ -3,7 +3,8 @@ import { AuthHttp } from '../../security/auth.http';
 import { AlertService, titleConstants } from '../../shared/alert.service';
 import { FilterTableService } from '../../shared/table/filter-table.service';
 import { Trainer } from './trainer';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../../shared/rxjs.extension';
 import { SelectEntry } from '../../shared/select-entry';
 
 @Injectable()

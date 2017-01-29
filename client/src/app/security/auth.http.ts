@@ -1,5 +1,6 @@
 import { Http, RequestOptions, Response, RequestOptionsArgs, Headers } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import '../shared/rxjs.extension';
 import { Injectable } from '@angular/core';
 import { SecurityService } from './security.service';
 import { NavigationService } from '../shared/navigation.service';
@@ -12,25 +13,25 @@ export class AuthHttp {
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.findAccessToken()
-      .flatMap(token => this.http.get(url, this.addTokenToHeaders(token, options)))
+      .mergeMap(token => this.http.get(url, this.addTokenToHeaders(token, options)))
       .catch(err => this.handleError(err));
   }
 
   post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.findAccessToken()
-      .flatMap(token => this.http.post(url, body, this.addApplicationJsonContent(this.addTokenToHeaders(token, options))))
+      .mergeMap(token => this.http.post(url, body, this.addApplicationJsonContent(this.addTokenToHeaders(token, options))))
       .catch(err => this.handleError(err));
   }
 
   put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.findAccessToken()
-      .flatMap(token => this.http.put(url, body, this.addApplicationJsonContent(this.addTokenToHeaders(token, options))))
+      .mergeMap(token => this.http.put(url, body, this.addApplicationJsonContent(this.addTokenToHeaders(token, options))))
       .catch(err => this.handleError(err));
   }
 
   delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.findAccessToken()
-      .flatMap(token => this.http.delete(url, this.addTokenToHeaders(token, options)))
+      .mergeMap(token => this.http.delete(url, this.addTokenToHeaders(token, options)))
       .catch(err => this.handleError(err));
   }
 

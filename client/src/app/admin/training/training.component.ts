@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import '../../shared/rxjs.extension';
 import { FormGroup } from '@angular/forms';
 import { TrainingService } from './training.service';
 import { FormService } from '../../shared/form/form.service';

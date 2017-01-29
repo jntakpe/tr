@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule } from '@angular/router';
 import { PageRequest } from '../../shared/pagination/page-request';
 import { Session } from '../../session/session';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Page } from '../../shared/pagination/page';
 import { SessionSearchForm } from './session-search-form';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
