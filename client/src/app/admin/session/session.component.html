@@ -49,16 +49,17 @@
     </form>
   </div>
 </div>
-<datatable class="bootstrap table table-striped table-hover" [rows]="displayedSessions"
-           [columns]="dtOptions.columns"
-           [reorderable]="dtOptions.reorderable"
-           [footerHeight]="dtOptions.footerHeight"
-           [columnMode]="dtOptions.columnMode"
-           [rowHeight]="dtOptions.rowHeight"
-           [limit]="dtOptions.limit"
-           (onPageChange)="changePage()"
-           (onColumnChange)="sortColumn()">
-</datatable>
+<ngx-datatable class="bootstrap table table-striped table-hover"
+               [rows]="displayedSessions"
+               [columns]="dtOptions.columns"
+               [reorderable]="dtOptions.reorderable"
+               [footerHeight]="dtOptions.footerHeight"
+               [columnMode]="dtOptions.columnMode"
+               [rowHeight]="dtOptions.rowHeight"
+               [limit]="dtOptions.limit"
+               (onPageChange)="changePage()"
+               (onColumnChange)="sortColumn()">
+</ngx-datatable>
 <a class="btn btn-u" [routerLink]="['/admin/sessions', '']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>
 <template #editRowTmpl let-session="row">
   <a class="btn btn-warning btn-xs" [routerLink]="['/admin/sessions', session.id]"><i class="fa fa-edit"></i> Modifier</a>
@@ -67,3 +68,4 @@
   <button class="btn btn-danger btn-xs" (click)="remove(session)"><i class="fa fa-trash"></i> Supprimer</button>
 </template>
 <confirm-modal #confirmModal></confirm-modal>
+<template ngbModalContainer></template>

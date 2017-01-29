@@ -1,19 +1,18 @@
-@import "variables";
+@import 'variables';
 /* Vendors */
-@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-@import "../node_modules/font-awesome/scss/font-awesome";
-@import "../node_modules/toastr/toastr";
-@import "../node_modules/angular2-data-table/release/datatable.css";
+@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../node_modules/font-awesome/scss/font-awesome';
+@import '../node_modules/toastr/toastr';
 /* Unify */
-@import "assets/css/unify/unify";
-@import "assets/css/unify/blocks";
-@import "assets/css/unify/plugins";
-@import "assets/css/unify/app";
-@import "assets/css/unify/header-default";
-@import "assets/css/unify/footer-v3";
-@import "assets/css/unify/sky-forms";
+@import 'assets/css/unify/unify';
+@import 'assets/css/unify/blocks';
+@import 'assets/css/unify/plugins';
+@import 'assets/css/unify/app';
+@import 'assets/css/unify/header-default';
+@import 'assets/css/unify/footer-v3';
+@import 'assets/css/unify/sky-forms';
 /* App */
-@import "assets/css/table.scss";
+@import 'assets/css/table';
 
 body {
   height: 100%;

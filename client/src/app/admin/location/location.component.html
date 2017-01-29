@@ -20,15 +20,14 @@
     </form>
   </div>
 </div>
-<datatable class="bootstrap table table-striped table-hover"
-           [rows]="displayedLocations"
-           [columns]="dtOptions.columns"
-           [reorderable]="dtOptions.reorderable"
-           [footerHeight]="dtOptions.footerHeight"
-           [columnMode]="dtOptions.columnMode"
-           [rowHeight]="dtOptions.rowHeight"
-           [limit]="dtOptions.limit"
-></datatable>
+<ngx-datatable class="bootstrap table table-striped table-hover"
+               [rows]="displayedLocations"
+               [columns]="dtOptions.columns"
+               [reorderable]="dtOptions.reorderable"
+               [footerHeight]="dtOptions.footerHeight"
+               [columnMode]="dtOptions.columnMode"
+               [rowHeight]="dtOptions.rowHeight"
+               [limit]="dtOptions.limit"></ngx-datatable>
 <button id="add-modal" class="btn btn-u" (click)="openSaveModal()"><i class="fa fa-plus"></i> Ajouter un site de formation</button>
 <template #editRowTmpl let-location="row">
   <button class="btn btn-warning btn-xs" (click)="openSaveModal(location)"><i class="fa fa-edit"></i> Modifier</button>
@@ -38,3 +37,4 @@
 </template>
 <save-location-modal #saveModal></save-location-modal>
 <confirm-modal #confirmModal></confirm-modal>
+<template ngbModalContainer></template>

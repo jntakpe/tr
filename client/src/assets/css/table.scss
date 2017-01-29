@@ -1,4 +1,4 @@
-.datatable.bootstrap {
+.ngx-datatable.bootstrap {
   background-color: $table-bg;
   width: 100%;
   max-width: 100%;
@@ -51,10 +51,10 @@
       border-top: 0;
     }
   }
-  .datatable-body .datatable-body-row:first-child .datatable-body-cell {
+  .datatable-body .datatable-row-wrapper:first-child .datatable-body-row .datatable-body-cell {
     border-top: 2px solid $table-border-color;
   }
-  .datatable-body .datatable-body-row .datatable-body-cell {
+  .datatable-body .datatable-row-wrapper .datatable-body-row .datatable-body-cell {
     padding: 5px 8px 5px 8px;
   }
 
@@ -95,12 +95,12 @@
     }
   }
   &.table-striped {
-    .datatable-body .datatable-body-row:nth-of-type(odd) {
+    .datatable-body .datatable-row-wrapper:nth-of-type(odd) {
       background-color: $table-bg-accent;
     }
   }
   &.table-hover {
-    .datatable-body .datatable-body-row:hover {
+    .datatable-body .datatable-row-wrapper:hover {
       background-color: $table-bg-hover;
     }
   }
@@ -143,7 +143,7 @@
         }
         .datatable-body,
         .datatable-footer {
-          .datatable-body-row:last-child,
+          .datatable-row-wrapper:last-child,
           .datatable-footer-row:last-child {
             .datatable-body-cell,
             .datatable-footer-cell {

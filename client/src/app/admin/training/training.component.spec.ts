@@ -72,7 +72,7 @@ describe('training component', () => {
 
   it('should display trainings', async(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
+    const tbody = fixture.debugElement.query(By.css('.ngx-datatable .datatable-body .datatable-scroll'));
     fixture.detectChanges();
     expect(tbody).toBeTruthy();
     expect(tbody.children.length).toBe(2);
@@ -95,7 +95,7 @@ describe('training component', () => {
 
   it('should remove one training from table', async(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
+    const tbody = fixture.debugElement.query(By.css('.ngx-datatable .datatable-body .datatable-scroll'));
     expect(tbody).toBeTruthy();
     expect(tbody.children.length).toBe(2);
     const firstBtn = tbody.nativeElement.querySelector('button.btn.btn-danger.btn-xs:first-child');

@@ -58,7 +58,7 @@ describe('location component', () => {
 
   it('should display locations', async(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
+    const tbody = fixture.debugElement.query(By.css('.ngx-datatable .datatable-body .datatable-scroll'));
     fixture.detectChanges();
     expect(tbody).toBeTruthy();
     expect(tbody.children.length).toBe(2);

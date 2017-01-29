@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { FilterTableService } from './filter-table.service';
-import { Angular2DataTableModule } from 'angular2-data-table';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
-  imports: [Angular2DataTableModule],
+  imports: [NgxDatatableModule],
   providers: [FilterTableService],
-  exports: [Angular2DataTableModule]
+  exports: [NgxDatatableModule]
 })
 export class TableModule {
 }

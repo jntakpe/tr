@@ -73,7 +73,7 @@ describe('session component', () => {
 
   it('should display sessions', fakeAsync(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
+    const tbody = fixture.debugElement.query(By.css('.ngx-datatable .datatable-body .datatable-scroll'));
     tick(10);
     fixture.detectChanges();
     expect(tbody).toBeTruthy();
@@ -82,7 +82,7 @@ describe('session component', () => {
 
   it('should remove one session from table', fakeAsync(() => {
     fixture.detectChanges();
-    const tbody = fixture.debugElement.query(By.css('.datatable .datatable-body .datatable-scroll'));
+    const tbody = fixture.debugElement.query(By.css('.ngx-datatable .datatable-body .datatable-scroll'));
     tick();
     fixture.detectChanges();
     expect(tbody).toBeTruthy();

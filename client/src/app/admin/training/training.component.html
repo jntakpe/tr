@@ -27,15 +27,15 @@
     </form>
   </div>
 </div>
-<datatable class="bootstrap table table-striped table-hover"
-           [rows]="displayedTrainings"
-           [columns]="dtOptions.columns"
-           [reorderable]="dtOptions.reorderable"
-           [footerHeight]="dtOptions.footerHeight"
-           [columnMode]="dtOptions.columnMode"
-           [rowHeight]="dtOptions.rowHeight"
-           [limit]="dtOptions.limit"
-></datatable>
+<ngx-datatable class="bootstrap table table-striped table-hover"
+               [rows]="displayedTrainings"
+               [columns]="dtOptions.columns"
+               [reorderable]="dtOptions.reorderable"
+               [footerHeight]="dtOptions.footerHeight"
+               [columnMode]="dtOptions.columnMode"
+               [rowHeight]="dtOptions.rowHeight"
+               [limit]="dtOptions.limit"
+></ngx-datatable>
 <button id="add-modal" class="btn btn-u" (click)="openSaveModal()"><i class="fa fa-plus"></i> Ajouter une formation</button>
 <template #editRowTmpl let-training="row">
   <button class="btn btn-warning btn-xs" (click)="openSaveModal(training)"><i class="fa fa-edit"></i> Modifier</button>
@@ -45,3 +45,4 @@
 </template>
 <save-training-modal #saveModal [domains]="domains"></save-training-modal>
 <confirm-modal #confirmModal></confirm-modal>
+<template ngbModalContainer></template>

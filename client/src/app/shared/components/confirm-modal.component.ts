@@ -27,7 +27,8 @@ export class ConfirmModalComponent implements OnInit {
     this.message = message;
     this.constraints = constraints;
     this.title = title;
-    return Observable.fromPromise(this.ngbModal.open(this.modalContent).result).catch(() => Observable.empty());
+    return Observable.fromPromise(this.ngbModal.open(this.modalContent).result)
+      .catch(() => Observable.empty());
   }
 
 }

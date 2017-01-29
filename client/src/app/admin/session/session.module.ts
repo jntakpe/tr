@@ -21,7 +21,7 @@ import { SessionResolve } from './session.resolve';
 @NgModule({
   declarations: [SessionComponent, SessionEditComponent],
   imports: [CommonModule, HttpModule, RouterModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule,
-    NgbDatepickerModule, SelectModule, TrainingModule, TrainerModule, LocationModule, DomainModule],
+    NgbDatepickerModule.forRoot(), SelectModule, TrainingModule, TrainerModule, LocationModule, DomainModule],
   exports: [SessionComponent, SessionEditComponent],
   providers: [SessionService, SessionResolve]
 })
