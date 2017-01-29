@@ -73,12 +73,98 @@ describe('session service', () => {
     fixture = TestBed.createComponent(ModalComponent);
   });
 
+  it('should find one session', async(inject([SessionService, MockBackend, AlertService],
+    (sessionService: SessionService, mockBackend: MockBackend) => {
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        conn.mockRespond(new Response(new ResponseOptions({
+          body: new Session(
+            '2016-10-04',
+            new Location('colo1', 'Toulouse'),
+            new Employee('jntakpe', 'jntakpe@mail.com', 'Jocelyn', 'Ntakpe', null, null),
+            new Training('AngularJS', 3, 'Technologies')
+          )
+        })));
+      });
+      sessionService.findSession(1).subscribe((session: Session) => {
+        expect(session).toBeTruthy();
+        expect(session.start).toBeTruthy();
+        expect(session.location).toBeTruthy();
+        expect(session.location.name).toBe('colo1');
+        expect(session.trainer).toBeTruthy();
+        expect(session.trainer.login).toBe('jntakpe');
+        expect(session.training).toBeTruthy();
+        expect(session.training.name).toBe('AngularJS');
+      }, err => fail('error session response'));
+    })));
+
+  it('should find one session and convert date', async(inject([SessionService, MockBackend, AlertService],
+    (sessionService: SessionService, mockBackend: MockBackend) => {
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        conn.mockRespond(new Response(new ResponseOptions({
+          body: new Session(
+            '2016-10-04',
+            new Location('colo1', 'Toulouse'),
+            new Employee('jntakpe', 'jntakpe@mail.com', 'Jocelyn', 'Ntakpe', null, null),
+            new Training('AngularJS', 3, 'Technologies')
+          )
+        })));
+      });
+      sessionService.findSession(1).subscribe((session: Session) => {
+        expect(session).toBeTruthy();
+        expect(session.start).toBeTruthy();
+        expect(session.start.year).toBe(2016);
+        expect(session.start.month).toBe(10);
+        expect(session.start.day).toBe(4);
+      }, err => fail('error session response'));
+    })));
+
+  it('should find one session and convert date first day', async(inject([SessionService, MockBackend, AlertService],
+    (sessionService: SessionService, mockBackend: MockBackend) => {
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        conn.mockRespond(new Response(new ResponseOptions({
+          body: new Session(
+            '2016-01-01',
+            new Location('colo1', 'Toulouse'),
+            new Employee('jntakpe', 'jntakpe@mail.com', 'Jocelyn', 'Ntakpe', null, null),
+            new Training('AngularJS', 3, 'Technologies')
+          )
+        })));
+      });
+      sessionService.findSession(1).subscribe((session: Session) => {
+        expect(session).toBeTruthy();
+        expect(session.start).toBeTruthy();
+        expect(session.start.year).toBe(2016);
+        expect(session.start.month).toBe(1);
+        expect(session.start.day).toBe(1);
+      }, err => fail('error session response'));
+    })));
+
+  it('should find one session and convert date last day', async(inject([SessionService, MockBackend, AlertService],
+    (sessionService: SessionService, mockBackend: MockBackend) => {
+      mockBackend.connections.subscribe((conn: MockConnection) => {
+        conn.mockRespond(new Response(new ResponseOptions({
+          body: new Session(
+            '2016-12-31',
+            new Location('colo1', 'Toulouse'),
+            new Employee('jntakpe', 'jntakpe@mail.com', 'Jocelyn', 'Ntakpe', null, null),
+            new Training('AngularJS', 3, 'Technologies')
+          )
+        })));
+      });
+      sessionService.findSession(1).subscribe((session: Session) => {
+        expect(session).toBeTruthy();
+        expect(session.start).toBeTruthy();
+        expect(session.start.year).toBe(2016);
+        expect(session.start.month).toBe(12);
+        expect(session.start.day).toBe(31);
+      }, err => fail('error session response'));
+    })));
 
   it('should find some sessions', async(inject([SessionService, MockBackend, AlertService],
     (sessionService: SessionService, mockBackend: MockBackend) => {
       mockBackend.connections.subscribe((conn: MockConnection) => {
         conn.mockRespond(new Response(new ResponseOptions({
-          body: createFakeResponse()
+          body: createFakeListResponse()
         })));
       });
       sessionService.findSessions(new PageRequest<Session>(new PageContext())).subscribe((page: Page<Session>) => {
@@ -119,7 +205,7 @@ describe('session service', () => {
     (sessionService: SessionService, mockBackend: MockBackend) => {
       mockBackend.connections.subscribe((conn: MockConnection) => {
         conn.mockRespond(new Response(new ResponseOptions({
-          body: createFakeResponse(1, 13)
+          body: createFakeListResponse(1, 13)
         })));
       });
       sessionService.findSessions(new PageRequest<Session>(new PageContext())).subscribe((page: Page<Session>) => {
@@ -195,7 +281,7 @@ describe('session service', () => {
         } else if (conn.request.method === RequestMethod.Get) {
           getCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
-            body: createFakeResponse()
+            body: createFakeListResponse()
           })));
         }
       });
@@ -229,7 +315,7 @@ describe('session service', () => {
         } else if (conn.request.method === RequestMethod.Get) {
           getCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
-            body: createFakeResponse()
+            body: createFakeListResponse()
           })));
         }
       });
@@ -263,7 +349,7 @@ describe('session service', () => {
         } else if (conn.request.method === RequestMethod.Get) {
           getCalled = true;
           conn.mockRespond(new Response(new ResponseOptions({
-            body: createFakeResponse()
+            body: createFakeListResponse()
           })));
         }
       });
@@ -291,7 +377,7 @@ describe('session service', () => {
 
 });
 
-export function createFakeResponse(number = 0, totalElements = 3): Page<Session> {
+export function createFakeListResponse(number = 0, totalElements = 3): Page<Session> {
   const content = [
     new Session(
       '2016-10-04',

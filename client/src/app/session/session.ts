@@ -1,12 +1,15 @@
 import { Location } from '../admin/location/location';
 import { Trainer } from '../admin/trainer/trainer';
 import { Training } from '../admin/training/training';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 export class Session {
 
-  static EMPTY_SESSION = new Session('', null, null, null);
-
-  constructor(public start: string, public location: Location, public trainer: Trainer, public training: Training, public id?: number) {
+  constructor(public start: string|NgbDateStruct,
+              public location: Location,
+              public trainer: Trainer,
+              public training: Training,
+              public id?: number) {
   }
 
 }

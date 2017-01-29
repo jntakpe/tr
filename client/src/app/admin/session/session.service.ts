@@ -14,15 +14,13 @@ import { Employee } from '../../shared/employee';
 import * as moment from 'moment';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
 import { ConstraintsMessage } from '../../shared/constraint';
-import { TrainingService } from '../training/training.service';
 
 @Injectable()
 export class SessionService {
 
   constructor(private authHttp: AuthHttp,
               private alertService: AlertService,
-              private paginationService: PaginationService,
-              private trainingService: TrainingService) {
+              private paginationService: PaginationService) {
   }
 
   findSessions(pageRequest: PageRequest<Session>): Observable<Page<Session>> {
@@ -40,14 +38,17 @@ export class SessionService {
   }
 
   findSession(id: number): Observable<Session> {
-    return this.authHttp.get(`api/sessions/${id}`).map(res => res.json()).catch(err => {
-      if (err.status === 500) {
-        this.alertService.error('Impossible de récupérer la session depuis le serveur', titleConstants.error.server);
-      } else {
-        this.alertService.defaultErrorMsg();
-      }
-      return Observable.empty();
-    });
+    return this.authHttp.get(`api/sessions/${id}`)
+      .map(res => res.json())
+      .map(s => this.mapDate(s))
+      .catch(err => {
+        if (err.status === 500) {
+          this.alertService.error('Impossible de récupérer la session depuis le serveur', titleConstants.error.server);
+        } else {
+          this.alertService.defaultErrorMsg();
+        }
+        return Observable.empty();
+      });
   }
 
   formToSession(formData: SessionSearchForm): Session {
@@ -64,6 +65,16 @@ export class SessionService {
       .mergeMap(() => this.remove(session))
       .mergeMap(() => this.findSessions(pageRequest))
       .catch(() => Observable.empty());
+  }
+
+  private mapDate(session: Session): Session {
+    const date = moment(session.start);
+    session.start = {
+      year: date.year(),
+      month: date.month() + 1,
+      day: date.date()
+    };
+    return session;
   }
 
   private remove(session: Session) {

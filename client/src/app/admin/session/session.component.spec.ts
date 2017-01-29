@@ -13,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
 import { Page } from '../../shared/pagination/page';
 import { SessionSearchForm } from './session-search-form';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
-import { createFakeResponse } from './session.service.spec';
+import { createFakeListResponse } from './session.service.spec';
 import { By } from '@angular/platform-browser';
 import { DomainService } from '../../shared/domain/domain.service';
 
@@ -28,7 +28,7 @@ describe('session component', () => {
     }
 
     findSessions(pageRequest: PageRequest<Session>): Observable<Page<Session>> {
-      return Observable.of(createFakeResponse());
+      return Observable.of(createFakeListResponse());
     }
 
     formToSession(formData: SessionSearchForm): Session {
@@ -36,7 +36,7 @@ describe('session component', () => {
     }
 
     removeModal(modalInstance: ConfirmModalComponent, session: Session, pageRequest: PageRequest<Session>): Observable<Page<Session>> {
-      const sessionsPage: Page<Session> = createFakeResponse();
+      const sessionsPage: Page<Session> = createFakeListResponse();
       sessionsPage.content.pop();
       return Observable.of(sessionsPage);
     }

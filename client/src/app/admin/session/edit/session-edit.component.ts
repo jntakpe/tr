@@ -64,6 +64,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       this.session = s;
       const formMessages = this.initForm();
       this.sessionForm = formMessages.formGroup;
+      this.sessionForm.valueChanges.subscribe(f => console.log(f));
     });
   }
 
