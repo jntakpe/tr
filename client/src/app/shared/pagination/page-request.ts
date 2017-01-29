@@ -1,5 +1,6 @@
 import { URLSearchParams } from '@angular/http';
 import { SortDirection } from 'angular2-data-table';
+import { PageContext } from './page-context';
 
 const flatten = require('flat');
 
@@ -9,17 +10,16 @@ export class PageRequest<T> {
 
   size: number;
 
-  direction: SortDirection;
+  direction: string;
 
   column: string;
 
-  constructor({offset: page = 0, limit: size = 10, sorts}: any, public searchObj?: T) {
-    this.page = page;
-    this.size = size;
-    if (sorts && sorts.length) {
-      const {dir, prop} = sorts[0];
-      this.direction = dir;
-      this.column = prop;
+  constructor({pageEvent: {offset, limit}, sortEvent}: PageContext, public searchObj?: T) {
+    this.page = offset;
+    this.size = limit;
+    if (sortEvent) {
+      this.column = sortEvent.prop;
+      this.direction = sortEvent.dir;
     }
   }
 

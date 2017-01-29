@@ -11,6 +11,8 @@ import { FormService } from '../../shared/form/form.service';
 import { SessionSearchForm } from './session-search-form';
 import { Page } from '../../shared/pagination/page';
 import { DomainService } from '../../shared/domain/domain.service';
+import { PageEvent } from '../../shared/pagination/page-event';
+import { PageContext } from '../../shared/pagination/page-context';
 
 @Component({
   selector: 'session-component',
@@ -26,6 +28,12 @@ export class SessionComponent implements OnInit, OnDestroy {
   @ViewChild('confirmModal') confirmModal: ConfirmModalComponent;
 
   displayedSessions: Session[] = [];
+
+  pageCtx: PageContext = new PageContext();
+
+  count: number = 0;
+
+  offset: number = 0;
 
   sessionSubscription: Subscription;
 
@@ -54,11 +62,15 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.searchFormSubscription.unsubscribe();
   }
 
-  changePage() {
+  changePage($event: PageEvent) {
+    this.pageCtx.pageEvent = $event;
     this.updateSessions();
   }
 
-  sortColumn() {
+  changeSort($event: any) {
+    if ($event && $event.sorts && $event.sorts.length) {
+      this.pageCtx.sortEvent = $event.sorts[0];
+    }
     this.updateSessions();
   }
 
@@ -72,8 +84,9 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   private consumePage(page: Page<Session>) {
-    this.dtOptions.count = page.totalElements;
     this.sessions = page.content;
+    this.count = page.totalElements;
+    this.offset = page.number;
   }
 
   private buildTableOptions() {
@@ -119,7 +132,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   private createPageRequest(): PageRequest<Session> {
-    return new PageRequest<Session>(this.dtOptions, this.sessionService.formToSession(this.searchForm.value));
+    return new PageRequest<Session>(this.pageCtx, this.sessionService.formToSession(this.searchForm.value));
   }
 
   set sessions(sessions: Session[]) {

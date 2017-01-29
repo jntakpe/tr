@@ -57,8 +57,12 @@
                [columnMode]="dtOptions.columnMode"
                [rowHeight]="dtOptions.rowHeight"
                [limit]="dtOptions.limit"
-               (onPageChange)="changePage()"
-               (onColumnChange)="sortColumn()">
+               [count]="count"
+               [offset]="offset"
+               [externalPaging]="true"
+               [externalSorting]="true"
+               (page)="changePage($event)"
+               (sort)="changeSort($event)">
 </ngx-datatable>
 <a class="btn btn-u" [routerLink]="['/admin/sessions', '']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>
 <template #editRowTmpl let-session="row">
