@@ -69,7 +69,9 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   changeSort($event: SortEvent) {
-    this.pageCtx.sort = $event.toSort();
+    if ($event.sorts && $event.sorts.length) {
+      this.pageCtx.sort = $event.sorts[0];
+    }
     this.updateSessions();
   }
 
@@ -114,7 +116,7 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.searchForm = this.formService.formBuilder.group(this.searchFormObj());
     this.searchFormSubscription = this.searchForm.valueChanges
       .debounceTime(500)
-      .do(() => this.dtOptions.offset = 0)
+      .do(() => this.pageCtx.pageEvent.offset = 0)
       .subscribe(() => this.updateSessions());
   }
 

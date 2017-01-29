@@ -63,7 +63,6 @@ export class SessionEditComponent implements OnInit, OnDestroy {
   private initForm(): FormMessages {
     this.formErrors = {};
     this.creation = !this.session;
-    console.log([this.session.location.id]);
     return this.formService.buildValidationForm({
       start: new FormField([this.session ? this.session.start : null, Validators.required], {
         required: 'La saisie de la date de début de la session est obligatoire'
