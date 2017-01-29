@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { SessionService } from './session.service';
 import { Subscription, Observable } from 'rxjs';
 import { Session } from '../../session/session';
-import { ColumnMode } from 'angular2-data-table';
 import { PageRequest } from '../../shared/pagination/page-request';
 import { FormGroup } from '@angular/forms';
 import { ViewChild } from '@angular/core/src/metadata/di';
@@ -14,6 +13,7 @@ import { DomainService } from '../../shared/domain/domain.service';
 import { PageEvent } from '../../shared/pagination/page-event';
 import { PageContext } from '../../shared/pagination/page-context';
 import { SortEvent } from '../../shared/pagination/sort-event';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'session-component',

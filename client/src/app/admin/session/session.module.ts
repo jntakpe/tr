@@ -11,7 +11,6 @@ import { PaginationModule } from '../../shared/pagination/pagination.module';
 import { RouterModule } from '@angular/router';
 import { SessionEditComponent } from './edit/session-edit.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { SelectModule } from 'angular2-select';
 import { TrainingModule } from '../training/training.module';
 import { TrainerModule } from '../trainer/trainer.module';
 import { LocationModule } from '../location/location.module';
@@ -21,7 +20,7 @@ import { SessionResolve } from './session.resolve';
 @NgModule({
   declarations: [SessionComponent, SessionEditComponent],
   imports: [CommonModule, HttpModule, RouterModule, SecurityModule, ModalModule, FormModule, TableModule, PaginationModule,
-    NgbDatepickerModule.forRoot(), SelectModule, TrainingModule, TrainerModule, LocationModule, DomainModule],
+    NgbDatepickerModule.forRoot(), TrainingModule, TrainerModule, LocationModule, DomainModule],
   exports: [SessionComponent, SessionEditComponent],
   providers: [SessionService, SessionResolve]
 })

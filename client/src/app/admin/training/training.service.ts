@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
 import { Response } from '@angular/http';
 import { ConstraintsMessage } from '../../shared/constraint';
+import { SelectEntry } from '../../shared/select-entry';
 
 @Injectable()
 export class TrainingService {
@@ -28,6 +29,10 @@ export class TrainingService {
       }
       return Observable.empty();
     });
+  }
+
+  findAllTrainings(): Observable<SelectEntry[]> {
+    return this.findAll().map((trainings: Training[]) => trainings.map(t => new SelectEntry(t.id, t.name)));
   }
 
   saveModal(modalContent: TemplateRef<any>, training: Training = Training.EMPTY_TRAINING): Observable<Training[]> {

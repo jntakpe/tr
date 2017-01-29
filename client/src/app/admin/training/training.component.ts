@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
-import { ColumnMode } from 'angular2-data-table';
 import { Subscription, Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { TrainingService } from './training.service';
@@ -8,6 +7,7 @@ import { FormService } from '../../shared/form/form.service';
 import { Training } from './training';
 import { SaveTrainingModalComponent } from './modal/save-training-modal.component';
 import { DomainService } from '../../shared/domain/domain.service';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'training-component',

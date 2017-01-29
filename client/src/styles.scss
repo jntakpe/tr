@@ -3,6 +3,8 @@
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/font-awesome/scss/font-awesome';
 @import '../node_modules/toastr/toastr';
+@import '../node_modules/selectize/dist/css/selectize';
+@import '../node_modules/selectize/dist/css/selectize.bootstrap3';
 /* Unify */
 @import 'assets/css/unify/unify';
 @import 'assets/css/unify/blocks';
@@ -13,6 +15,7 @@
 @import 'assets/css/unify/sky-forms';
 /* App */
 @import 'assets/css/table';
+@import 'assets/css/select';
 
 body {
   height: 100%;

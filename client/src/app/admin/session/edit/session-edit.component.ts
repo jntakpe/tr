@@ -10,6 +10,7 @@ import { SelectEntry } from '../../../shared/select-entry';
 import { TrainerService } from '../../trainer/trainer.service';
 import { LocationService } from '../../location/location.service';
 import { ActivatedRoute } from '@angular/router';
+import { TrainingService } from '../../training/training.service';
 
 @Component({
   selector: 'session-edit-component',
@@ -37,27 +38,45 @@ export class SessionEditComponent implements OnInit, OnDestroy {
 
   creation: boolean;
 
-
   constructor(private sessionService: SessionService,
-              private formService: FormService,
               private trainerService: TrainerService,
               private locationService: LocationService,
+              private trainingService: TrainingService,
+              private formService: FormService,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.session = this.route.snapshot.data['sessionToEdit'];
-    const formMessages = this.initForm();
-    this.sessionForm = formMessages.formGroup;
-    this.locationsSubscription = this.locationService.findAllLocations().subscribe(locations => this.locations = locations);
-    this.trainersSubscription = this.trainerService.findAllTrainers().subscribe(trainers => this.trainers = trainers);
-    this.trainingsSubscription = this.sessionService.findAllTrainings().subscribe(trainings => this.trainings = trainings);
+    this.locationsSubscription = this.locationService.findAllLocations().subscribe(locations => {
+      this.locations = locations;
+      this.initSelectize('location');
+    });
+    this.trainersSubscription = this.trainerService.findAllTrainers().subscribe(trainers => {
+      this.trainers = trainers;
+      this.initSelectize('trainer');
+    });
+    this.trainingsSubscription = this.trainingService.findAllTrainings().subscribe(trainings => {
+      this.trainings = trainings;
+      this.initSelectize('training');
+    });
+    this.route.params.flatMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
+      this.session = s;
+      const formMessages = this.initForm();
+      this.sessionForm = formMessages.formGroup;
+      formMessages.formGroup.valueChanges.subscribe(a => console.log(a));
+    });
   }
 
   ngOnDestroy() {
-    this.trainingsSubscription.unsubscribe();
-    this.locationsSubscription.unsubscribe();
-    this.trainersSubscription.unsubscribe();
+    if (this.trainingsSubscription) {
+      this.trainingsSubscription.unsubscribe();
+    }
+    if (this.locationsSubscription) {
+      this.locationsSubscription.unsubscribe();
+    }
+    if (this.trainersSubscription) {
+      this.trainersSubscription.unsubscribe();
+    }
   }
 
   private initForm(): FormMessages {
@@ -86,4 +105,14 @@ export class SessionEditComponent implements OnInit, OnDestroy {
   public selected(value: SelectEntry): void {
     console.log('Selected value is: ', value);
   }
+
+  private initSelectize(field: string): void {
+    setTimeout(() => $(`#${field}`).selectize({
+      create: true,
+      diacritics: true,
+      sortField: 'text',
+      onChange: value => this.sessionForm.patchValue({[field]: value})
+    }), 20);
+  }
+
 }

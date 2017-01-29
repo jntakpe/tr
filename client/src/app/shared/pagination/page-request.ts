@@ -1,6 +1,6 @@
 import { URLSearchParams } from '@angular/http';
-import { SortDirection } from 'angular2-data-table';
 import { PageContext } from './page-context';
+import { SortDirection } from '@swimlane/ngx-datatable';
 
 const flatten = require('flat');
 

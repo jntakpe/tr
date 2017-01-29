@@ -1,0 +1,9 @@
+.selectize-input {
+  border-radius: 0;
+
+  &.focus {
+    border-radius: 0;
+    border-color: #bbb;
+    box-shadow: 0 0 2px #c9c9c9;
+  }
+}

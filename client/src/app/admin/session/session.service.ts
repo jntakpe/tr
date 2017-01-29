@@ -66,10 +66,6 @@ export class SessionService {
       .catch(() => Observable.empty());
   }
 
-  findAllTrainings(): Observable<SelectEntry[]> {
-    return this.trainingService.findAll().map((trainings: Training[]) => trainings.map(t => new SelectEntry(t.id, t.name)));
-  }
-
   private remove(session: Session) {
     return this.authHttp.delete(`api/sessions/${session.id}`)
       .do(() => this.alertService.success(`La suppression de la ${this.sessionLabel(session)} effectuée`))
