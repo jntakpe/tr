@@ -36,7 +36,7 @@ export class LocationService {
     return this.findAll().map((locations: Location[]) => locations.map(t => new SelectEntry(t.id, t.name)));
   }
 
-  saveModal(modalContent: TemplateRef<any>, location: Location = Location.EMPTY_TRAINING): Observable<Location[]> {
+  saveModal(modalContent: TemplateRef<any>, location: Location = Location.EMPTY_LOCATION): Observable<Location[]> {
     return Observable.fromPromise(this.ngbModal.open(modalContent).result)
       .map((form: FormGroup) => new Location(form.value.name, form.value.city, location.id))
       .mergeMap(l => this.save(l))

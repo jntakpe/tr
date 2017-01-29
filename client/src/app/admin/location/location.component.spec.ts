@@ -29,7 +29,7 @@ describe('location component', () => {
       return Observable.of(this.locations);
     }
 
-    saveModal(modalContent: TemplateRef<any>, location: Location = Location.EMPTY_TRAINING): Observable<Location[]> {
+    saveModal(modalContent: TemplateRef<any>, location: Location = Location.EMPTY_LOCATION): Observable<Location[]> {
       this.locations.push(location);
       return Observable.of(this.locations);
     }
