@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 /**
  * Bean représentant une évaluation d'une session de formation. Il est possible qu'une évaluation soit vide par exemple dans le cas d'une
@@ -139,28 +140,21 @@ public class Rating extends AuditingEntity {
     }
 
     @Override
-    public int hashCode() {
-        int result = session.hashCode();
-        result = 31 * result + employee.hashCode();
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Rating)) {
             return false;
         }
-
         Rating rating = (Rating) o;
+        return Objects.equals(session, rating.session) &&
+                Objects.equals(employee, rating.employee);
+    }
 
-        if (!session.equals(rating.session)) {
-            return false;
-        }
-        return employee.equals(rating.employee);
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(session, employee);
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * Entité représentant un rôle applicatif
@@ -32,18 +33,16 @@ public class Authority extends AuditingEntity {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Authority)) {
             return false;
         }
-
         Authority authority = (Authority) o;
-
-        return name.equals(authority.name);
+        return Objects.equals(name, authority.name);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return Objects.hash(name);
     }
 
     @Override

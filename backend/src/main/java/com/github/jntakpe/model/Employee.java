@@ -157,22 +157,20 @@ public class Employee extends AuditingEntity {
     }
 
     @Override
-    public int hashCode() {
-        return login.hashCode();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Employee)) {
             return false;
         }
-
         Employee employee = (Employee) o;
+        return Objects.equals(login, employee.login);
+    }
 
-        return login.equals(employee.login);
+    @Override
+    public int hashCode() {
+        return Objects.hash(login);
     }
 
     @Override

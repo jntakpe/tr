@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -90,39 +91,23 @@ public class Session extends AuditingEntity {
     }
 
     @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + start.hashCode();
-        result = 31 * result + location.hashCode();
-        result = 31 * result + training.hashCode();
-        result = 31 * result + trainer.hashCode();
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Session)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
-
         Session session = (Session) o;
+        return Objects.equals(start, session.start) &&
+                Objects.equals(location, session.location) &&
+                Objects.equals(training, session.training) &&
+                Objects.equals(trainer, session.trainer);
+    }
 
-        if (!start.equals(session.start)) {
-            return false;
-        }
-        if (!location.equals(session.location)) {
-            return false;
-        }
-        if (!training.equals(session.training)) {
-            return false;
-        }
-        return trainer.equals(session.trainer);
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, location, training, trainer);
     }
 
     @Override
