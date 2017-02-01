@@ -1,4 +1,4 @@
-package com.github.jntakpe.web;
+package com.github.jntakpe.config;
 
 import com.github.jntakpe.model.Domain;
 import org.springframework.http.HttpStatus;

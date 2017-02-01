@@ -213,6 +213,11 @@ public class SessionTestsUtils {
         return jdbcTemplate.queryForObject(query, Long.class);
     }
 
+    @Transactional(readOnly = true)
+    public Long count() {
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM session", Long.class);
+    }
+
     public void flush() {
         sessionRepository.flush();
     }

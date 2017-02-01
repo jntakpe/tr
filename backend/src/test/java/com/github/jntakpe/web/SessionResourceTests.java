@@ -5,6 +5,7 @@ import com.github.jntakpe.model.Session;
 import com.github.jntakpe.service.EmployeeServiceTests;
 import com.github.jntakpe.service.SessionService;
 import com.github.jntakpe.utils.SessionTestsUtils;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,63 @@ public class SessionResourceTests extends AbstractResourceTests {
     @Override
     public Object getMockResource() {
         return new SessionResource(mockSessionService);
+    }
+
+    @Test
+    public void findAll_shouldFind() throws Exception {
+        ResultActions resultActions = realMvc.perform(get(UriConstants.SESSIONS).accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        resultActions.andExpect(jsonPath("$.totalElements").value(sessionTestsUtils.count()));
+        resultActions.andExpect(jsonPath("$.size").value(10));
+        resultActions.andExpect(jsonPath("$.number").value(0));
+        resultActions.andExpect(jsonPath("$.content").isArray());
+        resultActions.andExpect(jsonPath("$.content", Matchers.hasSize(10)));
+    }
+
+    @Test
+    public void findAll_shouldFindAndPaginate() throws Exception {
+        ResultActions resultActions = realMvc.perform(get(UriConstants.SESSIONS)
+                .param("page", "1")
+                .param("size", "2")
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        resultActions.andExpect(jsonPath("$.totalElements").value(sessionTestsUtils.count()));
+        resultActions.andExpect(jsonPath("$.size").value(2));
+        resultActions.andExpect(jsonPath("$.number").value(1));
+        resultActions.andExpect(jsonPath("$.content").isArray());
+        resultActions.andExpect(jsonPath("$.content", Matchers.hasSize(2)));
+    }
+
+    @Test
+    public void findAll_shouldFindAndFilter() throws Exception {
+        ResultActions resultActions = realMvc.perform(get(UriConstants.SESSIONS)
+                .param("location.city", "toulouse")
+                .param("location.name", "colo1")
+                .param("training.name", "angularJS")
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        resultActions.andExpect(jsonPath("$.totalElements").value(5));
+        resultActions.andExpect(jsonPath("$.size").value(10));
+        resultActions.andExpect(jsonPath("$.number").value(0));
+        resultActions.andExpect(jsonPath("$.content").isArray());
+        resultActions.andExpect(jsonPath("$.content", Matchers.hasSize(5)));
+    }
+
+    @Test
+    public void findAll_shouldFindFilterAndPaginate() throws Exception {
+        ResultActions resultActions = realMvc.perform(get(UriConstants.SESSIONS)
+                .param("location.city", "toulouse")
+                .param("location.name", "colo1")
+                .param("training.name", "angularJS")
+                .param("page", "1")
+                .param("size", "2")
+                .accept(MediaType.APPLICATION_JSON));
+        expectIsOkAndJsonContent(resultActions);
+        resultActions.andExpect(jsonPath("$.totalElements").value(5));
+        resultActions.andExpect(jsonPath("$.size").value(2));
+        resultActions.andExpect(jsonPath("$.number").value(1));
+        resultActions.andExpect(jsonPath("$.content").isArray());
+        resultActions.andExpect(jsonPath("$.content", Matchers.hasSize(2)));
     }
 
     @Test
