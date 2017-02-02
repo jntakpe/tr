@@ -46,8 +46,11 @@ select.form-control {
   }
 }
 
-.btn:focus {
-  color: #ffffff;
+.btn {
+  border: 1px solid transparent;
+  &:focus {
+    color: #ffffff;
+  }
 }
 
 .panel.search-panel {
@@ -60,6 +63,6 @@ select.form-control {
   }
 }
 
-.input-group .input-group-addon.dp-addon {
+.input-group .input-group-addon.dp-addon, .btn {
   cursor: pointer;
 }

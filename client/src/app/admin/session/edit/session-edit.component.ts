@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SessionService } from '../session.service';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { FormService } from '../../../shared/form/form.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Session } from '../../../session/session';
@@ -15,7 +15,8 @@ import '../../../shared/rxjs.extension';
 
 @Component({
   selector: 'session-edit-component',
-  templateUrl: './session-edit.component.html'
+  templateUrl: './session-edit.component.html',
+  styleUrls: ['./session-edit.component.scss']
 })
 export class SessionEditComponent implements OnInit, OnDestroy {
 
@@ -39,11 +40,14 @@ export class SessionEditComponent implements OnInit, OnDestroy {
 
   creation: boolean;
 
+  employees: FormArray;
+
   constructor(private sessionService: SessionService,
               private trainerService: TrainerService,
               private locationService: LocationService,
               private trainingService: TrainingService,
               private formService: FormService,
+              private formBuilder: FormBuilder,
               private route: ActivatedRoute) {
   }
 
@@ -63,6 +67,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
     this.route.params.mergeMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
       this.session = s;
       const formMessages = this.initForm();
+      console.log(formMessages);
       this.sessionForm = formMessages.formGroup;
       this.sessionForm.valueChanges.subscribe(f => console.log(f));
     });
@@ -80,10 +85,19 @@ export class SessionEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  addTrainee(): void {
+    this.employees.push(this.formBuilder.control(''));
+  }
+
+  removeTrainee(index: number): void {
+    this.employees.removeAt(index);
+  }
+
   private initForm(): FormMessages {
     this.formErrors = {};
     this.creation = !this.session;
-    return this.formService.buildValidationForm({
+    this.employees = this.initTraineeForm();
+    const formMessages = this.formService.buildValidationForm({
       start: new FormField([this.session ? this.session.start : null, Validators.required], {
         required: 'La saisie de la date de début de la session est obligatoire'
       }),
@@ -97,6 +111,16 @@ export class SessionEditComponent implements OnInit, OnDestroy {
         required: 'La saisie de la formation est obligatoire'
       })
     });
+    formMessages.formGroup.addControl('employees', this.employees);
+    return formMessages;
+  }
+
+  private initTraineeForm(): FormArray {
+    const formArray: FormArray = this.formBuilder.array([]);
+    if (this.session && this.session.employees) {
+      this.session.employees.forEach(e => formArray.push(this.formBuilder.control(e)));
+    }
+    return formArray;
   }
 
   save(form) {

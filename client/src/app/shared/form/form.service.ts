@@ -1,4 +1,4 @@
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, AbstractControl } from '@angular/forms';
 import { FormField } from './form-field';
 import { Injectable } from '@angular/core';
 import { FormMessages } from './form-messages';
@@ -9,7 +9,7 @@ export class FormService {
   constructor(public formBuilder: FormBuilder) {
   }
 
-  buildValidationForm(fields: {[key: string]: FormField}): FormMessages {
+  buildValidationForm(fields: {[key: string]: FormField}, extra?: AbstractControl): FormMessages {
     const {controlsConfig, messageConfig} = this.buildControlConfig(fields);
     return new FormMessages(this.formBuilder.group(controlsConfig), messageConfig);
   }

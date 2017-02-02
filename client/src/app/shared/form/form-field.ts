@@ -1,6 +1,6 @@
 export class FormField {
 
-  constructor(public control: any[], public messages: {[key: string]: string}) {
+  constructor(public control: any[], public messages?: {[key: string]: string}) {
   }
 
 }

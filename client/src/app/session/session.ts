@@ -2,6 +2,7 @@ import { Location } from '../admin/location/location';
 import { Trainer } from '../admin/trainer/trainer';
 import { Training } from '../admin/training/training';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Employee } from '../shared/employee';
 
 export class Session {
 
@@ -9,7 +10,8 @@ export class Session {
               public location: Location,
               public trainer: Trainer,
               public training: Training,
-              public id?: number) {
+              public id?: number,
+              public employees?: Employee[]) {
   }
 
 }

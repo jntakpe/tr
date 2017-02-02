@@ -43,11 +43,23 @@
         </div>
       </div>
     </section>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-warning"><i class="fa fa-remove"></i> Annuler</button>
-      <button type="submit" class="btn btn-u" (click)="binding=[1]">
-        <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
-      </button>
-    </div>
+    <section>
+      <button type="button" class="btn btn-u" (click)="addTrainee()"><i class="fa fa-plus-square"></i> Ajouter un participant</button>
+      <div class="form-group" *ngFor="let trainee of employees.controls; let i=index;" formArrayName="employees">
+        <label [for]="'trainee' + i" class="col-md-3 control-label">Inscrit {{i}}</label>
+        <div class="input-group col-md-3">
+          <input type="text" [id]="'trainee' + i" class="form-control" [placeholder]="'Inscrit ' + i" [formControlName]="i">
+        </div>
+        <button type="button" (click)="removeTrainee(i)" class="btn btn-danger col-md-2"><i class="fa fa-remove"></i>
+          Supprimer le participant
+        </button>
+      </div>
+    </section>
   </fieldset>
+  <div class="clear-both actions">
+    <a [routerLink]="['/admin/sessions']" class="btn btn-warning"><i class="fa fa-remove"></i> Annuler</a>
+    <button type="submit" class="btn btn-u">
+      <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
+    </button>
+  </div>
 </form>
