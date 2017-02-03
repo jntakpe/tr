@@ -1,19 +1,21 @@
-import { Injectable } from '@angular/core';
-import { AuthHttp } from '../../security/auth.http';
-import { AlertService, titleConstants } from '../../shared/alert.service';
-import { PageRequest } from '../../shared/pagination/page-request';
-import { Session } from '../../session/session';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {AuthHttp} from '../../security/auth.http';
+import {AlertService, titleConstants} from '../../shared/alert.service';
+import {PageRequest} from '../../shared/pagination/page-request';
+import {Session} from '../../session/session';
+import {Observable} from 'rxjs/Observable';
 import '../../shared/rxjs.extension';
-import { Page } from '../../shared/pagination/page';
-import { PaginationService } from '../../shared/pagination/pagination.service';
-import { SessionSearchForm } from './session-search-form';
-import { Location } from '../location/location';
-import { Training } from '../training/training';
-import { Employee } from '../../shared/employee';
+import {Page} from '../../shared/pagination/page';
+import {PaginationService} from '../../shared/pagination/pagination.service';
+import {SessionSearchForm} from './session-search-form';
+import {Location} from '../location/location';
+import {Training} from '../training/training';
+import {Employee} from '../../shared/employee';
 import * as moment from 'moment';
-import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
-import { ConstraintsMessage } from '../../shared/constraint';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {ConstraintsMessage} from '../../shared/constraint';
+import {Response} from '@angular/http';
+import {Trainer} from '../trainer/trainer';
 
 @Injectable()
 export class SessionService {
@@ -65,6 +67,33 @@ export class SessionService {
       .mergeMap(() => this.remove(session))
       .mergeMap(() => this.findSessions(pageRequest))
       .catch(() => Observable.empty());
+  }
+
+  save(sessionForm: any): Observable<Session> {
+    return this.saveRequest(sessionForm)
+      .map(res => res.json())
+      .do((s: Session) => this.alertService.success(`La session ${this.sessionLabel(s)} a été enregistrée`))
+      .catch((err: Response) => {
+        if (err.status === 500) {
+          this.alertService.error('Impossible d\'enregistrer la session', titleConstants.error.server);
+        } else if (err.status === 400) {
+          this.alertService.error(err.text(), titleConstants.error.badRequest);
+        } else {
+          this.alertService.defaultErrorMsg();
+        }
+        return Observable.throw(new Error('Impossible d\'enregistrer la session'));
+      });
+  }
+
+  private saveRequest(sessionForm: any): Observable<Response> {
+    const {year, month, day} = sessionForm.start;
+    const start = moment({year, month: month - 1, day}).format('YYYY-MM-DD');
+    const session = new Session(start,
+      Location.withId(sessionForm.location),
+      Trainer.withId(sessionForm.trainer),
+      Training.withId(sessionForm.training));
+    const body = JSON.stringify(session);
+    return session.id ? this.authHttp.put(`api/sessions/${session.id}`, body) : this.authHttp.post('api/sessions', body);
   }
 
   private mapDate(session: Session): Session {

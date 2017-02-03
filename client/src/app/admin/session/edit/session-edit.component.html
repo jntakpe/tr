@@ -1,4 +1,4 @@
-<form class="form-horizontal" [formGroup]="sessionForm" *ngIf="sessionForm">
+<form class="form-horizontal" [formGroup]="sessionForm" *ngIf="sessionForm" (ngSubmit)="save(sessionForm)">
   <fieldset>
     <section>
       <div class="form-group">
@@ -50,7 +50,7 @@
         <div class="input-group col-md-3">
           <input type="text" [id]="'trainee' + i" class="form-control" [placeholder]="'Inscrit ' + i" [formControlName]="i">
         </div>
-        <button type="button" (click)="removeTrainee(i)" class="btn btn-danger col-md-2"><i class="fa fa-remove"></i>
+        <button type="button" (click)="removeTrainee(i)" class="btn btn-danger col-md-2"><i class="fa fa-trash"></i>
           Supprimer le participant
         </button>
       </div>
@@ -58,7 +58,7 @@
   </fieldset>
   <div class="clear-both actions">
     <a [routerLink]="['/admin/sessions']" class="btn btn-warning"><i class="fa fa-remove"></i> Annuler</a>
-    <button type="submit" class="btn btn-u">
+    <button type="submit" class="btn btn-u" [disabled]="sessionForm.invalid">
       <i class="fa fa-check"></i> {{creation ? 'Créer' : 'Modifier'}}
     </button>
   </div>

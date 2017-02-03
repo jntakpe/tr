@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SessionService } from '../session.service';
-import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
-import { FormService } from '../../../shared/form/form.service';
-import { Subscription } from 'rxjs/Subscription';
-import { Session } from '../../../session/session';
-import { FormField } from '../../../shared/form/form-field';
-import { FormMessages } from '../../../shared/form/form-messages';
-import { SelectEntry } from '../../../shared/select-entry';
-import { TrainerService } from '../../trainer/trainer.service';
-import { LocationService } from '../../location/location.service';
-import { ActivatedRoute } from '@angular/router';
-import { TrainingService } from '../../training/training.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {SessionService} from '../session.service';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormService} from '../../../shared/form/form.service';
+import {Subscription} from 'rxjs/Subscription';
+import {Session} from '../../../session/session';
+import {FormField} from '../../../shared/form/form-field';
+import {FormMessages} from '../../../shared/form/form-messages';
+import {SelectEntry} from '../../../shared/select-entry';
+import {TrainerService} from '../../trainer/trainer.service';
+import {LocationService} from '../../location/location.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TrainingService} from '../../training/training.service';
 import '../../../shared/rxjs.extension';
 
 @Component({
@@ -36,7 +36,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
 
   sessionForm: FormGroup;
 
-  formErrors: {[key: string]: string} = {};
+  formErrors: { [key: string]: string } = {};
 
   creation: boolean;
 
@@ -48,7 +48,8 @@ export class SessionEditComponent implements OnInit, OnDestroy {
               private trainingService: TrainingService,
               private formService: FormService,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -67,9 +68,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
     this.route.params.mergeMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
       this.session = s;
       const formMessages = this.initForm();
-      console.log(formMessages);
       this.sessionForm = formMessages.formGroup;
-      this.sessionForm.valueChanges.subscribe(f => console.log(f));
     });
   }
 
@@ -91,6 +90,10 @@ export class SessionEditComponent implements OnInit, OnDestroy {
 
   removeTrainee(index: number): void {
     this.employees.removeAt(index);
+  }
+
+  save(sessionForm: FormGroup) {
+    this.sessionService.save(sessionForm.value).subscribe(() => this.router.navigate(['/admin/sessions']));
   }
 
   private initForm(): FormMessages {
@@ -123,21 +126,13 @@ export class SessionEditComponent implements OnInit, OnDestroy {
     return formArray;
   }
 
-  save(form) {
-    console.log(form);
-  }
-
-  public selected(value: SelectEntry): void {
-    console.log('Selected value is: ', value);
-  }
-
   private initSelectize(field: string): void {
     setTimeout(() => $(`#${field}`).selectize({
       create: true,
       diacritics: true,
       sortField: 'text',
       onChange: value => this.sessionForm.patchValue({[field]: value})
-    }), 20);
+    }), 100);
   }
 
 }
