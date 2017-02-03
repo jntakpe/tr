@@ -1,12 +1,17 @@
-.input-group {
-  float: left;
-}
+form {
+  margin-top: 20px;
 
-.form-group .btn-danger {
-  margin-left: 20px;
-}
+  .input-group {
+    float: left;
+  }
 
-form .actions {
-  margin-top: 50px;
-  float: right;
+  .form-group .btn-danger {
+    margin-left: 20px;
+  }
+
+  .actions {
+    margin-top: 50px;
+    float: right;
+  }
+
 }

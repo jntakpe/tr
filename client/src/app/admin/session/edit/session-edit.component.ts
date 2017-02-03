@@ -69,6 +69,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       this.session = s;
       const formMessages = this.initForm();
       this.sessionForm = formMessages.formGroup;
+      this.sessionForm.valueChanges.subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
     });
   }
 
@@ -131,7 +132,10 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       create: true,
       diacritics: true,
       sortField: 'text',
-      onChange: value => this.sessionForm.patchValue({[field]: value})
+      onChange: value => {
+        this.sessionForm.controls[field].markAsDirty();
+        this.sessionForm.patchValue({[field]: value});
+      }
     }), 100);
   }
 

@@ -1,45 +1,57 @@
 <form class="form-horizontal" [formGroup]="sessionForm" *ngIf="sessionForm" (ngSubmit)="save(sessionForm)">
   <fieldset>
     <section>
-      <div class="form-group">
+      <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.start}">
         <label for="start" class="col-md-3 control-label">Date de début de la session</label>
-        <div class="input-group col-md-3">
-          <input id="start" name="start" class="form-control" placeholder="yyyy-mm-dd" formControlName="start" ngbDatepicker
-                 #dp="ngbDatepicker">
-          <div class="input-group-addon dp-addon" (click)="dp.toggle()"><i class="fa fa-calendar"></i></div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-addon dp-addon" (click)="dp.toggle()"><i class="fa fa-calendar"></i></span>
+            <input id="start" name="start" class="form-control" placeholder="yyyy-mm-dd" formControlName="start" ngbDatepicker
+                   #dp="ngbDatepicker">
+          </div>
+          <tr-form-help-block [fieldError]="formErrors.start"></tr-form-help-block>
         </div>
       </div>
     </section>
     <section>
-      <div class="form-group">
+      <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.location}">
         <label for="location" class="col-md-3 control-label">Site de formation</label>
-        <div class="input-group col-md-3">
-          <select id="location" name="location" formControlName="location">
-            <option value="">Choisir un site de formation</option>
-            <option *ngFor="let location of locations" [value]="location.value">{{location.label}}</option>
-          </select>
+        <div class="col-md-4">
+          <div class="input-group col-xs-12">
+            <select id="location" name="location" formControlName="location">
+              <option value="">Choisir un site de formation</option>
+              <option *ngFor="let location of locations" [value]="location.value">{{location.label}}</option>
+            </select>
+          </div>
+          <span class="help-block">{{formErrors.location}}</span>
         </div>
       </div>
     </section>
     <section>
-      <div class="form-group">
+      <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.trainer}">
         <label for="trainer" class="col-md-3 control-label">Formateur</label>
-        <div class="input-group col-md-3">
-          <select id="trainer" name="trainer" formControlName="trainer">
-            <option value="">Choisir un formateur</option>
-            <option *ngFor="let trainer of trainers" [value]="trainer.value">{{trainer.label}}</option>
-          </select>
+        <div class="col-md-4">
+          <div class="input-group col-xs-12">
+            <select id="trainer" name="trainer" formControlName="trainer">
+              <option value="">Choisir un formateur</option>
+              <option *ngFor="let trainer of trainers" [value]="trainer.value">{{trainer.label}}</option>
+            </select>
+          </div>
+          <span class="help-block">{{formErrors.trainer}}</span>
         </div>
       </div>
     </section>
     <section>
-      <div class="form-group">
+      <div class="form-group has-feedback" [ngClass]="{'has-error': formErrors.training}">
         <label for="training" class="col-md-3 control-label">Formation</label>
-        <div class="input-group col-md-3">
-          <select id="training" name="training" formControlName="training">
-            <option value="">Choisir une formation</option>
-            <option *ngFor="let training of trainings" [value]="training.value">{{training.label}}</option>
-          </select>
+        <div class="col-md-4">
+          <div class="input-group col-xs-12">
+            <select id="training" name="training" formControlName="training">
+              <option value="">Choisir une formation</option>
+              <option *ngFor="let training of trainings" [value]="training.value">{{training.label}}</option>
+            </select>
+          </div>
+          <span class="help-block">{{formErrors.training}}</span>
         </div>
       </div>
     </section>
