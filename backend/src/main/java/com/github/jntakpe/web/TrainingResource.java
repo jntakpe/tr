@@ -15,6 +15,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.github.jntakpe.config.UriConstants.ID;
+
 /**
  * Publication de la ressource {@link Training}
  *
@@ -34,41 +36,41 @@ public class TrainingResource {
         this.sessionService = sessionService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<Training> findAll() {
         return trainingService.findAll();
     }
 
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    @RequestMapping(method = RequestMethod.POST)
     public Training create(@RequestBody @Valid Training training) {
         return trainingService.save(training);
     }
 
+    @PutMapping(ID)
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Training update(@PathVariable Long id, @RequestBody @Valid Training training) {
         training.setId(id);
         return trainingService.save(training);
     }
 
+    @DeleteMapping(ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
         trainingService.delete(id);
     }
 
+    @GetMapping(ID + "/constraints")
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    @RequestMapping(value = "/{id}/constraints", method = RequestMethod.GET)
     public ResponseEntity<List<String>> constraints(@PathVariable Long id) {
         List<String> constraints = trainingService.findConstraints(id);
         return constraints.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(constraints, HttpStatus.OK);
     }
 
+    @GetMapping(ID + "/sessions")
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    @RequestMapping(value = "/{id}/sessions", method = RequestMethod.GET)
     public List<Session> findSessions(@PathVariable Long id) {
         return sessionService.findByTrainingId(id);
     }

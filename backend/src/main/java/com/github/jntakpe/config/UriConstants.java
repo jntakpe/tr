@@ -7,6 +7,8 @@ package com.github.jntakpe.config;
  */
 public final class UriConstants {
 
+    public static final String ID = "/{id}";
+
     public static final String API = "/api";
 
     public static final String TRAININGS = API + "/trainings";

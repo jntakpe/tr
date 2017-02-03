@@ -4,8 +4,8 @@ import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Employee;
 import com.github.jntakpe.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class TrainerResource {
         this.employeeService = employeeService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<Employee> findAll() {
         return employeeService.findAllTrainers();
     }

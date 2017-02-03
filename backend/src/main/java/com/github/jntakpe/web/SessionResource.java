@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
+import static com.github.jntakpe.config.UriConstants.ID;
+
 /**
  * Publication de la ressource {@link Session}
  *
@@ -33,29 +35,29 @@ public class SessionResource {
     public Page<Session> findAll(PageDTO page, Session session) {
         return sessionService.findWithPredicate(page.toPageRequest(), session);
     }
-    
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Session findById(@PathVariable Long id){
+
+    @GetMapping(ID)
+    public Session findById(@PathVariable Long id) {
         return sessionService.findByIdWithRelations(id);
     }
 
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    @RequestMapping(method = RequestMethod.POST)
     public Session create(@RequestBody @Valid Session session) {
         return sessionService.save(session);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(ID)
     @RolesAllowed({AuthoritiesConstants.ADMIN, AuthoritiesConstants.TRAINER})
     public Session update(@PathVariable Long id, @RequestBody @Valid Session session) {
         session.setId(id);
         return sessionService.save(session);
     }
 
+    @DeleteMapping(ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
         sessionService.delete(id);
     }
