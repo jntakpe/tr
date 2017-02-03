@@ -1,6 +1,7 @@
 package com.github.jntakpe.utils;
 
 import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.IdentifiableEntity;
 import com.github.jntakpe.repository.EmployeeRepository;
 import com.github.jntakpe.service.EmployeeServiceTests;
 import org.hibernate.Hibernate;
@@ -11,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Méthodes utilitaires pour les tests de l'entité {@link Employee}
@@ -32,6 +35,11 @@ public class EmployeeTestUtils {
     public EmployeeTestUtils(EmployeeRepository employeeRepository, JdbcTemplate jdbcTemplate) {
         this.employeeRepository = employeeRepository;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> findEmployeesId() {
+        return employeeRepository.findAll().stream().map(IdentifiableEntity::getId).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

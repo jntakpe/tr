@@ -1,9 +1,6 @@
 package com.github.jntakpe.utils;
 
-import com.github.jntakpe.model.Employee;
-import com.github.jntakpe.model.Location;
-import com.github.jntakpe.model.Session;
-import com.github.jntakpe.model.Training;
+import com.github.jntakpe.model.*;
 import com.github.jntakpe.repository.SessionRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,16 +79,24 @@ public class SessionTestsUtils {
         Employee employee = employeeTestUtils.findDefaultEmployee();
         Training detachedTraining = new Training();
         detachedTraining.setId(training.getId());
-        detachedTraining.setName(training.getName());
-        detachedTraining.setDuration(training.getDuration());
         Location detachedLocation = new Location();
         detachedLocation.setId(location.getId());
-        detachedLocation.setName(location.getName());
         Employee detachedEmployee = new Employee();
         detachedEmployee.setId(employee.getId());
-        detachedEmployee.setLogin(employee.getLogin());
-        detachedEmployee.setEmail(employee.getEmail());
         return getSession(startDate, location, training, employee);
+    }
+
+    @Transactional(readOnly = true)
+    public Session getSessionWithDetachedRelationsAndRatings(LocalDate startDate) {
+        Session session = getSessionWithDetachedRelations(startDate);
+        Session sessionToSave = new Session();
+        sessionToSave.setId(session.getId());
+        employeeTestUtils.findEmployeesId().forEach(id -> {
+            Employee employeeToSave = new Employee();
+            employeeToSave.setId(id);
+            session.getRatings().add(new Rating(sessionToSave, employeeToSave));
+        });
+        return session;
     }
 
     @Transactional(readOnly = true)

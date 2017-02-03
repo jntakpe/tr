@@ -61,6 +61,14 @@ public class SessionServiceTests extends AbstractDBServiceTests {
     }
 
     @Test
+    public void save_shouldCreateWithDetachedRelationsAndRatings() {
+        Session detachedSessionRelations = sessionTestsUtils.getSessionWithDetachedRelationsAndRatings(LocalDate.of(2017, 1, 1));
+        Session session = sessionService.save(detachedSessionRelations);
+        assertThat(session).isNotNull();
+        assertThat(countRowsInCurrentTable()).isEqualTo(nbEntries + 1);
+    }
+
+    @Test
     public void save_shouldUpdate() {
         Session session = sessionTestsUtils.findAnySessionInitialized();
         LocalDate updatedStart = LocalDate.of(2017, 11, 11);

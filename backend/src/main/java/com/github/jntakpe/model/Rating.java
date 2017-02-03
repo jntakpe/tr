@@ -43,6 +43,14 @@ public class Rating extends AuditingEntity {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Employee employee;
 
+    public Rating() {
+    }
+
+    public Rating(Session session, Employee employee) {
+        this.session = session;
+        this.employee = employee;
+    }
+
     public Integer getSubject() {
         return subject;
     }

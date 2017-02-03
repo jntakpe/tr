@@ -119,7 +119,7 @@ public class SessionResourceTests extends AbstractResourceTests {
     @WithUserDetails(EmployeeServiceTests.EXISTING_LOGIN)
     public void create_shouldCreate() throws Exception {
         LocalDate startDate = LocalDate.of(2016, 2, 2);
-        Session session = sessionTestsUtils.getSessionWithDetachedRelations(startDate);
+        Session session = sessionTestsUtils.getSessionWithDetachedRelationsAndRatings(startDate);
         ResultActions resultActions = realMvc.perform(post(UriConstants.SESSIONS)
                 .content(objectMapper.writeValueAsBytes(session))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -127,22 +127,18 @@ public class SessionResourceTests extends AbstractResourceTests {
         expectObjectExists(resultActions);
         resultActions.andExpect(jsonPath("$.id").isNumber());
         resultActions.andExpect(jsonPath("$.start").value(startDate.toString()));
+        resultActions.andExpect(jsonPath("$.trainer.id").exists());
+        resultActions.andExpect(jsonPath("$.trainer.login").exists());
+        resultActions.andExpect(jsonPath("$.location.id").exists());
+        resultActions.andExpect(jsonPath("$.location.name").exists());
+        resultActions.andExpect(jsonPath("$.training.id").exists());
+        resultActions.andExpect(jsonPath("$.training.name").exists());
     }
 
     @Test
     public void create_shouldFailCuzMissingValue() throws Exception {
         Session session = sessionTestsUtils.getSessionWithDetachedRelations(LocalDate.of(2016, 3, 3));
         session.setStart(null);
-        ResultActions resultActions = realMvc.perform(post(UriConstants.SESSIONS)
-                .content(objectMapper.writeValueAsBytes(session))
-                .contentType(MediaType.APPLICATION_JSON));
-        resultActions.andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void create_shouldFailCuzMissingValueInRelation() throws Exception {
-        Session session = sessionTestsUtils.getSessionWithDetachedRelations(LocalDate.of(2016, 4, 4));
-        session.getLocation().setName(null);
         ResultActions resultActions = realMvc.perform(post(UriConstants.SESSIONS)
                 .content(objectMapper.writeValueAsBytes(session))
                 .contentType(MediaType.APPLICATION_JSON));

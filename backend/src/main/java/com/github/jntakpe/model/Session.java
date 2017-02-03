@@ -1,12 +1,12 @@
 package com.github.jntakpe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -31,18 +31,16 @@ public class Session extends AuditingEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate start;
 
-    @Valid
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Location location;
 
-    @Valid
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Training training;
 
-    @Valid
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Employee trainer;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "session")
     private Set<Rating> ratings = new HashSet<>();
 
