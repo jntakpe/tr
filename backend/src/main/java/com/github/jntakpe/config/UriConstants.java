@@ -25,6 +25,8 @@ public final class UriConstants {
 
     public static final String TRAINERS = API + "/trainers";
 
+    public static final String EMPLOYEES = API + "/employees";
+
     private UriConstants() {
     }
 

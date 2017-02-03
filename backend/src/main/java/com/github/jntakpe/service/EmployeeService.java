@@ -41,6 +41,12 @@ public class EmployeeService {
         return employeeRepository.findByLoginIgnoreCase(login);
     }
 
+    @Transactional(readOnly = true)
+    public List<Employee> findStartingByLogin(String login) {
+        LOGGER.debug("Rechercher d'un l'employé commençant par {}", login);
+        return employeeRepository.findByLoginStartingWithIgnoreCase(login);
+    }
+
     @Transactional
     public Employee saveFromLdap(Employee employee) {
         LOGGER.info("Mise à jour de l'employé {} depuis le LDAP", employee.getLogin());

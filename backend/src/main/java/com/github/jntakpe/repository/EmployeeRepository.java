@@ -18,4 +18,6 @@ public interface EmployeeRepository extends GenericRepository<Employee> {
     @Query("select distinct e from Session s inner join s.trainer e")
     List<Employee> findAllTrainers();
 
+    List<Employee> findByLoginStartingWithIgnoreCase(String login);
+
 }

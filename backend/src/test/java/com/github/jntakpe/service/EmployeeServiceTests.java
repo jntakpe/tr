@@ -55,6 +55,26 @@ public class EmployeeServiceTests extends AbstractDBServiceTests {
     }
 
     @Test
+    public void findStartingByLogin_shouldFindOne() {
+        assertThat(employeeService.findStartingByLogin("jnta")).isNotEmpty().hasSize(1);
+    }
+
+    @Test
+    public void findStartingByLogin_shouldFindSome() {
+        assertThat(employeeService.findStartingByLogin("j")).isNotEmpty().hasSize(2);
+    }
+
+    @Test
+    public void findStartingByLogin_shouldFindSomeIgnoringCase() {
+        assertThat(employeeService.findStartingByLogin("J")).isNotEmpty().hasSize(2);
+    }
+
+    @Test
+    public void findStartingByLogin_shouldFindEmpty() {
+        assertThat(employeeService.findStartingByLogin("W")).isEmpty();
+    }
+
+    @Test
     public void findAllTrainers_shouldFind() {
         assertThat(employeeService.findAllTrainers().size()).isNotZero().isEqualTo(employeeTestUtils.countTrainers().intValue());
     }
