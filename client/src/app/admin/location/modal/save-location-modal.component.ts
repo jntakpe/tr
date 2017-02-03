@@ -1,15 +1,15 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {FormGroup, Validators} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
 import '../../../shared/rxjs.extension';
-import { FormService } from '../../../shared/form/form.service';
-import { LocationService } from '../location.service';
-import { Location } from '../location';
-import { FormField } from '../../../shared/form/form-field';
-import { Subscription } from 'rxjs/Subscription';
+import {FormService} from '../../../shared/form/form.service';
+import {LocationService} from '../location.service';
+import {Location} from '../location';
+import {FormField} from '../../../shared/form/form-field';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
-  selector: 'save-location-modal',
+  selector: 'tr-save-location-modal',
   templateUrl: './save-location-modal.component.html'
 })
 export class SaveLocationModalComponent implements OnDestroy {

@@ -1,35 +1,35 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { SaveTrainingModalComponent } from './save-training-modal.component';
-import { FormModule } from '../../../shared/form/form.module';
-import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { ComponentFixture } from '@angular/core/testing/component_fixture';
-import { TrainingService } from '../training.service';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Http, BaseRequestOptions, HttpModule } from '@angular/http';
-import { MockBackend } from '@angular/http/testing/mock_backend';
-import { AlertService } from '../../../shared/alert.service';
-import { dispatchEvent } from '@angular/platform-browser/testing/browser_util';
-import { AuthHttp } from '../../../security/auth.http';
-import { NavigationService } from '../../../shared/navigation.service';
-import { RouterTestingModule } from '@angular/router/testing/router_testing_module';
-import { RouterModule } from '@angular/router';
-import { SecurityService } from '../../../security/security.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {SaveTrainingModalComponent} from './save-training-modal.component';
+import {FormModule} from '../../../shared/form/form.module';
+import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ComponentFixture} from '@angular/core/testing/component_fixture';
+import {TrainingService} from '../training.service';
+import {FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {BaseRequestOptions, Http, HttpModule} from '@angular/http';
+import {MockBackend} from '@angular/http/testing/mock_backend';
+import {AlertService} from '../../../shared/alert.service';
+import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
+import {AuthHttp} from '../../../security/auth.http';
+import {NavigationService} from '../../../shared/navigation.service';
+import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
+import {RouterModule} from '@angular/router';
+import {SecurityService} from '../../../security/security.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 import '../../../shared/rxjs.extension';
-import { Training } from '../training';
-import { By } from '@angular/platform-browser';
-import { TableModule } from '../../../shared/table/table.module';
+import {Training} from '../training';
+import {By} from '@angular/platform-browser';
+import {TableModule} from '../../../shared/table/table.module';
 
 describe('save modal component', () => {
 
   let fixture: ComponentFixture<TestComponent>;
 
   @Component({
-    selector: 'test-cmp',
+    selector: 'tr-test-cmp',
     template: `
     <template ngbModalContainer></template>
-    <save-training-modal #saveModal [domains]="domains"></save-training-modal>`
+    <tr-save-training-modal #saveModal [domains]="domains"></tr-save-training-modal>`
   })
   class TestComponent implements OnInit {
 

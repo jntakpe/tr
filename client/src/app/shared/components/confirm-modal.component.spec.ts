@@ -1,19 +1,19 @@
-import { ConfirmModalComponent } from './confirm-modal.component';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
-import { TestBed, async, tick, fakeAsync } from '@angular/core/testing';
-import { ConstraintsMessage } from '../constraint';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ComponentFixture } from '@angular/core/testing/component_fixture';
+import {ConfirmModalComponent} from './confirm-modal.component';
+import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
+import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ConstraintsMessage} from '../constraint';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ComponentFixture} from '@angular/core/testing/component_fixture';
 
 describe('confirm modal', () => {
 
   let fixture: ComponentFixture<TestComponent>;
 
   @Component({
-    selector: 'modal-cmp',
+    selector: 'tr-modal-cmp',
     template: `
     <template ngbModalContainer></template>
-    <confirm-modal #confirmModal></confirm-modal>`
+    <tr-confirm-modal #confirmModal></tr-confirm-modal>`
   })
   class TestComponent implements OnInit {
 

@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from './login.service';
-import { Subscription } from 'rxjs/Subscription';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {LoginService} from './login.service';
+import {Subscription} from 'rxjs/Subscription';
 import '../../shared/rxjs.extension';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'login-component',
+  selector: 'tr-login-component',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

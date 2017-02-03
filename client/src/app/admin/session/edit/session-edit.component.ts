@@ -14,7 +14,7 @@ import {TrainingService} from '../../training/training.service';
 import '../../../shared/rxjs.extension';
 
 @Component({
-  selector: 'session-edit-component',
+  selector: 'tr-session-edit-component',
   templateUrl: './session-edit.component.html',
   styleUrls: ['./session-edit.component.scss']
 })

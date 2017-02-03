@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, OnDestroy, TemplateRef } from '@angular/core';
-import { LocationService } from './location.service';
-import { Location } from './location';
-import { FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {LocationService} from './location.service';
+import {Location} from './location';
+import {FormGroup} from '@angular/forms';
+import {Subscription} from 'rxjs/Subscription';
 import '../../shared/rxjs.extension';
-import { FormService } from '../../shared/form/form.service';
-import { SaveLocationModalComponent } from './modal/save-location-modal.component';
-import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import {FormService} from '../../shared/form/form.service';
+import {SaveLocationModalComponent} from './modal/save-location-modal.component';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {ColumnMode} from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'location-component',
+  selector: 'tr-location-component',
   templateUrl: './location.component.html'
 })
 export class LocationComponent implements OnInit, OnDestroy {

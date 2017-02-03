@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'form-help-block',
+  selector: 'tr-form-help-block',
   templateUrl: './form-help-block.component.html'
 })
 export class FormHelpBlockComponent {

@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
-import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
 import '../../shared/rxjs.extension';
-import { FormGroup } from '@angular/forms';
-import { TrainingService } from './training.service';
-import { FormService } from '../../shared/form/form.service';
-import { Training } from './training';
-import { SaveTrainingModalComponent } from './modal/save-training-modal.component';
-import { DomainService } from '../../shared/domain/domain.service';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import {FormGroup} from '@angular/forms';
+import {TrainingService} from './training.service';
+import {FormService} from '../../shared/form/form.service';
+import {Training} from './training';
+import {SaveTrainingModalComponent} from './modal/save-training-modal.component';
+import {DomainService} from '../../shared/domain/domain.service';
+import {ColumnMode} from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'training-component',
+  selector: 'tr-training-component',
   templateUrl: './training.component.html'
 })
 export class TrainingComponent implements OnInit, OnDestroy {

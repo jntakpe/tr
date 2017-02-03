@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BreadcrumbsService } from './breadcrumbs.service';
-import { Subscription } from 'rxjs/Subscription';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {BreadcrumbsService} from './breadcrumbs.service';
+import {Subscription} from 'rxjs/Subscription';
 import '../../rxjs.extension';
-import { BreadcrumbsInfo } from './breadcrumbs';
+import {BreadcrumbsInfo} from './breadcrumbs';
 
 @Component({
-  selector: 'breadcrumbs-component',
+  selector: 'tr-breadcrumbs-component',
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.scss']
 })
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
-  private title: string;
+  public title: string;
 
   private breadcrumbsInfos: BreadcrumbsInfo[];
 

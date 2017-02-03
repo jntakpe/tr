@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { TopbarService } from './topbar.service';
+import {Component, OnInit} from '@angular/core';
+import {TopbarService} from './topbar.service';
 
 @Component({
-  selector: 'topbar-component',
+  selector: 'tr-topbar-component',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss']
 })

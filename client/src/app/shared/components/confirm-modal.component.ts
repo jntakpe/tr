@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs/Observable';
 import '../rxjs.extension';
-import { ConstraintsMessage } from '../constraint';
+import {ConstraintsMessage} from '../constraint';
 
 @Component({
-  selector: 'confirm-modal',
+  selector: 'tr-confirm-modal',
   templateUrl: './confirm-modal.component.html'
 })
 export class ConfirmModalComponent implements OnInit {

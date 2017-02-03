@@ -1,24 +1,24 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
-import { SessionService } from './session.service';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { Session } from '../../session/session';
-import { PageRequest } from '../../shared/pagination/page-request';
-import { FormGroup } from '@angular/forms';
-import { ViewChild } from '@angular/core/src/metadata/di';
-import { ConfirmModalComponent } from '../../shared/components/confirm-modal.component';
-import { FormService } from '../../shared/form/form.service';
-import { SessionSearchForm } from './session-search-form';
-import { Page } from '../../shared/pagination/page';
-import { DomainService } from '../../shared/domain/domain.service';
-import { PageEvent } from '../../shared/pagination/page-event';
-import { PageContext } from '../../shared/pagination/page-context';
-import { SortEvent } from '../../shared/pagination/sort-event';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {SessionService} from './session.service';
+import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
+import {Session} from '../../session/session';
+import {PageRequest} from '../../shared/pagination/page-request';
+import {FormGroup} from '@angular/forms';
+import {ViewChild} from '@angular/core/src/metadata/di';
+import {ConfirmModalComponent} from '../../shared/components/confirm-modal.component';
+import {FormService} from '../../shared/form/form.service';
+import {SessionSearchForm} from './session-search-form';
+import {Page} from '../../shared/pagination/page';
+import {DomainService} from '../../shared/domain/domain.service';
+import {PageEvent} from '../../shared/pagination/page-event';
+import {PageContext} from '../../shared/pagination/page-context';
+import {SortEvent} from '../../shared/pagination/sort-event';
+import {ColumnMode} from '@swimlane/ngx-datatable';
 import '../../shared/rxjs.extension';
 
 @Component({
-  selector: 'session-component',
+  selector: 'tr-session-component',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss']
 })

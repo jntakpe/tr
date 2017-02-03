@@ -10,7 +10,7 @@
           <label for="name" class="col-md-5 control-label">Nom de la formation</label>
           <div class="col-md-7">
             <input id="name" name="name" type="text" class="form-control" placeholder="Nom de la formation" formControlName="name">
-            <form-help-block [fieldError]="formErrors.name"></form-help-block>
+            <tr-form-help-block [fieldError]="formErrors.name"></tr-form-help-block>
           </div>
         </div>
       </section>
@@ -22,7 +22,7 @@
               <option value="" selected>Choisir un domaine de formation</option>
               <option *ngFor="let domain of domains | async" [value]="domain">{{domain}}</option>
             </select>
-            <form-help-block [fieldError]="formErrors.domain"></form-help-block>
+            <tr-form-help-block [fieldError]="formErrors.domain"></tr-form-help-block>
           </div>
         </div>
       </section>
@@ -31,7 +31,7 @@
           <label for="duration" class="col-md-5 control-label">Durée de la formation</label>
           <div class="col-md-7">
             <input id="duration" name="duration" type="number" class="form-control" placeholder="Durée" formControlName="duration">
-            <form-help-block [fieldError]="formErrors.duration"></form-help-block>
+            <tr-form-help-block [fieldError]="formErrors.duration"></tr-form-help-block>
           </div>
         </div>
       </section>

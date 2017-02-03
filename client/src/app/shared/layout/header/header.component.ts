@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'header-component',
+  selector: 'tr-header-component',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

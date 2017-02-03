@@ -1,40 +1,40 @@
-import { TestBed, async, inject, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
-import { HttpModule, BaseRequestOptions, Http, ResponseOptions, Response, RequestMethod } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TableModule } from '../../shared/table/table.module';
-import { ModalModule } from '../../shared/components/modal.module';
-import { RouterModule } from '@angular/router';
-import { SecurityService } from '../../security/security.service';
-import { AuthHttp } from '../../security/auth.http';
-import { AlertService, titleConstants } from '../../shared/alert.service';
-import { NavigationService } from '../../shared/navigation.service';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { MockSecurityService } from '../../shared/test/test-utils';
-import { SessionService } from './session.service';
-import { PaginationService } from '../../shared/pagination/pagination.service';
-import { PageRequest } from '../../shared/pagination/page-request';
-import { Page } from '../../shared/pagination/page';
-import { Session } from '../../session/session';
-import { Component } from '@angular/core/src/metadata/directives';
-import { ViewChild } from '@angular/core/src/metadata/di';
-import { Employee } from '../../shared/employee';
-import { Training } from '../training/training';
-import { Location } from '../location/location';
-import { TrainingService } from '../training/training.service';
-import { TrainingModule } from '../training/training.module';
-import { DomainService } from '../../shared/domain/domain.service';
-import { PageContext } from '../../shared/pagination/page-context';
+import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {BaseRequestOptions, Http, HttpModule, RequestMethod, Response, ResponseOptions} from '@angular/http';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterTestingModule} from '@angular/router/testing';
+import {TableModule} from '../../shared/table/table.module';
+import {ModalModule} from '../../shared/components/modal.module';
+import {RouterModule} from '@angular/router';
+import {SecurityService} from '../../security/security.service';
+import {AuthHttp} from '../../security/auth.http';
+import {AlertService, titleConstants} from '../../shared/alert.service';
+import {NavigationService} from '../../shared/navigation.service';
+import {MockBackend, MockConnection} from '@angular/http/testing';
+import {MockSecurityService} from '../../shared/test/test-utils';
+import {SessionService} from './session.service';
+import {PaginationService} from '../../shared/pagination/pagination.service';
+import {PageRequest} from '../../shared/pagination/page-request';
+import {Page} from '../../shared/pagination/page';
+import {Session} from '../../session/session';
+import {Component} from '@angular/core/src/metadata/directives';
+import {ViewChild} from '@angular/core/src/metadata/di';
+import {Employee} from '../../shared/employee';
+import {Training} from '../training/training';
+import {Location} from '../location/location';
+import {TrainingService} from '../training/training.service';
+import {TrainingModule} from '../training/training.module';
+import {DomainService} from '../../shared/domain/domain.service';
+import {PageContext} from '../../shared/pagination/page-context';
 
 describe('session service', () => {
 
   let fixture: ComponentFixture<ModalComponent>;
 
   @Component({
-    selector: 'modal-cmp',
+    selector: 'tr-modal-cmp',
     template: `
     <template ngbModalContainer></template>
-    <confirm-modal #confirmModal></confirm-modal>
+    <tr-confirm-modal #confirmModal></tr-confirm-modal>
   `
   })
   class ModalComponent {
@@ -112,9 +112,9 @@ describe('session service', () => {
       sessionService.findSession(1).subscribe((session: Session) => {
         expect(session).toBeTruthy();
         expect(session.start).toBeTruthy();
-        expect(session.start.year).toBe(2016);
-        expect(session.start.month).toBe(10);
-        expect(session.start.day).toBe(4);
+        expect(session.start['year']).toBe(2016);
+        expect(session.start['month']).toBe(10);
+        expect(session.start['day']).toBe(4);
       }, err => fail('error session response'));
     })));
 
@@ -133,9 +133,9 @@ describe('session service', () => {
       sessionService.findSession(1).subscribe((session: Session) => {
         expect(session).toBeTruthy();
         expect(session.start).toBeTruthy();
-        expect(session.start.year).toBe(2016);
-        expect(session.start.month).toBe(1);
-        expect(session.start.day).toBe(1);
+        expect(session.start['year']).toBe(2016);
+        expect(session.start['month']).toBe(1);
+        expect(session.start['day']).toBe(1);
       }, err => fail('error session response'));
     })));
 
@@ -154,9 +154,9 @@ describe('session service', () => {
       sessionService.findSession(1).subscribe((session: Session) => {
         expect(session).toBeTruthy();
         expect(session.start).toBeTruthy();
-        expect(session.start.year).toBe(2016);
-        expect(session.start.month).toBe(12);
-        expect(session.start.day).toBe(31);
+        expect(session.start['year']).toBe(2016);
+        expect(session.start['month']).toBe(12);
+        expect(session.start['day']).toBe(31);
       }, err => fail('error session response'));
     })));
 

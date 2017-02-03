@@ -35,6 +35,6 @@
 <template #removeRowTmpl let-location="row">
   <button class="btn btn-danger btn-xs" (click)="remove(location)"><i class="fa fa-trash"></i> Supprimer</button>
 </template>
-<save-location-modal #saveModal></save-location-modal>
-<confirm-modal #confirmModal></confirm-modal>
+<tr-save-location-modal #saveModal></tr-save-location-modal>
+<tr-confirm-modal #confirmModal></tr-confirm-modal>
 <template ngbModalContainer></template>

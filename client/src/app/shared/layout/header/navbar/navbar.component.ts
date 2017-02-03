@@ -1,7 +1,7 @@
-import { OnInit, Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'navbar-component',
+  selector: 'tr-navbar-component',
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {

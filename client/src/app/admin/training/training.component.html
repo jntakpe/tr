@@ -43,6 +43,6 @@
 <template #removeRowTmpl let-training="row">
   <button class="btn btn-danger btn-xs" (click)="remove(training)"><i class="fa fa-trash"></i> Supprimer</button>
 </template>
-<save-training-modal #saveModal [domains]="domains"></save-training-modal>
-<confirm-modal #confirmModal></confirm-modal>
+<tr-save-training-modal #saveModal [domains]="domains"></tr-save-training-modal>
+<tr-confirm-modal #confirmModal></tr-confirm-modal>
 <template ngbModalContainer></template>

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertService } from '../shared/alert.service';
+import {Component, OnInit} from '@angular/core';
+import {AlertService} from '../shared/alert.service';
 
 @Component({
-  selector: 'home-component',
+  selector: 'tr-home-component',
   templateUrl: './home.component.html',
   providers: [AlertService]
 })
