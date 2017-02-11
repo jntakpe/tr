@@ -12,6 +12,7 @@ import {LocationService} from '../../location/location.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TrainingService} from '../../training/training.service';
 import '../../../shared/rxjs.extension';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'tr-session-edit-component',
@@ -66,25 +67,15 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       this.trainings = trainings;
       this.initSelectize('training');
     });
-
-    this.route.params.subscribe(params => {
-      this.creation = params['id']?false:true;
-    });
-
-    if(!this.creation) {
-      this.route.params.mergeMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
+    this.route.params
+      .do(p => this.creation = !!p['id'])
+      .mergeMap(p => p['id'] ? this.sessionService.findSession(p['id']) : Observable.of(null))
+      .subscribe(s => {
         this.session = s;
-        this.setForm();
+        const formMessages = this.initForm();
+        this.sessionForm = formMessages.formGroup;
+        this.sessionForm.valueChanges.subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
       });
-    }else{
-      this.setForm();
-    }
-  }
-
-  private setForm() {
-    const formMessages = this.initForm();
-    this.sessionForm = formMessages.formGroup;
-    this.sessionForm.valueChanges.subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
   }
 
   ngOnDestroy() {
@@ -115,7 +106,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
     this.formErrors = {};
     this.employees = this.initTraineeForm();
     const formMessages = this.formService.buildValidationForm({
-      id : new FormField([this.session ? this.session.id : null]),
+      id: new FormField([this.session ? this.session.id : null]),
       start: new FormField([this.session ? this.session.start : null, Validators.required], {
         required: 'La saisie de la date de début de la session est obligatoire'
       }),
@@ -150,7 +141,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
         this.sessionForm.controls[field].markAsDirty();
         this.sessionForm.patchValue({[field]: value});
       }
-    }), 100);
+    }), 500);
   }
 
 }

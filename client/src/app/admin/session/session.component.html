@@ -64,7 +64,7 @@
                (page)="changePage($event)"
                (sort)="changeSort($event)">
 </ngx-datatable>
-<a class="btn btn-u" [routerLink]="['/admin/session']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>
+<a class="btn btn-u" [routerLink]="['/admin/sessions', '']"><i class="fa fa-plus"></i> Ajouter une session de formation</a>
 <template #editRowTmpl let-session="row">
   <a class="btn btn-warning btn-xs" [routerLink]="['/admin/sessions', session.id]"><i class="fa fa-edit"></i> Modifier</a>
 </template>
