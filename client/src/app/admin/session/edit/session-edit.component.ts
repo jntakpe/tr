@@ -68,7 +68,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       this.initSelectize('training');
     });
     this.route.params
-      .do(p => this.creation = !!p['id'])
+      .do(p => this.creation = !p['id'])
       .mergeMap(p => p['id'] ? this.sessionService.findSession(p['id']) : Observable.of(null))
       .subscribe(s => {
         this.session = s;
