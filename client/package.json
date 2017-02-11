@@ -40,6 +40,7 @@
     "zone.js": "^0.7.2"
   },
   "devDependencies": {
+    "@angular/cli": "^1.0.0-beta.31",
     "@angular/compiler-cli": "^2.3.1",
     "@types/jasmine": "2.5.38",
     "@types/jquery": "^2.0.39",
@@ -47,7 +48,7 @@
     "@types/node": "^6.0.42",
     "@types/selectize": "^0.12.28",
     "@types/toastr": "^2.1.32",
-    "angular-cli": "1.0.0-beta.26",
+    "angular-cli": "^1.0.0-beta.31",
     "codelyzer": "~2.0.0-beta.1",
     "extract-text-webpack-plugin": "2.0.0-rc.0",
     "jasmine-core": "2.5.2",
