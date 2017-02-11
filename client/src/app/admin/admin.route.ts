@@ -62,9 +62,18 @@ const editSessionRoute: Route = {
   }
 };
 
+const addSessionRoute: Route = {
+  path: 'session/',
+  component: SessionEditComponent,
+  data: {
+    title: 'Ajout d\'une session',
+    breadcrumb: [homeBreadcrumb, sessionsBreadcrumb]
+  }
+};
+
 export const adminRoute: Route = {
   path: 'admin',
   canActivateChild: [AdminGuard],
   component: AdminComponent,
-  children: [locationRoute, trainingRoute, trainerRoute, sessionsRoute, editSessionRoute]
+  children: [locationRoute, trainingRoute, trainerRoute, sessionsRoute, editSessionRoute, addSessionRoute]
 };

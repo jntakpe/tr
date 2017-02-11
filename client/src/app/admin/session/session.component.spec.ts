@@ -24,7 +24,7 @@ describe('session component', () => {
   class MockSessionService extends SessionService {
 
     constructor() {
-      super(null, null, null, null);
+      super(null, null, null);
     }
 
     findSessions(pageRequest: PageRequest<Session>): Observable<Page<Session>> {

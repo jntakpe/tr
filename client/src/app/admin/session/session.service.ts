@@ -91,7 +91,8 @@ export class SessionService {
     const session = new Session(start,
       Location.withId(sessionForm.location),
       Trainer.withId(sessionForm.trainer),
-      Training.withId(sessionForm.training));
+      Training.withId(sessionForm.training),
+      sessionForm.id);
     const body = JSON.stringify(session);
     return session.id ? this.authHttp.put(`api/sessions/${session.id}`, body) : this.authHttp.post('api/sessions', body);
   }
@@ -122,7 +123,6 @@ export class SessionService {
   }
 
   private sessionLabel(session: Session): string {
-    return `session ${session.training.name} du ${session.start}`;
+    return `session ${session.training?session.training.name:''} du ${session.start}`;
   }
-
 }

@@ -50,6 +50,7 @@ export class SessionEditComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
+
   }
 
   ngOnInit() {
@@ -65,12 +66,25 @@ export class SessionEditComponent implements OnInit, OnDestroy {
       this.trainings = trainings;
       this.initSelectize('training');
     });
-    this.route.params.mergeMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
-      this.session = s;
-      const formMessages = this.initForm();
-      this.sessionForm = formMessages.formGroup;
-      this.sessionForm.valueChanges.subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
+
+    this.route.params.subscribe(params => {
+      this.creation = params['id']?false:true;
     });
+
+    if(!this.creation) {
+      this.route.params.mergeMap(p => this.sessionService.findSession(p['id'])).subscribe(s => {
+        this.session = s;
+        this.setForm();
+      });
+    }else{
+      this.setForm();
+    }
+  }
+
+  private setForm() {
+    const formMessages = this.initForm();
+    this.sessionForm = formMessages.formGroup;
+    this.sessionForm.valueChanges.subscribe(formData => this.formErrors = this.formService.validate(formData, formMessages));
   }
 
   ngOnDestroy() {
@@ -99,9 +113,9 @@ export class SessionEditComponent implements OnInit, OnDestroy {
 
   private initForm(): FormMessages {
     this.formErrors = {};
-    this.creation = !this.session;
     this.employees = this.initTraineeForm();
     const formMessages = this.formService.buildValidationForm({
+      id : new FormField([this.session ? this.session.id : null]),
       start: new FormField([this.session ? this.session.start : null, Validators.required], {
         required: 'La saisie de la date de début de la session est obligatoire'
       }),
