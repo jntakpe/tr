@@ -70,7 +70,7 @@ public class LocationResource {
     }
 
     @GetMapping(ID + "/sessions")
-    @RolesAllowed(AuthoritiesConstants.ADMIN)
+    //@RolesAllowed(AuthoritiesConstants.ADMIN)
     public List<Session> findSessions(@PathVariable Long id) {
         return sessionService.findByLocationId(id);
     }
