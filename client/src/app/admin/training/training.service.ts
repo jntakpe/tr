@@ -38,7 +38,7 @@ export class TrainingService {
 
   saveModal(modalContent: TemplateRef<any>, training: Training = Training.EMPTY_TRAINING): Observable<Training[]> {
     return Observable.fromPromise(this.ngbModal.open(modalContent).result)
-      .map((form: FormGroup) => new Training(form.value.name, form.value.duration, form.value.domain, training.id))
+      .map((form: FormGroup) => new Training(form.value.name, form.value.duration, form.value.domain, '', training.id))
       .mergeMap(l => this.save(l))
       .mergeMap(() => this.findAll())
       .catch(() => Observable.empty());

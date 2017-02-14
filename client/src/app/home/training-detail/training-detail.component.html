@@ -1,19 +1,21 @@
 <div class="col-sm-6 profile-blog-container">
   <div class="profile-blog blog-border">
-    <img class="no-rounded" [src]="'assets/images/training-logos/' + session.training.icon" alt="Training icon">
+    <!-- Afficher le logo de la formation 'training.icon', les logos sont dans le répertoire 'assets/images/training-logos/' -->
+    <img class="no-rounded" src="" alt="Training icon">
     <div class="name-location row">
-      <strong class="col-sm-8">{{session.training.name}}</strong>
+      <strong class="col-sm-8"><!-- Afficher le nom de la formation --></strong>
       <div class="col-sm-4">
-        <button class="btn btn-success">S'inscrire</button>
+        <!-- Afficher le bouton si la date début de la formation est après la date du jour -->
+        <button class="btn btn-success">Noter la formation</button>
       </div>
-      <span><i class="fa fa-map-marker"></i>{{session.location.name}}, {{session.location.city}}</span>
+      <span><i class="fa fa-map-marker"></i><!-- Nom du site de formation-->, <!-- Ville du site de formation--></span>
     </div>
     <div class="clearfix margin-bottom-20"></div>
     <hr>
     <ul class="list-inline share-list">
-      <li><i class="fa fa-calendar"></i><a href="#">{{session.start}}</a></li>
-      <li><i class="fa fa-group"></i><a href="#">{{session.participantsCount}} participants</a></li>
-      <li><i class="fa fa-user-secret"></i><a href="#">{{session.trainer.firstName}} {{session.trainer.lastName}}</a></li>
+      <li><i class="fa fa-calendar"></i><!-- Date de début de la session --></li>
+      <li><i class="fa fa-group"></i><!-- Nombre de participants à la session --> participants</li>
+      <li><i class="fa fa-user-secret"></i><!-- Prénom du formateur --> <!-- Nom du formateur --></li>
     </ul>
   </div>
 </div>
