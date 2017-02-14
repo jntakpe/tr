@@ -2,9 +2,7 @@ package com.github.jntakpe.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -15,6 +13,9 @@ import java.util.Objects;
  * @see AuditingEntity
  */
 @Entity
+@NamedEntityGraph(name = "Rating.session", attributeNodes = {@NamedAttributeNode(value = "session", subgraph = "Rating.Session.detail"),},
+        subgraphs = {@NamedSubgraph(name = "Rating.Session.detail",
+                attributeNodes = {@NamedAttributeNode("training"), @NamedAttributeNode("trainer"), @NamedAttributeNode("location")})})
 public class Rating extends AuditingEntity {
 
     private Integer subject;

@@ -1,5 +1,4 @@
-import {Injectable} from '@angular/core';
-import * as toastr from 'toastr';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AlertService {

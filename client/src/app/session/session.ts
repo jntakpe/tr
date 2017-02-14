@@ -10,6 +10,7 @@ export class Session {
               public location: Location,
               public trainer: Trainer,
               public training: Training,
+              public participantsCount = 0,
               public id?: number,
               public employees?: Employee[]) {
   }

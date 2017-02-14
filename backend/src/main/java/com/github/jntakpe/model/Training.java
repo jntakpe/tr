@@ -4,14 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -41,6 +34,8 @@ public class Training extends AuditingEntity {
     @NotNull
     private Integer duration;
 
+    private String icon;
+
     @OneToMany(mappedBy = "training")
     private Set<Session> sessions = new HashSet<>();
 
@@ -69,6 +64,14 @@ public class Training extends AuditingEntity {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public Set<Session> getSessions() {

@@ -27,6 +27,10 @@ public final class UriConstants {
 
     public static final String EMPLOYEES = API + "/employees";
 
+    public static final String EMPLOYEES_LOGIN = "/login/{login}";
+
+    public static final String EMPLOYEES_LOGIN_START = "/login/start/{login}";
+
     private UriConstants() {
     }
 

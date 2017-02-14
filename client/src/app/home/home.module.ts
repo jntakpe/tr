@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './home.component';
-import { HomeService } from './home.service';
+import { TrainingDetailComponent } from './training-detail/training-detail.component';
+import { EmployeeService } from '../shared/employee.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, TrainingDetailComponent],
+  imports: [CommonModule],
   exports: [HomeComponent],
-  providers: [HomeService]
+  providers: [EmployeeService]
 })
 export class HomeModule {
 

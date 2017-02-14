@@ -6,9 +6,7 @@ import { SecurityModule } from './security/security.module';
 import { appRouting } from './app.routing';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [BrowserModule, LayoutModule, SecurityModule, appRouting],
   bootstrap: [AppComponent]
 })
