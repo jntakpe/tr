@@ -31,7 +31,7 @@ public class SessionResource {
         this.sessionService = sessionService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public Page<Session> findAll(PageDTO page, Session session) {
         return sessionService.findWithPredicate(page.toPageRequest(), session);
     }

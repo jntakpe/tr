@@ -19,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class EmployeeResourceTests extends AbstractResourceTests {
 
+    private static final String START_LOGIN_FULL_URI = UriConstants.EMPLOYEES + UriConstants.EMPLOYEES_LOGIN_START;
+
     @Mock
     private EmployeeService mockEmployeeService;
 
@@ -29,7 +31,7 @@ public class EmployeeResourceTests extends AbstractResourceTests {
 
     @Test
     public void findStartingByLogin_shouldFindOne() throws Exception {
-        ResultActions resultActions = realMvc.perform(get(UriConstants.EMPLOYEES + "/login/{login}", "jnta")
+        ResultActions resultActions = realMvc.perform(get(START_LOGIN_FULL_URI, "jnta")
                 .accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);
@@ -38,7 +40,7 @@ public class EmployeeResourceTests extends AbstractResourceTests {
 
     @Test
     public void findStartingByLogin_shouldFindSome() throws Exception {
-        ResultActions resultActions = realMvc.perform(get(UriConstants.EMPLOYEES + "/login/{login}", "j")
+        ResultActions resultActions = realMvc.perform(get(START_LOGIN_FULL_URI, "j")
                 .accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayNotEmpty(resultActions);
@@ -47,7 +49,7 @@ public class EmployeeResourceTests extends AbstractResourceTests {
 
     @Test
     public void findStartingByLogin_shouldFindEmpty() throws Exception {
-        ResultActions resultActions = realMvc.perform(get(UriConstants.EMPLOYEES + "/login/{login}", "waz")
+        ResultActions resultActions = realMvc.perform(get(START_LOGIN_FULL_URI, "waz")
                 .accept(MediaType.APPLICATION_JSON));
         expectIsOkAndJsonContent(resultActions);
         expectArrayEmpty(resultActions);

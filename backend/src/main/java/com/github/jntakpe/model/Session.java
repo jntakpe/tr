@@ -44,6 +44,9 @@ public class Session extends AuditingEntity {
     @OneToMany(mappedBy = "session")
     private Set<Rating> ratings = new HashSet<>();
 
+    @Transient
+    private long participantsCount;
+
     public String toStringConstraint() {
         return "du " + getStart() + " de " + getTrainer().getFullName();
     }
@@ -86,6 +89,15 @@ public class Session extends AuditingEntity {
 
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public long getParticipantsCount() {
+        return participantsCount;
+    }
+
+    public Session setParticipantsCount(long participantsCount) {
+        this.participantsCount = participantsCount;
+        return this;
     }
 
     @Override

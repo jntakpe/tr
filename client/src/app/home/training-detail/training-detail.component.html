@@ -1,0 +1,19 @@
+<div class="col-sm-6 profile-blog-container">
+  <div class="profile-blog blog-border">
+    <img class="no-rounded" [src]="'assets/images/training-logos/' + session.training.icon" alt="Training icon">
+    <div class="name-location row">
+      <strong class="col-sm-8">{{session.training.name}}</strong>
+      <div class="col-sm-4">
+        <button class="btn btn-success">S'inscrire</button>
+      </div>
+      <span><i class="fa fa-map-marker"></i>{{session.location.name}}, {{session.location.city}}</span>
+    </div>
+    <div class="clearfix margin-bottom-20"></div>
+    <hr>
+    <ul class="list-inline share-list">
+      <li><i class="fa fa-calendar"></i><a href="#">{{session.start}}</a></li>
+      <li><i class="fa fa-group"></i><a href="#">{{session.participantsCount}} participants</a></li>
+      <li><i class="fa fa-user-secret"></i><a href="#">{{session.trainer.firstName}} {{session.trainer.lastName}}</a></li>
+    </ul>
+  </div>
+</div>

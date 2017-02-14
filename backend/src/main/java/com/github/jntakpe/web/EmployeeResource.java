@@ -2,8 +2,11 @@ package com.github.jntakpe.web;
 
 import com.github.jntakpe.config.UriConstants;
 import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +30,20 @@ public class EmployeeResource {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/login/{login}")
+    //not tested
+    @GetMapping(UriConstants.EMPLOYEES_LOGIN)
+    public ResponseEntity<Employee> findByLogin(@PathVariable String login) {
+        return employeeService.findByLogin(login).map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping(UriConstants.EMPLOYEES_LOGIN_START)
     public List<Employee> findStartingByLogin(@PathVariable String login) {
         return employeeService.findStartingByLogin(login);
+    }
+
+    @GetMapping(UriConstants.ID + "/sessions")
+    public List<Session> findSessions(@PathVariable Long id) {
+        return employeeService.findSessionsByEmployeeId(id);
     }
 }

@@ -1,7 +1,10 @@
 package com.github.jntakpe.service;
 
 import com.github.jntakpe.model.Employee;
+import com.github.jntakpe.model.Rating;
+import com.github.jntakpe.model.Session;
 import com.github.jntakpe.repository.EmployeeRepository;
+import com.github.jntakpe.repository.RatingRepository;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Services associés à l'entité {@link Employee}
@@ -30,9 +34,12 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
+    private final RatingRepository ratingRepository;
+
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, RatingRepository ratingRepository) {
         this.employeeRepository = employeeRepository;
+        this.ratingRepository = ratingRepository;
     }
 
     @Transactional(readOnly = true)
@@ -67,6 +74,16 @@ public class EmployeeService {
     public List<Employee> findAllTrainers() {
         LOGGER.debug("Recherche de tous les formateurs");
         return employeeRepository.findAllTrainers();
+    }
+
+    //not tested
+    @Transactional(readOnly = true)
+    public List<Session> findSessionsByEmployeeId(Long employeeId) {
+        LOGGER.debug("Recherche des sessions de l'employee {}", employeeId);
+        return ratingRepository.findByEmployee_id(employeeId).stream()
+                .map(Rating::getSession)
+                .map(s -> s.setParticipantsCount(ratingRepository.countBySession_Id(s.getId())))
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
