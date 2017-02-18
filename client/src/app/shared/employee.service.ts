@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 import './rxjs.extension';
-import { Session } from '../session/session';
-import { AuthHttp } from '../security/auth.http';
-import { SecurityService } from '../security/security.service';
-import { Employee } from './employee';
+import {Session} from '../session/session';
+import {AuthHttp} from '../security/auth.http';
+import {SecurityService} from '../security/security.service';
+import {Employee} from './employee';
 
 @Injectable()
 export class EmployeeService {
@@ -13,8 +13,11 @@ export class EmployeeService {
   }
 
   findSessions(): Observable<Session[]> {
-    return this.findEmployeeIdByLogin(this.securityService.getCurrentUser().login)
-      .flatMap(employeeId => this.authHttp.get(`/api/employees/${employeeId}/sessions`).map(res => res.json()));
+    if (this.securityService.getCurrentUser()) {
+      return this.findEmployeeIdByLogin(this.securityService.getCurrentUser().login)
+        .flatMap(employeeId => this.authHttp.get(`/api/employees/${employeeId}/sessions`).map(res => res.json()));
+    }
+    return Observable.of([]);
   }
 
   findEmployeeIdByLogin(login: string): Observable<number> {
